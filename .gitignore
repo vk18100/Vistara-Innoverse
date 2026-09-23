@@ -141,3 +141,24 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+
+# ==========================================
+# DATA SCIENCE / ML - VISHAL
+# ==========================================
+# Recommendation System
+# Property Verification
+# ML Dataset and ML Logic
+# FastAPI ML API
+# ML Integration
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Python virtual environments
+venv/
+.venv/
