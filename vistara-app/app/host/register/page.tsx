@@ -3,164 +3,266 @@ import Navbar from "@/components/navbar";
 
 export default function HostRegister() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#F4F7FF]">
       <Navbar />
 
-      <section className="mx-auto max-w-3xl px-6 py-12">
+      {/* PAGE BACKGROUND */}
+      <div className="relative overflow-hidden">
 
-        <Link
-          href="/host"
-          className="text-sm font-medium text-[#03045e] hover:text-[#023e8a]"
-        >
-          ← Back to Hosting
-        </Link>
+        {/* Decorative gradients */}
+        <div className="pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-[#0D21A1]/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-40 top-20 h-96 w-96 rounded-full bg-[#023E8A]/10 blur-3xl" />
 
-        {/* Header */}
-        <div className="mt-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#023e8a]">
-            Become a Host
-          </p>
+        <section className="relative mx-auto max-w-5xl px-6 py-12 lg:px-8 lg:py-16">
 
-          <h1 className="mt-3 text-4xl font-bold text-[#03045e]">
-            Tell us about yourself
-          </h1>
+          {/* BACK */}
+          <Link
+            href="/host"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#03045E] transition hover:text-[#0D21A1]"
+          >
+            <span className="text-lg">←</span>
+            Back to Hosting
+          </Link>
 
-          <p className="mt-3 text-sm leading-6 text-gray-500">
-            Complete your host profile before listing your property.
-          </p>
-        </div>
+          {/* HEADER */}
+          <div className="mt-8 max-w-2xl">
 
-        {/* Progress */}
-        <div className="mt-8 flex items-center gap-3">
-          <div className="h-1.5 flex-1 rounded-full bg-[#03045e]" />
-          <div className="h-1.5 flex-1 rounded-full bg-gray-200" />
-          <div className="h-1.5 flex-1 rounded-full bg-gray-200" />
-        </div>
-
-        <p className="mt-2 text-xs text-gray-400">
-          Step 1 of 3
-        </p>
-
-        {/* Form */}
-        <form className="mt-8 rounded-3xl border border-gray-200 p-6 md:p-8">
-
-          <h2 className="text-xl font-semibold text-[#03045e]">
-            Personal information
-          </h2>
-
-          <div className="mt-6 grid gap-5 md:grid-cols-2">
-
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                First name
-              </label>
-
-              <input
-                type="text"
-                placeholder="First name"
-                className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#03045e] focus:ring-2 focus:ring-[#03045e]/10"
-              />
+            <div className="inline-flex rounded-full bg-[#E8EDFF] px-4 py-2">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
+                Become a Host
+              </span>
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                Last name
-              </label>
+            <h1 className="mt-5 font-serif text-4xl font-semibold tracking-tight text-[#03045E] sm:text-5xl">
+              Start hosting with Vistara.
+            </h1>
 
-              <input
-                type="text"
-                placeholder="Last name"
-                className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#03045e] focus:ring-2 focus:ring-[#03045e]/10"
-              />
+            <p className="mt-4 max-w-xl text-base leading-7 text-[#64748B]">
+              Tell us a little about yourself. We’ll guide you through the
+              process of creating and verifying your property.
+            </p>
+          </div>
+
+          {/* PROGRESS */}
+          <div className="mt-10 rounded-2xl border border-white bg-white/80 p-5 shadow-sm backdrop-blur">
+
+            <div className="flex items-center gap-3">
+
+              <div className="flex flex-1 items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#03045E] text-xs font-bold text-white">
+                  1
+                </div>
+
+                <div className="h-1 flex-1 rounded-full bg-[#03045E]" />
+              </div>
+
+              <div className="flex flex-1 items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E2E8F0] text-xs font-bold text-[#64748B]">
+                  2
+                </div>
+
+                <div className="h-1 flex-1 rounded-full bg-[#E2E8F0]" />
+              </div>
+
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E2E8F0] text-xs font-bold text-[#64748B]">
+                3
+              </div>
+
             </div>
 
-            <div className="md:col-span-2">
-              <label className="text-sm font-medium text-gray-700">
-                Email
+            <div className="mt-3 flex justify-between text-xs font-medium">
+              <span className="text-[#03045E]">
+                About you
+              </span>
+
+              <span className="text-[#94A3B8]">
+                Property
+              </span>
+
+              <span className="text-[#94A3B8]">
+                Verification
+              </span>
+            </div>
+
+          </div>
+
+          {/* FORM */}
+          <form className="mt-8 rounded-[28px] border border-white bg-white p-6 shadow-[0_20px_70px_rgba(3,4,94,0.10)] sm:p-8 lg:p-10">
+
+            {/* SECTION TITLE */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#0D21A1]">
+                Step 1
+              </p>
+
+              <h2 className="mt-2 text-2xl font-semibold text-[#03045E]">
+                Personal information
+              </h2>
+
+              <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                This information helps us create your host profile.
+              </p>
+            </div>
+
+            {/* NAME */}
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
+
+              <div>
+                <label className="text-sm font-semibold text-[#334155]">
+                  First name
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="Enter your first name"
+                  className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#FAFBFF] px-4 py-3.5 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-[#334155]">
+                  Last name
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="Enter your last name"
+                  className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#FAFBFF] px-4 py-3.5 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
+                />
+              </div>
+
+            </div>
+
+            {/* EMAIL */}
+            <div className="mt-5">
+              <label className="text-sm font-semibold text-[#334155]">
+                Email address
               </label>
 
               <input
                 type="email"
                 placeholder="you@example.com"
-                className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#03045e] focus:ring-2 focus:ring-[#03045e]/10"
+                className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#FAFBFF] px-4 py-3.5 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
               />
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                Phone number
+            {/* PHONE + CITY */}
+            <div className="mt-5 grid gap-5 sm:grid-cols-2">
+
+              <div>
+                <label className="text-sm font-semibold text-[#334155]">
+                  Phone number
+                </label>
+
+                <input
+                  type="tel"
+                  placeholder="+91 00000 00000"
+                  className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#FAFBFF] px-4 py-3.5 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-[#334155]">
+                  City
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="Where are you based?"
+                  className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#FAFBFF] px-4 py-3.5 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
+                />
+              </div>
+
+            </div>
+
+            {/* ABOUT */}
+            <div className="mt-5">
+
+              <label className="text-sm font-semibold text-[#334155]">
+                About you
               </label>
 
-              <input
-                type="tel"
-                placeholder="+91"
-                className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#03045e] focus:ring-2 focus:ring-[#03045e]/10"
+              <textarea
+                rows={5}
+                placeholder="Tell guests a little about yourself, your connection to the place, or what makes you a great host..."
+                className="mt-2 w-full resize-none rounded-2xl border border-[#E2E8F0] bg-[#FAFBFF] px-4 py-3.5 text-sm leading-6 text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
               />
+
+              <p className="mt-2 text-xs text-[#94A3B8]">
+                Keep it authentic and welcoming.
+              </p>
+
             </div>
 
-            <div>
-              <label className="text-sm font-medium text-gray-700">
-                City
-              </label>
+            {/* VERIFICATION CARD */}
+            <div className="mt-8 rounded-3xl border border-[#D8E1FF] bg-gradient-to-br from-[#F0F4FF] to-[#F8FAFF] p-6">
 
-              <input
-                type="text"
-                placeholder="Your city"
-                className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#03045e] focus:ring-2 focus:ring-[#03045e]/10"
-              />
+              <div className="flex gap-4">
+
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#03045E] text-lg text-white">
+                  ✓
+                </div>
+
+                <div>
+                  <h3 className="font-semibold text-[#03045E]">
+                    Vistara verification
+                  </h3>
+
+                  <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                    Before your property goes live, Vistara will verify
+                    your identity and property information to help create
+                    a trusted experience for guests.
+                  </p>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-[#475569]">
+                      Identity verification
+                    </span>
+
+                    <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-[#475569]">
+                      Property verification
+                    </span>
+
+                    <span className="rounded-full bg-white px-3 py-1.5 text-xs font-medium text-[#475569]">
+                      Secure process
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+
             </div>
 
-          </div>
+            {/* ACTIONS */}
+            <div className="mt-8 flex flex-col-reverse gap-3 border-t border-[#E2E8F0] pt-7 sm:flex-row sm:items-center sm:justify-between">
 
-          {/* About */}
-          <div className="mt-8">
-            <label className="text-sm font-medium text-gray-700">
-              About you
-            </label>
+              <Link
+                href="/host"
+                className="rounded-2xl px-5 py-3 text-center text-sm font-semibold text-[#64748B] transition hover:bg-[#F8FAFF] hover:text-[#03045E]"
+              >
+                Cancel
+              </Link>
 
-            <textarea
-              rows={4}
-              placeholder="Tell guests a little about yourself..."
-              className="mt-2 w-full resize-none rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#03045e] focus:ring-2 focus:ring-[#03045e]/10"
-            />
-          </div>
+              <button
+                type="submit"
+                className="rounded-2xl bg-[#03045E] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#03045E]/15 transition hover:bg-[#0D21A1] hover:shadow-xl"
+              >
+                Continue
+                <span className="ml-2">→</span>
+              </button>
 
-          {/* Verification notice */}
-          <div className="mt-8 rounded-2xl bg-[#f5f7ff] p-5">
+            </div>
 
-            <p className="font-semibold text-[#03045e]">
-              Verification required
-            </p>
+          </form>
 
-            <p className="mt-2 text-sm leading-6 text-gray-500">
-              Before your property can go live, Vistara will ask you
-              to complete identity and property verification.
-            </p>
+          {/* FOOTNOTE */}
+          <p className="mx-auto mt-6 max-w-xl text-center text-xs leading-5 text-[#94A3B8]">
+            By continuing, you agree to provide accurate information and
+            complete Vistara&apos;s host verification process.
+          </p>
 
-          </div>
-
-          {/* Actions */}
-          <div className="mt-8 flex flex-col-reverse gap-3 border-t border-gray-200 pt-6 sm:flex-row sm:justify-end">
-
-            <Link
-              href="/host"
-              className="rounded-xl border border-gray-200 px-6 py-3 text-center text-sm font-medium text-gray-700 hover:border-[#03045e]"
-            >
-              Cancel
-            </Link>
-
-            <button
-              type="submit"
-              className="rounded-xl bg-[#03045e] px-6 py-3 text-sm font-semibold text-white hover:bg-[#023e8a]"
-            >
-              Continue
-            </button>
-
-          </div>
-
-        </form>
-
-      </section>
+        </section>
+      </div>
     </main>
   );
 }

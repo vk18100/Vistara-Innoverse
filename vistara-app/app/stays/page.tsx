@@ -1,204 +1,155 @@
-import Link from "next/link";
 import Navbar from "@/components/navbar";
+import PropertyCard from "@/components/cards/properCard";
+import { properties } from "@/data/properties";
+import Footer from "@/app/footer/page";
 
-const stays = [
-  {
-    id: 1,
-    title: "Peaceful Stay in Patna",
-    location: "Patna, Bihar",
-    price: "₹2,500",
-    rating: "4.8",
-    image: "/images/stay1.jpg",
-    type: "Home",
-  },
-  {
-    id: 2,
-    title: "Modern Riverside Villa",
-    location: "Patna, Bihar",
-    price: "₹3,200",
-    rating: "4.7",
-    image: "/images/stay2.jpg",
-    type: "Villa",
-  },
-  {
-    id: 3,
-    title: "Cozy Heritage Home",
-    location: "Patna, Bihar",
-    price: "₹1,800",
-    rating: "4.9",
-    image: "/images/stay3.jpg",
-    type: "Heritage",
-     },
-  {
-    id: 4,
-    title: "Luxury City Apartment",
-    location: "Patna, Bihar",
-    price: "₹4,000",
-    rating: "4.6",
-    image: "/images/stay4.jpg",
-    type: "Apartment",
-  },
-  {
-    id: 5,
-    title: "Quiet Garden Retreat",
-    location: "Rajgir, Bihar",
-    price: "₹2,200",
-    rating: "4.8",
-    image: "/images/stay5.jpg",
-    type: "Retreat",
-  },
-  {
-    id: 6,
-    title: "Heritage Villa",
-    location: "Bodh Gaya, Bihar",
-    price: "₹3,500",
-    rating: "4.9",
-    image: "/images/stay6.jpg",
-    type: "Villa",
-  },
-];
+export default function StaysPage() {
+  return (
+    <main className="min-h-screen bg-[#F8FAFF] text-[#03045E]">
+      <Navbar />
 
-export default function StaysPage(){
-    return(
-        <main className="min-h-screen bg-[#fafafa]">
-            <Navbar/>
-            <section className="mx-auto max-w-6xl px-6 py-16">
+      {/* Search + Filters */}
+      <section className="border-b border-[#E2E8F0] bg-white">
+        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
 
-                <div>
-                    <p className="text-sm font-semibold uppercase tracking-widest text-[#023e8a]">
-                        Vistara Stays
-                    </p>
-                    <h1 className="mt-3 text-4xl font-bold text-[#03045e] md:text-5xl">
-                        Find Your Perfect Stay
-                    </h1>
-                    <p className="mt-5 text-lg leading-8 text-gray-600">
-                        Explore our curated selection of stays across Bihar. Whether you're looking for a cozy home, a luxurious villa, or a heritage property, we have something for every traveler.
-                    </p>
-                </div>
-            
+          {/* Search Bar */}
+          <div className="flex flex-col overflow-hidden rounded-[24px] border border-[#DCE3F0] bg-white shadow-[0_10px_35px_rgba(3,4,94,0.08)] lg:flex-row lg:items-center">
 
+            {/* Where */}
+            <div className="flex-1 px-5 py-4">
+              <label className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
+                Where
+              </label>
 
-
-            <div className="mt-10 flex gap-3 overflow-x-auto
-            border-b border-gray-200 pb-5">
-                <button className="shrink-0 rounded-full bg-[#03045e] px-4 py-2 text-sm font-medium text-white transition hover:bg-[#023e8a]"
-                >All Stays</button>
-                <button className="shrink-0 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"  
-                >Home</button>
-                <button className="shrink-0 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"  
-                >Villa</button>
-                <button className="shrink-0 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"  
-                >Heritage</button>
-                <button className="shrink-0 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"  
-                >Apartment</button>
-                <button className="shrink-0 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"  
-                >Retreat</button>
-                <button className="shrink-0 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"  
-                >Cottage</button>
-                <button className="shrink-0 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"  
-                >Cabin</button>
-                <button className="shrink-0 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-200"  
-                >Bungalow</button>
+              <input
+                type="text"
+                placeholder="Search destinations"
+                className="mt-1 w-full bg-transparent text-sm font-medium text-[#03045E] outline-none placeholder:text-[#94A3B8]"
+              />
             </div>
 
-            <div className="mx-auto mt-10 grid max-w-6xl grid-cols-1 gap-6 px-6 sm:grid-cols-2 lg:grid-cols-3">
-                <p className="text-sm font-semibold uppercase tracking-widest text-[#023e8a]">
-                {stays.length} Stays Available
-                </p>
-                </div>
+            <div className="hidden h-10 w-px bg-[#E2E8F0] lg:block" />
 
-                <div className="mt-6 grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-                    {stays.map((stay) => (
-            <Link
-              key={stay.id}
-              href={`/property/${stay.id}`}
-              className="group"
+            {/* Check in */}
+            <div className="flex-1 px-5 py-4">
+              <label className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
+                Check-in
+              </label>
+
+              <input
+                type="date"
+                className="mt-1 w-full bg-transparent text-sm font-medium text-[#03045E] outline-none"
+              />
+            </div>
+
+            <div className="hidden h-10 w-px bg-[#E2E8F0] lg:block" />
+
+            {/* Check out */}
+            <div className="flex-1 px-5 py-4">
+              <label className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
+                Check-out
+              </label>
+
+              <input
+                type="date"
+                className="mt-1 w-full bg-transparent text-sm font-medium text-[#03045E] outline-none"
+              />
+            </div>
+
+            <div className="hidden h-10 w-px bg-[#E2E8F0] lg:block" />
+
+            {/* Guests */}
+            <div className="flex-1 px-5 py-4">
+              <label className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
+                Guests
+              </label>
+
+              <input
+                type="number"
+                min="1"
+                placeholder="Add guests"
+                className="mt-1 w-full bg-transparent text-sm font-medium text-[#03045E] outline-none placeholder:text-[#94A3B8]"
+              />
+            </div>
+
+            {/* Search */}
+            <button
+              type="button"
+              className="m-2 rounded-2xl bg-[#03045E] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
             >
-                <div className="relative h-64 w-full overflow-hidden rounded-lg bg-gray-100">
-                    <img
-                        src={stay.image}
-                        alt={stay.title}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                </div>
-
-                <button 
-                type="button"
-                onClick={(e) => e.preventDefault()}
-                className="absolute right-3 top-3 rounded-full bg-white p-2 text-gray-500 transition hover:bg-gray-100"
-                > ♡
-                </button>
-
-                <div className="absolute bottom-4 left-4 top-0 bg-white/95 px-3 py-1.5 text-xs font-semibold text-[#03045e] shadow-sm">
-                ✓ Verified
-                </div>
-            <div className="mt-4">
-
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h2 className="font-semibold text-gray-900 transition group-hover:text-[#03045e]">
-                      {stay.title}
-                    </h2>
-
-                    <p className="mt-1 text-sm text-gray-500">
-                      {stay.location}
-                    </p>
-                  </div>
-
-                  <div className="flex shrink-0 items-center gap-1 text-sm">
-                    <span>★</span>
-                    <span>{stay.rating}</span>
-                  </div>
-                </div>
-
-                <p className="mt-2 text-sm text-gray-500">
-                  {stay.type}
-                </p>
-
-                <p className="mt-2 text-sm text-gray-900">
-                  <span className="font-semibold">
-                    {stay.price}
-                  </span>{" "}
-                  night
-                </p>
-
-              </div>
-            </Link>  
-              ))}
-
-        </div>    
-
-
-        <section className="mx-auto mt-16 max-w-6xl px-6">
-            <div className="mb-6">
-                <p className="text-xs font-semibold 
-                uppercase tracking-[0.2rem] text-[#023e8a]">
-                    Explore the location
-                </p>
-                <h2 className="mt-2 text-3xl font-bold text-[#03045e]">
-                    Find stays around your destination
-                </h2>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="absolute h-48 w-full overflow-hidden rounded-lg bg-gray-100">
-                    <div className="text-center">
-                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#03045e] text-xl font-bold text-white">
-                              📍
-                </div>
-
-                <h3 className="mt-4 text-xl font-semibold text-[#03045e]">
-                  Vistara Map
-                </h3>
-
-                <p className="mt-2 text-sm text-gray-500">
-                  Interactive property map will appear here.
-                </p>
-              </div>
-            </div>
-
+              Search
+            </button>
           </div>
-        </section></section>
-        </main>
-             
-    )
+
+          {/* Filter Bar */}
+          <div className="mt-6 flex gap-3 overflow-x-auto pb-1">
+
+            <button className="whitespace-nowrap rounded-full bg-[#03045E] px-5 py-2.5 text-sm font-semibold text-white">
+              All
+            </button>
+
+            <button className="whitespace-nowrap rounded-full border border-[#DCE3F0] bg-white px-5 py-2.5 text-sm font-medium text-[#334155] transition hover:border-[#03045E] hover:text-[#03045E]">
+              Villas
+            </button>
+
+            <button className="whitespace-nowrap rounded-full border border-[#DCE3F0] bg-white px-5 py-2.5 text-sm font-medium text-[#334155] transition hover:border-[#03045E] hover:text-[#03045E]">
+              Hotels
+            </button>
+
+            <button className="whitespace-nowrap rounded-full border border-[#DCE3F0] bg-white px-5 py-2.5 text-sm font-medium text-[#334155] transition hover:border-[#03045E] hover:text-[#03045E]">
+              Vacation Homes
+            </button>
+
+            <button className="whitespace-nowrap rounded-full border border-[#DCE3F0] bg-white px-5 py-2.5 text-sm font-medium text-[#334155] transition hover:border-[#03045E] hover:text-[#03045E]">
+              Resorts
+            </button>
+
+            <button className="whitespace-nowrap rounded-full border border-[#DCE3F0] bg-white px-5 py-2.5 text-sm font-medium text-[#334155] transition hover:border-[#03045E] hover:text-[#03045E]">
+              Unique Stays
+            </button>
+
+            <div className="ml-auto hidden shrink-0 sm:block">
+              <button className="rounded-full border border-[#DCE3F0] bg-white px-5 py-2.5 text-sm font-medium text-[#334155] transition hover:border-[#03045E] hover:text-[#03045E]">
+                Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Property Data */}
+      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
+
+        <div className="mb-8 flex items-end justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
+              Vistara Stays
+            </p>
+
+            <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight text-[#03045E]">
+              Places worth staying in
+            </h1>
+          </div>
+
+          <p className="hidden text-sm text-[#64748B] sm:block">
+            {properties.length} stays
+          </p>
+        </div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {properties.map((property) => (
+            <PropertyCard
+              key={property.id}
+              property={property}
+            />
+          ))}
+        </div>
+
+      </section>
+
+      {/* Footer */}
+      <Footer />
+    </main>
+  );
 }

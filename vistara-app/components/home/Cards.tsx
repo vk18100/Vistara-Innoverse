@@ -1,47 +1,31 @@
-"use client";
+import PropertyCard from "@/components/cards/properCard";
+import { properties } from "@/data/properties";
 
-type Card ={
-    id:number,
-    title:string,
-    description:string,
-    image:string,
-    cta:string,
-    href:string,
-}
-type Props = {
-    cards: Card[]
-}
+export default function PropertyGrid() {
+  return (
+    <section className="bg-white px-6 py-16 lg:px-10">
+      <div className="mx-auto max-w-7xl">
 
-export default function Cards(
-    { title, description, image, cta, href}: Card
-) {
-    return (
-      <div className="overflow-hidden rounded-2xl border border-gray-100 shadow-sm">
+        <div className="mb-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#0D21A1]">
+            VISTARA STAYS
+          </p>
 
-        {/* image  */}
-        <div className="relative aspect-[16/9] w-full">
-          <img
-            src={image}
-            alt={title}
-            className="absolute inset-0
-            h-full
-            w-full
-            object-cover"
-          />
-          </div>
-          <div className="p-6">
-            <h3 className="mt-0.5 text-lg font-medium text-gray-900">{title}</h3>
-            <p className="mt-2 text-sm text-gray-700">{description}</p>
-            <a
-              href={href}
-              className="mt-4 inline-block rounded-lg bg-indigo-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-1"
-            >
-              {cta}
-            </a>
-            
-          </div>
+          <h2 className="mt-2 font-serif text-3xl font-semibold text-[#03045E]">
+            Places worth staying in
+          </h2>
         </div>
 
-    )
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {properties.map((property) => (
+            <PropertyCard
+              key={property.id}
+              property={property}
+            />
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
 }
-   

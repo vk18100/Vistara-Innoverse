@@ -1,195 +1,103 @@
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 
-export default function Settings() {
+const settingsItems = [
+  {
+    title: "Account settings",
+    description: "Manage your account information and preferences",
+    href: "/settings/account",
+    icon: "⚙",
+  },
+  {
+    title: "View profile",
+    description: "See and edit your Vistara profile",
+    href: "/profile",
+    icon: "♙",
+  },
+  {
+    title: "Privacy",
+    description: "Control your privacy and data preferences",
+    href: "/settings/privacy",
+    icon: "◉",
+  },
+  {
+    title: "Get help",
+    description: "Find answers or contact Vistara support",
+    href: "/settings/help",
+    icon: "?",
+  },
+];
+
+export default function SettingsPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#FAFAF8]">
       <Navbar />
 
-      <section className="mx-auto max-w-4xl px-6 py-12">
+      <section className="mx-auto max-w-5xl px-6 py-12 lg:px-10">
 
-        <Link
-          href="/profile"
-          className="text-sm font-medium text-[#03045e] hover:text-[#023e8a]"
-        >
-          ← Back to Profile
-        </Link>
-
-        <div className="mt-8">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#023e8a]">
-            Account
+        {/* Header */}
+        <div className="mb-10">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#C6A15B]">
+            VISTARA
           </p>
 
-          <h1 className="mt-2 text-4xl font-bold text-[#03045e]">
+          <h1 className="mt-3 font-serif text-4xl font-semibold text-[#03045E]">
             Settings
           </h1>
 
-          <p className="mt-3 text-sm text-gray-500">
-            Manage your account preferences and privacy.
+          <p className="mt-2 text-sm text-[#64748B]">
+            Manage your account, privacy and preferences.
           </p>
         </div>
 
-        {/* Notifications */}
-        <section className="mt-10">
-          <h2 className="text-xl font-semibold text-[#03045e]">
-            Notifications
-          </h2>
+        {/* Settings Card */}
+        <div className="overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_20px_60px_rgba(3,4,94,0.06)]">
 
-          <div className="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200">
-
-            <div className="flex items-center justify-between gap-5 p-5">
-              <div>
-                <p className="font-medium text-gray-900">
-                  Booking updates
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  Receive updates about your bookings and trips.
-                </p>
-              </div>
-
-              <input
-                type="checkbox"
-                defaultChecked
-                className="h-5 w-5 accent-[#03045e]"
-              />
-            </div>
-
-            <div className="flex items-center justify-between gap-5 p-5">
-              <div>
-                <p className="font-medium text-gray-900">
-                  Wishlist updates
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  Get updates about saved stays.
-                </p>
-              </div>
-
-              <input
-                type="checkbox"
-                defaultChecked
-                className="h-5 w-5 accent-[#03045e]"
-              />
-            </div>
-
-            <div className="flex items-center justify-between gap-5 p-5">
-              <div>
-                <p className="font-medium text-gray-900">
-                  Vistara recommendations
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  Receive recommendations based on your activity.
-                </p>
-              </div>
-
-              <input
-                type="checkbox"
-                className="h-5 w-5 accent-[#03045e]"
-              />
-            </div>
-
-          </div>
-        </section>
-
-        {/* Privacy */}
-        <section className="mt-10">
-          <h2 className="text-xl font-semibold text-[#03045e]">
-            Privacy
-          </h2>
-
-          <div className="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200">
-
+          {settingsItems.map((item, index) => (
             <Link
-              href="/privacy"
-              className="flex items-center justify-between p-5 hover:bg-gray-50"
+              key={item.title}
+              href={item.href}
+              className={`group flex items-center gap-5 px-6 py-6 transition hover:bg-[#F7F3EA] md:px-8 ${
+                index !== settingsItems.length - 1
+                  ? "border-b border-[#03045E]/10"
+                  : ""
+              }`}
             >
-              <div>
-                <p className="font-medium text-gray-900">
-                  Privacy Policy
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  Learn how Vistara handles your information.
+              {/* Icon */}
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#F1F3FF] text-xl text-[#03045E] transition group-hover:bg-[#03045E] group-hover:text-white">
+                {item.icon}
+              </div>
+
+              {/* Text */}
+              <div className="min-w-0 flex-1">
+                <h2 className="text-base font-semibold text-[#03045E]">
+                  {item.title}
+                </h2>
+
+                <p className="mt-1 text-sm text-[#64748B]">
+                  {item.description}
                 </p>
               </div>
 
-              <span className="text-gray-400">→</span>
+              {/* Arrow */}
+              <span className="text-2xl text-[#94A3B8] transition group-hover:translate-x-1 group-hover:text-[#03045E]">
+                →
+              </span>
             </Link>
+          ))}
 
-            <Link
-              href="/activity"
-              className="flex items-center justify-between p-5 hover:bg-gray-50"
-            >
-              <div>
-                <p className="font-medium text-gray-900">
-                  Account Activity
-                </p>
-                <p className="mt-1 text-sm text-gray-500">
-                  Review activity on your account.
-                </p>
-              </div>
+        </div>
 
-              <span className="text-gray-400">→</span>
-            </Link>
-
-          </div>
-        </section>
-
-        {/* Security */}
-        <section className="mt-10">
-          <h2 className="text-xl font-semibold text-[#03045e]">
-            Security
-          </h2>
-
-          <div className="mt-4 rounded-2xl border border-gray-200">
-
-            <button
-              type="button"
-              className="w-full border-b border-gray-200 p-5 text-left hover:bg-gray-50"
-            >
-              <p className="font-medium text-gray-900">
-                Change password
-              </p>
-
-              <p className="mt-1 text-sm text-gray-500">
-                Update your account password.
-              </p>
-            </button>
-
-            <button
-              type="button"
-              className="w-full p-5 text-left hover:bg-gray-50"
-            >
-              <p className="font-medium text-gray-900">
-                Sign out of all devices
-              </p>
-
-              <p className="mt-1 text-sm text-gray-500">
-                Sign out from other active sessions.
-              </p>
-            </button>
-
-          </div>
-        </section>
-
-        {/* Danger zone */}
-        <section className="mt-10 rounded-2xl border border-red-100 p-6">
-
-          <h2 className="font-semibold text-red-700">
-            Account
-          </h2>
-
-          <p className="mt-2 text-sm leading-6 text-gray-500">
-            Deleting your account permanently removes your Vistara account
-            and associated information.
+        {/* Bottom */}
+        <div className="mt-8 rounded-2xl border border-[#03045E]/10 bg-[#F7F3EA] p-5">
+          <p className="text-sm font-semibold text-[#03045E]">
+            Need something else?
           </p>
 
-          <button
-            type="button"
-            className="mt-5 rounded-xl border border-red-200 px-5 py-3 text-sm font-semibold text-red-600 hover:bg-red-50"
-          >
-            Delete Account
-          </button>
-
-        </section>
+          <p className="mt-1 text-sm text-[#64748B]">
+            Our support team is here to help with your Vistara experience.
+          </p>
+        </div>
 
       </section>
     </main>
