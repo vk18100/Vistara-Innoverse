@@ -70,13 +70,13 @@ export default function ProfilePage() {
                 </p>
               </div>
             </div>
-
-            <Link
-              href="/settings"
-              className="w-fit rounded-xl border border-[#03045E] bg-white px-6 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white"
-            >
-              Edit profile
-            </Link>
+<Link
+  href="/profile/edit"
+  className="w-fit rounded-xl border border-[#03045E] bg-white px-6 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white"
+>
+  Edit profile
+</Link>
+           
           </div>
         </div>
       </section>
@@ -294,12 +294,12 @@ export default function ProfilePage() {
               </p>
             </div>
 
-            <Link
-              href="/settings/profile"
-              className="w-fit rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-            >
-              Manage profile
-            </Link>
+           <Link
+  href="/profile/edit"
+  className="w-fit rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+>
+  Manage profile
+</Link>
           </div>
         </div>
       </section>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { MoreHorizontal, User, Settings, HelpCircle } from "lucide-react";
+import { MoreHorizontal, User, Settings, HelpCircle, Home } from "lucide-react";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -72,6 +72,20 @@ export default function Navbar() {
               className="text-[17px] font-medium text-white/90 transition hover:text-white"
             >
               Trips
+            </Link>
+            <Link
+              href="/host"
+              className="group flex items-center gap-2 text-[17px] font-medium text-white/90 transition hover:text-white"
+            >
+              <Home
+                size={17}
+                strokeWidth={1.8}
+                className="transition-transform group-hover:-translate-y-0.5"
+              />
+
+              <span>
+                Become a Host
+              </span>
             </Link>
           </div>
 
