@@ -13,7 +13,7 @@ type  Card={
 type Props = {
     cards: Card[]
 }
-export default function Search(){
+export default async function Search(){
     const [searchQuery, setSearchQuery] = useState("");
     const router = useRouter();
 
@@ -23,6 +23,9 @@ export default function Search(){
             // Perform search logic here
             if(searchQuery.trim() !== ""){
                 const response = await fetch(`/api/search?query=${searchQuery}`);
+                if(!response.ok) {
+                    throw new Error("Failed to fetch search results");
+                }
                 const data = await response.json();
                 // handle the seaarch result and update the state or navigate to a new page
                 router.push(`/search?query=${searchQuery}`);
@@ -30,15 +33,16 @@ export default function Search(){
             }
             search();
         }
-
+ search();
+        
     }, [searchQuery]);
 
     try{
-        const res = fetch(`/api/search?query=${searchQuery}`);
+        const res =  await fetch(`/api/search?query=${searchQuery}`);
        if(!res.ok){
             throw new Error("Failed to fetch search results");
        }
-       const data = res.json();
+       const data = await res.json();
        const newData = data.data.filter((item:Card) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
        return(
         <div className="flex items-center justify-center">
@@ -50,5 +54,8 @@ export default function Search(){
     </div>
 </div>
        )
+    } catch (error) {
+        console.error('Error in Search component:', error);
+        return <div className="flex items-center justify-center">Error occurred while searching.</div>;
     }
     }

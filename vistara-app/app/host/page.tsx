@@ -1,134 +1,130 @@
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 
-export default function HostPage() {
+export default function Host() {
   return (
     <main className="min-h-screen bg-white">
       <Navbar />
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
+      {/* Hero */}
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
 
-        {/* Hero */}
-        <div className="max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-widest text-[#023e8a]">
-            Be a Host
-          </p>
-
-          <h1 className="mt-4 text-4xl font-bold leading-tight text-[#03045e] md:text-5xl">
-            Share your place with the world.
-          </h1>
-
-          <p className="mt-5 text-lg leading-8 text-gray-600">
-            Turn your property into a meaningful stay for travelers
-            discovering new places through Vistara.
-          </p>
-
-          <Link
-            href="/host/register"
-            className="mt-8 inline-block rounded-xl bg-[#03045e] px-6 py-3 font-semibold text-white transition hover:bg-[#023e8a]"
-          >
-            Start hosting
-          </Link>
-        </div>
-
-        {/* Benefits */}
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
-
-          <div className="rounded-2xl border p-6">
-            <div className="text-2xl">✓</div>
-
-            <h2 className="mt-4 text-xl font-semibold">
-              Verified guests
-            </h2>
-
-            <p className="mt-2 text-sm leading-6 text-gray-500">
-              Build trust between hosts and travelers through a
-              transparent platform.
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#023e8a]">
+              Become a Vistara Host
             </p>
+
+            <h1 className="mt-4 text-5xl font-bold leading-tight text-[#03045e]">
+              Share your place.
+              <br />
+              Welcome the world.
+            </h1>
+
+            <p className="mt-6 max-w-xl text-base leading-7 text-gray-500">
+              Turn your property into a meaningful travel experience.
+              List your stay on Vistara and connect with travelers
+              looking for unique places.
+            </p>
+
+            <Link
+              href="/host/register"
+              className="mt-8 inline-block rounded-xl bg-[#03045e] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#023e8a]"
+            >
+              Start hosting
+            </Link>
           </div>
 
-          <div className="rounded-2xl border p-6">
-            <div className="text-2xl">₹</div>
-
-            <h2 className="mt-4 text-xl font-semibold">
-              Earn from your property
-            </h2>
-
-            <p className="mt-2 text-sm leading-6 text-gray-500">
-              Share your available property and manage your bookings
-              from one place.
-            </p>
-          </div>
-
-          <div className="rounded-2xl border p-6">
-            <div className="text-2xl">◆</div>
-
-            <h2 className="mt-4 text-xl font-semibold">
-              Reach new travelers
-            </h2>
-
-            <p className="mt-2 text-sm leading-6 text-gray-500">
-              Help travelers discover your location and experience
-              something local.
-            </p>
+          <div className="overflow-hidden rounded-3xl bg-[#f0f3ff]">
+            <img
+              src="/images/host.jpg"
+              alt="Become a Vistara host"
+              className="h-[480px] w-full object-cover"
+            />
           </div>
 
         </div>
+      </section>
 
-        {/* How it works */}
-        <div className="mt-20">
-          <h2 className="text-3xl font-bold text-[#03045e]">
-            How hosting works
-          </h2>
+      {/* Why host */}
+      <section className="border-y border-gray-100 bg-[#fafbff]">
+        <div className="mx-auto max-w-7xl px-6 py-16">
 
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
+          <div className="max-w-xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#023e8a]">
+              Why Vistara
+            </p>
 
-            <div>
-              <span className="text-sm font-bold text-[#023e8a]">
+            <h2 className="mt-3 text-3xl font-bold text-[#03045e]">
+              Hosting made simple
+            </h2>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+
+            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#eef2ff] text-[#03045e]">
                 01
-              </span>
+              </div>
 
-              <h3 className="mt-2 font-semibold">
+              <h3 className="mt-5 font-semibold text-gray-900">
                 List your property
               </h3>
 
-              <p className="mt-2 text-sm text-gray-500">
-                Add your property details, photos and availability.
+              <p className="mt-2 text-sm leading-6 text-gray-500">
+                Add your property details, photos, amenities and pricing.
               </p>
             </div>
 
-            <div>
-              <span className="text-sm font-bold text-[#023e8a]">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#eef2ff] text-[#03045e]">
                 02
-              </span>
+              </div>
 
-              <h3 className="mt-2 font-semibold">
+              <h3 className="mt-5 font-semibold text-gray-900">
                 Get verified
               </h3>
 
-              <p className="mt-2 text-sm text-gray-500">
-                Provide the required information for property
-                verification.
+              <p className="mt-2 text-sm leading-6 text-gray-500">
+                Complete the verification process to build trust with guests.
               </p>
             </div>
 
-            <div>
-              <span className="text-sm font-bold text-[#023e8a]">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#eef2ff] text-[#03045e]">
                 03
-              </span>
+              </div>
 
-              <h3 className="mt-2 font-semibold">
+              <h3 className="mt-5 font-semibold text-gray-900">
                 Welcome guests
               </h3>
 
-              <p className="mt-2 text-sm text-gray-500">
-                Manage your bookings and host travelers through
-                Vistara.
+              <p className="mt-2 text-sm leading-6 text-gray-500">
+                Manage bookings and create memorable stays for travelers.
               </p>
             </div>
 
           </div>
         </div>
+      </section>
+
+      {/* CTA */}
+      <section className="mx-auto max-w-4xl px-6 py-20 text-center">
+
+        <h2 className="text-3xl font-bold text-[#03045e]">
+          Ready to become a host?
+        </h2>
+
+        <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-gray-500">
+          Start your hosting journey with Vistara.
+        </p>
+
+        <Link
+          href="/host/register"
+          className="mt-7 inline-block rounded-xl bg-[#03045e] px-7 py-3.5 text-sm font-semibold text-white hover:bg-[#023e8a]"
+        >
+          Start hosting
+        </Link>
 
       </section>
     </main>

@@ -2,8 +2,10 @@
 
 import {useSearchParams} from "next/navigation";
 import Navbar from "@/components/navbar";
-import Search from "@/components/Searchbar";
+import SearchBar from "@/components/Searchbar";
 
+import Filters from "@/components/Filters";
+import Dropdown from "@/components/Dropdown";
 const properties =[
     {
         id:1,
@@ -37,8 +39,7 @@ export default function SearchPage() {
     return(
         <main>
             <Navbar/>
-            <section
-            clasName="min-h-screen max-w-7xl px-6 py-8">
+            <section className="min-h-screen max-w-7xl px-6 py-8">
                 <SearchBar/>
                 <div className="mt-10">
                     <p className="text-sm text-gray-500">
@@ -46,17 +47,78 @@ export default function SearchPage() {
                     </p>
                     <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {properties.map((property) => (
-                            <div key={property.id}
-                            title={property.title}
-                            location={property.location}
-                           price={property.price}
-                            image={property.image}
-                            className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"/>
+                           <div
+  key={property.id}
+  className="overflow-hidden rounded-lg border border-gray-200 shadow-sm"
+>
+  <img
+    src={property.image}
+    alt={property.title}
+    className="h-48 w-full object-cover"
+  />
+
+  <div className="p-4">
+    <h2 className="text-lg font-semibold text-[#03045e]">
+      {property.title}
+    </h2>
+
+    <p className="mt-1 text-sm text-gray-500">
+      {property.description}
+    </p>
+
+    <p className="mt-2 text-sm text-gray-600">
+      {property.location}
+    </p>
+
+    <p className="mt-3 font-semibold text-[#03045e]">
+      ₹{property.price} / night
+    </p>
+  </div>
+</div>
                         ))}
                     </div>
+                    <div className="grid gap-8 lg:grid-cols-[280px_1fr]">
+
+  {/* Left */}
+  <Filters />
+
+  {/* Right - Search Results */}
+  <section>
+    <div className="mb-6 flex items-center justify-between">
+      <div>
+        <h1 className="text-2xl font-bold text-[#03045e]">
+          Stays in Patna
+        </h1>
+
+        <p className="text-sm text-gray-500">
+          24 properties found
+        </p>
+      </div>
+
+      <div className="w-44">
+        <Dropdown
+          label="Sort by"
+          options={[
+            "Recommended",
+            "Price: Low to High",
+            "Price: High to Low",
+            "Highest Rated",
+          ]}
+        />
+      </div>
+    </div>
+
+    {/* Property results */}
+    <div className="grid gap-6 sm:grid-cols-2">
+      {/* Cards yahan */}
+    </div>
+  </section>
+
+</div>
                 </div>
                         
                                
             </section>
         </main>
     )
+  }
