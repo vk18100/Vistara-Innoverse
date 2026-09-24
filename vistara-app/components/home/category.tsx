@@ -4,10 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 type CategoryItem = {
-  id: string;
+  id: number;
   title: string;
   description: string;
   image: string;
+  cta: string;
+  href: string;
 };
 
 type CategoryProps = {
@@ -20,7 +22,7 @@ export default function Category({ cards }: CategoryProps) {
       {cards.map((category) => (
         <Link
           key={category.id}
-          href={`/stays?category=${category.id}`}
+          href={category.href}
           className="group overflow-hidden rounded-3xl border border-[#E2E8F0] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
         >
           {/* IMAGE */}
@@ -33,10 +35,8 @@ export default function Category({ cards }: CategoryProps) {
               className="object-cover transition duration-500 group-hover:scale-105"
             />
 
-            {/* Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-[#03045E]/70 via-transparent to-transparent opacity-80" />
 
-            {/* Category title on image */}
             <div className="absolute bottom-5 left-5 right-5">
               <h3 className="text-xl font-semibold text-white">
                 {category.title}
@@ -52,7 +52,7 @@ export default function Category({ cards }: CategoryProps) {
 
             <div className="mt-5 flex items-center justify-between">
               <span className="text-sm font-semibold text-[#0D21A1]">
-                Explore
+                {category.cta}
               </span>
 
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EEF2FF] text-[#03045E] transition group-hover:bg-[#03045E] group-hover:text-white">

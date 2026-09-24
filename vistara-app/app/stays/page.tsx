@@ -1,21 +1,52 @@
 import Navbar from "@/components/navbar";
-import PropertyCard from "@/components/cards/properCard";
-import { properties } from "@/data/properties";
 import Footer from "@/app/footer/page";
+import { prisma } from "@/lib/prisma";
+import PropCard from "@/components/cards/properCard";
 
-export default function StaysPage() {
+export default async function StaysPage() {
+  const properties = await prisma.property.findMany({
+    where: {
+      status: "VERIFIED",
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      images: {
+        orderBy: {
+          isPrimary: "desc",
+        },
+      },
+      amenities: {
+        include: {
+          amenity: true,
+        },
+      },
+    },
+  });
+
+  const formattedProperties = properties.map((property) => ({
+    id: String(property.id),
+    name: property.title,
+    location: `${property.city}, ${property.country}`,
+    image:
+      property.images[0]?.url ||
+      "/images/pag1(90).jpg",
+    price: Number(property.pricePerNight),
+    rating: property.rating,
+  }));
+
   return (
     <main className="min-h-screen bg-[#F8FAFF] text-[#03045E]">
       <Navbar />
 
-      {/* Search + Filters */}
+      {/* SEARCH + FILTERS */}
       <section className="border-b border-[#E2E8F0] bg-white">
         <div className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
 
-          {/* Search Bar */}
+          {/* SEARCH BAR */}
           <div className="flex flex-col overflow-hidden rounded-[24px] border border-[#DCE3F0] bg-white shadow-[0_10px_35px_rgba(3,4,94,0.08)] lg:flex-row lg:items-center">
 
-            {/* Where */}
             <div className="flex-1 px-5 py-4">
               <label className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
                 Where
@@ -30,7 +61,6 @@ export default function StaysPage() {
 
             <div className="hidden h-10 w-px bg-[#E2E8F0] lg:block" />
 
-            {/* Check in */}
             <div className="flex-1 px-5 py-4">
               <label className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
                 Check-in
@@ -44,7 +74,6 @@ export default function StaysPage() {
 
             <div className="hidden h-10 w-px bg-[#E2E8F0] lg:block" />
 
-            {/* Check out */}
             <div className="flex-1 px-5 py-4">
               <label className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
                 Check-out
@@ -58,7 +87,6 @@ export default function StaysPage() {
 
             <div className="hidden h-10 w-px bg-[#E2E8F0] lg:block" />
 
-            {/* Guests */}
             <div className="flex-1 px-5 py-4">
               <label className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
                 Guests
@@ -72,7 +100,6 @@ export default function StaysPage() {
               />
             </div>
 
-            {/* Search */}
             <button
               type="button"
               className="m-2 rounded-2xl bg-[#03045E] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
@@ -81,9 +108,8 @@ export default function StaysPage() {
             </button>
           </div>
 
-          {/* Filter Bar */}
+          {/* FILTER BAR */}
           <div className="mt-6 flex gap-3 overflow-x-auto pb-1">
-
             <button className="whitespace-nowrap rounded-full bg-[#03045E] px-5 py-2.5 text-sm font-semibold text-white">
               All
             </button>
@@ -117,9 +143,8 @@ export default function StaysPage() {
         </div>
       </section>
 
-      {/* Property Data */}
+      {/* PROPERTY DATA */}
       <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-
         <div className="mb-8 flex items-end justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
@@ -132,23 +157,27 @@ export default function StaysPage() {
           </div>
 
           <p className="hidden text-sm text-[#64748B] sm:block">
-            {properties.length} stays
+            {formattedProperties.length} stays
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {properties.map((property) => (
-            <PropertyCard
-              key={property.id}
-              property={property}
-            />
-          ))}
-        </div>
-
+        {/* CARDS */}
+      {/* CARDS */}
+<div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+  {formattedProperties.map((property) => (
+    <PropCard
+  key={property.id}
+  id={property.id}
+  name={property.name}
+  location={property.location}
+  image={property.image}
+  price={property.price}
+  rating={property.rating}
+/>
+  ))}
+</div>
       </section>
 
-      {/* Footer */}
       <Footer />
     </main>
   );

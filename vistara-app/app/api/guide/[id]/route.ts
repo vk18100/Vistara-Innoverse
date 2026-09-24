@@ -1,0 +1,165 @@
+import { NextResponse } from "next/server";
+
+const guides = [
+  {
+    id: "guide_001",
+    name: "Arjun Sharma",
+    location: "Varanasi, Uttar Pradesh",
+    bio: "A Varanasi local who loves sharing hidden lanes, stories, food and the quieter side of the city.",
+    languages: ["Hindi", "English"],
+    specialties: ["Heritage", "Local Food", "Hidden Gems"],
+    rating: 4.9,
+    reviews: 128,
+    experience: "7 years",
+    pricePerHour: 899,
+    currency: "INR",
+    image:
+      "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=900&q=85",
+    verified: true,
+    about:
+      "Arjun has spent years exploring the historic streets and ghats of Varanasi. He focuses on authentic local experiences and places that most visitors miss.",
+    availableDays: ["Monday", "Tuesday", "Wednesday", "Friday", "Saturday"],
+  },
+
+  {
+    id: "guide_002",
+    name: "Meera Singh",
+    location: "Jaipur, Rajasthan",
+    bio: "Heritage enthusiast helping travelers discover Jaipur's architecture, markets, crafts and traditional culture.",
+    languages: ["Hindi", "English", "French"],
+    specialties: ["Heritage", "Architecture", "Shopping"],
+    rating: 4.8,
+    reviews: 94,
+    experience: "5 years",
+    pricePerHour: 999,
+    currency: "INR",
+    image:
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=900&q=85",
+    verified: true,
+    about:
+      "Meera combines Jaipur's history with its living culture, helping travelers discover markets, architecture and local crafts.",
+    availableDays: ["Monday", "Thursday", "Friday", "Saturday", "Sunday"],
+  },
+
+  {
+    id: "guide_003",
+    name: "Rohan Thakur",
+    location: "Manali, Himachal Pradesh",
+    bio: "Mountain local focused on scenic trails, village experiences and authentic Himalayan journeys.",
+    languages: ["Hindi", "English"],
+    specialties: ["Mountains", "Nature", "Adventure"],
+    rating: 4.9,
+    reviews: 116,
+    experience: "8 years",
+    pricePerHour: 1199,
+    currency: "INR",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85",
+    verified: true,
+    about:
+      "Rohan specializes in mountain experiences, scenic routes and village visits around the Manali region.",
+    availableDays: ["Tuesday", "Wednesday", "Thursday", "Saturday", "Sunday"],
+  },
+
+  {
+    id: "guide_004",
+    name: "Ananya Rao",
+    location: "Goa, India",
+    bio: "Goa local helping travelers discover peaceful beaches, Portuguese heritage and local food.",
+    languages: ["English", "Hindi"],
+    specialties: ["Beaches", "Food", "Culture"],
+    rating: 4.7,
+    reviews: 81,
+    experience: "4 years",
+    pricePerHour: 799,
+    currency: "INR",
+    image:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=85",
+    verified: true,
+    about:
+      "Ananya helps travelers experience Goa beyond the usual tourist spots through food, culture and quieter coastal locations.",
+    availableDays: ["Monday", "Wednesday", "Friday", "Saturday", "Sunday"],
+  },
+
+  {
+    id: "guide_005",
+    name: "Kabir Verma",
+    location: "Udaipur, Rajasthan",
+    bio: "A storyteller and local guide who enjoys showing visitors Udaipur beyond its famous landmarks.",
+    languages: ["Hindi", "English"],
+    specialties: ["Lakes", "History", "Photography"],
+    rating: 4.8,
+    reviews: 73,
+    experience: "6 years",
+    pricePerHour: 899,
+    currency: "INR",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85",
+    verified: true,
+    about:
+      "Kabir combines photography, history and local storytelling to create relaxed experiences around Udaipur.",
+    availableDays: ["Monday", "Tuesday", "Friday", "Saturday", "Sunday"],
+  },
+
+  {
+    id: "guide_006",
+    name: "Priya Das",
+    location: "Kolkata, West Bengal",
+    bio: "Culture and food enthusiast introducing travelers to Kolkata's neighbourhoods, stories and local cuisine.",
+    languages: ["Bengali", "Hindi", "English"],
+    specialties: ["Food", "Culture", "City Walks"],
+    rating: 4.9,
+    reviews: 102,
+    experience: "6 years",
+    pricePerHour: 849,
+    currency: "INR",
+    image:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=900&q=85",
+    verified: true,
+    about:
+      "Priya focuses on Kolkata's neighbourhoods, food culture and stories that bring the city to life.",
+    availableDays: ["Tuesday", "Wednesday", "Thursday", "Saturday", "Sunday"],
+  },
+];
+
+type RouteContext = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+export async function GET(
+  _request: Request,
+  { params }: RouteContext
+) {
+  try {
+    const { id } = await params;
+
+    const guide = guides.find((item) => item.id === id);
+
+    if (!guide) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Guide not found.",
+        },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: guide,
+    });
+  } catch (error) {
+    console.error("Guide detail API error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Unable to load guide.",
+      },
+      { status: 500 }
+    );
+  }
+}

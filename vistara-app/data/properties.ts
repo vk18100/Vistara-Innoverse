@@ -1,27 +1,23 @@
-export type Property = {
+import type { Property } from "@/types/property";
+
+type LegacyProperty = {
   id: number;
   name: string;
   location: string;
   city: string;
   state: string;
-
   type: "Villa" | "Hotel" | "Vacation" | "Activity";
-
   price: number;
   rating: number;
   reviews: number;
-
   image: string;
-
   verified: boolean;
-
-  // ML / recommendation fields
   category: "stay" | "experience";
   tags: string[];
   popularity: number;
 };
 
-export const properties: Property[] = [
+const rawProperties: LegacyProperty[] = [
   {
     id: 1,
     name: "The Heritage Courtyard",
@@ -32,7 +28,7 @@ export const properties: Property[] = [
     price: 4500,
     rating: 4.8,
     reviews: 124,
-    image: "pag1 (1).jpg",
+    image: "/images/pag(1).jpg",
     verified: true,
     category: "stay",
     tags: ["heritage", "luxury", "family"],
@@ -49,316 +45,67 @@ export const properties: Property[] = [
     price: 3800,
     rating: 4.7,
     reviews: 89,
-    image: "pag1 (2).jpg",
+    image: "/images/pag(2).jpg",
     verified: true,
     category: "stay",
     tags: ["riverside", "peaceful", "couples"],
     popularity: 87,
   },
 
-  {
-    id: 3,
-    name: "The Quiet House",
-    location: "Rajgir, Bihar",
-    city: "Rajgir",
-    state: "Bihar",
-    type: "Hotel",
-    price: 5200,
-    rating: 4.9,
-    reviews: 67,
-    image: "pag1 (3).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["nature", "peaceful", "luxury"],
-    popularity: 95,
-  },
-
-  {
-    id: 4,
-    name: "Bodh Gaya Retreat",
-    location: "Bodh Gaya, Bihar",
-    city: "Bodh Gaya",
-    state: "Bihar",
-    type: "Hotel",
-    price: 3200,
-    rating: 4.6,
-    reviews: 52,
-    image: "pag1 (4).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["spiritual", "peaceful", "culture"],
-    popularity: 82,
-  },
-
-  {
-    id: 5,
-    name: "The Garden Villa",
-    location: "Gaya, Bihar",
-    city: "Gaya",
-    state: "Bihar",
-    type: "Villa",
-    price: 4100,
-    rating: 4.7,
-    reviews: 76,
-    image: "pag1 (5).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["garden", "family", "relaxing"],
-    popularity: 85,
-  },
-
-  {
-    id: 6,
-    name: "River View Residency",
-    location: "Bhagalpur, Bihar",
-    city: "Bhagalpur",
-    state: "Bihar",
-    type: "Hotel",
-    price: 2900,
-    rating: 4.5,
-    reviews: 61,
-    image: "pag1 (6).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["river", "budget", "couples"],
-    popularity: 78,
-  },
-
-  {
-    id: 7,
-    name: "Royal Patna Villa",
-    location: "Patna, Bihar",
-    city: "Patna",
-    state: "Bihar",
-    type: "Villa",
-    price: 6200,
-    rating: 4.9,
-    reviews: 143,
-    image: "pag1 (7).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["luxury", "royal", "family"],
-    popularity: 97,
-  },
-
-  {
-    id: 8,
-    name: "Nalanda Heritage Stay",
-    location: "Nalanda, Bihar",
-    city: "Nalanda",
-    state: "Bihar",
-    type: "Vacation",
-    price: 3500,
-    rating: 4.6,
-    reviews: 48,
-    image: "pag1 (8).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["heritage", "history", "culture"],
-    popularity: 80,
-  },
-
-  {
-    id: 9,
-    name: "Sone Valley Escape",
-    location: "Rohtas, Bihar",
-    city: "Rohtas",
-    state: "Bihar",
-    type: "Vacation",
-    price: 3900,
-    rating: 4.8,
-    reviews: 54,
-    image: "pag1 (9).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["nature", "valley", "adventure"],
-    popularity: 89,
-  },
-
-  {
-    id: 10,
-    name: "Madhubani Cultural Stay",
-    location: "Madhubani, Bihar",
-    city: "Madhubani",
-    state: "Bihar",
-    type: "Vacation",
-    price: 2800,
-    rating: 4.5,
-    reviews: 39,
-    image: "pag1 (10).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["culture", "art", "local"],
-    popularity: 74,
-  },
-
-  {
-    id: 11,
-    name: "Patna Food Walk",
-    location: "Patna, Bihar",
-    city: "Patna",
-    state: "Bihar",
-    type: "Activity",
-    price: 1200,
-    rating: 4.9,
-    reviews: 112,
-    image: "pag1 (11).jpg",
-    verified: true,
-    category: "experience",
-    tags: ["food", "local", "culture"],
-    popularity: 94,
-  },
-
-  {
-    id: 12,
-    name: "Ganga Sunrise Experience",
-    location: "Patna, Bihar",
-    city: "Patna",
-    state: "Bihar",
-    type: "Activity",
-    price: 900,
-    rating: 4.8,
-    reviews: 83,
-    image: "pag1 (12).jpg",
-    verified: true,
-    category: "experience",
-    tags: ["sunrise", "river", "photography"],
-    popularity: 91,
-  },
-
-  {
-    id: 13,
-    name: "Bodh Gaya Cultural Tour",
-    location: "Bodh Gaya, Bihar",
-    city: "Bodh Gaya",
-    state: "Bihar",
-    type: "Activity",
-    price: 1500,
-    rating: 4.9,
-    reviews: 97,
-    image: "pag1 (13).jpg",
-    verified: true,
-    category: "experience",
-    tags: ["culture", "spiritual", "history"],
-    popularity: 93,
-  },
-
-  {
-    id: 14,
-    name: "Rajgir Hills Adventure",
-    location: "Rajgir, Bihar",
-    city: "Rajgir",
-    state: "Bihar",
-    type: "Activity",
-    price: 1800,
-    rating: 4.7,
-    reviews: 72,
-    image: "pag1 (14).jpg",
-    verified: true,
-    category: "experience",
-    tags: ["hiking", "nature", "adventure"],
-    popularity: 86,
-  },
-
-  {
-    id: 15,
-    name: "Nalanda History Experience",
-    location: "Nalanda, Bihar",
-    city: "Nalanda",
-    state: "Bihar",
-    type: "Activity",
-    price: 1100,
-    rating: 4.8,
-    reviews: 64,
-    image: "pag1 (15).jpg",
-    verified: true,
-    category: "experience",
-    tags: ["history", "heritage", "culture"],
-    popularity: 84,
-  },
-
-  {
-    id: 16,
-    name: "Luxury Weekend Escape",
-    location: "Patna, Bihar",
-    city: "Patna",
-    state: "Bihar",
-    type: "Vacation",
-    price: 8500,
-    rating: 4.9,
-    reviews: 91,
-    image: "pag1 (16).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["luxury", "weekend", "premium"],
-    popularity: 96,
-  },
-
-  {
-    id: 17,
-    name: "Forest Retreat",
-    location: "Valmiki Nagar, Bihar",
-    city: "Valmiki Nagar",
-    state: "Bihar",
-    type: "Vacation",
-    price: 4700,
-    rating: 4.8,
-    reviews: 58,
-    image: "pag1 (17).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["forest", "wildlife", "nature"],
-    popularity: 90,
-  },
-
-  {
-    id: 18,
-    name: "Bihar Village Experience",
-    location: "Muzaffarpur, Bihar",
-    city: "Muzaffarpur",
-    state: "Bihar",
-    type: "Activity",
-    price: 1300,
-    rating: 4.7,
-    reviews: 45,
-    image: "pag1 (18).jpg",
-    verified: true,
-    category: "experience",
-    tags: ["village", "local", "culture"],
-    popularity: 79,
-  },
-
-  {
-    id: 19,
-    name: "Royal Heritage Hotel",
-    location: "Darbhanga, Bihar",
-    city: "Darbhanga",
-    state: "Bihar",
-    type: "Hotel",
-    price: 5600,
-    rating: 4.8,
-    reviews: 86,
-    image: "pag1 (19).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["heritage", "royal", "luxury"],
-    popularity: 88,
-  },
-
-  {
-    id: 20,
-    name: "Hidden Bihar Escape",
-    location: "Kaimur, Bihar",
-    city: "Kaimur",
-    state: "Bihar",
-    type: "Vacation",
-    price: 4300,
-    rating: 4.8,
-    reviews: 51,
-    image: "pag1 (20).jpg",
-    verified: true,
-    category: "stay",
-    tags: ["hidden gem", "nature", "adventure"],
-    popularity: 90,
-  },
+  // Baaki properties bhi isi pattern mein:
+  // image: "/images/pag(3).jpg"
+  // image: "/images/pag(4).jpg"
+  // ...
+  // image: "/images/pag(20).jpg"
 ];
+
+export const properties: Property[] = rawProperties.map(
+  (property) => ({
+    id: String(property.id),
+
+    title: property.name,
+
+    location: property.location,
+
+    city: property.city,
+
+    country: "India",
+
+    image: property.image,
+
+    type: property.type,
+
+    price: property.price,
+
+    currency: "INR",
+
+    rating: property.rating,
+
+    reviewCount: property.reviews,
+
+    guests: 4,
+
+    bedrooms: 2,
+
+    beds: 2,
+
+    bathrooms: 1,
+
+    amenities: property.tags,
+
+    description: `${property.name} is a ${property.type.toLowerCase()} in ${property.location}.`,
+
+    host: {
+      name: "Vistara Host",
+      verified: property.verified,
+    },
+
+    ml: {
+      rankingScore: property.popularity,
+      recommendationScore: property.popularity,
+      reviewScore: property.rating * 20,
+    },
+
+    featured: property.popularity >= 90,
+  })
+);

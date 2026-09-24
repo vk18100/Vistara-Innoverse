@@ -1,13 +1,13 @@
 export default function Hero() {
   return (
-    <section className="min-h-[620px] bg-white">
-      <div className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
+    <section className="bg-white">
+      <div className="mx-auto max-w-7xl px-6 pb-20 pt-24 lg:px-10 lg:pb-28 lg:pt-32">
 
-        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.3em] text-[#0D21A1]">
+        <p className="mb-6 text-xs font-bold uppercase tracking-[0.3em] text-[#0D21A1]">
           DISCOVER • STAY • EXPERIENCE
         </p>
 
-        <h1 className="max-w-4xl font-serif text-6xl font-semibold leading-[1.05] tracking-[-0.04em] text-[#03045E]">
+        <h1 className="max-w-4xl font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-[#03045E] sm:text-6xl lg:text-7xl">
           Find a place
           <br />
           worth{" "}
@@ -16,55 +16,56 @@ export default function Hero() {
           </span>
         </h1>
 
-        <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-500">
+        <p className="mt-7 max-w-2xl text-base leading-8 text-gray-500 sm:text-lg">
           Discover stays, hidden destinations and experiences shaped around
           the way you want to travel.
         </p>
 
         {/* SEARCH */}
-        <div className="mt-12 max-w-5xl rounded-[24px] border border-slate-200 bg-white p-2 shadow-[0_12px_40px_rgba(3,4,94,0.10)]">
-
+        <div className="mt-12 max-w-5xl rounded-3xl border border-gray-200 bg-white p-2 shadow-[0_15px_45px_rgba(3,4,94,0.10)]">
           <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_1fr_auto]">
 
-            {/* WHERE */}
             <div className="px-5 py-4">
               <p className="text-[11px] font-bold uppercase tracking-wider text-[#03045E]">
                 Where
               </p>
+
               <input
+                type="text"
                 placeholder="Search destinations"
-                className="mt-1 w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
+                className="mt-1 w-full bg-transparent text-sm text-[#03045E] outline-none placeholder:text-gray-400"
               />
             </div>
 
-            {/* CHECK IN */}
-            <div className="border-t border-slate-100 px-5 py-4 md:border-l md:border-t-0">
+            <div className="border-t border-gray-100 px-5 py-4 md:border-l md:border-t-0">
               <p className="text-[11px] font-bold uppercase tracking-wider text-[#03045E]">
                 Check In
               </p>
-              <p className="mt-1 text-sm text-slate-400">
+
+              <p className="mt-1 text-sm text-gray-400">
                 Add date
               </p>
             </div>
 
-            {/* GUESTS */}
-            <div className="border-t border-slate-100 px-5 py-4 md:border-l md:border-t-0">
+            <div className="border-t border-gray-100 px-5 py-4 md:border-l md:border-t-0">
               <p className="text-[11px] font-bold uppercase tracking-wider text-[#03045E]">
                 Guests
               </p>
-              <p className="mt-1 text-sm text-slate-400">
+
+              <p className="mt-1 text-sm text-gray-400">
                 Add guests
               </p>
             </div>
 
-            {/* SEARCH */}
-            <button className="m-1 rounded-[18px] bg-[#03045E] px-8 py-4 font-semibold text-white transition hover:bg-[#0D21A1]">
+            <button
+              type="button"
+              className="m-1 rounded-2xl bg-[#03045E] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+            >
               Search
             </button>
 
           </div>
         </div>
-
       </div>
     </section>
   );

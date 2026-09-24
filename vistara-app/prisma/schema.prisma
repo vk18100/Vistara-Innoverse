@@ -9,6 +9,8 @@ datasource db {
 enum UserRole {
   GUEST
   HOST
+  GUIDE
+  DRIVER
   ADMIN
 }
 
@@ -33,6 +35,11 @@ enum PropertyType {
   HOTEL
   GUEST_HOUSE
   RESORT
+  HOSTEL
+  DORMITORY
+  HOMESTAY
+  COTTAGE
+  FARM_STAY
 }
 
 enum BookingStatus {
@@ -40,6 +47,7 @@ enum BookingStatus {
   CONFIRMED
   CANCELLED
   COMPLETED
+  NO_SHOW
 }
 
 enum PaymentStatus {
@@ -47,6 +55,24 @@ enum PaymentStatus {
   PAID
   FAILED
   REFUNDED
+  PARTIALLY_REFUNDED
+}
+
+enum PaymentProvider {
+  RAZORPAY
+  STRIPE
+  CASH
+  OTHER
+}
+
+enum PaymentType {
+  BOOKING
+  LOCAL_PLAN
+  TRANSPORT
+  GUIDE
+  EXPERIENCE
+  REFUND
+  OTHER
 }
 
 enum NotificationType {
@@ -55,6 +81,10 @@ enum NotificationType {
   VERIFICATION
   PROPERTY
   EXPLORE
+  TRANSPORT
+  JOURNEY
+  GUIDE
+  SUPPORT
   SYSTEM
 }
 
@@ -71,6 +101,12 @@ enum ActivityType {
   WISHLIST_REMOVED
   EXPLORE_SAVED
   EXPLORE_REVIEWED
+  SEARCH
+  LOCAL_PLAN_PURCHASED
+  JOURNEY_CREATED
+  RIDE_REQUESTED
+  RIDE_COMPLETED
+  PAYMENT_COMPLETED
 }
 
 enum ExploreType {
@@ -78,6 +114,14 @@ enum ExploreType {
   RESTAURANT
   EXPERIENCE
   LOCAL_GUIDE
+  CAFE
+  EVENT
+  CULTURE
+  RELIGIOUS
+  NATURE
+  MARKET
+  SHOPPING
+  TOURIST_ESSENTIAL
 }
 
 enum ExploreStatus {
@@ -101,6 +145,211 @@ enum VerificationLevel {
   COMMUNITY_VERIFIED
 }
 
+enum StayDurationType {
+  OVERNIGHT
+  THREE_HOURS
+  SIX_HOURS
+  NINE_HOURS
+}
+
+enum AvailabilityStatus {
+  AVAILABLE
+  BLOCKED
+  BOOKED
+  MAINTENANCE
+}
+
+enum PricingType {
+  BASE
+  SEASONAL
+  WEEKEND
+  FESTIVAL
+  SPECIAL
+  DISCOUNT
+}
+
+enum PlanStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum PlanPurchaseStatus {
+  PENDING
+  PAID
+  UNLOCKED
+  EXPIRED
+  CANCELLED
+}
+
+enum JourneyStatus {
+  DRAFT
+  PLANNED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum JourneyTransportMode {
+  SELF
+  GUIDE
+  BIKE
+  AUTO
+  CAR
+  INTERCITY
+}
+
+enum StopStatus {
+  PENDING
+  ARRIVED
+  COMPLETED
+  SKIPPED
+}
+
+enum TransportType {
+  BIKE
+  AUTO
+  CAR
+  SUV
+  VAN
+  BUS
+  TRAIN
+  OTHER
+}
+
+enum RideStatus {
+  REQUESTED
+  DISPATCHING
+  ACCEPTED
+  DRIVER_ARRIVING
+  ARRIVED
+  OTP_PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  NO_DRIVER
+}
+
+enum VehicleStatus {
+  ACTIVE
+  INACTIVE
+  MAINTENANCE
+}
+
+enum DriverStatus {
+  OFFLINE
+  AVAILABLE
+  BUSY
+  SUSPENDED
+}
+
+enum GuideBookingStatus {
+  PENDING
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum CouponStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+}
+
+enum SupportTicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum SupportPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum DocumentType {
+  IDENTITY
+  OWNERSHIP
+  PROPERTY_CERTIFICATE
+  ADDRESS_PROOF
+  TAX_DOCUMENT
+  OTHER
+}
+
+enum DocumentStatus {
+  UPLOADED
+  PROCESSING
+  VERIFIED
+  REJECTED
+}
+
+enum VerificationResultStatus {
+  PENDING
+  PASSED
+  FAILED
+  REVIEW_REQUIRED
+}
+
+enum RecommendationType {
+  PROPERTY
+  PLACE
+  EXPERIENCE
+  GUIDE
+  LOCAL_PLAN
+}
+
+enum ReviewTargetType {
+  PROPERTY
+  PLACE
+  RESTAURANT
+  EXPERIENCE
+  GUIDE
+  DRIVER
+}
+
+enum SearchType {
+  PROPERTY
+  PLACE
+  RESTAURANT
+  EXPERIENCE
+  GUIDE
+  TRANSPORT
+}
+
+enum UserEventType {
+  SEARCH
+  VIEW_PROPERTY
+  VIEW_PLACE
+  VIEW_GUIDE
+  VIEW_EXPERIENCE
+  SAVE_PROPERTY
+  SAVE_PLACE
+  BOOKING_STARTED
+  BOOKING_COMPLETED
+  PLAN_VIEWED
+  PLAN_PURCHASED
+  JOURNEY_CREATED
+  RIDE_REQUESTED
+  PAYMENT_COMPLETED
+}
+
+enum AdminAction {
+  CREATE
+  UPDATE
+  DELETE
+  VERIFY
+  REJECT
+  SUSPEND
+  RESTORE
+  REFUND
+  OTHER
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   name      String
@@ -111,17 +360,33 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  profile        Profile?
-  properties     Property[]             @relation("HostProperties")
-  bookings       Booking[]              @relation("GuestBookings")
-  reviews        Review[]
-  wishlists      Wishlist[]
-  notifications  Notification[]
-  activities     AccountActivity[]
-  verifications  PropertyVerification[]
-  exploreReviews ExploreReview[]
-  exploreSaves   ExploreSave[]
-  localGuides    LocalGuide[]           @relation("GuideAuthor")
+  profile            Profile?
+  properties         Property[]             @relation("HostProperties")
+  bookings           Booking[]              @relation("GuestBookings")
+  reviews            Review[]
+  wishlists          Wishlist[]
+  notifications      Notification[]
+  activities         AccountActivity[]
+  verifications      PropertyVerification[]
+  exploreReviews     ExploreReview[]
+  exploreSaves       ExploreSave[]
+  localGuides        LocalGuide[]           @relation("GuideAuthor")
+  searches           SearchQuery[]
+  journeys           Journey[]
+  localPlanPurchases LocalPlanPurchase[]
+  payments           PaymentTransaction[]
+  supportTickets     SupportTicket[]
+  userEvents         UserEvent[]
+  recommendations    Recommendation[]
+  guideProfile       GuideProfile?
+  driverProfile      DriverProfile?
+  guideBookings      GuideBooking[]         @relation("GuestGuideBookings")
+  rides              Ride[]                 @relation("PassengerRides")
+  experienceBookings ExperienceBooking[]
+  couponsUsed        CouponUsage[]
+  adminActions       AdminAuditLog[]        @relation("AdminActions")
+
+  @@index([role])
 }
 
 model Profile {
@@ -140,46 +405,73 @@ model Profile {
 }
 
 model Property {
-  id            Int            @id @default(autoincrement())
-  hostId        Int
-  title         String
-  description   String
-  type          PropertyType
-  status        PropertyStatus @default(DRAFT)
-  address       String
-  city          String
-  country       String
-  guests        Int
-  bedrooms      Int
-  bathrooms     Int
-  pricePerNight Decimal        @db.Decimal(10, 2)
-  rating        Float          @default(0)
-  reviewCount   Int            @default(0)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  id                 Int                @id @default(autoincrement())
+  hostId             Int
+  title              String
+  description        String
+  type               PropertyType
+  status             PropertyStatus     @default(DRAFT)
+  address            String
+  city               String
+  state              String?
+  country            String
+  area               String?
+  latitude           Decimal?           @db.Decimal(10, 7)
+  longitude          Decimal?           @db.Decimal(10, 7)
+  guests             Int
+  bedrooms           Int
+  bathrooms          Int
+  pricePerNight      Decimal            @db.Decimal(10, 2)
+  cleaningFee        Decimal?           @db.Decimal(10, 2)
+  serviceFee         Decimal?           @db.Decimal(10, 2)
+  taxPercentage      Decimal?           @db.Decimal(5, 2)
+  rating             Float              @default(0)
+  reviewCount        Int                @default(0)
+  verificationStatus VerificationStatus @default(PENDING)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  recommendations    Recommendation[]
+  userEvents         UserEvent[]
 
-  host         User                  @relation("HostProperties", fields: [hostId], references: [id])
-  images       PropertyImage[]
-  amenities    PropertyAmenity[]
-  verification PropertyVerification?
-  bookings     Booking[]
-  reviews      Review[]
-  wishlists    Wishlist[]
+  host            User                     @relation("HostProperties", fields: [hostId], references: [id])
+  images          PropertyImage[]
+  amenities       PropertyAmenity[]
+  verification    PropertyVerification?
+  bookings        Booking[]
+  reviews         Review[]
+  wishlists       Wishlist[]
+  availability    PropertyAvailability[]
+  pricingRules    PropertyPricingRule[]
+  durationOptions PropertyDurationOption[]
+  nearbyPlaces    PropertyNearbyPlace[]
+  searchResults   SearchResult[]
+
+  @@index([hostId])
+  @@index([city])
+  @@index([area])
+  @@index([type])
+  @@index([status])
+  @@index([verificationStatus])
 }
 
 model PropertyImage {
   id         Int      @id @default(autoincrement())
   propertyId Int
   url        String
+  altText    String?
   isPrimary  Boolean  @default(false)
+  sortOrder  Int      @default(0)
   createdAt  DateTime @default(now())
 
   property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId])
 }
 
 model Amenity {
   id         Int               @id @default(autoincrement())
   name       String            @unique
+  icon       String?
   properties PropertyAmenity[]
 }
 
@@ -194,55 +486,201 @@ model PropertyAmenity {
 }
 
 model PropertyVerification {
-  id                  Int                @id @default(autoincrement())
-  propertyId          Int                @unique
+  id                  Int                    @id @default(autoincrement())
+  propertyId          Int                    @unique
   userId              Int
-  identityStatus      VerificationStatus @default(PENDING)
-  ownershipStatus     VerificationStatus @default(PENDING)
-  certificateStatus   VerificationStatus @default(PENDING)
+  identityStatus      VerificationStatus     @default(PENDING)
+  ownershipStatus     VerificationStatus     @default(PENDING)
+  certificateStatus   VerificationStatus     @default(PENDING)
   identityDocument    String?
   ownershipDocument   String?
   certificateDocument String?
+  score               Float?
   notes               String?
   submittedAt         DateTime?
   verifiedAt          DateTime?
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @default(now()) @updatedAt
+  property            Property               @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  user                User                   @relation(fields: [userId], references: [id])
+  documents           VerificationDocument[]
+  results             VerificationResult[]
 
-  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  user     User     @relation(fields: [userId], references: [id])
+  @@index([userId])
+  @@index([identityStatus])
+  @@index([ownershipStatus])
+  @@index([certificateStatus])
+}
+
+model VerificationDocument {
+  id              Int            @id @default(autoincrement())
+  verificationId  Int
+  type            DocumentType
+  fileUrl         String
+  fileName        String?
+  mimeType        String?
+  fileSize        Int?
+  status          DocumentStatus @default(UPLOADED)
+  rejectionReason String?
+  uploadedAt      DateTime       @default(now())
+  reviewedAt      DateTime?
+
+  verification PropertyVerification @relation(fields: [verificationId], references: [id], onDelete: Cascade)
+
+  @@index([verificationId])
+  @@index([type])
+}
+
+model VerificationResult {
+  id             Int                      @id @default(autoincrement())
+  verificationId Int
+  documentId     Int?
+  status         VerificationResultStatus @default(PENDING)
+  score          Float?
+  extractedData  Json?
+  reasons        Json?
+  reviewedBy     Int?
+  createdAt      DateTime                 @default(now())
+  updatedAt      DateTime                 @updatedAt
+
+  verification PropertyVerification @relation(fields: [verificationId], references: [id], onDelete: Cascade)
+
+  @@index([verificationId])
+  @@index([status])
 }
 
 model Booking {
-  id            Int           @id @default(autoincrement())
-  guestId       Int
-  propertyId    Int
-  checkIn       DateTime
-  checkOut      DateTime
-  guests        Int
-  nights        Int
-  totalAmount   Decimal       @db.Decimal(10, 2)
-  status        BookingStatus @default(PENDING)
-  paymentStatus PaymentStatus @default(PENDING)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id                 Int              @id @default(autoincrement())
+  guestId            Int
+  propertyId         Int
+  checkIn            DateTime
+  checkOut           DateTime
+  guests             Int
+  nights             Int
+  durationType       StayDurationType @default(OVERNIGHT)
+  totalAmount        Decimal          @db.Decimal(10, 2)
+  baseAmount         Decimal?         @db.Decimal(10, 2)
+  cleaningFee        Decimal?         @db.Decimal(10, 2)
+  serviceFee         Decimal?         @db.Decimal(10, 2)
+  taxAmount          Decimal?         @db.Decimal(10, 2)
+  discountAmount     Decimal?         @db.Decimal(10, 2)
+  status             BookingStatus    @default(PENDING)
+  paymentStatus      PaymentStatus    @default(PENDING)
+  cancellationReason String?
+  cancelledAt        DateTime?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
 
-  guest    User     @relation("GuestBookings", fields: [guestId], references: [id])
-  property Property @relation(fields: [propertyId], references: [id])
-  review   Review?
+  guest          User                @relation("GuestBookings", fields: [guestId], references: [id])
+  property       Property            @relation(fields: [propertyId], references: [id])
+  review         Review?
+  payment        PaymentTransaction?
+  invoice        Invoice?
+  cancellation   Cancellation?
+  guestsSnapshot BookingGuest[]
+  couponUsage    CouponUsage?
+
+  @@index([guestId])
+  @@index([propertyId])
+  @@index([checkIn, checkOut])
+  @@index([status])
+}
+
+model BookingGuest {
+  id        Int     @id @default(autoincrement())
+  bookingId Int
+  name      String
+  age       Int?
+  phone     String?
+  email     String?
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+}
+
+model PropertyAvailability {
+  id         Int                @id @default(autoincrement())
+  propertyId Int
+  date       DateTime
+  status     AvailabilityStatus @default(AVAILABLE)
+  price      Decimal?           @db.Decimal(10, 2)
+  minNights  Int                @default(1)
+  maxGuests  Int?
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([propertyId, date])
+  @@index([date])
+  @@index([status])
+}
+
+model PropertyDurationOption {
+  id         Int              @id @default(autoincrement())
+  propertyId Int
+  duration   StayDurationType
+  price      Decimal          @db.Decimal(10, 2)
+  isActive   Boolean          @default(true)
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([propertyId, duration])
+}
+
+model PropertyPricingRule {
+  id          Int         @id @default(autoincrement())
+  propertyId  Int
+  type        PricingType
+  name        String?
+  startDate   DateTime?
+  endDate     DateTime?
+  percentage  Decimal?    @db.Decimal(5, 2)
+  fixedAmount Decimal?    @db.Decimal(10, 2)
+  priority    Int         @default(0)
+  isActive    Boolean     @default(true)
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@index([propertyId])
+  @@index([startDate, endDate])
 }
 
 model Review {
-  id         Int      @id @default(autoincrement())
-  userId     Int
-  propertyId Int
-  bookingId  Int      @unique
-  rating     Int
-  comment    String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id                  Int      @id @default(autoincrement())
+  userId              Int
+  propertyId          Int
+  bookingId           Int      @unique
+  rating              Int
+  comment             String?
+  cleanlinessRating   Int?
+  locationRating      Int?
+  valueRating         Int?
+  communicationRating Int?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 
-  user     User     @relation(fields: [userId], references: [id])
-  property Property @relation(fields: [propertyId], references: [id])
-  booking  Booking  @relation(fields: [bookingId], references: [id])
+  user         User                @relation(fields: [userId], references: [id])
+  property     Property            @relation(fields: [propertyId], references: [id])
+  booking      Booking             @relation(fields: [bookingId], references: [id])
+  intelligence ReviewIntelligence?
+
+  @@index([propertyId])
+  @@index([rating])
+}
+
+model ReviewIntelligence {
+  id             Int      @id @default(autoincrement())
+  reviewId       Int      @unique
+  sentiment      String?
+  sentimentScore Float?
+  summary        String?
+  aspects        Json?
+  pros           Json?
+  cons           Json?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
 
 model Wishlist {
@@ -264,9 +702,12 @@ model Notification {
   title     String
   message   String
   isRead    Boolean          @default(false)
+  data      Json?
   createdAt DateTime         @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
 }
 
 model AccountActivity {
@@ -275,40 +716,60 @@ model AccountActivity {
   type        ActivityType
   description String?
   ipAddress   String?
+  metadata    Json?
   createdAt   DateTime     @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }
 
 model ExploreItem {
-  id                Int               @id @default(autoincrement())
+  id                Int                   @id @default(autoincrement())
   title             String
-  slug              String            @unique
+  slug              String                @unique
   description       String
   type              ExploreType
-  status            ExploreStatus     @default(DRAFT)
+  status            ExploreStatus         @default(DRAFT)
   address           String?
   city              String
   state             String?
   country           String
-  latitude          Decimal?          @db.Decimal(10, 7)
-  longitude         Decimal?          @db.Decimal(10, 7)
+  area              String?
+  latitude          Decimal?              @db.Decimal(10, 7)
+  longitude         Decimal?              @db.Decimal(10, 7)
   coverImage        String?
-  rating            Float             @default(0)
-  reviewCount       Int               @default(0)
-  verificationLevel VerificationLevel @default(UNVERIFIED)
-  isHiddenGem       Boolean           @default(false)
-  isFeatured        Boolean           @default(false)
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  rating            Float                 @default(0)
+  reviewCount       Int                   @default(0)
+  verificationLevel VerificationLevel     @default(UNVERIFIED)
+  isHiddenGem       Boolean               @default(false)
+  isFeatured        Boolean               @default(false)
+  priceLevel        Int?
+  openingHours      Json?
+  phone             String?
+  website           String?
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  recommendations   Recommendation[]
+  userEvents        UserEvent[]
+  images            ExploreImage[]
+  categories        ExploreCategoryItem[]
+  reviews           ExploreReview[]
+  guides            LocalGuide[]
+  saves             ExploreSave[]
+  restaurant        Restaurant?
+  experience        Experience?
+  localPlanPlaces   LocalPlanPlace[]
+  journeyStops      JourneyStop[]
+  nearbyProperties  PropertyNearbyPlace[]
+  routePoints       RoutePoint[]
 
-  images     ExploreImage[]
-  categories ExploreCategoryItem[]
-  reviews    ExploreReview[]
-  guides     LocalGuide[]
-  saves      ExploreSave[]
-  restaurant Restaurant?
-  experience Experience?
+  @@index([city])
+  @@index([area])
+  @@index([type])
+  @@index([status])
+  @@index([isFeatured])
+  @@index([isHiddenGem])
 }
 
 model ExploreImage {
@@ -317,9 +778,12 @@ model ExploreImage {
   url       String
   altText   String?
   isPrimary Boolean  @default(false)
+  sortOrder Int      @default(0)
   createdAt DateTime @default(now())
 
   explore ExploreItem @relation(fields: [exploreId], references: [id], onDelete: Cascade)
+
+  @@index([exploreId])
 }
 
 model ExploreCategory {
@@ -366,7 +830,25 @@ model Experience {
   meetingPoint    String?
   bookingUrl      String?
 
-  explore ExploreItem @relation(fields: [exploreId], references: [id], onDelete: Cascade)
+  explore  ExploreItem         @relation(fields: [exploreId], references: [id], onDelete: Cascade)
+  bookings ExperienceBooking[]
+}
+
+model ExperienceBooking {
+  id           Int           @id @default(autoincrement())
+  userId       Int
+  experienceId Int
+  bookingDate  DateTime
+  guests       Int
+  amount       Decimal       @db.Decimal(10, 2)
+  status       BookingStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+
+  user       User       @relation(fields: [userId], references: [id])
+  experience Experience @relation(fields: [experienceId], references: [id])
+
+  @@index([userId])
+  @@index([experienceId])
 }
 
 model LocalGuide {
@@ -417,4 +899,596 @@ model ExploreSave {
   explore ExploreItem @relation(fields: [exploreId], references: [id], onDelete: Cascade)
 
   @@unique([userId, exploreId])
+}
+
+model SearchQuery {
+  id        Int        @id @default(autoincrement())
+  userId    Int?
+  type      SearchType
+  query     String?
+  city      String?
+  area      String?
+  checkIn   DateTime?
+  checkOut  DateTime?
+  guests    Int?
+  minPrice  Decimal?   @db.Decimal(10, 2)
+  maxPrice  Decimal?   @db.Decimal(10, 2)
+  category  String?
+  latitude  Decimal?   @db.Decimal(10, 7)
+  longitude Decimal?   @db.Decimal(10, 7)
+  createdAt DateTime   @default(now())
+
+  user    User?          @relation(fields: [userId], references: [id], onDelete: SetNull)
+  results SearchResult[]
+
+  @@index([userId])
+  @@index([city])
+  @@index([createdAt])
+}
+
+model SearchResult {
+  id         Int      @id @default(autoincrement())
+  searchId   Int
+  propertyId Int
+  rank       Int?
+  score      Float?
+  createdAt  DateTime @default(now())
+
+  search   SearchQuery @relation(fields: [searchId], references: [id], onDelete: Cascade)
+  property Property    @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([searchId, propertyId])
+}
+
+model LocalPlan {
+  id              Int              @id @default(autoincrement())
+  title           String
+  slug            String           @unique
+  description     String
+  city            String
+  area            String?
+  status          PlanStatus       @default(DRAFT)
+  price           Decimal          @db.Decimal(10, 2)
+  durationHours   Int?
+  coverImage      String?
+  isFeatured      Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  recommendations Recommendation[]
+
+  places    LocalPlanPlace[]
+  purchases LocalPlanPurchase[]
+  journeys  Journey[]
+}
+
+model LocalPlanPlace {
+  id                 Int     @id @default(autoincrement())
+  planId             Int
+  exploreId          Int
+  sequence           Int
+  recommendedMinutes Int?
+  notes              String?
+
+  plan    LocalPlan   @relation(fields: [planId], references: [id], onDelete: Cascade)
+  explore ExploreItem @relation(fields: [exploreId], references: [id], onDelete: Cascade)
+
+  @@unique([planId, exploreId])
+  @@unique([planId, sequence])
+}
+
+model LocalPlanPurchase {
+  id          Int                @id @default(autoincrement())
+  userId      Int
+  planId      Int
+  amount      Decimal            @db.Decimal(10, 2)
+  status      PlanPurchaseStatus @default(PENDING)
+  purchasedAt DateTime?
+  unlockedAt  DateTime?
+  expiresAt   DateTime?
+  paymentId   Int?               @unique
+  createdAt   DateTime           @default(now())
+
+  user    User                @relation(fields: [userId], references: [id])
+  plan    LocalPlan           @relation(fields: [planId], references: [id])
+  payment PaymentTransaction? @relation(fields: [paymentId], references: [id])
+
+  @@unique([userId, planId])
+  @@index([userId])
+  @@index([planId])
+}
+
+model Journey {
+  id                Int                  @id @default(autoincrement())
+  userId            Int
+  localPlanId       Int?
+  title             String?
+  status            JourneyStatus        @default(DRAFT)
+  transportMode     JourneyTransportMode @default(SELF)
+  startLocation     String?
+  startLatitude     Decimal?             @db.Decimal(10, 7)
+  startLongitude    Decimal?             @db.Decimal(10, 7)
+  endLocation       String?
+  endLatitude       Decimal?             @db.Decimal(10, 7)
+  endLongitude      Decimal?             @db.Decimal(10, 7)
+  estimatedDistance Decimal?             @db.Decimal(10, 2)
+  estimatedMinutes  Int?
+  estimatedCost     Decimal?             @db.Decimal(10, 2)
+  startedAt         DateTime?
+  completedAt       DateTime?
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id])
+  localPlan    LocalPlan?    @relation(fields: [localPlanId], references: [id], onDelete: SetNull)
+  stops        JourneyStop[]
+  rides        Ride[]
+  route        Route?
+  guideBooking GuideBooking?
+
+  @@index([userId])
+  @@index([status])
+}
+
+model JourneyStop {
+  id               Int        @id @default(autoincrement())
+  journeyId        Int
+  exploreId        Int?
+  sequence         Int
+  name             String
+  address          String?
+  latitude         Decimal?   @db.Decimal(10, 7)
+  longitude        Decimal?   @db.Decimal(10, 7)
+  plannedArrival   DateTime?
+  plannedDeparture DateTime?
+  durationMinutes  Int?
+  status           StopStatus @default(PENDING)
+  notes            String?
+
+  journey Journey      @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+  explore ExploreItem? @relation(fields: [exploreId], references: [id], onDelete: SetNull)
+
+  @@unique([journeyId, sequence])
+  @@index([exploreId])
+}
+
+model Route {
+  id              Int      @id @default(autoincrement())
+  journeyId       Int      @unique
+  provider        String?
+  profile         String?
+  distanceMeters  Int?
+  durationSeconds Int?
+  geometry        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  journey Journey      @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+  points  RoutePoint[]
+}
+
+model RoutePoint {
+  id        Int     @id @default(autoincrement())
+  routeId   Int
+  exploreId Int?
+  sequence  Int
+  latitude  Decimal @db.Decimal(10, 7)
+  longitude Decimal @db.Decimal(10, 7)
+
+  route   Route        @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  explore ExploreItem? @relation(fields: [exploreId], references: [id], onDelete: SetNull)
+
+  @@unique([routeId, sequence])
+}
+
+model TransportProvider {
+  id          Int      @id @default(autoincrement())
+  name        String
+  phone       String?
+  city        String
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  vehicles  Vehicle[]
+  drivers   DriverProfile[]
+  fareRules TransportFareRule[]
+}
+
+model DriverProfile {
+  id               Int          @id @default(autoincrement())
+  userId           Int          @unique
+  providerId       Int?
+  licenseNumber    String?
+  status           DriverStatus @default(OFFLINE)
+  rating           Float        @default(0)
+  totalTrips       Int          @default(0)
+  isVerified       Boolean      @default(false)
+  currentLatitude  Decimal?     @db.Decimal(10, 7)
+  currentLongitude Decimal?     @db.Decimal(10, 7)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  provider     TransportProvider?   @relation(fields: [providerId], references: [id], onDelete: SetNull)
+  vehicles     Vehicle[]
+  rides        Ride[]
+  availability DriverAvailability[]
+
+  @@index([status])
+  @@index([providerId])
+}
+
+model Vehicle {
+  id           Int           @id @default(autoincrement())
+  providerId   Int?
+  driverId     Int?
+  type         TransportType
+  make         String?
+  model        String?
+  registration String?       @unique
+  capacity     Int           @default(1)
+  status       VehicleStatus @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  provider TransportProvider? @relation(fields: [providerId], references: [id], onDelete: SetNull)
+  driver   DriverProfile?     @relation(fields: [driverId], references: [id], onDelete: SetNull)
+  rides    Ride[]
+
+  @@index([type])
+  @@index([status])
+}
+
+model DriverAvailability {
+  id        Int      @id @default(autoincrement())
+  driverId  Int
+  startTime DateTime
+  endTime   DateTime
+  isActive  Boolean  @default(true)
+
+  driver DriverProfile @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  @@index([driverId, startTime, endTime])
+}
+
+model TransportFareRule {
+  id             Int           @id @default(autoincrement())
+  providerId     Int?
+  transportType  TransportType
+  city           String
+  baseFare       Decimal       @db.Decimal(10, 2)
+  perKm          Decimal       @db.Decimal(10, 2)
+  perMinute      Decimal?      @db.Decimal(10, 2)
+  minimumFare    Decimal?      @db.Decimal(10, 2)
+  nightSurcharge Decimal?      @db.Decimal(5, 2)
+  isActive       Boolean       @default(true)
+
+  provider TransportProvider? @relation(fields: [providerId], references: [id], onDelete: SetNull)
+
+  @@index([city, transportType])
+}
+
+model Ride {
+  id                   Int           @id @default(autoincrement())
+  userId               Int
+  driverId             Int?
+  vehicleId            Int?
+  journeyId            Int?
+  transportType        TransportType
+  status               RideStatus    @default(REQUESTED)
+  pickupAddress        String
+  pickupLatitude       Decimal?      @db.Decimal(10, 7)
+  pickupLongitude      Decimal?      @db.Decimal(10, 7)
+  destination          String
+  destinationLatitude  Decimal?      @db.Decimal(10, 7)
+  destinationLongitude Decimal?      @db.Decimal(10, 7)
+  estimatedFare        Decimal?      @db.Decimal(10, 2)
+  finalFare            Decimal?      @db.Decimal(10, 2)
+  distanceKm           Decimal?      @db.Decimal(10, 2)
+  otp                  String?
+  requestedAt          DateTime      @default(now())
+  acceptedAt           DateTime?
+  startedAt            DateTime?
+  completedAt          DateTime?
+  cancelledAt          DateTime?
+  cancellationReason   String?
+
+  user    User                @relation("PassengerRides", fields: [userId], references: [id])
+  driver  DriverProfile?      @relation(fields: [driverId], references: [id], onDelete: SetNull)
+  vehicle Vehicle?            @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
+  journey Journey?            @relation(fields: [journeyId], references: [id], onDelete: SetNull)
+  stops   RideStop[]
+  payment PaymentTransaction?
+
+  @@index([userId])
+  @@index([driverId])
+  @@index([status])
+  @@index([journeyId])
+}
+
+model RideStop {
+  id         Int       @id @default(autoincrement())
+  rideId     Int
+  sequence   Int
+  address    String
+  latitude   Decimal?  @db.Decimal(10, 7)
+  longitude  Decimal?  @db.Decimal(10, 7)
+  arrivedAt  DateTime?
+  departedAt DateTime?
+
+  ride Ride @relation(fields: [rideId], references: [id], onDelete: Cascade)
+
+  @@unique([rideId, sequence])
+}
+
+model GuideProfile {
+  id              Int              @id @default(autoincrement())
+  userId          Int              @unique
+  city            String
+  bio             String?
+  languages       Json?
+  specialties     Json?
+  experienceYears Int?
+  hourlyRate      Decimal?         @db.Decimal(10, 2)
+  halfDayRate     Decimal?         @db.Decimal(10, 2)
+  fullDayRate     Decimal?         @db.Decimal(10, 2)
+  rating          Float            @default(0)
+  reviewCount     Int              @default(0)
+  isVerified      Boolean          @default(false)
+  isActive        Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  recommendations Recommendation[] // ADD
+
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  availability GuideAvailability[]
+  bookings     GuideBooking[]      @relation("GuideBookings")
+
+  @@index([city])
+  @@index([isVerified])
+}
+
+model GuideAvailability {
+  id        Int      @id @default(autoincrement())
+  guideId   Int
+  startTime DateTime
+  endTime   DateTime
+  isActive  Boolean  @default(true)
+
+  guide GuideProfile @relation(fields: [guideId], references: [id], onDelete: Cascade)
+
+  @@index([guideId, startTime, endTime])
+}
+
+model GuideBooking {
+  id        Int                @id @default(autoincrement())
+  guestId   Int
+  guideId   Int
+  journeyId Int?               @unique
+  startTime DateTime
+  endTime   DateTime
+  guests    Int                @default(1)
+  amount    Decimal            @db.Decimal(10, 2)
+  status    GuideBookingStatus @default(PENDING)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  guest   User                @relation("GuestGuideBookings", fields: [guestId], references: [id])
+  guide   GuideProfile        @relation("GuideBookings", fields: [guideId], references: [id])
+  journey Journey?            @relation(fields: [journeyId], references: [id], onDelete: SetNull)
+  payment PaymentTransaction?
+
+  @@index([guestId])
+  @@index([guideId])
+  @@index([status])
+}
+
+model PaymentTransaction {
+  id                Int             @id @default(autoincrement())
+  userId            Int
+  bookingId         Int?            @unique
+  rideId            Int?            @unique
+  guideBookingId    Int?            @unique
+  provider          PaymentProvider
+  type              PaymentType
+  providerOrderId   String?
+  providerPaymentId String?
+  amount            Decimal         @db.Decimal(10, 2)
+  currency          String          @default("INR")
+  status            PaymentStatus   @default(PENDING)
+  metadata          Json?
+  paidAt            DateTime?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  user              User               @relation(fields: [userId], references: [id])
+  booking           Booking?           @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  ride              Ride?              @relation(fields: [rideId], references: [id], onDelete: SetNull)
+  guideBooking      GuideBooking?      @relation(fields: [guideBookingId], references: [id], onDelete: SetNull)
+  localPlanPurchase LocalPlanPurchase?
+  refunds           Refund[]
+  invoice           Invoice?
+
+  @@index([userId])
+  @@index([status])
+  @@index([providerOrderId])
+  @@index([providerPaymentId])
+}
+
+model Refund {
+  id          Int           @id @default(autoincrement())
+  paymentId   Int
+  amount      Decimal       @db.Decimal(10, 2)
+  reason      String?
+  providerId  String?
+  status      PaymentStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  processedAt DateTime?
+
+  payment PaymentTransaction @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@index([paymentId])
+}
+
+model Invoice {
+  id            Int      @id @default(autoincrement())
+  paymentId     Int      @unique
+  bookingId     Int?     @unique
+  invoiceNumber String   @unique
+  subtotal      Decimal  @db.Decimal(10, 2)
+  tax           Decimal  @db.Decimal(10, 2)
+  discount      Decimal  @db.Decimal(10, 2)
+  total         Decimal  @db.Decimal(10, 2)
+  issuedAt      DateTime @default(now())
+
+  payment PaymentTransaction @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  booking Booking?           @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+}
+
+model Cancellation {
+  id           Int      @id @default(autoincrement())
+  bookingId    Int      @unique
+  reason       String?
+  refundAmount Decimal? @db.Decimal(10, 2)
+  createdAt    DateTime @default(now())
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}
+
+model Coupon {
+  id             Int          @id @default(autoincrement())
+  code           String       @unique
+  description    String?
+  percentage     Decimal?     @db.Decimal(5, 2)
+  fixedAmount    Decimal?     @db.Decimal(10, 2)
+  minOrderAmount Decimal?     @db.Decimal(10, 2)
+  maxDiscount    Decimal?     @db.Decimal(10, 2)
+  usageLimit     Int?
+  usedCount      Int          @default(0)
+  startDate      DateTime?
+  endDate        DateTime?
+  status         CouponStatus @default(ACTIVE)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  usages CouponUsage[]
+}
+
+model CouponUsage {
+  id        Int      @id @default(autoincrement())
+  couponId  Int
+  userId    Int
+  bookingId Int?     @unique
+  amount    Decimal  @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+
+  coupon  Coupon   @relation(fields: [couponId], references: [id])
+  user    User     @relation(fields: [userId], references: [id])
+  booking Booking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+
+  @@unique([couponId, userId, bookingId])
+  @@index([userId])
+}
+
+model PropertyNearbyPlace {
+  id         Int      @id @default(autoincrement())
+  propertyId Int
+  exploreId  Int
+  distanceKm Decimal? @db.Decimal(8, 2)
+
+  property Property    @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  explore  ExploreItem @relation(fields: [exploreId], references: [id], onDelete: Cascade)
+
+  @@unique([propertyId, exploreId])
+}
+
+model Recommendation {
+  id         Int                @id @default(autoincrement())
+  userId     Int
+  type       RecommendationType
+  propertyId Int?
+  exploreId  Int?
+  guideId    Int?
+  planId     Int?
+  score      Float?
+  reason     String?
+  metadata   Json?
+  createdAt  DateTime           @default(now())
+
+  user     User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property Property?     @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  explore  ExploreItem?  @relation(fields: [exploreId], references: [id], onDelete: Cascade)
+  guide    GuideProfile? @relation(fields: [guideId], references: [id], onDelete: Cascade)
+  plan     LocalPlan?    @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type])
+  @@index([score])
+}
+
+model UserEvent {
+  id         Int           @id @default(autoincrement())
+  userId     Int?
+  type       UserEventType
+  propertyId Int?
+  exploreId  Int?
+  metadata   Json?
+  createdAt  DateTime      @default(now())
+
+  user     User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  property Property?    @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  explore  ExploreItem? @relation(fields: [exploreId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([type, createdAt])
+  @@index([propertyId])
+  @@index([exploreId])
+}
+
+model SupportTicket {
+  id          Int                 @id @default(autoincrement())
+  userId      Int
+  subject     String
+  description String
+  status      SupportTicketStatus @default(OPEN)
+  priority    SupportPriority     @default(MEDIUM)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  resolvedAt  DateTime?
+
+  user     User                   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages SupportTicketMessage[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([priority])
+}
+
+model SupportTicketMessage {
+  id        Int      @id @default(autoincrement())
+  ticketId  Int
+  senderId  Int
+  message   String
+  createdAt DateTime @default(now())
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId, createdAt])
+}
+
+model AdminAuditLog {
+  id          Int         @id @default(autoincrement())
+  adminId     Int
+  action      AdminAction
+  entity      String
+  entityId    Int?
+  description String?
+  metadata    Json?
+  createdAt   DateTime    @default(now())
+
+  admin User @relation("AdminActions", fields: [adminId], references: [id])
+
+  @@index([adminId])
+  @@index([entity, entityId])
+  @@index([createdAt])
 }
