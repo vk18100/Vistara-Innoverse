@@ -18,9 +18,7 @@ export function createToken(data: TokenData): string {
   });
 }
 
-export function verifyToken(
-  token: string
-): TokenData | null {
+export function verifyToken(token: string): TokenData | null {
   try {
     const decoded = jwt.verify(token, secret);
 

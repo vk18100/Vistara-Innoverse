@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/guard";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
-    const { user, response } = await requireRole(req, ["ADMIN"]);
+    const { response } = await requireRole(req, ["ADMIN"]);
 
     if (response) {
       return response;
@@ -45,9 +45,9 @@ export async function GET(req: Request) {
   }
 }
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
   try {
-    const { user, response } = await requireRole(req, ["ADMIN"]);
+    const { response } = await requireRole(req, ["ADMIN"]);
 
     if (response) {
       return response;
@@ -66,7 +66,7 @@ export async function PATCH(req: Request) {
       "INACTIVE",
     ];
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,

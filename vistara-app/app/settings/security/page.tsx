@@ -59,10 +59,12 @@ export default function SecurityPage() {
 
             <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-[#E2E8F0] bg-[#FAFAF8] p-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm font-semibold">
-                  Change password
-                </p>
-
+             <Link
+  href="/settings/security/password"
+  className="rounded-xl border border-[#03045E] px-6 py-3 font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white"
+>
+  Change password
+</Link>
                 <p className="mt-1 text-xs text-[#64748B]">
                   Update the password used to sign in to Vistara.
                 </p>

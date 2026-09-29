@@ -76,20 +76,19 @@ function getStatusLabel(status: PropertyStatus) {
 
 export default function PropertiesPage() {
   const [properties, setProperties] = useState<Property[]>([]);
-
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState<string | null>(null);
 
   const [filter, setFilter] = useState<Filter>("ALL");
-
   const [search, setSearch] = useState("");
-
   const [sort, setSort] = useState("updated");
 
   const [actionId, setActionId] = useState<string | null>(null);
-
   const [menuId, setMenuId] = useState<string | null>(null);
+
+  /* ------------------------------------------------ */
+  /* LOAD PROPERTIES */
+  /* ------------------------------------------------ */
 
   async function loadProperties() {
     try {
@@ -102,19 +101,53 @@ export default function PropertiesPage() {
         cache: "no-store",
       });
 
-      if (!response.ok) {
-        throw new Error("Unable to load your properties.");
-      }
-
       const result = await response.json();
 
-      const items = Array.isArray(result)
-        ? result
-        : result.properties ?? result.data ?? [];
+      console.log("HOST PROPERTIES API:", result);
+
+      if (!response.ok) {
+        throw new Error(
+          result?.message ||
+            "Unable to load your properties."
+        );
+      }
+
+      let items: Property[] = [];
+
+      if (Array.isArray(result)) {
+        items = result;
+      } else if (Array.isArray(result?.properties)) {
+        items = result.properties;
+      } else if (Array.isArray(result?.data)) {
+        items = result.data;
+      } else if (
+        Array.isArray(result?.data?.properties)
+      ) {
+        items = result.data.properties;
+      }
+
+      /*
+       * Extra safety:
+       * Even if API returns something unexpected,
+       * properties will ALWAYS remain an array.
+       */
+      if (!Array.isArray(items)) {
+        items = [];
+      }
+
+      console.log(
+        "HOST PROPERTIES NORMALIZED:",
+        items
+      );
 
       setProperties(items);
     } catch (err) {
-      console.error("Properties loading error:", err);
+      console.error(
+        "Properties loading error:",
+        err
+      );
+
+      setProperties([]);
 
       setError(
         err instanceof Error
@@ -130,8 +163,14 @@ export default function PropertiesPage() {
     loadProperties();
   }, []);
 
+  /* ------------------------------------------------ */
+  /* FILTER + SEARCH + SORT */
+  /* ------------------------------------------------ */
+
   const filteredProperties = useMemo(() => {
-    let result = [...properties];
+    let result = Array.isArray(properties)
+      ? [...properties]
+      : [];
 
     if (filter !== "ALL") {
       result = result.filter(
@@ -151,59 +190,95 @@ export default function PropertiesPage() {
         ]
           .filter(Boolean)
           .some((value) =>
-            String(value).toLowerCase().includes(query)
+            String(value)
+              .toLowerCase()
+              .includes(query)
           )
       );
     }
 
     if (sort === "rating") {
       result.sort(
-        (a, b) => (b.rating ?? 0) - (a.rating ?? 0)
+        (a, b) =>
+          (b.rating ?? 0) - (a.rating ?? 0)
       );
     }
 
     if (sort === "low-price") {
-      result.sort((a, b) => a.price - b.price);
+      result.sort(
+        (a, b) => a.price - b.price
+      );
     }
 
     if (sort === "high-price") {
-      result.sort((a, b) => b.price - a.price);
+      result.sort(
+        (a, b) => b.price - a.price
+      );
     }
 
     if (sort === "updated") {
       result.sort(
         (a, b) =>
-          new Date(b.updatedAt ?? 0).getTime() -
-          new Date(a.updatedAt ?? 0).getTime()
+          new Date(
+            b.updatedAt ?? 0
+          ).getTime() -
+          new Date(
+            a.updatedAt ?? 0
+          ).getTime()
       );
     }
 
     return result;
-  }, [properties, filter, search, sort]);
+  }, [
+    properties,
+    filter,
+    search,
+    sort,
+  ]);
+
+  /* ------------------------------------------------ */
+  /* COUNTS */
+  /* ------------------------------------------------ */
 
   const counts = useMemo(() => {
+    const safeProperties = Array.isArray(
+      properties
+    )
+      ? properties
+      : [];
+
     return {
-      ALL: properties.length,
+      ALL: safeProperties.length,
 
-      ACTIVE: properties.filter(
-        (property) => property.status === "ACTIVE"
+      ACTIVE: safeProperties.filter(
+        (property) =>
+          property.status === "ACTIVE"
       ).length,
 
-      DRAFT: properties.filter(
-        (property) => property.status === "DRAFT"
+      DRAFT: safeProperties.filter(
+        (property) =>
+          property.status === "DRAFT"
       ).length,
 
-      PENDING: properties.filter(
-        (property) => property.status === "PENDING"
+      PENDING: safeProperties.filter(
+        (property) =>
+          property.status === "PENDING"
       ).length,
 
-      REJECTED: properties.filter(
-        (property) => property.status === "REJECTED"
+      REJECTED: safeProperties.filter(
+        (property) =>
+          property.status === "REJECTED"
       ).length,
     };
   }, [properties]);
 
-  async function toggleProperty(property: Property) {
+  /* ------------------------------------------------ */
+  /* TOGGLE PROPERTY */
+  /* ------------------------------------------------ */
+
+  async function toggleProperty(
+    property: Property
+  ) {
     try {
       setActionId(property.id);
       setMenuId(null);
@@ -219,7 +294,8 @@ export default function PropertiesPage() {
           method: "PATCH",
           credentials: "include",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/json",
           },
           body: JSON.stringify({
             status: nextStatus,
@@ -227,27 +303,48 @@ export default function PropertiesPage() {
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Unable to update property status.");
-      }
-
       const result = await response.json();
 
-      const updated = result.property ?? result.data ?? result;
+      console.log(
+        "PROPERTY UPDATE API:",
+        result
+      );
 
-      setProperties((current) =>
-        current.map((item) =>
+      if (!response.ok) {
+        throw new Error(
+          result?.message ||
+            "Unable to update property status."
+        );
+      }
+
+      const updated =
+        result?.property ??
+        result?.data ??
+        result;
+
+      setProperties((current) => {
+        const safeCurrent =
+          Array.isArray(current)
+            ? current
+            : [];
+
+        return safeCurrent.map((item) =>
           item.id === property.id
             ? {
                 ...item,
-                ...updated,
-                status: updated.status ?? nextStatus,
+                ...(updated || {}),
+                status:
+                  updated?.status ??
+                  nextStatus,
               }
             : item
-        )
-      );
+        );
+      });
     } catch (err) {
-      console.error(err);
+      console.error(
+        "PROPERTY UPDATE ERROR:",
+        err
+      );
 
       alert(
         err instanceof Error
@@ -259,7 +356,13 @@ export default function PropertiesPage() {
     }
   }
 
-  async function deleteProperty(property: Property) {
+  /* ------------------------------------------------ */
+  /* DELETE PROPERTY */
+  /* ------------------------------------------------ */
+
+  async function deleteProperty(
+    property: Property
+  ) {
     const confirmed = window.confirm(
       `Delete "${property.name}"? This action cannot be undone.`
     );
@@ -280,17 +383,38 @@ export default function PropertiesPage() {
         }
       );
 
+      const result = await response
+        .json()
+        .catch(() => null);
+
+      console.log(
+        "PROPERTY DELETE API:",
+        result
+      );
+
       if (!response.ok) {
-        throw new Error("Unable to delete property.");
+        throw new Error(
+          result?.message ||
+            "Unable to delete property."
+        );
       }
 
-      setProperties((current) =>
-        current.filter(
-          (item) => item.id !== property.id
-        )
-      );
+      setProperties((current) => {
+        const safeCurrent =
+          Array.isArray(current)
+            ? current
+            : [];
+
+        return safeCurrent.filter(
+          (item) =>
+            item.id !== property.id
+        );
+      });
     } catch (err) {
-      console.error(err);
+      console.error(
+        "PROPERTY DELETE ERROR:",
+        err
+      );
 
       alert(
         err instanceof Error
@@ -302,9 +426,17 @@ export default function PropertiesPage() {
     }
   }
 
+  /* ------------------------------------------------ */
+  /* LOADING */
+  /* ------------------------------------------------ */
+
   if (loading) {
     return <PropertiesSkeleton />;
   }
+
+  /* ------------------------------------------------ */
+  /* PAGE */
+  /* ------------------------------------------------ */
 
   return (
     <main
@@ -336,8 +468,9 @@ export default function PropertiesPage() {
               </h1>
 
               <p className="mt-3 max-w-xl text-sm leading-6 text-[#64748B]">
-                Manage your stays, update your listings and keep
-                your property information up to date.
+                Manage your stays, update your
+                listings and keep your property
+                information up to date.
               </p>
             </div>
 
@@ -349,7 +482,6 @@ export default function PropertiesPage() {
             </Link>
 
           </div>
-
         </div>
       </section>
 
@@ -390,34 +522,48 @@ export default function PropertiesPage() {
               <FilterButton
                 active={filter === "ALL"}
                 label={`All · ${counts.ALL}`}
-                onClick={() => setFilter("ALL")}
+                onClick={() =>
+                  setFilter("ALL")
+                }
               />
 
               <FilterButton
                 active={filter === "ACTIVE"}
                 label={`Active · ${counts.ACTIVE}`}
-                onClick={() => setFilter("ACTIVE")}
+                onClick={() =>
+                  setFilter("ACTIVE")
+                }
               />
 
               <FilterButton
                 active={filter === "DRAFT"}
                 label={`Draft · ${counts.DRAFT}`}
-                onClick={() => setFilter("DRAFT")}
+                onClick={() =>
+                  setFilter("DRAFT")
+                }
               />
 
               {counts.PENDING > 0 && (
                 <FilterButton
-                  active={filter === "PENDING"}
+                  active={
+                    filter === "PENDING"
+                  }
                   label={`Pending · ${counts.PENDING}`}
-                  onClick={() => setFilter("PENDING")}
+                  onClick={() =>
+                    setFilter("PENDING")
+                  }
                 />
               )}
 
               {counts.REJECTED > 0 && (
                 <FilterButton
-                  active={filter === "REJECTED"}
+                  active={
+                    filter === "REJECTED"
+                  }
                   label={`Rejected · ${counts.REJECTED}`}
-                  onClick={() => setFilter("REJECTED")}
+                  onClick={() =>
+                    setFilter("REJECTED")
+                  }
                 />
               )}
 
@@ -428,7 +574,9 @@ export default function PropertiesPage() {
               <input
                 value={search}
                 onChange={(event) =>
-                  setSearch(event.target.value)
+                  setSearch(
+                    event.target.value
+                  )
                 }
                 placeholder="Search properties..."
                 className="w-full rounded-xl border border-[#03045E]/10 bg-white px-4 py-2.5 text-sm outline-none placeholder:text-[#94A3B8] focus:border-[#0D21A1] sm:w-64"
@@ -437,7 +585,9 @@ export default function PropertiesPage() {
               <select
                 value={sort}
                 onChange={(event) =>
-                  setSort(event.target.value)
+                  setSort(
+                    event.target.value
+                  )
                 }
                 className="rounded-xl border border-[#03045E]/10 bg-white px-4 py-2.5 text-sm text-[#64748B] outline-none focus:border-[#03045E]"
               >
@@ -459,9 +609,7 @@ export default function PropertiesPage() {
               </select>
 
             </div>
-
           </div>
-
         </div>
 
         {/* RESULT COUNT */}
@@ -474,7 +622,8 @@ export default function PropertiesPage() {
               : "properties"}
           </p>
 
-          {(search || filter !== "ALL") && (
+          {(search ||
+            filter !== "ALL") && (
             <button
               onClick={() => {
                 setSearch("");
@@ -488,10 +637,12 @@ export default function PropertiesPage() {
 
         </div>
 
-        {/* EMPTY */}
+        {/* EMPTY / PROPERTY LIST */}
         {filteredProperties.length === 0 ? (
           <EmptyProperties
-            hasProperties={properties.length > 0}
+            hasProperties={
+              properties.length > 0
+            }
             search={search}
             onClear={() => {
               setSearch("");
@@ -499,223 +650,272 @@ export default function PropertiesPage() {
             }}
           />
         ) : (
-          /* PROPERTY CARDS */
           <div className="mt-4 space-y-5">
 
-            {filteredProperties.map((property, index) => {
+            {filteredProperties.map(
+              (property, index) => {
+                const status =
+                  getStatusLabel(
+                    property.status
+                  );
 
-              const status = getStatusLabel(
-                property.status
-              );
+                const isWorking =
+                  actionId ===
+                  property.id;
 
-              const isWorking =
-                actionId === property.id;
+                return (
+                  <article
+                    key={property.id}
+                    className="overflow-visible rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_12px_40px_rgba(3,4,94,0.04)]"
+                  >
 
-              return (
-                <article
-                  key={property.id}
-                  className="overflow-visible rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_12px_40px_rgba(3,4,94,0.04)]"
-                >
+                    <div className="grid md:grid-cols-[260px_1fr]">
 
-                  <div className="grid md:grid-cols-[260px_1fr]">
+                      {/* IMAGE */}
+                      <div className="relative h-60 overflow-hidden rounded-t-[28px] bg-[#EEF2FF] md:h-full md:rounded-l-[28px] md:rounded-tr-none">
 
-                    {/* IMAGE */}
-                    <div className="relative h-60 overflow-hidden rounded-t-[28px] bg-[#EEF2FF] md:h-full md:rounded-l-[28px] md:rounded-tr-none">
+                        {property.image ? (
+                          <Image
+                            src={
+                              property.image
+                            }
+                            alt={
+                              property.name
+                            }
+                            fill
+                            priority={
+                              index === 0
+                            }
+                            sizes="(max-width: 767px) 100vw, 260px"
+                            className="object-cover transition duration-500 hover:scale-105"
+                          />
+                        ) : (
+                          <div className="flex h-full items-center justify-center text-sm text-[#64748B]">
+                            No image
+                          </div>
+                        )}
 
-                      {property.image ? (
-                        <Image
-                          src={property.image}
-                          alt={property.name}
-                          fill
-                          priority={index === 0}
-                          sizes="(max-width: 767px) 100vw, 260px"
-                          className="object-cover transition duration-500 hover:scale-105"
-                        />
-                      ) : (
-                        <div className="flex h-full items-center justify-center text-sm text-[#64748B]">
-                          No image
-                        </div>
-                      )}
+                        <span
+                          className={`absolute left-4 top-4 rounded-full px-3 py-1.5 text-xs font-bold ${getStatusStyle(
+                            property.status
+                          )}`}
+                        >
+                          {status}
+                        </span>
 
-                      <span
-                        className={`absolute left-4 top-4 rounded-full px-3 py-1.5 text-xs font-bold ${getStatusStyle(
-                          property.status
-                        )}`}
-                      >
-                        {status}
-                      </span>
+                      </div>
 
-                    </div>
+                      {/* DETAILS */}
+                      <div className="p-6 md:p-7">
 
-                    {/* DETAILS */}
-                    <div className="p-6 md:p-7">
+                        <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
 
-                      <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
+                          <div>
 
-                        <div>
+                            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0D21A1]">
+                              {
+                                property.type
+                              }
+                            </p>
 
-                          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0D21A1]">
-                            {property.type}
-                          </p>
+                            <h2 className="mt-2 font-serif text-2xl font-semibold">
+                              {
+                                property.name
+                              }
+                            </h2>
 
-                          <h2 className="mt-2 font-serif text-2xl font-semibold">
-                            {property.name}
-                          </h2>
+                            <p className="mt-2 text-sm text-[#64748B]">
+                              {
+                                property.location
+                              }
+                            </p>
 
-                          <p className="mt-2 text-sm text-[#64748B]">
-                            {property.location}
-                          </p>
+                            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#64748B]">
 
-                          <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#64748B]">
-
-                            <span>
-                              {property.guests}{" "}
-                              {property.guests === 1
-                                ? "guest"
-                                : "guests"}
-                            </span>
-
-                            {property.rating != null && (
                               <span>
-                                ★{" "}
-                                {property.rating.toFixed(1)}
+                                {
+                                  property.guests
+                                }{" "}
+                                {property.guests ===
+                                1
+                                  ? "guest"
+                                  : "guests"}
                               </span>
-                            )}
 
-                            {property.reviews != null && (
-                              <span>
-                                {property.reviews}{" "}
-                                {property.reviews === 1
-                                  ? "review"
-                                  : "reviews"}
+                              {property.rating !=
+                                null && (
+                                <span>
+                                  ★{" "}
+                                  {Number(
+                                    property.rating
+                                  ).toFixed(
+                                    1
+                                  )}
+                                </span>
+                              )}
+
+                              {property.reviews !=
+                                null && (
+                                <span>
+                                  {
+                                    property.reviews
+                                  }{" "}
+                                  {property.reviews ===
+                                  1
+                                    ? "review"
+                                    : "reviews"}
+                                </span>
+                              )}
+
+                            </div>
+                          </div>
+
+                          <div className="lg:text-right">
+
+                            <p className="text-xs text-[#94A3B8]">
+                              Starting from
+                            </p>
+
+                            <p className="mt-1 text-xl font-semibold">
+                              {formatCurrency(
+                                Number(
+                                  property.price ||
+                                    0
+                                )
+                              )}
+
+                              <span className="ml-1 text-xs font-normal text-[#64748B]">
+                                / night
                               </span>
-                            )}
+                            </p>
 
                           </div>
 
                         </div>
 
-                        <div className="lg:text-right">
+                        {/* ACTIONS */}
+                        <div className="relative mt-7 flex flex-col gap-3 border-t border-[#03045E]/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
 
-                          <p className="text-xs text-[#94A3B8]">
-                            Starting from
-                          </p>
+                          <div className="flex flex-wrap gap-2">
 
-                          <p className="mt-1 text-xl font-semibold">
-                            {formatCurrency(property.price)}
+                            <Link
+                              href={`/host/property/${property.id}`}
+                              className="rounded-xl bg-[#03045E] px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-[#0D21A1]"
+                            >
+                              Manage listing
+                            </Link>
 
-                            <span className="ml-1 text-xs font-normal text-[#64748B]">
-                              / night
-                            </span>
-                          </p>
+                            <Link
+                              href={`/host/property/${property.id}/edit`}
+                              className="rounded-xl border border-[#03045E]/15 px-5 py-2.5 text-xs font-semibold text-[#03045E] transition hover:bg-[#F7F3EA]"
+                            >
+                              Edit
+                            </Link>
 
-                        </div>
+                          </div>
 
-                      </div>
-
-                      {/* ACTIONS */}
-                      <div className="relative mt-7 flex flex-col gap-3 border-t border-[#03045E]/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-
-                        <div className="flex flex-wrap gap-2">
-
-                          <Link
-                            href={`/host/property/${property.id}`}
-                            className="rounded-xl bg-[#03045E] px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-[#0D21A1]"
-                          >
-                            Manage listing
-                          </Link>
-
-                          <Link
-                            href={`/host/property/${property.id}/edit`}
-                            className="rounded-xl border border-[#03045E]/15 px-5 py-2.5 text-xs font-semibold text-[#03045E] transition hover:bg-[#F7F3EA]"
-                          >
-                            Edit
-                          </Link>
-
-                        </div>
-
-                        {/* MORE MENU */}
-                        <div
-                          className="relative"
-                          onClick={(event) =>
-                            event.stopPropagation()
-                          }
-                        >
-
-                          <button
-                            onClick={() =>
-                              setMenuId(
-                                menuId === property.id
-                                  ? null
-                                  : property.id
-                              )
+                          {/* MORE */}
+                          <div
+                            className="relative"
+                            onClick={(event) =>
+                              event.stopPropagation()
                             }
-                            className="rounded-xl px-3 py-2 text-xs font-medium text-[#64748B] transition hover:bg-[#F7F3EA] hover:text-[#03045E]"
                           >
-                            More options
-                          </button>
 
-                          {menuId === property.id && (
-                            <div className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-2xl border border-[#03045E]/10 bg-white p-1.5 shadow-[0_18px_50px_rgba(3,4,94,0.14)]">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setMenuId(
+                                  menuId ===
+                                    property.id
+                                    ? null
+                                    : property.id
+                                )
+                              }
+                              className="rounded-xl px-3 py-2 text-xs font-medium text-[#64748B] transition hover:bg-[#F7F3EA] hover:text-[#03045E]"
+                            >
+                              More options
+                            </button>
 
-                              {property.status === "ACTIVE" && (
-                                <button
-                                  disabled={isWorking}
-                                  onClick={() =>
-                                    toggleProperty(property)
-                                  }
-                                  className="w-full rounded-xl px-3 py-2.5 text-left text-xs font-medium hover:bg-[#F7F3EA] disabled:opacity-50"
-                                >
-                                  {isWorking
-                                    ? "Updating..."
-                                    : "Unpublish listing"}
-                                </button>
-                              )}
+                            {menuId ===
+                              property.id && (
+                              <div className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-2xl border border-[#03045E]/10 bg-white p-1.5 shadow-[0_18px_50px_rgba(3,4,94,0.14)]">
 
-                              {property.status !== "ACTIVE" &&
-                                property.status !== "REJECTED" && (
+                                {property.status ===
+                                  "ACTIVE" && (
                                   <button
-                                    disabled={isWorking}
+                                    type="button"
+                                    disabled={
+                                      isWorking
+                                    }
                                     onClick={() =>
-                                      toggleProperty(property)
+                                      toggleProperty(
+                                        property
+                                      )
                                     }
                                     className="w-full rounded-xl px-3 py-2.5 text-left text-xs font-medium hover:bg-[#F7F3EA] disabled:opacity-50"
                                   >
                                     {isWorking
                                       ? "Updating..."
-                                      : "Publish listing"}
+                                      : "Unpublish listing"}
                                   </button>
                                 )}
 
-                              <Link
-                                href={`/host/property/${property.id}/edit`}
-                                className="block rounded-xl px-3 py-2.5 text-xs font-medium hover:bg-[#F7F3EA]"
-                              >
-                                Edit property
-                              </Link>
+                                {property.status !==
+                                  "ACTIVE" &&
+                                  property.status !==
+                                    "REJECTED" && (
+                                    <button
+                                      type="button"
+                                      disabled={
+                                        isWorking
+                                      }
+                                      onClick={() =>
+                                        toggleProperty(
+                                          property
+                                        )
+                                      }
+                                      className="w-full rounded-xl px-3 py-2.5 text-left text-xs font-medium hover:bg-[#F7F3EA] disabled:opacity-50"
+                                    >
+                                      {isWorking
+                                        ? "Updating..."
+                                        : "Publish listing"}
+                                    </button>
+                                  )}
 
-                              <button
-                                disabled={isWorking}
-                                onClick={() =>
-                                  deleteProperty(property)
-                                }
-                                className="w-full rounded-xl px-3 py-2.5 text-left text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
-                              >
-                                Delete property
-                              </button>
+                                <Link
+                                  href={`/host/property/${property.id}/edit`}
+                                  className="block rounded-xl px-3 py-2.5 text-xs font-medium hover:bg-[#F7F3EA]"
+                                >
+                                  Edit property
+                                </Link>
 
-                            </div>
-                          )}
+                                <button
+                                  type="button"
+                                  disabled={
+                                    isWorking
+                                  }
+                                  onClick={() =>
+                                    deleteProperty(
+                                      property
+                                    )
+                                  }
+                                  className="w-full rounded-xl px-3 py-2.5 text-left text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
+                                >
+                                  Delete property
+                                </button>
 
+                              </div>
+                            )}
+
+                          </div>
                         </div>
-
                       </div>
-
                     </div>
-                  </div>
-                </article>
-              );
-            })}
+                  </article>
+                );
+              }
+            )}
 
           </div>
         )}
@@ -735,8 +935,9 @@ export default function PropertiesPage() {
               </h2>
 
               <p className="mt-3 max-w-xl text-sm leading-6 text-white/70">
-                Add another property and introduce travellers
-                to a place worth remembering.
+                Add another property and
+                introduce travellers to a
+                place worth remembering.
               </p>
             </div>
 
@@ -770,6 +971,7 @@ function FilterButton({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       className={`rounded-full px-5 py-2 text-xs font-semibold transition ${
         active
@@ -820,6 +1022,7 @@ function EmptyProperties({
 
       {hasProperties ? (
         <button
+          type="button"
           onClick={onClear}
           className="mt-5 rounded-xl bg-[#03045E] px-5 py-3 text-sm font-semibold text-white hover:bg-[#0D21A1]"
         >
@@ -866,15 +1069,16 @@ function PropertiesSkeleton() {
 
         <div className="mt-7 space-y-5">
 
-          {[1, 2, 3].map((item) => (
-            <div
-              key={item}
-              className="h-64 animate-pulse rounded-[28px] bg-white"
-            />
-          ))}
+          {[1, 2, 3].map(
+            (item) => (
+              <div
+                key={item}
+                className="h-64 animate-pulse rounded-[28px] bg-white"
+              />
+            )
+          )}
 
         </div>
-
       </section>
     </main>
   );

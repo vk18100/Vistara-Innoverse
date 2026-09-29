@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/guard";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     const { user, response } = await requireAuth(req);
 
@@ -40,7 +40,7 @@ export async function GET(req: Request) {
   }
 }
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
   try {
     const { user, response } = await requireAuth(req);
 

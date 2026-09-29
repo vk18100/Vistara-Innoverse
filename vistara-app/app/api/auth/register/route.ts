@@ -8,7 +8,20 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { name, email, password } = body;
+    const name =
+      typeof body.name === "string"
+        ? body.name.trim()
+        : "";
+
+    const email =
+      typeof body.email === "string"
+        ? body.email.trim().toLowerCase()
+        : "";
+
+    const password =
+      typeof body.password === "string"
+        ? body.password
+        : "";
 
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -48,7 +61,6 @@ export async function POST(req: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // New users always start as GUEST
     const user = await prisma.user.create({
       data: {
         name,
@@ -64,8 +76,15 @@ export async function POST(req: Request) {
       },
     });
 
-    // Create login token
-    const token = await createToken(user.id);
+    const token = createToken({
+      userId: user.id,
+      email: user.email,
+      role: user.role as
+        | "GUEST"
+        | "HOST"
+        | "GUIDE"
+        | "ADMIN",
+    });
 
     const response = NextResponse.json(
       {
@@ -76,8 +95,9 @@ export async function POST(req: Request) {
       { status: 201 }
     );
 
-    // Store token in HTTP-only cookie
-    response.cookies.set("vistara_token", token, {
+    response.cookies.set({
+      name: "vistara_token",
+      value: token,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

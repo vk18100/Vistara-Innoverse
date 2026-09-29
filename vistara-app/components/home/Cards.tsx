@@ -5,6 +5,7 @@ export default function Cards() {
   return (
     <section className="bg-white px-6 py-16 lg:px-10">
       <div className="mx-auto max-w-7xl">
+
         <div className="mb-8">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#0D21A1]">
             VISTARA STAYS
@@ -23,6 +24,7 @@ export default function Cards() {
             />
           ))}
         </div>
+
       </div>
     </section>
   );

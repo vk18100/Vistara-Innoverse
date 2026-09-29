@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/guard";
@@ -10,14 +10,14 @@ type Params = {
 };
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
     const { id } = await params;
     const propertyId = Number(id);
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,
@@ -119,14 +119,14 @@ export async function GET(
 }
 
 export async function PATCH(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
     const { id } = await params;
     const propertyId = Number(id);
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,
@@ -161,7 +161,6 @@ export async function PATCH(
       );
     }
 
-    // Host can only edit their own property
     if (
       user!.role === "HOST" &&
       property.hostId !== user!.id
@@ -248,14 +247,14 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
     const { id } = await params;
     const propertyId = Number(id);
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,

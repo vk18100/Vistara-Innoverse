@@ -127,41 +127,61 @@ export default function HostPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function loadDashboard() {
-      try {
-        setLoading(true);
-        setError(null);
+   
+async function loadDashboard() {
+  try {
+    setLoading(true);
+    setError("");
 
-        const response = await fetch("/api/host/dashboard", {
-          method: "GET",
-          credentials: "include",
-          cache: "no-store",
-        });
+    const response = await fetch("/api/host/dashboard", {
+      method: "GET",
+      cache: "no-store",
+      credentials: "include",
+    });
 
-        if (!response.ok) {
-          throw new Error("Unable to load host dashboard.");
-        }
+    const text = await response.text();
 
-       const result = await response.json();
+    console.log("HOST DASHBOARD STATUS:", response.status);
+    console.log("HOST DASHBOARD RAW:", text);
 
-if (!result.success) {
-  throw new Error(result.message || "Unable to load host dashboard.");
-}
-
-setData(result.data);
-      } catch (error) {
-        console.error("Host dashboard error:", error);
-
-        setError(
-          error instanceof Error
-            ? error.message
-            : "Something went wrong."
-        );
-      } finally {
-        setLoading(false);
-      }
+    if (!text) {
+      throw new Error(
+        `Host dashboard returned an empty response (${response.status}).`
+      );
     }
 
+    let result;
+
+    try {
+      result = JSON.parse(text);
+    } catch (parseError) {
+      console.error("HOST DASHBOARD JSON ERROR:", parseError);
+      console.error("RAW RESPONSE:", text);
+
+      throw new Error(
+        `Invalid response from host dashboard (${response.status}).`
+      );
+    }
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message || "Unable to load host dashboard."
+      );
+    }
+
+    setData(result.data);
+  } catch (error) {
+    console.error("Host dashboard error:", error);
+
+    setError(
+      error instanceof Error
+        ? error.message
+        : "Unable to load host dashboard."
+    );
+  } finally {
+    setLoading(false);
+  }
+}
     loadDashboard();
   }, []);
 
@@ -379,7 +399,7 @@ const verificationPending =
                 {verificationPending
                   ? "Continue verification"
                   : "View verification"}
-              </Link>
+              </Link> 
 
             </div>
 

@@ -10,13 +10,25 @@ export default function Search() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
+  const [error, setError] = useState("");
 
   const handleSearch = () => {
-    if (!where.trim()) return;
+    setError("");
+
+    if (!where.trim()) {
+      setError("Please enter a destination.");
+      return;
+    }
+
+    if (checkIn && checkOut && checkOut < checkIn) {
+      setError("Check-out date must be after check-in.");
+      return;
+    }
 
     const params = new URLSearchParams();
 
-    params.set("where", where);
+    params.set("where", where.trim());
+    params.set("guests", guests.toString());
 
     if (checkIn) {
       params.set("checkIn", checkIn);
@@ -25,8 +37,6 @@ export default function Search() {
     if (checkOut) {
       params.set("checkOut", checkOut);
     }
-
-    params.set("guests", guests.toString());
 
     router.push(`/search?${params.toString()}`);
   };
@@ -44,7 +54,10 @@ export default function Search() {
           <input
             type="text"
             value={where}
-            onChange={(e) => setWhere(e.target.value)}
+            onChange={(e) => {
+              setWhere(e.target.value);
+              setError("");
+            }}
             placeholder="Search destinations"
             className="mt-1 w-full bg-transparent text-sm text-[#03045E] outline-none placeholder:text-[#94A3B8]"
           />
@@ -61,7 +74,15 @@ export default function Search() {
           <input
             type="date"
             value={checkIn}
-            onChange={(e) => setCheckIn(e.target.value)}
+            onChange={(e) => {
+              setCheckIn(e.target.value);
+
+              if (checkOut && e.target.value > checkOut) {
+                setCheckOut("");
+              }
+
+              setError("");
+            }}
             className="mt-1 w-full bg-transparent text-sm text-[#03045E] outline-none"
           />
         </div>
@@ -77,7 +98,11 @@ export default function Search() {
           <input
             type="date"
             value={checkOut}
-            onChange={(e) => setCheckOut(e.target.value)}
+            min={checkIn || undefined}
+            onChange={(e) => {
+              setCheckOut(e.target.value);
+              setError("");
+            }}
             className="mt-1 w-full bg-transparent text-sm text-[#03045E] outline-none"
           />
         </div>
@@ -94,19 +119,31 @@ export default function Search() {
             type="number"
             min={1}
             value={guests}
-            onChange={(e) => setGuests(Number(e.target.value))}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              setGuests(Math.max(1, value || 1));
+              setError("");
+            }}
             className="mt-1 w-full bg-transparent text-sm text-[#03045E] outline-none"
           />
         </div>
 
         {/* SEARCH */}
         <button
+          type="button"
           onClick={handleSearch}
           className="rounded-2xl bg-[#03045E] px-7 py-4 font-semibold text-white transition hover:bg-[#0D21A1]"
         >
           Search
         </button>
       </div>
+
+      {/* ERROR */}
+      {error && (
+        <p className="mx-auto mt-3 max-w-6xl px-2 text-sm font-medium text-red-600">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

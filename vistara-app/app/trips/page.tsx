@@ -2,487 +2,548 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import {
+  ArrowRight,
+  CalendarDays,
+  ChevronRight,
+  Compass,
+  Heart,
+  MapPin,
+  Plus,
+  Sparkles,
+} from "lucide-react";
 
 import Navbar from "@/components/navbar";
-import Footer from "../footer/page";
+import Footer from "@/app/footer/page";
 
 type Trip = {
-  id: string;
+  id: string | number;
   title: string;
-  destination: string;
-  startDate: string;
-  endDate: string;
-  nights: number;
-  status: "upcoming" | "completed";
-  image: string;
-
-  stay: {
-    name: string;
-    pricePerNight: number;
-  };
-
-  experience: {
-    name: string;
-    duration: string;
-  };
+  location?: string;
+  destination?: string;
+  dates?: string;
+  image?: string;
+  status?: string;
 };
 
-type RecentPlace = {
-  id: string;
+type Place = {
+  id: string | number;
+  title?: string;
+  name?: string;
+  location?: string;
+  image?: string;
+};
+
+type PlanningOption = {
+  title: string;
+  description: string;
+  href: string;
+  icon: "stay" | "experience" | "place";
+};
+
+type Inspiration = {
   title: string;
   location: string;
   image: string;
 };
 
-type Inspiration = {
-  id: string;
-  title: string;
-  image: string;
+type TripsResponse = {
+  upcomingTrip?: Trip | null;
+  trips?: Trip[];
+  completedTrips?: Trip[];
+  recentPlaces?: Place[];
+  savedPlaces?: Place[];
+  inspiration?: Inspiration[];
 };
 
-type TripsData = {
-  upcomingTrip: Trip | null;
-  trips: Trip[];
-  completedTrips: Trip[];
-  recentPlaces: RecentPlace[];
-  savedPlaces: unknown[];
-  inspiration: Inspiration[];
-};
+const fallbackPlanningOptions: PlanningOption[] = [
+  {
+    title: "Find a stay",
+    description: "Discover verified homes, villas and unique stays.",
+    href: "/stays",
+    icon: "stay",
+  },
+  {
+    title: "Find experiences",
+    description: "Explore meaningful things to do around you.",
+    href: "/explore",
+    icon: "experience",
+  },
+  {
+    title: "Explore places",
+    description: "Discover destinations worth remembering.",
+    href: "/explore",
+    icon: "place",
+  },
+];
 
-type ApiResponse = {
-  success: boolean;
-  data?: TripsData;
-  message?: string;
-};
+const fallbackInspiration: Inspiration[] = [
+  {
+    title: "A slower weekend",
+    location: "Patna, Bihar",
+    image: "/images/pag1 (1).jpg",
+  },
+  {
+    title: "Heritage & culture",
+    location: "Bihar, India",
+    image: "/images/pag1 (2).jpg",
+  },
+  {
+    title: "Riverside moments",
+    location: "Patna, Bihar",
+    image: "/images/pag1 (3).jpg",
+  },
+];
 
-export default function TripPage() {
-  const [data, setData] = useState<TripsData | null>(null);
+const fallbackRecentPlaces: Place[] = [
+  {
+    id: "1",
+    title: "Patna",
+    location: "Bihar, India",
+    image: "/images/pag1 (4).jpg",
+  },
+  {
+    id: "2",
+    title: "Heritage Bihar",
+    location: "Bihar, India",
+    image: "/images/pag1 (5).jpg",
+  },
+  {
+    id: "3",
+    title: "Riverside Escape",
+    location: "Patna, Bihar",
+    image: "/images/pag1 (6).jpg",
+  },
+];
 
+function getPlaceName(place: Place) {
+  return place.title || place.name || "Untitled place";
+}
+
+function getTripLocation(trip: Trip) {
+  return trip.location || trip.destination || "India";
+}
+
+function PlanningIcon({ type }: { type: PlanningOption["icon"] }) {
+  if (type === "stay") {
+    return <MapPin size={21} strokeWidth={1.8} />;
+  }
+
+  if (type === "experience") {
+    return <Sparkles size={21} strokeWidth={1.8} />;
+  }
+
+  return <Compass size={21} strokeWidth={1.8} />;
+}
+
+function ImageWithFallback({
+  src,
+  alt,
+  className,
+}: {
+  src?: string;
+  alt: string;
+  className: string;
+}) {
+  const [imageError, setImageError] = useState(false);
+
+  if (!src || imageError) {
+    return (
+      <div
+        className={`${className} flex items-center justify-center bg-[#EEF2FF]`}
+      >
+        <Compass
+          size={32}
+          strokeWidth={1.5}
+          className="text-[#0D21A1]/50"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setImageError(true)}
+      className={className}
+    />
+  );
+}
+
+export default function TripsPage() {
+  const [data, setData] = useState<TripsResponse | null>(null);
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    async function loadTrips() {
-      try {
-        setLoading(true);
-        setError("");
+  async function loadTrips() {
+    try {
+      setLoading(true);
+      setError("");
 
-        const response = await fetch("/api/trips", {
-          method: "GET",
-          cache: "no-store",
-        });
+      const response = await fetch("/api/trips", {
+        cache: "no-store",
+      });
 
-        const result: ApiResponse = await response.json();
-
-        if (!response.ok || !result.success || !result.data) {
-          throw new Error(
-            result.message || "Unable to load trips."
-          );
+      if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error("Authentication required");
         }
 
-        setData(result.data);
-      } catch (error) {
-        console.error("Trips page error:", error);
-
-        setError(
-          error instanceof Error
-            ? error.message
-            : "Unable to load your trips."
-        );
-      } finally {
-        setLoading(false);
+        throw new Error("Unable to load your trips");
       }
-    }
 
+      const result = await response.json();
+      setData(result);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Unable to load your trips"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
     loadTrips();
   }, []);
 
-  /*
-  |--------------------------------------------------------------------------
-  | LOADING
-  |--------------------------------------------------------------------------
-  */
+  const upcomingTrip = data?.upcomingTrip;
 
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-white text-[#03045E]">
-        <Navbar />
+  const trips = data?.trips ?? [];
 
-        <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10">
-          <div className="animate-pulse">
-            <div className="h-4 w-24 rounded bg-[#EEF2FF]" />
+  const completedTrips = data?.completedTrips ?? [];
 
-            <div className="mt-5 h-12 w-[420px] max-w-full rounded bg-[#EEF2FF]" />
+  const recentPlaces =
+    data?.recentPlaces && data.recentPlaces.length > 0
+      ? data.recentPlaces
+      : fallbackRecentPlaces;
 
-            <div className="mt-5 h-5 w-[550px] max-w-full rounded bg-[#F1F5F9]" />
-          </div>
+  const savedPlaces = data?.savedPlaces ?? [];
 
-          <div className="mt-14 grid gap-6 lg:grid-cols-2">
-            <div className="h-[380px] rounded-[28px] bg-[#F1F5F9] animate-pulse" />
-
-            <div className="h-[380px] rounded-[28px] bg-[#F1F5F9] animate-pulse" />
-          </div>
-        </section>
-
-        <Footer />
-      </main>
-    );
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | ERROR
-  |--------------------------------------------------------------------------
-  */
-
-  if (error || !data) {
-    return (
-      <main className="min-h-screen bg-white text-[#03045E]">
-        <Navbar />
-
-        <section className="mx-auto flex min-h-[70vh] max-w-7xl items-center justify-center px-6">
-          <div className="w-full max-w-md rounded-[28px] border border-[#E1E6F2] bg-white p-10 text-center shadow-[0_15px_50px_rgba(3,4,94,0.08)]">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#EEF2FF] text-2xl text-[#0D21A1]">
-              !
-            </div>
-
-            <h1 className="mt-6 font-serif text-3xl font-semibold">
-              Something went wrong
-            </h1>
-
-            <p className="mt-3 text-sm leading-6 text-[#64748B]">
-              {error || "Unable to load your trips."}
-            </p>
-
-            <button
-              onClick={() => window.location.reload()}
-              className="mt-7 rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-            >
-              Try again
-            </button>
-          </div>
-        </section>
-
-        <Footer />
-      </main>
-    );
-  }
-
-  const {
-    upcomingTrip,
-    completedTrips,
-    recentPlaces,
-    savedPlaces,
-    inspiration,
-  } = data;
-
-  /*
-  |--------------------------------------------------------------------------
-  | MAIN PAGE
-  |--------------------------------------------------------------------------
-  */
+  const inspiration =
+    data?.inspiration && data.inspiration.length > 0
+      ? data.inspiration
+      : fallbackInspiration;
 
   return (
     <main className="min-h-screen bg-white text-[#03045E]">
       <Navbar />
 
-      {/* ================================================================
+      {/* =========================================================
           HERO
-      ================================================================= */}
+      ========================================================== */}
+      <section className="relative overflow-hidden border-b border-[#E6EAF2] bg-[#F8FAFF]">
+        <div className="absolute right-[-120px] top-[-150px] h-[360px] w-[360px] rounded-full bg-[#0D21A1]/5 blur-3xl" />
 
-      <section className="border-b border-[#E8EBF5] bg-gradient-to-br from-[#F4F7FF] via-white to-[#EEF2FF]">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
-          <div className="max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0D21A1]">
-              YOUR TRIPS
-            </p>
+        <div className="relative mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+            <div className="max-w-3xl">
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#0D21A1]">
+                YOUR TRIPS
+              </p>
 
-            <h1 className="mt-4 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-[#03045E] md:text-6xl">
-              Plan your soothing trip.
-            </h1>
+              <h1 className="mt-4 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-[#03045E] md:text-6xl">
+                Plan your
+                <br />
+                soothing trip.
+              </h1>
 
-            <p className="mt-6 max-w-2xl text-base leading-7 text-[#64748B]">
-              Take a break, discover somewhere beautiful, and let Vistara
-              help you bring every part of your journey together.
-            </p>
+              <p className="mt-6 max-w-2xl text-base leading-7 text-[#64748B] md:text-lg">
+                Bring your stays, places and experiences together in one
+                thoughtful travel space.
+              </p>
+            </div>
 
             <Link
-              href="/stays"
-              className="mt-8 inline-flex rounded-xl bg-[#03045E] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+              href="/explore"
+              className="inline-flex w-fit items-center gap-2 rounded-full bg-[#03045E] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
             >
-              + Create a Trip
+              <Plus size={18} />
+              Create a Trip
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ================================================================
-          UPCOMING TRIP
-      ================================================================= */}
+      {/* =========================================================
+          AUTH / ERROR
+      ========================================================== */}
+      {error && (
+        <section className="mx-auto max-w-7xl px-6 pt-8 lg:px-10">
+          <div className="rounded-2xl border border-[#DCE3F0] bg-[#F8FAFF] p-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-[#03045E]">
+                  {error}
+                </p>
 
-      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-        <div className="mb-7">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#0D21A1]">
-            UPCOMING
-          </p>
-
-          <h2 className="mt-2 font-serif text-3xl font-semibold text-[#03045E]">
-            Your next escape
-          </h2>
-        </div>
-
-        {upcomingTrip ? (
-          <div className="overflow-hidden rounded-[28px] border border-[#E1E6F2] bg-white shadow-[0_15px_50px_rgba(3,4,94,0.08)]">
-            <div className="grid lg:grid-cols-[1.05fr_1fr]">
-              {/* IMAGE */}
-
-              <div className="relative min-h-[320px] overflow-hidden bg-[#EEF2FF]">
-                <img
-                  src={upcomingTrip.image}
-                  alt={upcomingTrip.title}
-                  className="h-full w-full object-cover transition duration-500 hover:scale-105"
-                />
-
-                <div className="absolute left-5 top-5 rounded-full bg-white/95 px-4 py-2 text-xs font-bold text-[#03045E] shadow-sm">
-                  UPCOMING TRIP
-                </div>
+                <p className="mt-1 text-sm text-[#64748B]">
+                  Your trip data could not be loaded right now.
+                </p>
               </div>
 
-              {/* DETAILS */}
+              <button
+                type="button"
+                onClick={loadTrips}
+                className="rounded-xl bg-[#03045E] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+              >
+                Try again
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
 
-              <div className="flex flex-col justify-center p-7 md:p-10">
-                <p className="text-sm font-medium text-[#64748B]">
-                  {formatDate(upcomingTrip.startDate)} –{" "}
-                  {formatDate(upcomingTrip.endDate)} ·{" "}
-                  {upcomingTrip.nights} nights
-                </p>
+      {/* =========================================================
+          UPCOMING TRIP
+      ========================================================== */}
+      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-10 lg:py-16">
+        <div className="mb-7 flex items-end justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
+              NEXT ESCAPE
+            </p>
 
-                <h3 className="mt-2 font-serif text-3xl font-semibold text-[#03045E]">
-                  {upcomingTrip.title}
-                </h3>
+            <h2 className="mt-2 font-serif text-3xl font-semibold">
+              Your next journey
+            </h2>
+          </div>
+        </div>
 
-                <p className="mt-2 text-sm text-[#64748B]">
-                  📍 {upcomingTrip.destination}
-                </p>
+        {loading ? (
+          <div className="h-[330px] animate-pulse rounded-[28px] bg-[#EEF2FF]" />
+        ) : upcomingTrip ? (
+          <div className="overflow-hidden rounded-[28px] border border-[#E2E8F0] bg-white shadow-[0_18px_55px_rgba(3,4,94,0.08)]">
+            <div className="grid lg:grid-cols-[1.15fr_1fr]">
+              <ImageWithFallback
+                src={upcomingTrip.image || "/images/pag1 (7).jpg"}
+                alt={upcomingTrip.title}
+                className="h-[280px] w-full object-cover lg:h-[330px]"
+              />
 
-                <div className="my-7 h-px bg-[#E8EBF5]" />
+              <div className="flex flex-col justify-between p-7 lg:p-9">
+                <div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="rounded-full bg-[#EEF2FF] px-3 py-1.5 text-xs font-semibold text-[#0D21A1]">
+                      Upcoming
+                    </span>
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                  {/* STAY */}
-
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
-                      STAY
-                    </p>
-
-                    <p className="mt-2 font-semibold text-[#03045E]">
-                      {upcomingTrip.stay.name}
-                    </p>
-
-                    <p className="mt-1 text-sm text-[#64748B]">
-                      ₹
-                      {upcomingTrip.stay.pricePerNight.toLocaleString(
-                        "en-IN"
-                      )}{" "}
-                      / night
-                    </p>
+                    {upcomingTrip.dates && (
+                      <span className="flex items-center gap-1.5 text-xs text-[#64748B]">
+                        <CalendarDays size={14} />
+                        {upcomingTrip.dates}
+                      </span>
+                    )}
                   </div>
 
-                  {/* EXPERIENCE */}
+                  <h3 className="mt-5 font-serif text-4xl font-semibold tracking-tight">
+                    {upcomingTrip.title}
+                  </h3>
 
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
-                      EXPERIENCE
-                    </p>
+                  <p className="mt-3 flex items-center gap-2 text-sm text-[#64748B]">
+                    <MapPin size={16} />
+                    {getTripLocation(upcomingTrip)}
+                  </p>
 
-                    <p className="mt-2 font-semibold text-[#03045E]">
-                      {upcomingTrip.experience.name}
-                    </p>
-
-                    <p className="mt-1 text-sm text-[#64748B]">
-                      {upcomingTrip.experience.duration}
-                    </p>
-                  </div>
+                  <p className="mt-6 max-w-lg text-sm leading-7 text-[#64748B]">
+                    Everything you are planning for this journey, gathered in
+                    one place.
+                  </p>
                 </div>
 
                 <Link
-                  href={`/trips/${upcomingTrip.id}`}
-                  className="mt-8 w-fit rounded-xl border border-[#03045E] px-6 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white"
+                  href={`/trip/${upcomingTrip.id}`}
+                  className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#03045E] transition hover:text-[#0D21A1]"
                 >
-                  View Trip
+                  View trip
+                  <ArrowRight size={17} />
                 </Link>
               </div>
             </div>
           </div>
         ) : (
-          <EmptyState
-            icon="✦"
-            title="No upcoming trips"
-            description="Start planning your next Vistara journey."
-            href="/stays"
-            buttonText="Find a stay"
-          />
+          <div className="rounded-[28px] border border-dashed border-[#CBD5E1] bg-[#F8FAFF] px-6 py-16 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#EEF2FF]">
+              <Compass size={24} className="text-[#0D21A1]" />
+            </div>
+
+            <h3 className="mt-5 font-serif text-2xl font-semibold">
+              Your next escape starts here.
+            </h3>
+
+            <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#64748B]">
+              Start exploring stays, places and experiences and build your
+              first trip.
+            </p>
+
+            <Link
+              href="/explore"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#03045E] px-5 py-3 text-sm font-semibold text-white"
+            >
+              Start exploring
+              <ArrowRight size={16} />
+            </Link>
+          </div>
         )}
       </section>
 
-      {/* ================================================================
+      {/* =========================================================
           PLAN YOUR JOURNEY
-      ================================================================= */}
-
-      <section className="bg-[#F7F8FC]">
+      ========================================================== */}
+      <section className="border-y border-[#E6EAF2] bg-[#F8FAFF]">
         <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-          <div className="mb-8">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#0D21A1]">
+          <div className="max-w-2xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
               PLAN YOUR JOURNEY
             </p>
 
-            <h2 className="mt-2 font-serif text-3xl font-semibold text-[#03045E]">
-              Build your perfect trip
+            <h2 className="mt-2 font-serif text-3xl font-semibold">
+              Build your perfect trip.
             </h2>
 
-            <p className="mt-2 max-w-xl text-sm leading-6 text-[#64748B]">
-              Find a beautiful stay, add experiences and discover places
-              around your destination.
+            <p className="mt-3 text-sm leading-6 text-[#64748B]">
+              Start with what you need and let your journey take shape.
             </p>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
-            <PlanningCard
-              icon="⌂"
-              title="Find a Stay"
-              description="Discover beautiful villas, homes and stays for your journey."
-              href="/stays"
-            />
-
-            <PlanningCard
-              icon="✦"
-              title="Experiences"
-              description="Add local experiences, food trails and memorable activities."
-              href="/explore"
-            />
-
-            <PlanningCard
-              icon="⌖"
-              title="Explore Places"
-              description="Discover destinations and hidden places worth visiting."
-              href="/explore"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* ================================================================
-          RECENTLY EXPLORED
-      ================================================================= */}
-
-      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-        <div className="mb-8">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#0D21A1]">
-            RECENTLY EXPLORED
-          </p>
-
-          <h2 className="mt-2 font-serif text-3xl font-semibold text-[#03045E]">
-            Continue planning
-          </h2>
-
-          <p className="mt-2 text-sm text-[#64748B]">
-            Pick up where you left off.
-          </p>
-        </div>
-
-        {recentPlaces.length > 0 ? (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {recentPlaces.map((place) => (
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            {fallbackPlanningOptions.map((option) => (
               <Link
-                href="/explore"
-                key={place.id}
-                className="group"
+                key={option.title}
+                href={option.href}
+                className="group rounded-[24px] border border-[#E2E8F0] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#CBD5E1] hover:shadow-[0_15px_40px_rgba(3,4,94,0.07)]"
               >
-                <div className="aspect-[4/3] overflow-hidden rounded-3xl bg-[#EEF2FF]">
-                  <img
-                    src={place.image}
-                    alt={place.title}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EEF2FF] text-[#03045E] transition group-hover:bg-[#03045E] group-hover:text-white">
+                  <PlanningIcon type={option.icon} />
                 </div>
 
-                <h3 className="mt-4 font-semibold text-[#03045E]">
-                  {place.title}
+                <h3 className="mt-5 text-lg font-semibold">
+                  {option.title}
                 </h3>
 
-                <p className="mt-1 text-sm text-[#64748B]">
-                  {place.location}
+                <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                  {option.description}
                 </p>
+
+                <div className="mt-5 flex items-center gap-1 text-sm font-semibold text-[#0D21A1]">
+                  Explore
+                  <ArrowRight
+                    size={15}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </div>
               </Link>
             ))}
           </div>
-        ) : (
-          <EmptyState
-            icon="⌖"
-            title="Nothing explored yet"
-            description="Explore beautiful destinations and discover something new."
-            href="/explore"
-            buttonText="Explore places"
-          />
-        )}
+        </div>
       </section>
 
-      {/* ================================================================
-          COMPLETED TRIPS
-      ================================================================= */}
+      {/* =========================================================
+          RECENTLY EXPLORED
+      ========================================================== */}
+      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
+        <div className="flex items-end justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
+              RECENTLY EXPLORED
+            </p>
 
-      {completedTrips.length > 0 && (
-        <section className="bg-[#F7F8FC]">
+            <h2 className="mt-2 font-serif text-3xl font-semibold">
+              Continue planning.
+            </h2>
+          </div>
+
+          <Link
+            href="/explore"
+            className="hidden items-center gap-1 text-sm font-semibold text-[#03045E] sm:flex"
+          >
+            Explore all
+            <ChevronRight size={16} />
+          </Link>
+        </div>
+
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {recentPlaces.map((place) => (
+            <Link
+              key={place.id}
+              href="/explore"
+              className="group overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white"
+            >
+              <ImageWithFallback
+                src={place.image}
+                alt={getPlaceName(place)}
+                className="h-56 w-full object-cover transition duration-500 group-hover:scale-105"
+              />
+
+              <div className="p-5">
+                <h3 className="text-lg font-semibold">
+                  {getPlaceName(place)}
+                </h3>
+
+                <p className="mt-1 flex items-center gap-1.5 text-sm text-[#64748B]">
+                  <MapPin size={14} />
+                  {place.location || "India"}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================
+          MY TRIPS
+      ========================================================== */}
+      {trips.length > 0 && (
+        <section className="border-t border-[#E6EAF2] bg-[#F8FAFF]">
           <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-            <div className="mb-8">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#0D21A1]">
-                YOUR JOURNEY
-              </p>
+            <div className="flex items-end justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
+                  MY TRIPS
+                </p>
 
-              <h2 className="mt-2 font-serif text-3xl font-semibold text-[#03045E]">
-                Past trips
-              </h2>
+                <h2 className="mt-2 font-serif text-3xl font-semibold">
+                  Journeys you are building.
+                </h2>
+              </div>
+
+              <span className="hidden text-sm text-[#64748B] sm:block">
+                {trips.length} trips
+              </span>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2">
-              {completedTrips.map((trip) => (
+            <div className="mt-8 grid gap-5 md:grid-cols-2">
+              {trips.map((trip) => (
                 <Link
                   key={trip.id}
-                  href={`/trips/${trip.id}`}
-                  className="group overflow-hidden rounded-3xl border border-[#E1E6F2] bg-white transition hover:-translate-y-1 hover:shadow-[0_15px_40px_rgba(3,4,94,0.08)]"
+                  href={`/trip/${trip.id}`}
+                  className="group flex overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white"
                 >
-                  <div className="grid sm:grid-cols-[180px_1fr]">
-                    <div className="h-48 overflow-hidden sm:h-full">
-                      <img
-                        src={trip.image}
-                        alt={trip.title}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                      />
-                    </div>
+                  <ImageWithFallback
+                    src={trip.image || "/images/pag1 (1).jpg"}
+                    alt={trip.title}
+                    className="h-40 w-36 shrink-0 object-cover transition duration-500 group-hover:scale-105 sm:h-44 sm:w-44"
+                  />
 
-                    <div className="p-6">
-                      <span className="rounded-full bg-[#EEF2FF] px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-[#0D21A1]">
-                        Completed
-                      </span>
+                  <div className="flex flex-1 flex-col justify-center p-5">
+                    <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#64748B]">
+                      {trip.status || "Trip"}
+                    </p>
 
-                      <h3 className="mt-4 font-serif text-2xl font-semibold text-[#03045E]">
-                        {trip.title}
-                      </h3>
+                    <h3 className="mt-2 font-serif text-2xl font-semibold">
+                      {trip.title}
+                    </h3>
 
-                      <p className="mt-2 text-sm text-[#64748B]">
-                        📍 {trip.destination}
-                      </p>
+                    <p className="mt-2 flex items-center gap-1.5 text-sm text-[#64748B]">
+                      <MapPin size={14} />
+                      {getTripLocation(trip)}
+                    </p>
 
-                      <p className="mt-1 text-sm text-[#64748B]">
-                        {formatDate(trip.startDate)} –{" "}
-                        {formatDate(trip.endDate)}
-                      </p>
-
-                      <p className="mt-5 text-sm font-semibold text-[#0D21A1]">
-                        View journey →
-                      </p>
-                    </div>
+                    <span className="mt-4 flex items-center gap-1 text-sm font-semibold text-[#0D21A1]">
+                      View trip
+                      <ArrowRight size={15} />
+                    </span>
                   </div>
                 </Link>
               ))}
@@ -491,192 +552,184 @@ export default function TripPage() {
         </section>
       )}
 
-      {/* ================================================================
-          SAVED
-      ================================================================= */}
+      {/* =========================================================
+          SAVED PLACES
+      ========================================================== */}
+      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
+        <div className="flex items-end justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
+              SAVED FOR LATER
+            </p>
 
-      <section className="border-y border-[#E8EBF5] bg-[#F9FAFD]">
-        <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <h2 className="mt-2 font-serif text-3xl font-semibold">
+              Places you want to remember.
+            </h2>
+          </div>
+
+          <Link
+            href="/saved"
+            className="hidden items-center gap-1 text-sm font-semibold text-[#03045E] sm:flex"
+          >
+            View saved
+            <ChevronRight size={16} />
+          </Link>
+        </div>
+
+        {savedPlaces.length > 0 ? (
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {savedPlaces.map((place) => (
+              <Link
+                key={place.id}
+                href="/saved"
+                className="group overflow-hidden rounded-[24px] border border-[#E2E8F0] bg-white"
+              >
+                <ImageWithFallback
+                  src={place.image}
+                  alt={getPlaceName(place)}
+                  className="h-52 w-full object-cover"
+                />
+
+                <div className="p-5">
+                  <h3 className="font-semibold">{getPlaceName(place)}</h3>
+
+                  <p className="mt-1 text-sm text-[#64748B]">
+                    {place.location || "India"}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-8 rounded-[24px] border border-dashed border-[#CBD5E1] bg-[#F8FAFF] px-6 py-12 text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white">
+              <Heart size={20} className="text-[#0D21A1]" />
+            </div>
+
+            <h3 className="mt-4 text-lg font-semibold">
+              Nothing saved yet.
+            </h3>
+
+            <p className="mt-1 text-sm text-[#64748B]">
+              Save places you love and come back to them later.
+            </p>
+
+            <Link
+              href="/explore"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#0D21A1]"
+            >
+              Explore places
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+        )}
+      </section>
+
+      {/* =========================================================
+          PAST TRIPS
+      ========================================================== */}
+      {completedTrips.length > 0 && (
+        <section className="border-t border-[#E6EAF2] bg-white">
+          <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
+              PAST TRIPS
+            </p>
+
+            <h2 className="mt-2 font-serif text-3xl font-semibold">
+              Places you have been.
+            </h2>
+
+            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {completedTrips.map((trip) => (
+                <Link
+                  key={trip.id}
+                  href={`/trip/${trip.id}`}
+                  className="group overflow-hidden rounded-[24px] border border-[#E2E8F0]"
+                >
+                  <ImageWithFallback
+                    src={trip.image}
+                    alt={trip.title}
+                    className="h-52 w-full object-cover grayscale-[15%] transition duration-500 group-hover:scale-105 group-hover:grayscale-0"
+                  />
+
+                  <div className="p-5">
+                    <h3 className="font-serif text-xl font-semibold">
+                      {trip.title}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-[#64748B]">
+                      {getTripLocation(trip)}
+                    </p>
+
+                    {trip.dates && (
+                      <p className="mt-3 text-xs text-[#94A3B8]">
+                        {trip.dates}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* =========================================================
+          INSPIRATION
+      ========================================================== */}
+      <section className="border-t border-[#E6EAF2] bg-[#03045E] text-white">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#0D21A1]">
-                SAVED FOR LATER
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/60">
+                INSPIRATION
               </p>
 
-              <h2 className="mt-2 font-serif text-3xl font-semibold text-[#03045E]">
-                Places you love
+              <h2 className="mt-3 max-w-2xl font-serif text-4xl font-semibold leading-tight">
+                Maybe your next story starts somewhere unexpected.
               </h2>
             </div>
 
             <Link
-              href="/saved"
-              className="text-sm font-semibold text-[#0D21A1]"
+              href="/explore"
+              className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#EEF2FF]"
             >
-              View all →
+              Explore Vistara
+              <ArrowRight size={16} />
             </Link>
           </div>
 
-          {savedPlaces.length === 0 ? (
-            <div className="mt-8 rounded-3xl border border-[#E1E6F2] bg-white px-6 py-14 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#EEF2FF] text-2xl text-[#0D21A1]">
-                ♡
-              </div>
-
-              <h3 className="mt-5 text-xl font-semibold text-[#03045E]">
-                Nothing saved yet
-              </h3>
-
-              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#64748B]">
-                Save stays and experiences you love, and come back to them
-                whenever you are ready.
-              </p>
-
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {inspiration.map((item) => (
               <Link
+                key={item.title}
                 href="/explore"
-                className="mt-6 inline-flex rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+                className="group relative overflow-hidden rounded-[24px]"
               >
-                Explore places
+                <ImageWithFallback
+                  src={item.image}
+                  alt={item.title}
+                  className="h-72 w-full object-cover transition duration-700 group-hover:scale-105"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-[#03045E]/80 via-transparent to-transparent" />
+
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <p className="text-xs font-medium text-white/70">
+                    {item.location}
+                  </p>
+
+                  <h3 className="mt-1 font-serif text-2xl font-semibold">
+                    {item.title}
+                  </h3>
+                </div>
               </Link>
-            </div>
-          ) : (
-            <div className="mt-8">
-              {/* Saved places will come here from the API */}
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* ================================================================
-          INSPIRATION
-      ================================================================= */}
-
-      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-        <div className="mb-8">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#0D21A1]">
-            FIND INSPIRATION
-          </p>
-
-          <h2 className="mt-2 font-serif text-3xl font-semibold text-[#03045E]">
-            More places to make your trip special
-          </h2>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-3">
-          {inspiration.map((item) => (
-            <Link
-              href="/explore"
-              key={item.id}
-              className="group relative h-72 overflow-hidden rounded-[28px]"
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-t from-[#03045E]/80 via-[#03045E]/10 to-transparent" />
-
-              <h3 className="absolute bottom-6 left-6 right-6 font-serif text-2xl font-semibold text-white">
-                {item.title}
-              </h3>
-            </Link>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       <Footer />
     </main>
   );
-}
-
-/* ==========================================================================
-   PLANNING CARD
-============================================================================ */
-
-function PlanningCard({
-  icon,
-  title,
-  description,
-  href,
-}: {
-  icon: string;
-  title: string;
-  description: string;
-  href: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className="group rounded-3xl border border-[#E1E6F2] bg-white p-7 transition duration-300 hover:-translate-y-1 hover:border-[#0D21A1] hover:shadow-[0_15px_40px_rgba(3,4,94,0.08)]"
-    >
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EEF2FF] text-2xl text-[#0D21A1]">
-        {icon}
-      </div>
-
-      <h3 className="mt-6 text-xl font-semibold text-[#03045E]">
-        {title}
-      </h3>
-
-      <p className="mt-2 text-sm leading-6 text-[#64748B]">
-        {description}
-      </p>
-
-      <span className="mt-6 inline-block text-sm font-semibold text-[#0D21A1] transition group-hover:translate-x-1">
-        Explore →
-      </span>
-    </Link>
-  );
-}
-
-/* ==========================================================================
-   EMPTY STATE
-============================================================================ */
-
-function EmptyState({
-  icon,
-  title,
-  description,
-  href,
-  buttonText,
-}: {
-  icon: string;
-  title: string;
-  description: string;
-  href: string;
-  buttonText: string;
-}) {
-  return (
-    <div className="rounded-3xl border border-[#E1E6F2] bg-white px-6 py-14 text-center">
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#EEF2FF] text-2xl text-[#0D21A1]">
-        {icon}
-      </div>
-
-      <h3 className="mt-5 text-xl font-semibold text-[#03045E]">
-        {title}
-      </h3>
-
-      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#64748B]">
-        {description}
-      </p>
-
-      <Link
-        href={href}
-        className="mt-6 inline-flex rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-      >
-        {buttonText}
-      </Link>
-    </div>
-  );
-}
-
-/* ==========================================================================
-   DATE FORMATTER
-============================================================================ */
-
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
 }

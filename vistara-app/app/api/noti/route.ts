@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/guard";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     const { user, response } = await requireAuth(req);
 
@@ -37,7 +37,7 @@ export async function GET(req: Request) {
   }
 }
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
   try {
     const { user, response } = await requireAuth(req);
 
@@ -47,11 +47,23 @@ export async function PATCH(req: Request) {
 
     const body = await req.json();
 
-    if (body.id) {
+    if (body.id !== undefined && body.id !== null) {
+      const notificationId = Number(body.id);
+
+      if (!Number.isInteger(notificationId)) {
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Invalid notification id",
+          },
+          { status: 400 }
+        );
+      }
+
       const notification =
         await prisma.notification.updateMany({
           where: {
-            id: Number(body.id),
+            id: notificationId,
             userId: user!.id,
           },
           data: {

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/guard";
@@ -6,12 +6,12 @@ import { requireRole } from "@/lib/guard";
 type Params = {
   params: Promise<{
     id: string;
-    imageId: string;
+    imageid: string;
   }>;
 };
 
 export async function PATCH(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
@@ -24,14 +24,14 @@ export async function PATCH(
       return response;
     }
 
-    const { id, imageId } = await params;
+    const { id, imageid } = await params;
 
     const propertyId = Number(id);
-    const imageIdNumber = Number(imageId);
+    const imageIdNumber = Number(imageid);
 
     if (
-      Number.isNaN(propertyId) ||
-      Number.isNaN(imageIdNumber)
+      !Number.isInteger(propertyId) ||
+      !Number.isInteger(imageIdNumber)
     ) {
       return NextResponse.json(
         {
@@ -109,15 +109,14 @@ export async function PATCH(
       },
     });
 
-    const updatedImage =
-      await prisma.propertyImage.update({
-        where: {
-          id: imageIdNumber,
-        },
-        data: {
-          isPrimary: true,
-        },
-      });
+    const updatedImage = await prisma.propertyImage.update({
+      where: {
+        id: imageIdNumber,
+      },
+      data: {
+        isPrimary: true,
+      },
+    });
 
     return NextResponse.json({
       success: true,
@@ -138,7 +137,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
@@ -151,14 +150,14 @@ export async function DELETE(
       return response;
     }
 
-    const { id, imageId } = await params;
+    const { id, imageid } = await params;
 
     const propertyId = Number(id);
-    const imageIdNumber = Number(imageId);
+    const imageIdNumber = Number(imageid);
 
     if (
-      Number.isNaN(propertyId) ||
-      Number.isNaN(imageIdNumber)
+      !Number.isInteger(propertyId) ||
+      !Number.isInteger(imageIdNumber)
     ) {
       return NextResponse.json(
         {

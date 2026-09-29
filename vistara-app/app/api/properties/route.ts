@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/guard";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
 
@@ -96,7 +96,7 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { user, response } = await requireRole(req, [
       "HOST",
@@ -142,11 +142,20 @@ export async function POST(req: Request) {
       );
     }
 
+    const guestsNumber = Number(guests);
+    const bedroomsNumber = Number(bedrooms);
+    const bathroomsNumber = Number(bathrooms);
+    const priceNumber = Number(pricePerNight);
+
     if (
-      Number(guests) < 1 ||
-      Number(bedrooms) < 0 ||
-      Number(bathrooms) < 0 ||
-      Number(pricePerNight) <= 0
+      !Number.isInteger(guestsNumber) ||
+      guestsNumber < 1 ||
+      !Number.isInteger(bedroomsNumber) ||
+      bedroomsNumber < 0 ||
+      !Number.isInteger(bathroomsNumber) ||
+      bathroomsNumber < 0 ||
+      !Number.isFinite(priceNumber) ||
+      priceNumber <= 0
     ) {
       return NextResponse.json(
         {
@@ -166,10 +175,10 @@ export async function POST(req: Request) {
         address: address.trim(),
         city: city.trim(),
         country: country.trim(),
-        guests: Number(guests),
-        bedrooms: Number(bedrooms),
-        bathrooms: Number(bathrooms),
-        pricePerNight: Number(pricePerNight),
+        guests: guestsNumber,
+        bedrooms: bedroomsNumber,
+        bathrooms: bathroomsNumber,
+        pricePerNight: priceNumber,
         status: "DRAFT",
       },
 

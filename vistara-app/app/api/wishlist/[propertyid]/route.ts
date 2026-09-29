@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/guard";
@@ -10,7 +10,7 @@ type Params = {
 };
 
 export async function DELETE(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
@@ -23,7 +23,7 @@ export async function DELETE(
     const { propertyId } = await params;
     const id = Number(propertyId);
 
-    if (Number.isNaN(id)) {
+    if (!Number.isInteger(id)) {
       return NextResponse.json(
         {
           success: false,

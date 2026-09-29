@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
+import BecomeHostButton from "@/components/BecomeHostButton";
 import {
   Car,
   Compass,
@@ -17,9 +19,18 @@ import {
 } from "lucide-react";
 
 const navLinks = [
-  { href: "/stays", label: "Stays" },
-  { href: "/explore", label: "Explore" },
-  { href: "/trips", label: "Trips" },
+  {
+    href: "/stays",
+    label: "Stays",
+  },
+  {
+    href: "/explore",
+    label: "Explore",
+  },
+  {
+    href: "/trips",
+    label: "Trips",
+  },
 ];
 
 export default function Navbar() {
@@ -28,6 +39,9 @@ export default function Navbar() {
 
   const menuRef = useRef<HTMLDivElement>(null);
 
+  /* ---------------------------------
+     CLOSE ACCOUNT MENU ON OUTSIDE CLICK
+  ---------------------------------- */
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -45,29 +59,56 @@ export default function Navbar() {
     };
   }, []);
 
+  /* ---------------------------------
+     PREVENT BODY SCROLL WHEN MOBILE
+     MENU IS OPEN
+  ---------------------------------- */
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
 
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
 
-  const closeMobile = () => setMobileOpen(false);
+  /* ---------------------------------
+     CLOSE MOBILE MENU
+  ---------------------------------- */
+  const closeMobile = () => {
+    setMobileOpen(false);
+  };
+
+  /* ---------------------------------
+     CLOSE BOTH MENUS
+  ---------------------------------- */
+  const closeMenus = () => {
+    setOpen(false);
+    setMobileOpen(false);
+  };
 
   return (
     <nav className="relative z-50 bg-[#03045E] text-white">
+      {/* =================================
+          MAIN NAVBAR
+      ================================== */}
       <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between px-5 sm:px-8 lg:h-[96px] lg:px-12">
 
-        {/* LOGO */}
+        {/* =================================
+            LOGO
+        ================================== */}
         <Link
           href="/"
-          onClick={closeMobile}
+          onClick={closeMenus}
           className="flex items-center gap-3"
+          aria-label="Vistara Home"
         >
           <div className="flex h-12 w-12 items-center justify-center lg:h-14 lg:w-14">
             <img
-              src="/images/logo1.png"
+              src="/images/logo.png"
               alt="Vistara"
               className="h-11 w-11 object-contain lg:h-13 lg:w-13"
             />
@@ -78,7 +119,9 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* DESKTOP */}
+        {/* =================================
+            DESKTOP NAVIGATION
+        ================================== */}
         <div className="hidden items-center gap-7 md:flex lg:gap-9">
 
           {/* MAIN LINKS */}
@@ -94,32 +137,29 @@ export default function Navbar() {
             ))}
 
             {/* BECOME A HOST */}
-            <Link
-              href="/host"
-              className="group flex items-center gap-2 text-sm font-medium text-white/85 transition hover:text-white lg:text-base"
-            >
-              <Home
-                size={17}
-                strokeWidth={1.8}
-                className="transition-transform group-hover:-translate-y-0.5"
-              />
-
-              Become a Host
-            </Link>
+            <BecomeHostButton />
           </div>
 
+          {/* DIVIDER */}
           <div className="h-8 w-px bg-white/20" />
 
-          {/* SIGN IN */}
+          {/* =================================
+              LOGIN
+              IMPORTANT:
+              /signin -> /login
+          ================================== */}
           <Link
-            href="/signin"
+            href="/login"
             className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-white/90 lg:px-7 lg:py-3.5"
           >
             Sign In
           </Link>
 
-          {/* ACCOUNT MENU */}
+          {/* =================================
+              ACCOUNT / MORE MENU
+          ================================== */}
           <div ref={menuRef} className="relative">
+
             <button
               type="button"
               onClick={() => setOpen((value) => !value)}
@@ -127,7 +167,7 @@ export default function Navbar() {
               aria-expanded={open}
               className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 transition hover:bg-white/10"
             >
-              <MoreHorizontal size={24} />
+              {open ? <X size={22} /> : <MoreHorizontal size={24} />}
             </button>
 
             {open && (
@@ -169,6 +209,7 @@ export default function Navbar() {
                   onClick={() => setOpen(false)}
                 />
 
+                {/* DIVIDER */}
                 <div className="my-2 h-px bg-gray-100" />
 
                 {/* PROFILE */}
@@ -202,7 +243,9 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* MOBILE BUTTON */}
+        {/* =================================
+            MOBILE MENU BUTTON
+        ================================== */}
         <button
           type="button"
           onClick={() => setMobileOpen((value) => !value)}
@@ -214,13 +257,15 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* =================================
+          MOBILE NAVIGATION
+      ================================== */}
       {mobileOpen && (
         <div className="border-t border-white/10 bg-[#03045E] px-5 pb-6 pt-4 md:hidden">
 
+          {/* MAIN LINKS */}
           <div className="space-y-1">
 
-            {/* MAIN LINKS */}
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -232,14 +277,14 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* HOST */}
+            {/* BECOME A HOST */}
             <Link
               href="/host"
               onClick={closeMobile}
               className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
             >
               <Home size={18} />
-              Become a Host
+              <span>Become a Host</span>
             </Link>
 
             {/* WISHLIST */}
@@ -249,7 +294,7 @@ export default function Navbar() {
               className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
             >
               <Heart size={18} />
-              Wishlist
+              <span>Wishlist</span>
             </Link>
 
             {/* LOCAL PLANS */}
@@ -259,7 +304,7 @@ export default function Navbar() {
               className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
             >
               <Map size={18} />
-              Local Plans
+              <span>Local Plans</span>
             </Link>
 
             {/* GUIDES */}
@@ -269,7 +314,7 @@ export default function Navbar() {
               className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
             >
               <Compass size={18} />
-              Guides
+              <span>Guides</span>
             </Link>
 
             {/* DRIVERS */}
@@ -279,23 +324,29 @@ export default function Navbar() {
               className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
             >
               <Car size={18} />
-              Drivers
+              <span>Drivers</span>
             </Link>
           </div>
 
+          {/* DIVIDER */}
           <div className="my-4 h-px bg-white/10" />
 
-          {/* SIGN IN */}
+          {/* =================================
+              MOBILE LOGIN
+              IMPORTANT:
+              /signin -> /login
+          ================================== */}
           <Link
-            href="/signin"
+            href="/login"
             onClick={closeMobile}
-            className="block rounded-full bg-white px-5 py-3.5 text-center text-sm font-semibold text-[#03045E]"
+            className="block rounded-full bg-white px-5 py-3.5 text-center text-sm font-semibold text-[#03045E] transition hover:bg-white/90"
           >
             Sign In
           </Link>
 
           {/* PROFILE / SETTINGS */}
           <div className="mt-3 grid grid-cols-2 gap-2">
+
             <Link
               href="/profile"
               onClick={closeMobile}
@@ -318,9 +369,13 @@ export default function Navbar() {
   );
 }
 
+/* =================================
+   MENU ITEM COMPONENT
+================================== */
+
 type MenuItemProps = {
   href: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   description: string;
   onClick: () => void;
@@ -339,10 +394,12 @@ function MenuItem({
       onClick={onClick}
       className="flex items-center gap-3 rounded-xl px-3 py-3 transition hover:bg-[#F5F7FF]"
     >
+      {/* ICON */}
       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#EEF0FF] text-[#03045E]">
         {icon}
       </div>
 
+      {/* TEXT */}
       <div>
         <p className="text-sm font-semibold text-[#03045E]">
           {title}

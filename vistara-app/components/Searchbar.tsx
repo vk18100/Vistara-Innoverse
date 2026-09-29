@@ -1,61 +1,73 @@
-"use client"
-import { useState, useEffect } from "react";
+"use client";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-type  Card={
-    id:number,
-    title:string,
-    description:string,
-    image:string,
-    cta:string,
-    href:string,
-}
-type Props = {
-    cards: Card[]
-}
-export default async function Search(){
-    const [searchQuery, setSearchQuery] = useState("");
-    const router = useRouter();
+export default function Search() {
+  const router = useRouter();
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const [checkIn, setCheckIn] = useState("");
+  const [guests, setGuests] = useState("");
 
-    useEffect(() => {
-        const search = async()=> {
-            // Perform search logic here
-            if(searchQuery.trim() !== ""){
-                const response = await fetch(`/api/search?query=${searchQuery}`);
-                if(!response.ok) {
-                    throw new Error("Failed to fetch search results");
-                }
-                const data = await response.json();
-                // handle the seaarch result and update the state or navigate to a new page
-                router.push(`/search?query=${searchQuery}`);
-                setSearchQuery("");
-            }
-            search();
-        }
- search();
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+
+    if (searchQuery.trim()) {
+      params.set("query", searchQuery.trim());
+    }
+
+    if (checkIn) {
+      params.set("checkIn", checkIn);
+    }
+
+    if (guests) {
+      params.set("guests", guests);
+    }
+
+    router.push(`/search?${params.toString()}`);
+  };
+
+  return (
+    <div className="flex items-center justify-center">
+      <div className="relative flex w-full max-w-4xl gap-3 rounded-2xl border border-gray-200 bg-white p-3 shadow-lg">
         
-    }, [searchQuery]);
+        {/* Destination */}
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Where are you going?"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-[#03045E]"
+        />
 
-    try{
-        const res =  await fetch(`/api/search?query=${searchQuery}`);
-       if(!res.ok){
-            throw new Error("Failed to fetch search results");
-       }
-       const data = await res.json();
-       const newData = data.data.filter((item:Card) => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
-       return(
-        <div className="flex items-center justify-center">
-    <div className="relative w-full max-w-md">
-        <input type="text" value={searchQuery} onChange={(e)=> setSearchQuery(e.target.value)} placeholder="Search..." className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200" />
-        <input type="Date" value={searchQuery} onChange={(e)=> setSearchQuery(e.target.value)} placeholder="Check-in.." className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200" />
-        <input type="text" value={searchQuery} onChange={(e)=> setSearchQuery(e.target.value)} placeholder="Guests.." className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:outline-none focus:ring focus:ring-blue-200" />
-        <button onClick={()=> router.push(`/search?query=${searchQuery}`)} className="absolute right-2 top-1/2 transform -translate-y-1/2 rounded-lg bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200">Search</button>
+        {/* Check-in */}
+        <input
+          type="date"
+          value={checkIn}
+          onChange={(e) => setCheckIn(e.target.value)}
+          className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-[#03045E]"
+        />
+
+        {/* Guests */}
+        <input
+          type="number"
+          min="1"
+          value={guests}
+          onChange={(e) => setGuests(e.target.value)}
+          placeholder="Guests"
+          className="w-32 rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-[#03045E]"
+        />
+
+        {/* Search */}
+        <button
+          type="button"
+          onClick={handleSearch}
+          className="rounded-lg bg-[#03045E] px-6 py-3 font-semibold text-white transition hover:bg-[#0D21A1]"
+        >
+          Search
+        </button>
+      </div>
     </div>
-</div>
-       )
-    } catch (error) {
-        console.error('Error in Search component:', error);
-        return <div className="flex items-center justify-center">Error occurred while searching.</div>;
-    }
-    }
+  );
+}

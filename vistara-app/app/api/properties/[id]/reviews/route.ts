@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/guard";
@@ -10,14 +10,14 @@ type Params = {
 };
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
     const { id } = await params;
     const propertyId = Number(id);
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,
@@ -90,7 +90,7 @@ export async function GET(
 }
 
 export async function POST(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
@@ -103,7 +103,7 @@ export async function POST(
     const { id } = await params;
     const propertyId = Number(id);
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,
@@ -134,7 +134,7 @@ export async function POST(
     const bookingIdNumber = Number(bookingId);
     const ratingNumber = Number(rating);
 
-    if (Number.isNaN(bookingIdNumber)) {
+    if (!Number.isInteger(bookingIdNumber)) {
       return NextResponse.json(
         {
           success: false,
@@ -145,10 +145,9 @@ export async function POST(
     }
 
     if (
-      Number.isNaN(ratingNumber) ||
+      !Number.isInteger(ratingNumber) ||
       ratingNumber < 1 ||
-      ratingNumber > 5 ||
-      !Number.isInteger(ratingNumber)
+      ratingNumber > 5
     ) {
       return NextResponse.json(
         {

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/guard";
@@ -10,7 +10,7 @@ type Params = {
 };
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
@@ -23,7 +23,7 @@ export async function GET(
     const { id } = await params;
     const propertyId = Number(id);
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,
@@ -105,7 +105,7 @@ export async function GET(
 }
 
 export async function POST(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
@@ -128,7 +128,7 @@ export async function POST(
     const { id } = await params;
     const propertyId = Number(id);
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,

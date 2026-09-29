@@ -2,19 +2,52 @@
 
 import { useState } from "react";
 
-export default function Filters() {
+export type FilterValues = {
+  price: string;
+  propertyType: string;
+  rating: string;
+  verified: boolean;
+};
+
+type FiltersProps = {
+  onApply?: (filters: FilterValues) => void;
+};
+
+export default function Filters({ onApply }: FiltersProps) {
   const [price, setPrice] = useState("Any");
   const [propertyType, setPropertyType] = useState("Any");
   const [rating, setRating] = useState("Any");
   const [verified, setVerified] = useState(false);
 
+  const clearFilters = () => {
+    setPrice("Any");
+    setPropertyType("Any");
+    setRating("Any");
+    setVerified(false);
+
+    onApply?.({
+      price: "Any",
+      propertyType: "Any",
+      rating: "Any",
+      verified: false,
+    });
+  };
+
+  const handleApply = () => {
+    onApply?.({
+      price,
+      propertyType,
+      rating,
+      verified,
+    });
+  };
+
   return (
     <aside className="w-full rounded-2xl border border-gray-200 bg-white p-5">
-
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-[#03045e]">
+          <h2 className="text-lg font-semibold text-[#03045E]">
             Filters
           </h2>
 
@@ -25,14 +58,14 @@ export default function Filters() {
 
         <button
           type="button"
-          className="text-xs font-medium text-[#03045e] hover:underline"
+          onClick={clearFilters}
+          className="text-xs font-medium text-[#03045E] hover:underline"
         >
           Clear all
         </button>
       </div>
 
       <div className="mt-6 space-y-6">
-
         {/* Price */}
         <div>
           <label className="text-sm font-semibold text-gray-800">
@@ -47,8 +80,8 @@ export default function Filters() {
                 onClick={() => setPrice(item)}
                 className={`rounded-xl border px-3 py-2 text-xs font-medium transition ${
                   price === item
-                    ? "border-[#03045e] bg-[#03045e] text-white"
-                    : "border-gray-200 text-gray-600 hover:border-[#03045e]"
+                    ? "border-[#03045E] bg-[#03045E] text-white"
+                    : "border-gray-200 text-gray-600 hover:border-[#03045E]"
                 }`}
               >
                 {item}
@@ -74,7 +107,7 @@ export default function Filters() {
                   name="propertyType"
                   checked={propertyType === item}
                   onChange={() => setPropertyType(item)}
-                  className="h-4 w-4 accent-[#03045e]"
+                  className="h-4 w-4 accent-[#03045E]"
                 />
 
                 <span className="text-sm text-gray-600">
@@ -97,10 +130,10 @@ export default function Filters() {
                 key={item}
                 type="button"
                 onClick={() => setRating(item)}
-                className={`rounded-xl border px-3 py-2 text-xs font-medium ${
+                className={`rounded-xl border px-3 py-2 text-xs font-medium transition ${
                   rating === item
-                    ? "border-[#03045e] bg-[#03045e] text-white"
-                    : "border-gray-200 text-gray-600 hover:border-[#03045e]"
+                    ? "border-[#03045E] bg-[#03045E] text-white"
+                    : "border-gray-200 text-gray-600 hover:border-[#03045E]"
                 }`}
               >
                 {item === "Any" ? item : `★ ${item}`}
@@ -112,12 +145,11 @@ export default function Filters() {
         {/* Verified */}
         <div className="border-t border-gray-100 pt-5">
           <label className="flex cursor-pointer items-start gap-3">
-
             <input
               type="checkbox"
               checked={verified}
               onChange={(e) => setVerified(e.target.checked)}
-              className="mt-1 h-4 w-4 accent-[#03045e]"
+              className="mt-1 h-4 w-4 accent-[#03045E]"
             />
 
             <div>
@@ -129,18 +161,17 @@ export default function Filters() {
                 Show stays that have completed Vistara verification.
               </p>
             </div>
-
           </label>
         </div>
 
         {/* Apply */}
         <button
           type="button"
-          className="w-full rounded-xl bg-[#03045e] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#023e8a]"
+          onClick={handleApply}
+          className="w-full rounded-xl bg-[#03045E] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#023E8A]"
         >
           Apply Filters
         </button>
-
       </div>
     </aside>
   );

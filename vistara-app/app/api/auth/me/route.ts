@@ -12,6 +12,7 @@ export async function GET(req: Request) {
       .find((cookie) => cookie.startsWith("vistara_token="))
       ?.split("=")[1];
 
+    // No authentication cookie
     if (!token) {
       return NextResponse.json(
         {
@@ -22,11 +23,23 @@ export async function GET(req: Request) {
       );
     }
 
-    const { userId } = await verifyToken(token);
+    // Verify JWT
+    const payload = verifyToken(token);
 
+    if (!payload) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid or expired session",
+        },
+        { status: 401 }
+      );
+    }
+
+    // Find user from JWT userId
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        id: payload.userId,
       },
       select: {
         id: true,
@@ -35,7 +48,6 @@ export async function GET(req: Request) {
         phone: true,
         role: true,
         createdAt: true,
-
         profile: true,
       },
     });

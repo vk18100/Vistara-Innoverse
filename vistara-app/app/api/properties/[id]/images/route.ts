@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/guard";
@@ -10,7 +10,7 @@ type Params = {
 };
 
 export async function POST(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
@@ -26,7 +26,7 @@ export async function POST(
     const { id } = await params;
     const propertyId = Number(id);
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,
@@ -69,7 +69,7 @@ export async function POST(
 
     const { url, isPrimary } = body;
 
-    if (!url) {
+    if (!url || typeof url !== "string") {
       return NextResponse.json(
         {
           success: false,
@@ -79,7 +79,7 @@ export async function POST(
       );
     }
 
-    if (isPrimary) {
+    if (isPrimary === true) {
       await prisma.propertyImage.updateMany({
         where: {
           propertyId,
@@ -120,14 +120,14 @@ export async function POST(
 }
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {
     const { id } = await params;
     const propertyId = Number(id);
 
-    if (Number.isNaN(propertyId)) {
+    if (!Number.isInteger(propertyId)) {
       return NextResponse.json(
         {
           success: false,

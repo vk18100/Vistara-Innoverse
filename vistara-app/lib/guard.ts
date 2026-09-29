@@ -1,33 +1,30 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { UserRole } from "@prisma/client";
 
 import { verifyToken } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export async function getUser(req: Request) {
+export async function getUser(req: NextRequest) {
   try {
-    const cookieHeader = req.headers.get("cookie");
+    const token = req.cookies.get("vistara_token")?.value;
 
-    const token = cookieHeader
-      ?.split("; ")
-      .find((cookie) => cookie.startsWith("vistara_token="))
-      ?.split("=")[1];
+    console.log("AUTH TOKEN EXISTS:", Boolean(token));
 
     if (!token) {
+      console.log("AUTH ERROR: vistara_token cookie missing");
       return null;
     }
 
     const payload = verifyToken(token);
 
     if (!payload) {
+      console.log("AUTH ERROR: token verification failed");
       return null;
     }
 
-    const { userId } = payload;
-
     const user = await prisma.user.findUnique({
       where: {
-        id: userId,
+        id: payload.userId,
       },
       select: {
         id: true,
@@ -37,13 +34,29 @@ export async function getUser(req: Request) {
       },
     });
 
+    if (!user) {
+      console.log(
+        "AUTH ERROR: user not found:",
+        payload.userId
+      );
+
+      return null;
+    }
+
+    console.log(
+      "AUTH SUCCESS:",
+      user.email,
+      user.role
+    );
+
     return user;
-  } catch {
+  } catch (error) {
+    console.error("GET_USER_ERROR:", error);
     return null;
   }
 }
 
-export async function requireAuth(req: Request) {
+export async function requireAuth(req: NextRequest) {
   const user = await getUser(req);
 
   if (!user) {
@@ -66,7 +79,7 @@ export async function requireAuth(req: Request) {
 }
 
 export async function requireRole(
-  req: Request,
+  req: NextRequest,
   roles: UserRole[]
 ) {
   const result = await requireAuth(req);
@@ -81,7 +94,8 @@ export async function requireRole(
       response: NextResponse.json(
         {
           success: false,
-          message: "You do not have permission to access this resource",
+          message:
+            "You do not have permission to access this resource",
         },
         { status: 403 }
       ),

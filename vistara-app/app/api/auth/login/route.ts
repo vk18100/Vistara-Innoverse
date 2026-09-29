@@ -8,9 +8,16 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { email, password } = body;
+    const email =
+      typeof body.email === "string"
+        ? body.email.trim().toLowerCase()
+        : "";
 
-    // Validate input
+    const password =
+      typeof body.password === "string"
+        ? body.password
+        : "";
+
     if (!email || !password) {
       return NextResponse.json(
         {
@@ -21,14 +28,10 @@ export async function POST(req: Request) {
       );
     }
 
-    // Find user
     const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
+      where: { email },
     });
 
-    // User not found / password not available
     if (!user || !user.password) {
       return NextResponse.json(
         {
@@ -39,7 +42,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Check password
     const validPassword = await bcrypt.compare(
       password,
       user.password
@@ -55,14 +57,16 @@ export async function POST(req: Request) {
       );
     }
 
-    // Create authentication token
     const token = createToken({
-  userId: user.id,
-  email: user.email,
-  role: user.role as "GUEST" | "HOST" | "GUIDE" | "ADMIN",
-});
+      userId: user.id,
+      email: user.email,
+      role: user.role as
+        | "GUEST"
+        | "HOST"
+        | "GUIDE"
+        | "ADMIN",
+    });
 
-    // Create response
     const response = NextResponse.json({
       success: true,
       message: "Login successful",
@@ -74,13 +78,19 @@ export async function POST(req: Request) {
       },
     });
 
-    // Store token in HTTP-only cookie
     response.cookies.set("vistara_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
+    });
+
+    console.log("LOGIN SUCCESS:", {
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+      tokenCreated: Boolean(token),
     });
 
     return response;

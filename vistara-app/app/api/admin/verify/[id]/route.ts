@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import {    NextRequest, NextResponse } from "next/server";
 
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/guard";
@@ -10,7 +10,7 @@ type Params = {
 };
 
 export async function PATCH(
-  req: Request,
+  req: NextRequest,
   { params }: Params
 ) {
   try {

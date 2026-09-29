@@ -1,125 +1,132 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-const trips = [
-  {
-    id: "trip_001",
-    title: "Varanasi Escape",
-    destination: "Varanasi, Uttar Pradesh",
-    startDate: "2026-10-12",
-    endDate: "2026-10-15",
-    nights: 3,
-    status: "upcoming",
-    image: "/images/pag1 (8).jpg",
+import { prisma } from "@/lib/prisma";
+import { requireAuth } from "@/lib/guard";
 
-    stay: {
-      name: "The Heritage Courtyard",
-      pricePerNight: 4500,
-    },
-
-    experience: {
-      name: "Ganga Sunrise & Ghat Walk",
-      duration: "2 hours",
-    },
-  },
-  {
-    id: "trip_002",
-    title: "Mountain Escape",
-    destination: "Manali, Himachal Pradesh",
-    startDate: "2026-08-10",
-    endDate: "2026-08-13",
-    nights: 3,
-    status: "completed",
-    image: "/images/pag1 (2).jpg",
-
-    stay: {
-      name: "Mountain View Villa",
-      pricePerNight: 5200,
-    },
-
-    experience: {
-      name: "Solang Valley Experience",
-      duration: "4 hours",
-    },
-  },
-];
-
-const recentPlaces = [
-  {
-    id: "place_001",
-    title: "Banaras Ghat Walk",
-    location: "Varanasi, Uttar Pradesh",
-    image: "/images/pag1 (1).jpg",
-  },
-  {
-    id: "place_002",
-    title: "Mountain Escape",
-    location: "Manali, Himachal Pradesh",
-    image: "/images/pag1 (2).jpg",
-  },
-  {
-    id: "place_003",
-    title: "Riverside Retreat",
-    location: "Patna, Bihar",
-    image: "/images/pag1 (3).jpg",
-  },
-  {
-    id: "place_004",
-    title: "Goa Sunset Experience",
-    location: "Goa",
-    image: "/images/pag1 (4).jpg",
-  },
-];
-
-const inspiration = [
-  {
-    id: "inspiration_001",
-    title: "Hidden mountain stays",
-    image: "/images/pag1 (5).jpg",
-  },
-  {
-    id: "inspiration_002",
-    title: "Peaceful riverside escapes",
-    image: "/images/pag1 (6).jpg",
-  },
-  {
-    id: "inspiration_003",
-    title: "Weekend experiences",
-    image: "/images/pag1 (7).jpg",
-  },
-];
-
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const upcomingTrip =
-      trips.find((trip) => trip.status === "upcoming") ?? null;
+    const { user, response } = await requireAuth(req);
 
-    const completedTrips = trips.filter(
+    if (response) {
+      return response;
+    }
+
+    // --------------------------------
+    // USER'S BOOKINGS (real trips)
+    // --------------------------------
+
+    const bookings = await prisma.booking.findMany({
+      where: {
+        guestId: user.id,
+        status: {
+          not: "CANCELLED",
+        },
+      },
+      orderBy: {
+        checkIn: "asc",
+      },
+      include: {
+        property: {
+          include: {
+            images: {
+              orderBy: {
+                isPrimary: "desc",
+              },
+              take: 1,
+            },
+          },
+        },
+      },
+    });
+
+    const now = new Date();
+
+    const formattedTrips = bookings.map((booking) => {
+      const isCompleted = booking.checkOut < now;
+
+      return {
+        id: String(booking.id),
+        title: booking.property.title,
+        destination: `${booking.property.city}, ${booking.property.country}`,
+        startDate: booking.checkIn,
+        endDate: booking.checkOut,
+        nights: booking.nights,
+        status: isCompleted ? "completed" : "upcoming",
+        image:
+          booking.property.images[0]?.url ??
+          "/images/property-placeholder.jpg",
+
+        stay: {
+          name: booking.property.title,
+          pricePerNight: Number(booking.property.pricePerNight),
+        },
+      };
+    });
+
+    const upcomingTrips = formattedTrips.filter(
+      (trip) => trip.status === "upcoming"
+    );
+
+    const completedTrips = formattedTrips.filter(
       (trip) => trip.status === "completed"
     );
+
+    const upcomingTrip = upcomingTrips[0] ?? null;
+
+    // --------------------------------
+    // INSPIRATION (real top-rated verified properties)
+    // --------------------------------
+
+    const inspirationProperties = await prisma.property.findMany({
+      where: {
+        status: "VERIFIED",
+      },
+      orderBy: {
+        rating: "desc",
+      },
+      take: 3,
+      include: {
+        images: {
+          orderBy: {
+            isPrimary: "desc",
+          },
+          take: 1,
+        },
+      },
+    });
+
+    const inspiration = inspirationProperties.map((property) => ({
+      id: String(property.id),
+      title: property.title,
+      image:
+        property.images[0]?.url ??
+        "/images/property-placeholder.jpg",
+    }));
 
     return NextResponse.json({
       success: true,
 
       data: {
         upcomingTrip,
-        trips,
+        trips: formattedTrips,
         completedTrips,
-        recentPlaces,
+        // No "recently viewed" tracking exists yet in the schema,
+        // so this stays empty (the page already has a real empty state).
+        recentPlaces: [],
+        // Wishlist isn't wired to this endpoint yet — separate feature.
         savedPlaces: [],
         inspiration,
       },
     });
   } catch (error) {
-    console.error("Trips API error:", error);
+    console.error("TRIPS_API_ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
         message: "Unable to load trips.",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
