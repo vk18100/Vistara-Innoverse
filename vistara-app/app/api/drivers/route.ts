@@ -1,75 +1,55 @@
-import { NextRequest, NextResponse } from "next/server";
-
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(req: NextRequest) {
+/* =========================
+   GET /api/drivers
+   Public — list available drivers
+========================= */
+
+export async function GET() {
   try {
-    const { searchParams } = new URL(req.url);
-    const idParam = searchParams.get("id");
-
-    if (!idParam) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Driver id is required.",
-        },
-        { status: 400 }
-      );
-    }
-
-    const id = Number(idParam);
-
-    if (!Number.isInteger(id)) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Invalid driver id.",
-        },
-        { status: 400 }
-      );
-    }
-
-    const driver = await prisma.driverProfile.findUnique({
-      where: { id },
+    const drivers = await prisma.driverProfile.findMany({
+      where: {
+        status: "AVAILABLE",
+        isVerified: true,
+      },
+      orderBy: {
+        rating: "desc",
+      },
       include: {
         user: {
           select: {
-            id: true,
             name: true,
-            phone: true,
-            profile: true,
           },
         },
         vehicles: true,
-        availability: {
-          where: {
-            isActive: true,
-          },
-        },
       },
     });
 
-    if (!driver) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Driver not found.",
-        },
-        { status: 404 }
-      );
-    }
+    const formatted = drivers.map((driver) => ({
+      id: driver.id,
+      name: driver.user.name,
+      rating: driver.rating,
+      totalTrips: driver.totalTrips,
+      isVerified: driver.isVerified,
+      vehicles: driver.vehicles.map((v) => ({
+        id: v.id,
+        model: v.model,
+        type: v.type,
+      })),
+    }));
 
     return NextResponse.json({
       success: true,
-      data: driver,
+      data: formatted,
     });
   } catch (error) {
-    console.error("DRIVER_DETAIL_ERROR", error);
+    console.error("DRIVERS_GET_ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to load driver.",
+        message: "Unable to load drivers.",
       },
       { status: 500 }
     );

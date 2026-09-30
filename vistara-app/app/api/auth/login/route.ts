@@ -6,23 +6,74 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const contentType = req.headers.get("content-type") || "";
+
+    if (!contentType.includes("application/json")) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Request must use JSON.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const rawBody = await req.text();
+
+    if (!rawBody.trim()) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Request body is empty.",
+        },
+        { status: 400 }
+      );
+    }
+
+    let body: unknown;
+
+    try {
+      body = JSON.parse(rawBody);
+    } catch {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid JSON request body.",
+        },
+        { status: 400 }
+      );
+    }
+
+    if (!body || typeof body !== "object") {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid request body.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const data = body as {
+      email?: unknown;
+      password?: unknown;
+    };
 
     const email =
-      typeof body.email === "string"
-        ? body.email.trim().toLowerCase()
+      typeof data.email === "string"
+        ? data.email.trim().toLowerCase()
         : "";
 
     const password =
-      typeof body.password === "string"
-        ? body.password
+      typeof data.password === "string"
+        ? data.password
         : "";
 
     if (!email || !password) {
       return NextResponse.json(
         {
           success: false,
-          message: "Email and password are required",
+          message: "Email and password are required.",
         },
         { status: 400 }
       );
@@ -36,7 +87,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid email or password",
+          message: "Invalid email or password.",
         },
         { status: 401 }
       );
@@ -51,7 +102,7 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid email or password",
+          message: "Invalid email or password.",
         },
         { status: 401 }
       );
@@ -90,7 +141,6 @@ export async function POST(req: Request) {
       userId: user.id,
       email: user.email,
       role: user.role,
-      tokenCreated: Boolean(token),
     });
 
     return response;
@@ -100,7 +150,10 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: "Something went wrong",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong.",
       },
       { status: 500 }
     );

@@ -1,20 +1,141 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "@/components/navbar";
 
+type ProfileData = {
+  name: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  city: string;
+  country: string;
+};
+
 export default function EditProfile() {
+  const router = useRouter();
+
+  const [form, setForm] = useState<ProfileData>({
+    name: "",
+    phone: "",
+    firstName: "",
+    lastName: "",
+    bio: "",
+    city: "",
+    country: "",
+  });
+
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const response = await fetch("/api/profile", {
+          credentials: "include",
+          cache: "no-store",
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error("Unable to load your profile.");
+        }
+
+        setEmail(result.user.email);
+        setForm({
+          name: result.user.name ?? "",
+          phone: result.user.phone ?? "",
+          firstName: result.profile?.firstName ?? "",
+          lastName: result.profile?.lastName ?? "",
+          bio: result.profile?.bio ?? "",
+          city: result.profile?.city ?? "",
+          country: result.profile?.country ?? "",
+        });
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Unable to load your profile."
+        );
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProfile();
+  }, []);
+
+  function updateField<K extends keyof ProfileData>(
+    key: K,
+    value: ProfileData[K]
+  ) {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSaved(true);
 
-    setTimeout(() => {
-      setSaved(false);
-    }, 3000);
-  };
+    setSaving(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          firstName: form.firstName,
+          lastName: form.lastName,
+          bio: form.bio,
+          city: form.city,
+          country: form.country,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.message || "Unable to update profile."
+        );
+      }
+
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to update profile."
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const initials =
+    `${form.firstName?.charAt(0) ?? ""}${form.lastName?.charAt(0) ?? ""}`.toUpperCase() ||
+    form.name?.charAt(0)?.toUpperCase() ||
+    "V";
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
+        <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-[#E5E7EB] border-t-[#03045E]" />
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-[#FAFAF8] text-[#03045E]">
@@ -40,7 +161,7 @@ export default function EditProfile() {
             </h1>
 
             <p className="mt-3 max-w-xl text-sm leading-6 text-[#64748B]">
-              Update your personal details and travel preferences.
+              Update your personal details.
             </p>
           </div>
         </div>
@@ -58,7 +179,7 @@ export default function EditProfile() {
 
             <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center">
               <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#03045E] to-[#0D21A1] font-serif text-3xl font-semibold text-white shadow-lg">
-                SG
+                {initials}
               </div>
 
               <div>
@@ -67,24 +188,8 @@ export default function EditProfile() {
                 </h2>
 
                 <p className="mt-1 text-sm text-[#64748B]">
-                  Add a photo that represents you.
+                  Photo upload isn't available yet — coming soon.
                 </p>
-
-                <div className="mt-4 flex gap-3">
-                  <button
-                    type="button"
-                    className="rounded-xl bg-[#03045E] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#0D21A1]"
-                  >
-                    Upload photo
-                  </button>
-
-                  <button
-                    type="button"
-                    className="rounded-xl border border-[#E2E8F0] px-5 py-2.5 text-sm font-semibold text-[#64748B] hover:border-red-200 hover:text-red-500"
-                  >
-                    Remove
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -103,34 +208,41 @@ export default function EditProfile() {
 
               <Input
                 label="First name"
-                defaultValue="Sristi"
+                value={form.firstName}
+                onChange={(v) => updateField("firstName", v)}
               />
 
               <Input
                 label="Last name"
-                defaultValue="Gupta"
+                value={form.lastName}
+                onChange={(v) => updateField("lastName", v)}
               />
 
               <Input
                 label="Email"
                 type="email"
-                defaultValue="sristi@example.com"
+                value={email}
+                onChange={() => {}}
+                disabled
               />
 
               <Input
                 label="Phone"
                 type="tel"
-                defaultValue="+91 98765 43210"
+                value={form.phone}
+                onChange={(v) => updateField("phone", v)}
               />
 
               <Input
                 label="City"
-                defaultValue="Patna"
+                value={form.city}
+                onChange={(v) => updateField("city", v)}
               />
 
               <Input
                 label="Country"
-                defaultValue="India"
+                value={form.country}
+                onChange={(v) => updateField("country", v)}
               />
 
             </div>
@@ -142,52 +254,18 @@ export default function EditProfile() {
 
               <textarea
                 rows={5}
-                defaultValue="I love discovering beautiful places, local experiences and peaceful stays."
+                value={form.bio}
+                onChange={(e) => updateField("bio", e.target.value)}
                 className="mt-2 w-full resize-none rounded-2xl border border-[#E2E8F0] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#03045E] focus:bg-white focus:ring-4 focus:ring-[#03045E]/5"
               />
             </div>
           </div>
 
-          {/* TRAVEL PREFERENCES */}
-          <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-7 shadow-[0_15px_45px_rgba(3,4,94,0.05)] md:p-9">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-              TRAVEL STYLE
+          {error && (
+            <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+              {error}
             </p>
-
-            <h2 className="mt-2 font-serif text-2xl font-semibold">
-              What do you love?
-            </h2>
-
-            <p className="mt-2 text-sm text-[#64748B]">
-              Choose experiences that match your travel style.
-            </p>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              {[
-                "Beach",
-                "Heritage",
-                "Nature",
-                "Luxury",
-                "Food",
-                "Adventure",
-                "Wellness",
-                "Culture",
-                "Local Experiences",
-              ].map((item, index) => (
-                <label key={item} className="cursor-pointer">
-                  <input
-                    type="checkbox"
-                    defaultChecked={index < 4}
-                    className="peer sr-only"
-                  />
-
-                  <span className="block rounded-full border border-[#DDE2E8] bg-white px-4 py-2.5 text-sm font-medium text-[#64748B] transition peer-checked:border-[#03045E] peer-checked:bg-[#03045E] peer-checked:text-white">
-                    {item}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
+          )}
 
           {/* ACTIONS */}
           <div className="flex flex-col gap-3 rounded-2xl border border-[#03045E]/10 bg-white p-4 shadow-[0_10px_35px_rgba(3,4,94,0.08)] sm:flex-row sm:items-center sm:justify-between">
@@ -204,18 +282,20 @@ export default function EditProfile() {
             </div>
 
             <div className="flex gap-3">
-              <Link
-                href="/profile"
+              <button
+                type="button"
+                onClick={() => router.push("/profile")}
                 className="rounded-xl border border-[#E2E8F0] px-6 py-3 text-sm font-semibold text-[#64748B] transition hover:border-[#03045E] hover:text-[#03045E]"
               >
                 Cancel
-              </Link>
+              </button>
 
               <button
                 type="submit"
-                className="rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+                disabled={saving}
+                className="rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Save changes
+                {saving ? "Saving..." : "Save changes"}
               </button>
             </div>
           </div>
@@ -230,12 +310,16 @@ export default function EditProfile() {
 
 function Input({
   label,
-  defaultValue,
+  value,
+  onChange,
   type = "text",
+  disabled = false,
 }: {
   label: string;
-  defaultValue: string;
+  value: string;
+  onChange: (value: string) => void;
   type?: string;
+  disabled?: boolean;
 }) {
   return (
     <div>
@@ -245,8 +329,10 @@ function Input({
 
       <input
         type={type}
-        defaultValue={defaultValue}
-        className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#03045E] focus:bg-white focus:ring-4 focus:ring-[#03045E]/5"
+        value={value}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.value)}
+        className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#03045E] focus:bg-white focus:ring-4 focus:ring-[#03045E]/5 disabled:cursor-not-allowed disabled:opacity-60"
       />
     </div>
   );

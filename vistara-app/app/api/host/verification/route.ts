@@ -1,126 +1,62 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { requireRole } from "@/lib/guard";
 
-export async function GET() {
+/* =========================
+   GET /api/host/verification
+   Current host's property verification records
+========================= */
+
+export async function GET(req: NextRequest) {
   try {
-    const verification = {
-      status: "PENDING",
+    const { user, response } = await requireRole(req, ["HOST"]);
 
-      host: {
-        id: "host-001",
-        name: "Sristi Gupta",
-        email: "sristi@example.com",
+    if (response) {
+      return response;
+    }
+
+    const verifications = await prisma.propertyVerification.findMany({
+      where: {
+        userId: user.id,
       },
-
-      identity: {
-        status: "VERIFIED",
-        documentType: "AADHAAR",
-        documentNumber: "XXXX-XXXX-1234",
-        verifiedAt: "2026-09-20T10:00:00.000Z",
+      orderBy: {
+        createdAt: "desc",
       },
-
-      phone: {
-        status: "VERIFIED",
-        number: "+91XXXXXXXXXX",
-        verifiedAt: "2026-09-20T10:05:00.000Z",
-      },
-
-      email: {
-        status: "VERIFIED",
-        address: "sristi@example.com",
-        verifiedAt: "2026-09-20T10:06:00.000Z",
-      },
-
-      propertyVerification: {
-        status: "PENDING",
-
+      include: {
         property: {
-          id: "property-001",
-          name: "The Blue Villa",
-          location: "Patna, Bihar",
+          select: {
+            id: true,
+            title: true,
+          },
         },
-
-        documents: [
-          {
-            id: "document-001",
-            type: "PROPERTY_OWNERSHIP",
-            name: "Property ownership document",
-            status: "PENDING",
-          },
-          {
-            id: "document-002",
-            type: "ADDRESS_PROOF",
-            name: "Property address proof",
-            status: "PENDING",
-          },
-        ],
       },
+    });
 
-      documents: [
-        {
-          id: "document-003",
-          type: "IDENTITY_PROOF",
-          name: "Identity proof",
-          status: "VERIFIED",
-        },
-      ],
-
-      submittedAt: "2026-09-20T09:30:00.000Z",
-
-      reviewedAt: null,
-
-      rejectionReason: null,
-    };
-
-    const stats = {
-      identityVerified:
-        verification.identity.status === "VERIFIED",
-
-      phoneVerified:
-        verification.phone.status === "VERIFIED",
-
-      emailVerified:
-        verification.email.status === "VERIFIED",
-
-      propertyVerified:
-        verification.propertyVerification.status ===
-        "VERIFIED",
-
-      documentsVerified:
-        verification.documents.filter(
-          (document) =>
-            document.status === "VERIFIED"
-        ).length,
-
-      documentsPending:
-        verification.documents.filter(
-          (document) =>
-            document.status === "PENDING"
-        ).length,
-    };
+    const formatted = verifications.map((v) => ({
+      id: v.id,
+      propertyId: v.propertyId,
+      propertyTitle: v.property.title,
+      identityStatus: v.identityStatus,
+      ownershipStatus: v.ownershipStatus,
+      certificateStatus: v.certificateStatus,
+      score: v.score,
+      submittedAt: v.submittedAt,
+      verifiedAt: v.verifiedAt,
+    }));
 
     return NextResponse.json({
       success: true,
-
-      data: {
-        verification,
-        stats,
-      },
+      data: formatted,
     });
   } catch (error) {
-    console.error(
-      "Host verification API error:",
-      error
-    );
+    console.error("HOST_VERIFICATION_GET_ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message:
-          "Unable to load host verification.",
+        message: "Unable to load verification status.",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }

@@ -1,170 +1,72 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { requireRole } from "@/lib/guard";
 
-export async function GET() {
+/* =========================
+   GET /api/host/booking
+   Incoming bookings for the host's properties
+========================= */
+
+export async function GET(req: NextRequest) {
   try {
-    const events = [
-      {
-        id: "calendar-001",
-        type: "BOOKING",
+    const { user, response } = await requireRole(req, ["HOST"]);
 
-        bookingId: "booking-001",
+    if (response) {
+      return response;
+    }
 
+    const bookings = await prisma.booking.findMany({
+      where: {
         property: {
-          id: "property-001",
-          name: "The Blue Villa",
-          location: "Patna, Bihar",
+          hostId: user.id,
         },
-
+      },
+      orderBy: {
+        checkIn: "desc",
+      },
+      include: {
+        property: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
         guest: {
-          id: "guest-001",
-          name: "Aarav Sharma",
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
         },
-
-        checkIn: "2026-10-05",
-        checkOut: "2026-10-08",
-
-        guests: {
-          adults: 2,
-          children: 0,
-        },
-
-        amount: 15000,
-
-        status: "CONFIRMED",
       },
+    });
 
-      {
-        id: "calendar-002",
-        type: "BOOKING",
-
-        bookingId: "booking-002",
-
-        property: {
-          id: "property-002",
-          name: "River View Retreat",
-          location: "Ranchi, Jharkhand",
-        },
-
-        guest: {
-          id: "guest-002",
-          name: "Priya Singh",
-        },
-
-        checkIn: "2026-10-12",
-        checkOut: "2026-10-15",
-
-        guests: {
-          adults: 3,
-          children: 1,
-        },
-
-        amount: 21000,
-
-        status: "PENDING",
-      },
-
-      {
-        id: "calendar-003",
-        type: "BOOKING",
-
-        bookingId: "booking-003",
-
-        property: {
-          id: "property-003",
-          name: "Forest Escape",
-          location: "Darjeeling, West Bengal",
-        },
-
-        guest: {
-          id: "guest-003",
-          name: "Rahul Verma",
-        },
-
-        checkIn: "2026-09-28",
-        checkOut: "2026-10-01",
-
-        guests: {
-          adults: 2,
-          children: 1,
-        },
-
-        amount: 18000,
-
-        status: "CONFIRMED",
-      },
-
-      {
-        id: "calendar-004",
-        type: "BLOCKED",
-
-        bookingId: null,
-
-        property: {
-          id: "property-001",
-          name: "The Blue Villa",
-          location: "Patna, Bihar",
-        },
-
-        guest: null,
-
-        checkIn: "2026-10-20",
-        checkOut: "2026-10-22",
-
-        guests: {
-          adults: 0,
-          children: 0,
-        },
-
-        amount: 0,
-
-        status: "BLOCKED",
-      },
-    ];
-
-    const stats = {
-      totalBookings: events.filter(
-        (event) => event.type === "BOOKING"
-      ).length,
-
-      confirmedBookings: events.filter(
-        (event) =>
-          event.type === "BOOKING" &&
-          event.status === "CONFIRMED"
-      ).length,
-
-      pendingBookings: events.filter(
-        (event) =>
-          event.type === "BOOKING" &&
-          event.status === "PENDING"
-      ).length,
-
-      blockedDates: events.filter(
-        (event) => event.type === "BLOCKED"
-      ).length,
-    };
+    const formatted = bookings.map((booking) => ({
+      id: booking.id,
+      guestName: booking.guest.name,
+      guestEmail: booking.guest.email,
+      propertyId: booking.property.id,
+      propertyTitle: booking.property.title,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      guests: booking.guests,
+      amount: Number(booking.totalAmount),
+      status: booking.status,
+    }));
 
     return NextResponse.json({
       success: true,
-
-      data: {
-        events,
-        stats,
-      },
+      data: formatted,
     });
   } catch (error) {
-    console.error(
-      "Host calendar API error:",
-      error
-    );
+    console.error("HOST_BOOKING_GET_ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to load host calendar.",
+        message: "Unable to load bookings.",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }

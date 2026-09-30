@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import { prisma } from "@/lib/prisma";
 
 type Params = {
@@ -8,16 +7,17 @@ type Params = {
   }>;
 };
 
-export async function GET(
-  _req: NextRequest,
-  { params }: Params
-) {
+/* =========================
+   GET /api/drivers/[id]
+   Public — single driver profile
+========================= */
+
+export async function GET(req: NextRequest, { params }: Params) {
   try {
-    const { id: idParam } = await params;
+    const { id } = await params;
+    const driverId = Number(id);
 
-    const id = Number(idParam);
-
-    if (!Number.isInteger(id)) {
+    if (!Number.isInteger(driverId) || driverId <= 0) {
       return NextResponse.json(
         {
           success: false,
@@ -29,23 +29,15 @@ export async function GET(
 
     const driver = await prisma.driverProfile.findUnique({
       where: {
-        id,
+        id: driverId,
       },
       include: {
         user: {
           select: {
-            id: true,
             name: true,
-            phone: true,
-            profile: true,
           },
         },
         vehicles: true,
-        availability: {
-          where: {
-            isActive: true,
-          },
-        },
       },
     });
 
@@ -61,15 +53,29 @@ export async function GET(
 
     return NextResponse.json({
       success: true,
-      data: driver,
+      data: {
+        id: driver.id,
+        name: driver.user.name,
+        rating: driver.rating,
+        totalTrips: driver.totalTrips,
+        isVerified: driver.isVerified,
+        status: driver.status,
+        vehicles: driver.vehicles.map((v) => ({
+          id: v.id,
+          make: v.make,
+          model: v.model,
+          type: v.type,
+          capacity: v.capacity,
+        })),
+      },
     });
   } catch (error) {
-    console.error("DRIVER_DETAIL_ERROR", error);
+    console.error("DRIVER_DETAIL_ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to load driver.",
+        message: "Unable to load this driver.",
       },
       { status: 500 }
     );

@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/navbar";
 import Footer from "@/app/footer/page";
 import { prisma } from "@/lib/prisma";
-
+import Image from "next/image";
 /*
 |--------------------------------------------------------------------------
 | ACTUAL VISTARA LOCAL IMAGES

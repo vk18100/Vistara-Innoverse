@@ -1,173 +1,81 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { requireRole } from "@/lib/guard";
 
-export async function GET() {
+/* =========================
+   GET /api/host/earning
+   Current host's earnings summary
+========================= */
+
+export async function GET(req: NextRequest) {
   try {
-    const transactions = [
-      {
-        id: "earning-001",
-        bookingId: "booking-001",
+    const { user, response } = await requireRole(req, ["HOST"]);
 
+    if (response) {
+      return response;
+    }
+
+    const bookings = await prisma.booking.findMany({
+      where: {
         property: {
-          id: "property-001",
-          name: "The Blue Villa",
-          location: "Patna, Bihar",
+          hostId: user.id,
         },
-
-        guest: {
-          id: "guest-001",
-          name: "Aarav Sharma",
-        },
-
-        date: "2026-09-20",
-
-        grossAmount: 15000,
-        platformFee: 1500,
-        tax: 0,
-        netAmount: 13500,
-
-        status: "PAID",
-        paymentMethod: "RAZORPAY",
-
-        payout: {
-          status: "COMPLETED",
-          date: "2026-09-21",
+        status: {
+          in: ["CONFIRMED", "COMPLETED"],
         },
       },
-
-      {
-        id: "earning-002",
-        bookingId: "booking-002",
-
+      include: {
         property: {
-          id: "property-002",
-          name: "River View Retreat",
-          location: "Ranchi, Jharkhand",
-        },
-
-        guest: {
-          id: "guest-002",
-          name: "Priya Singh",
-        },
-
-        date: "2026-09-22",
-
-        grossAmount: 21000,
-        platformFee: 2100,
-        tax: 0,
-        netAmount: 18900,
-
-        status: "PENDING",
-        paymentMethod: "RAZORPAY",
-
-        payout: {
-          status: "PENDING",
-          date: null,
+          select: {
+            title: true,
+          },
         },
       },
-
-      {
-        id: "earning-003",
-        bookingId: "booking-003",
-
-        property: {
-          id: "property-003",
-          name: "Forest Escape",
-          location: "Darjeeling, West Bengal",
-        },
-
-        guest: {
-          id: "guest-003",
-          name: "Rahul Verma",
-        },
-
-        date: "2026-09-18",
-
-        grossAmount: 18000,
-        platformFee: 1800,
-        tax: 0,
-        netAmount: 16200,
-
-        status: "PAID",
-        paymentMethod: "RAZORPAY",
-
-        payout: {
-          status: "COMPLETED",
-          date: "2026-09-19",
-        },
+      orderBy: {
+        checkIn: "desc",
       },
-    ];
+    });
 
-    const totalGross = transactions.reduce(
-      (total, transaction) =>
-        total + transaction.grossAmount,
+    const totalEarnings = bookings.reduce(
+      (sum, booking) => sum + Number(booking.totalAmount),
       0
     );
 
-    const totalFees = transactions.reduce(
-      (total, transaction) =>
-        total + transaction.platformFee,
-      0
-    );
-
-    const totalEarnings = transactions.reduce(
-      (total, transaction) =>
-        total + transaction.netAmount,
-      0
-    );
-
-    const paidAmount = transactions
+    const now = new Date();
+    const thisMonthEarnings = bookings
       .filter(
-        (transaction) =>
-          transaction.payout.status === "COMPLETED"
+        (b) =>
+          b.checkIn.getMonth() === now.getMonth() &&
+          b.checkIn.getFullYear() === now.getFullYear()
       )
-      .reduce(
-        (total, transaction) =>
-          total + transaction.netAmount,
-        0
-      );
+      .reduce((sum, b) => sum + Number(b.totalAmount), 0);
 
-    const pendingAmount = transactions
-      .filter(
-        (transaction) =>
-          transaction.payout.status === "PENDING"
-      )
-      .reduce(
-        (total, transaction) =>
-          total + transaction.netAmount,
-        0
-      );
-
-    const stats = {
-      totalGross,
-      totalFees,
-      totalEarnings,
-      paidAmount,
-      pendingAmount,
-      totalTransactions: transactions.length,
-    };
+    const transactions = bookings.slice(0, 20).map((booking) => ({
+      id: booking.id,
+      propertyTitle: booking.property.title,
+      amount: Number(booking.totalAmount),
+      status: booking.status,
+      date: booking.checkIn,
+    }));
 
     return NextResponse.json({
       success: true,
-
       data: {
-        stats,
+        totalEarnings,
+        thisMonthEarnings,
+        totalBookings: bookings.length,
         transactions,
       },
     });
   } catch (error) {
-    console.error(
-      "Host earnings API error:",
-      error
-    );
+    console.error("HOST_EARNING_GET_ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to load host earnings.",
+        message: "Unable to load earnings.",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }

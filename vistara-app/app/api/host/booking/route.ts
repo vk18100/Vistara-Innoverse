@@ -1,129 +1,72 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { requireRole } from "@/lib/guard";
 
-export async function GET() {
+/* =========================
+   GET /api/host/booking
+   Incoming bookings for the host's properties
+========================= */
+
+export async function GET(req: NextRequest) {
   try {
-    /*
-     * Temporary host booking data.
-     * Later this will come from Prisma/PostgreSQL.
-     */
+    const { user, response } = await requireRole(req, ["HOST"]);
 
-    const bookings = [
-      {
-        id: "booking_001",
-        guest: {
-          id: "guest_001",
-          name: "Aarav Sharma",
-          image: null,
-        },
+    if (response) {
+      return response;
+    }
 
+    const bookings = await prisma.booking.findMany({
+      where: {
         property: {
-          id: "property_001",
-          name: "The Blue Haven",
-          location: "Goa, India",
+          hostId: user.id,
         },
-
-        checkIn: "2026-10-05",
-        checkOut: "2026-10-08",
-
-        guests: {
-          adults: 2,
-          children: 0,
-          infants: 0,
-        },
-
-        amount: 18500,
-
-        status: "CONFIRMED",
-
-        payment: {
-          status: "PAID",
-          method: "ONLINE",
-        },
-
-        createdAt: "2026-09-20",
       },
-
-      {
-        id: "booking_002",
-        guest: {
-          id: "guest_002",
-          name: "Riya Verma",
-          image: null,
-        },
-
+      orderBy: {
+        checkIn: "desc",
+      },
+      include: {
         property: {
-          id: "property_002",
-          name: "Mountain Nest",
-          location: "Manali, India",
+          select: {
+            id: true,
+            title: true,
+          },
         },
-
-        checkIn: "2026-10-12",
-        checkOut: "2026-10-15",
-
-        guests: {
-          adults: 3,
-          children: 1,
-          infants: 0,
+        guest: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
         },
-
-        amount: 24000,
-
-        status: "PENDING",
-
-        payment: {
-          status: "PENDING",
-          method: "ONLINE",
-        },
-
-        createdAt: "2026-09-22",
       },
-    ];
+    });
 
-    const stats = {
-      total: bookings.length,
-
-      confirmed: bookings.filter(
-        (booking) => booking.status === "CONFIRMED"
-      ).length,
-
-      pending: bookings.filter(
-        (booking) => booking.status === "PENDING"
-      ).length,
-
-      cancelled: bookings.filter(
-        (booking) => booking.status === "CANCELLED"
-      ).length,
-
-      completed: bookings.filter(
-        (booking) => booking.status === "COMPLETED"
-      ).length,
-
-      upcoming: bookings.filter(
-        (booking) =>
-          booking.status === "CONFIRMED" ||
-          booking.status === "PENDING"
-      ).length,
-    };
+    const formatted = bookings.map((booking) => ({
+      id: booking.id,
+      guestName: booking.guest.name,
+      guestEmail: booking.guest.email,
+      propertyId: booking.property.id,
+      propertyTitle: booking.property.title,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      guests: booking.guests,
+      amount: Number(booking.totalAmount),
+      status: booking.status,
+    }));
 
     return NextResponse.json({
       success: true,
-
-      data: {
-        bookings,
-        stats,
-      },
+      data: formatted,
     });
   } catch (error) {
-    console.error("Host bookings API error:", error);
+    console.error("HOST_BOOKING_GET_ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to load host bookings.",
+        message: "Unable to load bookings.",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }

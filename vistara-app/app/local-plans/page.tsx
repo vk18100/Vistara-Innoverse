@@ -1,328 +1,279 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import Navbar from "@/components/navbar";
-import { CalendarDays, MapPin, Clock, ArrowRight } from "lucide-react";
 
-const localPlans = [
+type Plan = {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  city: string;
+  area: string | null;
+  price: number | string;
+  durationHours: number;
+  coverImage: string | null;
+  isFeatured?: boolean;
+  placesCount?: number;
+};
+
+const fallbackPlans: Plan[] = [
   {
-    id: "plan_001",
-    title: "Varanasi Heritage Walk",
-    location: "Varanasi, Uttar Pradesh",
-    date: "12 October 2026",
-    duration: "4 hours",
-    guests: 2,
-    status: "Upcoming",
-    price: "₹1,499",
-    image:
-      "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1200&q=85",
+    id: 1,
+    title: "Weekend Explorer",
+    slug: "weekend-explorer",
     description:
-      "Explore the old city, hidden lanes and historic ghats with a local expert.",
+      "A compact local plan for discovering the essential experiences of a city.",
+    city: "Varanasi",
+    area: "Old City",
+    price: 499,
+    durationHours: 48,
+    coverImage:
+      "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    id: "plan_002",
-    title: "Jaipur Old City Experience",
-    location: "Jaipur, Rajasthan",
-    date: "22 November 2026",
-    duration: "5 hours",
-    guests: 2,
-    status: "Upcoming",
-    price: "₹2,199",
-    image:
-      "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1200&q=85",
+    id: 2,
+    title: "3-Day City Escape",
+    slug: "3-day-city-escape",
     description:
-      "Discover Jaipur's heritage streets, local food and traditional markets.",
+      "Three days of carefully selected places, food, culture and local experiences.",
+    city: "Jaipur",
+    area: "Pink City",
+    price: 899,
+    durationHours: 72,
+    coverImage:
+      "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    id: "plan_003",
-    title: "Manali Mountain Day",
-    location: "Manali, Himachal Pradesh",
-    date: "10 August 2026",
-    duration: "6 hours",
-    guests: 3,
-    status: "Completed",
-    price: "₹2,799",
-    image:
-      "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1200&q=85",
+    id: 3,
+    title: "7-Day Deep Explore",
+    slug: "7-day-deep-explore",
     description:
-      "A relaxed mountain experience covering scenic viewpoints and local spots.",
+      "Spend a full week exploring beyond the usual tourist route.",
+    city: "Rajasthan",
+    area: "Multiple Areas",
+    price: 1499,
+    durationHours: 168,
+    coverImage:
+      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    id: 4,
+    title: "14-Day Complete Journey",
+    slug: "14-day-complete-journey",
+    description:
+      "A deeper two-week local journey designed for travellers who want more.",
+    city: "India",
+    area: "Multiple Destinations",
+    price: 2499,
+    durationHours: 336,
+    coverImage:
+      "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
-export default function LocalPlansPage() {
-  const upcomingPlans = localPlans.filter(
-    (plan) => plan.status === "Upcoming"
-  );
+function formatDuration(hours: number) {
+  if (hours >= 336) return "2 Weeks";
+  if (hours >= 168) return "1 Week";
+  if (hours >= 72) return "3 Days";
+  return "2 Days";
+}
 
-  const completedPlans = localPlans.filter(
-    (plan) => plan.status === "Completed"
-  );
+function formatPrice(price: number | string) {
+  return `₹${Number(price).toLocaleString("en-IN")}`;
+}
+
+export default function LocalPlansPage() {
+  const [plans, setPlans] = useState<Plan[]>(fallbackPlans);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadPlans() {
+      try {
+        setLoading(true);
+
+        const response = await fetch("/api/local-plans", {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.message || "Unable to load local plans."
+          );
+        }
+
+        if (
+          active &&
+          Array.isArray(result.data) &&
+          result.data.length > 0
+        ) {
+          setPlans(result.data);
+        }
+      } catch (error) {
+        console.error("LOCAL_PLANS_ERROR:", error);
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+
+    loadPlans();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   return (
     <main className="min-h-screen bg-white text-[#03045E]">
       <Navbar />
 
-      {/* HERO */}
-      <section className="border-b border-[#03045E]/10 bg-[#03045E] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/60">
-            YOUR EXPERIENCES
+      <section className="border-b border-[#03045E]/10 bg-[#F7F9FF]">
+        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0D21A1]">
+            VISTARA LOCAL PLANS
           </p>
 
-          <div className="mt-4 max-w-3xl">
-            <h1 className="font-serif text-4xl font-semibold tracking-tight md:text-6xl">
-              Local Plans
-            </h1>
+          <h1 className="mt-4 max-w-3xl font-serif text-4xl font-semibold leading-tight md:text-6xl">
+            Explore a place like a local.
+          </h1>
 
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-white/70 md:text-base">
-              Your purchased local experiences, carefully planned for your
-              journey. Discover places through people who know them best.
-            </p>
-          </div>
-
-          {/* STATS */}
-          <div className="mt-10 flex flex-wrap gap-3">
-            <div className="rounded-full border border-white/15 bg-white/10 px-5 py-2.5 text-sm">
-              {upcomingPlans.length} upcoming
-            </div>
-
-            <div className="rounded-full border border-white/15 bg-white/10 px-5 py-2.5 text-sm">
-              {completedPlans.length} completed
-            </div>
-          </div>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-[#64748B]">
+            Unlock curated local routes, hidden places, experiences and
+            practical recommendations designed around your journey.
+          </p>
         </div>
       </section>
 
-      {/* CONTENT */}
-      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
-
-        {/* UPCOMING */}
-        <div>
-          <div className="mb-7">
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-              UPCOMING
+      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
+        <div className="mb-9 flex items-end justify-between gap-5">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#64748B]">
+              CHOOSE YOUR PLAN
             </p>
 
             <h2 className="mt-2 font-serif text-3xl font-semibold">
-              Your upcoming plans
+              Local journeys
             </h2>
-
-            <p className="mt-2 text-sm text-gray-500">
-              Experiences you have booked for your upcoming journeys.
-            </p>
           </div>
 
-          <div className="space-y-6">
-            {upcomingPlans.map((plan) => (
-              <article
-                key={plan.id}
-                className="group overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_12px_45px_rgba(3,4,94,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_55px_rgba(3,4,94,0.10)]"
-              >
-                <div className="grid lg:grid-cols-[360px_1fr]">
-
-                  {/* IMAGE */}
-                  <div className="relative h-64 overflow-hidden lg:h-full lg:min-h-[330px]">
-                    <img
-                      src={plan.image}
-                      alt={plan.title}
-                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                    />
-
-                    <span className="absolute left-5 top-5 rounded-full bg-white px-4 py-2 text-xs font-bold text-[#03045E] shadow-sm">
-                      {plan.status}
-                    </span>
-                  </div>
-
-                  {/* DETAILS */}
-                  <div className="flex flex-col justify-between p-7 md:p-9">
-
-                    <div>
-                      <div className="flex flex-wrap items-start justify-between gap-5">
-                        <div>
-                          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
-                            LOCAL EXPERIENCE
-                          </p>
-
-                          <h3 className="mt-2 font-serif text-2xl font-semibold md:text-3xl">
-                            {plan.title}
-                          </h3>
-                        </div>
-
-                        <p className="text-lg font-semibold text-[#03045E]">
-                          {plan.price}
-                        </p>
-                      </div>
-
-                      <p className="mt-4 max-w-2xl text-sm leading-6 text-gray-500">
-                        {plan.description}
-                      </p>
-
-                      {/* INFO */}
-                      <div className="mt-7 grid gap-4 sm:grid-cols-2">
-                        <InfoItem
-                          icon={<MapPin size={17} />}
-                          label="Location"
-                          value={plan.location}
-                        />
-
-                        <InfoItem
-                          icon={<CalendarDays size={17} />}
-                          label="Date"
-                          value={plan.date}
-                        />
-
-                        <InfoItem
-                          icon={<Clock size={17} />}
-                          label="Duration"
-                          value={plan.duration}
-                        />
-
-                        <InfoItem
-                          icon={<span className="text-sm">👥</span>}
-                          label="Guests"
-                          value={`${plan.guests} guests`}
-                        />
-                      </div>
-                    </div>
-
-                    {/* ACTIONS */}
-                    <div className="mt-8 flex flex-wrap gap-3 border-t border-[#03045E]/10 pt-6">
-                      <Link
-                        href={`/local-plans/${plan.id}`}
-                        className="inline-flex items-center gap-2 rounded-xl bg-[#03045E] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-                      >
-                        View Plan
-                        <ArrowRight size={16} />
-                      </Link>
-
-                      <Link
-                        href="/trips"
-                        className="rounded-xl border border-[#03045E]/15 px-5 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#F5F7FF]"
-                      >
-                        View Trip
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
+          {loading && (
+            <span className="text-xs text-[#94A3B8]">
+              Updating plans...
+            </span>
+          )}
         </div>
 
-        {/* COMPLETED */}
-        <div className="mt-16">
-          <div className="mb-7">
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-gray-400">
-              HISTORY
-            </p>
-
-            <h2 className="mt-2 font-serif text-3xl font-semibold">
-              Completed plans
-            </h2>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2">
-            {completedPlans.map((plan) => (
-              <article
-                key={plan.id}
-                className="overflow-hidden rounded-[26px] border border-[#03045E]/10 bg-white"
-              >
-                <div className="relative h-56">
+        <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-4">
+          {plans.map((plan) => (
+            <article
+              key={plan.id}
+              className="group overflow-hidden rounded-[26px] border border-[#03045E]/10 bg-white shadow-[0_12px_40px_rgba(3,4,94,0.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_55px_rgba(3,4,94,0.10)]"
+            >
+              <div className="relative h-56 overflow-hidden bg-[#EEF4FF]">
+                {plan.coverImage ? (
                   <img
-                    src={plan.image}
+                    src={plan.coverImage}
                     alt={plan.title}
-                    className="h-full w-full object-cover"
+                    loading="lazy"
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-sm text-[#64748B]">
+                    Vistara
+                  </div>
+                )}
 
-                  <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-[#03045E]">
-                    Completed
-                  </span>
+                <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-[#03045E] shadow-sm">
+                  {formatDuration(plan.durationHours)}
                 </div>
+              </div>
 
-                <div className="p-6">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-gray-400">
-                    LOCAL EXPERIENCE
+              <div className="flex min-h-[310px] flex-col p-6">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#0D21A1]">
+                    {plan.city}
                   </p>
 
-                  <h3 className="mt-2 text-xl font-semibold">
+                  <h3 className="mt-2 font-serif text-2xl font-semibold">
                     {plan.title}
                   </h3>
 
-                  <p className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-                    <MapPin size={15} />
-                    {plan.location}
+                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#64748B]">
+                    {plan.description}
                   </p>
 
-                  <div className="mt-5 flex items-center justify-between border-t border-[#03045E]/10 pt-4">
-                    <span className="text-sm text-gray-500">
-                      {plan.date}
-                    </span>
+                  {plan.area && (
+                    <p className="mt-4 text-xs font-medium text-[#94A3B8]">
+                      {plan.area}
+                    </p>
+                  )}
+                </div>
+
+                <div className="mt-auto border-t border-[#E8EBF5] pt-5">
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-xs text-[#94A3B8]">
+                        PLAN PRICE
+                      </p>
+
+                      <p className="mt-1 text-2xl font-bold">
+                        {formatPrice(plan.price)}
+                      </p>
+                    </div>
 
                     <Link
-                      href={`/local-plans/${plan.id}`}
-                      className="text-sm font-semibold text-[#0D21A1] hover:underline"
+                      href={`/local-plans/${plan.slug}`}
+                      className="rounded-xl bg-[#03045E] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
                     >
-                      View →
+                      View plan
                     </Link>
                   </div>
+
+                  <Link
+                    href={`/local-plans/${plan.slug}?buy=true`}
+                    className="mt-3 flex w-full items-center justify-center rounded-xl border border-[#03045E] px-4 py-2.5 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white"
+                  >
+                    Buy Plan
+                  </Link>
                 </div>
-              </article>
-            ))}
-          </div>
+              </div>
+            </article>
+          ))}
         </div>
+      </section>
 
-        {/* EMPTY / DISCOVER CTA */}
-        <div className="mt-16 rounded-[30px] bg-[#F5F7FF] p-8 md:p-12">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-            DISCOVER MORE
-          </p>
+      <section className="mx-auto max-w-7xl px-6 pb-16 lg:px-10">
+        <div className="rounded-[28px] border border-[#03045E]/10 bg-[#F7F9FF] p-7 md:p-9">
+          <div className="grid gap-8 md:grid-cols-3">
+            <div>
+              <p className="text-sm font-bold">Curated locally</p>
+              <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                Discover places beyond the standard tourist checklist.
+              </p>
+            </div>
 
-          <h2 className="mt-3 font-serif text-3xl font-semibold md:text-4xl">
-            Plan your next local experience
-          </h2>
+            <div>
+              <p className="text-sm font-bold">One-time unlock</p>
+              <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                Buy a plan and unlock its local recommendations and routes.
+              </p>
+            </div>
 
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500">
-            Find authentic experiences, hidden places and local activities
-            for your next Vistara journey.
-          </p>
-
-          <Link
-            href="/explore"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#03045E] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-          >
-            Explore Experiences
-            <ArrowRight size={16} />
-          </Link>
+            <div>
+              <p className="text-sm font-bold">Built for your journey</p>
+              <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                Use your unlocked plan while planning and exploring your trip.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </main>
-  );
-}
-
-function InfoItem({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#F5F7FF] text-[#0D21A1]">
-        {icon}
-      </div>
-
-      <div>
-        <p className="text-xs font-medium uppercase tracking-wide text-gray-400">
-          {label}
-        </p>
-
-        <p className="mt-1 text-sm font-semibold text-[#03045E]">
-          {value}
-        </p>
-      </div>
-    </div>
   );
 }

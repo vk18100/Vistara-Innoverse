@@ -1,102 +1,72 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { requireRole } from "@/lib/guard";
 
-export async function GET() {
+/* =========================
+   GET /api/host/booking
+   Incoming bookings for the host's properties
+========================= */
+
+export async function GET(req: NextRequest) {
   try {
-    const properties = [
-      {
-        id: "property_001",
-        name: "The Blue Haven",
-        location: "Goa, India",
-        type: "Villa",
-        image: null,
-        status: "ACTIVE",
-        price: 4500,
-        rating: 4.8,
-        reviews: 24,
-        guests: 4,
-        bedrooms: 2,
-        bathrooms: 2,
-        bookings: 12,
-        earnings: 54000,
-        createdAt: "2026-08-10",
+    const { user, response } = await requireRole(req, ["HOST"]);
+
+    if (response) {
+      return response;
+    }
+
+    const bookings = await prisma.booking.findMany({
+      where: {
+        property: {
+          hostId: user.id,
+        },
       },
-
-      {
-        id: "property_002",
-        name: "Mountain Nest",
-        location: "Manali, India",
-        type: "Cabin",
-        image: null,
-        status: "ACTIVE",
-        price: 6000,
-        rating: 4.7,
-        reviews: 18,
-        guests: 5,
-        bedrooms: 3,
-        bathrooms: 2,
-        bookings: 8,
-        earnings: 42000,
-        createdAt: "2026-08-18",
+      orderBy: {
+        checkIn: "desc",
       },
-
-      {
-        id: "property_003",
-        name: "Riverside Retreat",
-        location: "Rishikesh, India",
-        type: "Cottage",
-        image: null,
-        status: "PENDING",
-        price: 3500,
-        rating: 0,
-        reviews: 0,
-        guests: 3,
-        bedrooms: 1,
-        bathrooms: 1,
-        bookings: 0,
-        earnings: 0,
-        createdAt: "2026-09-20",
+      include: {
+        property: {
+          select: {
+            id: true,
+            title: true,
+          },
+        },
+        guest: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
       },
-    ];
+    });
 
-    const stats = {
-      total: properties.length,
-
-      active: properties.filter(
-        (property) => property.status === "ACTIVE"
-      ).length,
-
-      pending: properties.filter(
-        (property) => property.status === "PENDING"
-      ).length,
-
-      inactive: properties.filter(
-        (property) => property.status === "INACTIVE"
-      ).length,
-
-      rejected: properties.filter(
-        (property) => property.status === "REJECTED"
-      ).length,
-    };
+    const formatted = bookings.map((booking) => ({
+      id: booking.id,
+      guestName: booking.guest.name,
+      guestEmail: booking.guest.email,
+      propertyId: booking.property.id,
+      propertyTitle: booking.property.title,
+      checkIn: booking.checkIn,
+      checkOut: booking.checkOut,
+      guests: booking.guests,
+      amount: Number(booking.totalAmount),
+      status: booking.status,
+    }));
 
     return NextResponse.json({
       success: true,
-
-      data: {
-        properties,
-        stats,
-      },
+      data: formatted,
     });
   } catch (error) {
-    console.error("Host properties API error:", error);
+    console.error("HOST_BOOKING_GET_ERROR:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to load your properties.",
+        message: "Unable to load bookings.",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }

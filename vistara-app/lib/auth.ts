@@ -18,11 +18,15 @@ export function createToken(data: TokenData): string {
   });
 }
 
+
 export function verifyToken(token: string): TokenData | null {
   try {
     const decoded = jwt.verify(token, secret);
 
+    console.log("JWT DECODED:", decoded);
+
     if (typeof decoded === "string") {
+      console.log("JWT ERROR: decoded token is string");
       return null;
     }
 
@@ -33,6 +37,7 @@ export function verifyToken(token: string): TokenData | null {
         decoded.role as string
       )
     ) {
+      console.log("JWT ERROR: invalid payload:", decoded);
       return null;
     }
 
@@ -41,7 +46,8 @@ export function verifyToken(token: string): TokenData | null {
       email: decoded.email,
       role: decoded.role as TokenData["role"],
     };
-  } catch {
+  } catch (error) {
+    console.error("JWT VERIFY ERROR:", error);
     return null;
   }
 }

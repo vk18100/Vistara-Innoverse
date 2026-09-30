@@ -1,349 +1,350 @@
 "use client";
 
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Navbar from "@/components/navbar";
-import {
-  ArrowLeft,
-  CalendarDays,
-  CheckCircle2,
-  Clock3,
-  MapPin,
-  Users,
-  UserRound,
-} from "lucide-react";
 
-type LocalPlan = {
-  id: string;
-  title: string;
-  location: string;
-  date: string;
-  duration: string;
+import Navbar from "@/components/navbar";
+
+type Booking = {
+  id: number;
+  checkIn: string;
+  checkOut: string;
   guests: number;
-  status: string;
-  price: number;
-  currency: string;
-  image: string;
-  description: string;
-  activities: string[];
-  guide?: {
-    name: string;
-    language: string[];
+  nights: number;
+  totalAmount: number | string;
+  status: "PENDING" | "CONFIRMED" | "CANCELLED" | "COMPLETED";
+  paymentStatus: string;
+  property: {
+    id: number;
+    title: string;
+    city: string;
+    country: string;
+    images: {
+      id: number;
+      url: string;
+      altText?: string | null;
+      isPrimary: boolean;
+    }[];
   };
 };
 
-export default function LocalPlanDetailsPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const [plan, setPlan] = useState<LocalPlan | null>(null);
+function formatDate(value: string) {
+  return new Date(value).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function formatAmount(value: number | string) {
+  return `₹${Number(value).toLocaleString("en-IN")}`;
+}
+
+function statusStyle(status: Booking["status"]) {
+  const styles = {
+    CONFIRMED: "bg-emerald-50 text-emerald-700",
+    PENDING: "bg-orange-50 text-orange-700",
+    COMPLETED: "bg-slate-100 text-slate-600",
+    CANCELLED: "bg-red-50 text-red-700",
+  };
+
+  return styles[status];
+}
+
+export default function BookingDetailPage() {
+  const params = useParams<{ id: string }>();
+  const router = useRouter();
+
+  const id = params?.id;
+
+  const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [cancelling, setCancelling] = useState(false);
 
   useEffect(() => {
-    async function loadPlan() {
+    if (!id) return;
+
+    const controller = new AbortController();
+
+    async function loadBooking() {
       try {
-        const { id } = await params;
+        setLoading(true);
+        setError("");
 
-        const response = await fetch(`/api/local-plans/${id}`);
-
-        if (!response.ok) {
-          throw new Error("Unable to load plan");
-        }
+        const response = await fetch(`/api/bookings/${id}`, {
+          credentials: "include",
+          signal: controller.signal,
+          cache: "no-store",
+        });
 
         const result = await response.json();
 
-        setPlan(result.data);
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.message || "Unable to load this booking."
+          );
+        }
+
+        setBooking(result.booking ?? result.data ?? null);
       } catch (error) {
-        console.error(error);
-        setError("Unable to load this local plan.");
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
+        console.error("BOOKING_DETAIL_ERROR:", error);
+
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Unable to load this booking."
+        );
       } finally {
-        setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     }
 
-    loadPlan();
-  }, [params]);
+    loadBooking();
+
+    return () => controller.abort();
+  }, [id]);
+
+  async function handleCancel() {
+    if (!booking || cancelling) return;
+
+    if (!window.confirm("Cancel this booking? This cannot be undone.")) {
+      return;
+    }
+
+    try {
+      setCancelling(true);
+
+      const response = await fetch(`/api/bookings/${booking.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          status: "CANCELLED",
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.message || "Unable to cancel booking."
+        );
+      }
+
+      router.replace("/bookings");
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Unable to cancel booking."
+      );
+      setCancelling(false);
+    }
+  }
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-white text-[#03045E]">
+      <main className="min-h-screen bg-white">
         <Navbar />
 
-        <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
-          <div className="h-8 w-32 animate-pulse rounded-lg bg-[#EEF0FF]" />
-
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1.4fr_0.6fr]">
-            <div className="h-[500px] animate-pulse rounded-[30px] bg-[#F5F7FF]" />
-            <div className="h-[500px] animate-pulse rounded-[30px] bg-[#F5F7FF]" />
+        <div className="flex min-h-[70vh] items-center justify-center">
+          <div className="text-center">
+            <div className="mx-auto h-9 w-9 animate-spin rounded-full border-2 border-slate-200 border-t-[#03045E]" />
+            <p className="mt-4 text-sm text-[#64748B]">
+              Loading booking...
+            </p>
           </div>
         </div>
       </main>
     );
   }
 
-  if (error || !plan) {
+  if (error || !booking) {
     return (
       <main className="min-h-screen bg-white text-[#03045E]">
         <Navbar />
 
-        <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-          <h1 className="font-serif text-4xl font-semibold">
-            Plan not found
-          </h1>
+        <section className="mx-auto flex min-h-[70vh] max-w-5xl items-center justify-center px-6">
+          <div className="text-center">
+            <p className="text-xs font-bold tracking-[0.25em] text-[#0D21A1]">
+              BOOKING NOT FOUND
+            </p>
 
-          <p className="mt-3 text-sm text-gray-500">
-            We couldn't find this local plan.
-          </p>
+            <h1 className="mt-4 font-serif text-4xl font-semibold">
+              {error || "We couldn't find this booking."}
+            </h1>
 
-          <Link
-            href="/local-plans"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#03045E] px-6 py-3.5 text-sm font-semibold text-white"
-          >
-            <ArrowLeft size={16} />
-            Back to Local Plans
-          </Link>
-        </div>
+            <Link
+              href="/bookings"
+              className="mt-7 inline-flex rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+            >
+              Back to bookings
+            </Link>
+          </div>
+        </section>
       </main>
     );
   }
+
+  const primaryImage =
+    booking.property.images.find((image) => image.isPrimary) ??
+    booking.property.images[0];
+
+  const canCancel =
+    booking.status === "PENDING" ||
+    booking.status === "CONFIRMED";
 
   return (
     <main className="min-h-screen bg-white text-[#03045E]">
       <Navbar />
 
-      {/* HEADER */}
-      <section className="border-b border-[#03045E]/10">
-        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
+      <section className="border-b border-[#03045E]/10 bg-[#F7F9FF]">
+        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
           <Link
-            href="/local-plans"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-[#03045E]"
+            href="/bookings"
+            className="text-sm font-medium text-[#64748B] hover:text-[#03045E]"
           >
-            <ArrowLeft size={16} />
-            Back to Local Plans
+            ← Back to bookings
           </Link>
+
+          <p className="mt-6 text-xs text-[#94A3B8]">
+            Booking ID: VS-{booking.id}
+          </p>
         </div>
       </section>
 
-      {/* MAIN */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10 lg:py-14">
-        <div className="grid gap-10 lg:grid-cols-[1.35fr_0.65fr]">
-
-          {/* LEFT */}
-          <div>
-            {/* IMAGE */}
-            <div className="relative h-[380px] overflow-hidden rounded-[32px] md:h-[520px]">
+      <section className="mx-auto max-w-5xl px-6 py-10 lg:px-10">
+        <article className="overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_15px_50px_rgba(3,4,94,0.06)]">
+          <div className="relative h-72 overflow-hidden bg-[#EEF4FF] md:h-96">
+            {primaryImage ? (
               <img
-                src={plan.image}
-                alt={plan.title}
+                src={primaryImage.url}
+                alt={
+                  primaryImage.altText ||
+                  booking.property.title
+                }
                 className="h-full w-full object-cover"
               />
-
-              <div className="absolute left-5 top-5">
-                <span className="rounded-full bg-white px-4 py-2 text-xs font-bold text-[#03045E] shadow-lg">
-                  {plan.status}
-                </span>
-              </div>
-            </div>
-
-            {/* TITLE */}
-            <div className="mt-9">
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0D21A1]">
-                LOCAL EXPERIENCE
-              </p>
-
-              <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-                {plan.title}
-              </h1>
-
-              <p className="mt-4 flex items-center gap-2 text-sm text-gray-500">
-                <MapPin size={17} />
-                {plan.location}
-              </p>
-            </div>
-
-            {/* DESCRIPTION */}
-            <div className="mt-9 border-t border-[#03045E]/10 pt-8">
-              <h2 className="font-serif text-2xl font-semibold">
-                About this plan
-              </h2>
-
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-gray-500">
-                {plan.description}
-              </p>
-            </div>
-
-            {/* ACTIVITIES */}
-            <div className="mt-9 border-t border-[#03045E]/10 pt-8">
-              <h2 className="font-serif text-2xl font-semibold">
-                What's included
-              </h2>
-
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {plan.activities.map((activity) => (
-                  <div
-                    key={activity}
-                    className="flex items-center gap-3 rounded-xl bg-[#F5F7FF] px-4 py-3.5"
-                  >
-                    <CheckCircle2
-                      size={18}
-                      className="shrink-0 text-[#0D21A1]"
-                    />
-
-                    <span className="text-sm font-medium">
-                      {activity}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* GUIDE */}
-            {plan.guide && (
-              <div className="mt-9 border-t border-[#03045E]/10 pt-8">
-                <h2 className="font-serif text-2xl font-semibold">
-                  Your local guide
-                </h2>
-
-                <div className="mt-5 flex items-center gap-4 rounded-2xl border border-[#03045E]/10 p-5">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#EEF0FF] text-[#03045E]">
-                    <UserRound size={24} />
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold">
-                      {plan.guide.name}
-                    </h3>
-
-                    <p className="mt-1 text-sm text-gray-500">
-                      Speaks {plan.guide.language.join(" · ")}
-                    </p>
-                  </div>
-                </div>
+            ) : (
+              <div className="flex h-full items-center justify-center text-sm text-[#64748B]">
+                No image available
               </div>
             )}
           </div>
 
-          {/* RIGHT BOOKING CARD */}
-          <aside>
-            <div className="sticky top-8 rounded-[28px] border border-[#03045E]/10 bg-white p-6 shadow-[0_18px_60px_rgba(3,4,94,0.08)] md:p-7">
+          <div className="p-6 md:p-8">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h1 className="font-serif text-3xl font-semibold">
+                  {booking.property.title}
+                </h1>
 
-              <div className="flex items-end justify-between gap-4 border-b border-[#03045E]/10 pb-6">
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-gray-400">
-                    Plan price
-                  </p>
-
-                  <p className="mt-1 text-3xl font-semibold text-[#03045E]">
-                    ₹{plan.price.toLocaleString("en-IN")}
-                  </p>
-                </div>
-
-                <span className="rounded-full bg-[#EEF0FF] px-3 py-1.5 text-xs font-semibold text-[#0D21A1]">
-                  {plan.status}
-                </span>
+                <p className="mt-2 text-sm text-[#64748B]">
+                  {booking.property.city},{" "}
+                  {booking.property.country}
+                </p>
               </div>
 
-              {/* DETAILS */}
-              <div className="space-y-5 py-6">
-
-                <DetailRow
-                  icon={<CalendarDays size={18} />}
-                  label="Date"
-                  value={formatDate(plan.date)}
-                />
-
-                <DetailRow
-                  icon={<Clock3 size={18} />}
-                  label="Duration"
-                  value={plan.duration}
-                />
-
-                <DetailRow
-                  icon={<Users size={18} />}
-                  label="Guests"
-                  value={`${plan.guests} guests`}
-                />
-
-                <DetailRow
-                  icon={<MapPin size={18} />}
-                  label="Location"
-                  value={plan.location}
-                />
-              </div>
-
-              {/* STATUS */}
-              <div className="rounded-2xl bg-[#F5F7FF] p-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle2
-                    size={19}
-                    className="mt-0.5 text-[#0D21A1]"
-                  />
-
-                  <div>
-                    <p className="text-sm font-semibold">
-                      Plan confirmed
-                    </p>
-
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
-                      Your local experience is saved to your Vistara journey.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* ACTION */}
-              <Link
-                href="/trips"
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-[#03045E] px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+              <span
+                className={`w-fit rounded-full px-4 py-2 text-xs font-bold ${statusStyle(
+                  booking.status
+                )}`}
               >
-                View My Trip
-                <ArrowLeft
-                  size={17}
-                  className="rotate-180"
-                />
+                {booking.status}
+              </span>
+            </div>
+
+            <div className="mt-8 grid gap-6 border-y border-[#E8EBF5] py-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <p className="text-xs text-[#94A3B8]">CHECK-IN</p>
+                <p className="mt-1 text-sm font-semibold">
+                  {formatDate(booking.checkIn)}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs text-[#94A3B8]">CHECK-OUT</p>
+                <p className="mt-1 text-sm font-semibold">
+                  {formatDate(booking.checkOut)}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs text-[#94A3B8]">GUESTS</p>
+                <p className="mt-1 text-sm font-semibold">
+                  {booking.guests}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs text-[#94A3B8]">TOTAL</p>
+                <p className="mt-1 text-sm font-semibold">
+                  {formatAmount(booking.totalAmount)}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-4 rounded-2xl bg-[#F8FAFF] p-5 sm:grid-cols-2">
+              <div>
+                <p className="text-xs text-[#94A3B8]">
+                  NIGHTS
+                </p>
+                <p className="mt-1 text-sm font-semibold">
+                  {booking.nights}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs text-[#94A3B8]">
+                  PAYMENT
+                </p>
+                <p className="mt-1 text-sm font-semibold">
+                  {booking.paymentStatus}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href={`/stays/${booking.property.id}`}
+                className="rounded-xl border border-[#03045E] px-5 py-2.5 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white"
+              >
+                View stay
+              </Link>
+
+              {canCancel && (
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  disabled={cancelling}
+                  className="rounded-xl bg-red-50 px-5 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {cancelling
+                    ? "Cancelling..."
+                    : "Cancel booking"}
+                </button>
+              )}
+
+              <Link
+                href="/support"
+                className="rounded-xl border border-[#DCE1EF] px-5 py-2.5 text-sm font-semibold text-[#03045E] transition hover:border-[#03045E]"
+              >
+                Get help
               </Link>
             </div>
-          </aside>
-        </div>
+          </div>
+        </article>
       </section>
     </main>
   );
-}
-
-function DetailRow({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5F7FF] text-[#0D21A1]">
-        {icon}
-      </div>
-
-      <div>
-        <p className="text-xs uppercase tracking-wide text-gray-400">
-          {label}
-        </p>
-
-        <p className="mt-1 text-sm font-semibold text-[#03045E]">
-          {value}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
 }

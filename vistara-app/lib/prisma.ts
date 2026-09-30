@@ -1,11 +1,15 @@
 import "dotenv/config";
+
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@prisma/client";
 
-const connectionString = process.env.DIRECT_URL;
+const connectionString =
+  process.env.DATABASE_URL || process.env.DIRECT_URL;
 
 if (!connectionString) {
-  throw new Error("DIRECT_URL is not defined");
+  throw new Error(
+    "DATABASE_URL or DIRECT_URL is not defined"
+  );
 }
 
 const adapter = new PrismaPg({

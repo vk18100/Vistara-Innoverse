@@ -3,6 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/guard";
 
+/* =========================
+   GET /api/wishlist
+========================= */
+
 export async function GET(req: NextRequest) {
   try {
     const { user, response } = await requireAuth(req);
@@ -38,9 +42,9 @@ export async function GET(req: NextRequest) {
       type: item.property.type,
       title: item.property.title,
       location: `${item.property.city}, ${item.property.country}`,
-      price: `₹${Number(
-        item.property.pricePerNight
-      ).toLocaleString("en-IN")} / night`,
+      price: `₹${Number(item.property.pricePerNight).toLocaleString(
+        "en-IN"
+      )} night`,
       rating: item.property.rating.toFixed(1),
       image:
         item.property.images[0]?.url ??
@@ -64,6 +68,11 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+/* =========================
+   POST /api/wishlist
+   body: { propertyId: number }
+========================= */
 
 export async function POST(req: NextRequest) {
   try {
@@ -116,6 +125,11 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+/* =========================
+   DELETE /api/wishlist
+   body: { propertyId: number }
+========================= */
 
 export async function DELETE(req: NextRequest) {
   try {
