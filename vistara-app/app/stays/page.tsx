@@ -1,16 +1,10 @@
+import Link from "next/link";
+import Image from "next/image";
 import Navbar from "@/components/navbar";
 import Footer from "@/app/footer/page";
 import { prisma } from "@/lib/prisma";
-import PropCard from "@/components/cards/properCard";
 
-/*
-|--------------------------------------------------------------------------
-| VISTARA LOCAL PROPERTY IMAGES
-|--------------------------------------------------------------------------
-| Local images only.
-| Keep these optimized/compressed in /public/images.
-|--------------------------------------------------------------------------
-*/
+export const revalidate = 60;
 
 const localImages = [
   "/images/pag1 (7).jpg",
@@ -32,42 +26,25 @@ const localImages = [
   "/images/pag1 (23).jpg",
 ];
 
-/*
-|--------------------------------------------------------------------------
-| ISR / CACHING
-|--------------------------------------------------------------------------
-| Don't force a full dynamic render on every request.
-| Revalidate the page periodically instead.
-|
-| If you later add real-time search/filtering, move those parts
-| into a dynamic route/API instead of making the whole page dynamic.
-|--------------------------------------------------------------------------
-*/
+const imagesPerProperty = 5;
 
-export const revalidate = 60;
+function getPropertyImage(index: number) {
+  const start = index * imagesPerProperty;
+
+  return (
+    localImages[start % localImages.length] ??
+    localImages[0]
+  );
+}
 
 export default async function StaysPage() {
-  /*
-  |--------------------------------------------------------------------------
-  | DATABASE QUERY
-  |--------------------------------------------------------------------------
-  | Only request fields actually needed by the listing page.
-  |
-  | IMPORTANT:
-  | We removed `include: { images: ... }` because this page uses
-  | localImages instead of database image records.
-  |--------------------------------------------------------------------------
-  */
-
   const properties = await prisma.property.findMany({
     where: {
       status: "VERIFIED",
     },
-
     orderBy: {
       createdAt: "desc",
     },
-
     select: {
       id: true,
       title: true,
@@ -75,352 +52,114 @@ export default async function StaysPage() {
       country: true,
       pricePerNight: true,
       rating: true,
+      guests: true,
+      bedrooms: true,
+      bathrooms: true,
+      description: true,
     },
   });
 
-  /*
-  |--------------------------------------------------------------------------
-  | FORMAT DATA
-  |--------------------------------------------------------------------------
-  */
-
-  const formattedProperties = properties.map((property, index) => ({
-    id: String(property.id),
-
-    title: property.title,
-
-    location: `${property.city}, ${property.country}`,
-
-    city: property.city,
-
-    country: property.country,
-
-    image: localImages[index % localImages.length],
-
-    price: Number(property.pricePerNight),
-
-    currency: "INR",
-
-    rating: Number(property.rating ?? 0),
-  }));
-
   return (
-    <main className="min-h-screen bg-[#F8FAFF] text-[#03045E]">
+    <main className="min-h-screen bg-white text-[#03045E]">
       <Navbar />
 
-      {/* =========================================================
-          SEARCH
-      ========================================================= */}
+      <section className="mx-auto max-w-7xl px-6 pb-10 pt-12 lg:px-10">
+        <div className="max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#0D21A1]">
+            Vistara Stays
+          </p>
 
-      <section className="border-b border-[#E2E8F0] bg-white">
-        <div className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-10">
+          <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
+            Find a stay worth remembering
+          </h1>
 
-          <div
-            className="
-              overflow-hidden
-              rounded-2xl
-              border border-[#DCE3F0]
-              bg-white
-              shadow-[0_10px_35px_rgba(3,4,94,0.08)]
-              lg:rounded-[24px]
-            "
-          >
-            {/* SEARCH FIELDS */}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:flex lg:items-center">
-
-              {/* WHERE */}
-              <div className="min-w-0 flex-1 px-5 py-4">
-                <label
-                  htmlFor="destination"
-                  className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]"
-                >
-                  Where
-                </label>
-
-                <input
-                  id="destination"
-                  type="text"
-                  placeholder="Search destinations"
-                  className="
-                    mt-1
-                    w-full
-                    bg-transparent
-                    text-sm
-                    font-medium
-                    text-[#03045E]
-                    outline-none
-                    placeholder:text-[#94A3B8]
-                  "
-                />
-              </div>
-
-              <div className="hidden h-10 w-px bg-[#E2E8F0] lg:block" />
-
-              {/* CHECK-IN */}
-              <div className="min-w-0 flex-1 px-5 py-4">
-                <label
-                  htmlFor="check-in"
-                  className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]"
-                >
-                  Check-in
-                </label>
-
-                <input
-                  id="check-in"
-                  type="date"
-                  className="
-                    mt-1
-                    w-full
-                    bg-transparent
-                    text-sm
-                    font-medium
-                    text-[#03045E]
-                    outline-none
-                  "
-                />
-              </div>
-
-              <div className="hidden h-10 w-px bg-[#E2E8F0] lg:block" />
-
-              {/* CHECK-OUT */}
-              <div className="min-w-0 flex-1 px-5 py-4">
-                <label
-                  htmlFor="check-out"
-                  className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]"
-                >
-                  Check-out
-                </label>
-
-                <input
-                  id="check-out"
-                  type="date"
-                  className="
-                    mt-1
-                    w-full
-                    bg-transparent
-                    text-sm
-                    font-medium
-                    text-[#03045E]
-                    outline-none
-                  "
-                />
-              </div>
-
-              <div className="hidden h-10 w-px bg-[#E2E8F0] lg:block" />
-
-              {/* GUESTS */}
-              <div className="min-w-0 flex-1 px-5 py-4">
-                <label
-                  htmlFor="guests"
-                  className="block text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]"
-                >
-                  Guests
-                </label>
-
-                <input
-                  id="guests"
-                  type="number"
-                  min={1}
-                  placeholder="Add guests"
-                  className="
-                    mt-1
-                    w-full
-                    bg-transparent
-                    text-sm
-                    font-medium
-                    text-[#03045E]
-                    outline-none
-                    placeholder:text-[#94A3B8]
-                  "
-                />
-              </div>
-
-              {/* SEARCH */}
-              <div className="p-3 lg:p-2">
-                <button
-                  type="button"
-                  className="
-                    min-h-11
-                    w-full
-                    rounded-xl
-                    bg-[#03045E]
-                    px-7
-                    py-3
-                    text-sm
-                    font-semibold
-                    text-white
-                    transition
-                    hover:bg-[#0D21A1]
-                    focus:outline-none
-                    focus:ring-2
-                    focus:ring-[#2563EB]
-                    focus:ring-offset-2
-                    lg:w-auto
-                    lg:rounded-2xl
-                    lg:px-8
-                    lg:py-4
-                  "
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* FILTERS */}
-
-          <div className="mt-5 flex gap-2 overflow-x-auto pb-1 scrollbar-hide sm:mt-6 sm:gap-3">
-            {[
-              "All",
-              "Villas",
-              "Hotels",
-              "Vacation Homes",
-              "Resorts",
-              "Unique Stays",
-            ].map((filter, index) => (
-              <button
-                key={filter}
-                type="button"
-                className={
-                  index === 0
-                    ? `
-                      min-h-10
-                      shrink-0
-                      whitespace-nowrap
-                      rounded-full
-                      bg-[#03045E]
-                      px-4
-                      py-2.5
-                      text-sm
-                      font-semibold
-                      text-white
-                    `
-                    : `
-                      min-h-10
-                      shrink-0
-                      whitespace-nowrap
-                      rounded-full
-                      border
-                      border-[#DCE3F0]
-                      bg-white
-                      px-4
-                      py-2.5
-                      text-sm
-                      font-medium
-                      text-[#334155]
-                      transition
-                      hover:border-[#03045E]
-                      hover:text-[#03045E]
-                      focus:outline-none
-                      focus:ring-2
-                      focus:ring-[#2563EB]
-                    `
-                }
-              >
-                {filter}
-              </button>
-            ))}
-
-            <button
-              type="button"
-              className="
-                ml-auto
-                hidden
-                min-h-10
-                shrink-0
-                rounded-full
-                border
-                border-[#DCE3F0]
-                bg-white
-                px-5
-                py-2.5
-                text-sm
-                font-medium
-                text-[#334155]
-                transition
-                hover:border-[#03045E]
-                hover:text-[#03045E]
-                sm:block
-              "
-            >
-              Filters
-            </button>
-          </div>
+          <p className="mt-4 max-w-2xl text-[15px] leading-7 text-[#64748B]">
+            Discover verified stays, villas, apartments, hotels and unique
+            places across destinations.
+          </p>
         </div>
       </section>
 
-      {/* =========================================================
-          PROPERTY SECTION
-      ========================================================= */}
-
-      <section className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-10 lg:py-12">
-
-        {/* HEADER */}
-
-        <div className="mb-6 flex items-end justify-between gap-4 sm:mb-8">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#0D21A1] sm:text-xs">
-              Vistara Stays
-            </p>
-
-            <h1
-              className="
-                mt-2
-                text-2xl
-                font-semibold
-                tracking-tight
-                text-[#03045E]
-                sm:text-3xl
-              "
-            >
-              Places worth staying in
-            </h1>
-          </div>
-
-          <p className="shrink-0 text-xs text-[#64748B] sm:text-sm">
-            {formattedProperties.length} stays
-          </p>
-        </div>
-
-        {/* =======================================================
-            NO PROPERTIES
-        ======================================================= */}
-
-        {formattedProperties.length === 0 ? (
-          <div className="rounded-2xl border border-[#E2E8F0] bg-white px-5 py-14 text-center sm:px-6 sm:py-16">
+      <section className="mx-auto max-w-7xl px-6 pb-16 lg:px-10">
+        {properties.length === 0 ? (
+          <div className="rounded-[28px] border border-[#E2E8F0] bg-[#F8FAFC] px-6 py-16 text-center">
             <h2 className="text-xl font-semibold text-[#03045E]">
-              No stays available
+              No verified stays available
             </h2>
 
             <p className="mt-2 text-sm text-[#64748B]">
-              Verified properties will appear here.
+              Please check again later.
             </p>
           </div>
         ) : (
-          /* =====================================================
-             PROPERTY CARDS
-          ===================================================== */
+          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {properties.map((property, index) => {
+              const image = getPropertyImage(index);
 
-          <div
-            className="
-              grid
-              grid-cols-1
-              gap-x-5
-              gap-y-8
-              sm:grid-cols-2
-              sm:gap-x-6
-              sm:gap-y-10
-              lg:grid-cols-3
-              xl:grid-cols-4
-            "
-          >
-            {formattedProperties.map((property) => (
-              <PropCard
-                key={property.id}
-                property={property}
-              />
-            ))}
+              return (
+                <Link
+                  key={property.id}
+                  href={`/stays/${property.id}`}
+                  className="group block"
+                >
+                  <article>
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-[24px] bg-[#EEF2F7]">
+                      <Image
+                        src={image}
+                        alt={property.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      />
+
+                      <div className="absolute left-3 top-3 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-[#03045E] shadow-sm">
+                        Verified
+                      </div>
+                    </div>
+
+                    <div className="pt-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <h2 className="truncate text-base font-semibold text-[#03045E]">
+                            {property.title}
+                          </h2>
+
+                          <p className="mt-1 text-sm text-[#64748B]">
+                            {property.city}, {property.country}
+                          </p>
+                        </div>
+
+                        <span className="shrink-0 text-sm font-semibold text-[#03045E]">
+                          ★ {Number(property.rating ?? 0).toFixed(1)}
+                        </span>
+                      </div>
+
+                      <div className="mt-3 flex flex-wrap gap-2 text-xs text-[#64748B]">
+                        <span>{property.guests} guests</span>
+
+                        <span>•</span>
+
+                        <span>{property.bedrooms} bedrooms</span>
+
+                        <span>•</span>
+
+                        <span>{property.bathrooms} bathrooms</span>
+                      </div>
+
+                      <p className="mt-3 text-sm font-semibold text-[#03045E]">
+                        ₹
+                        {Number(property.pricePerNight).toLocaleString(
+                          "en-IN"
+                        )}
+                        <span className="ml-1 font-normal text-[#64748B]">
+                          / night
+                        </span>
+                      </p>
+                    </div>
+                  </article>
+                </Link>
+              );
+            })}
           </div>
         )}
       </section>

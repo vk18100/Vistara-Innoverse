@@ -5,7 +5,8 @@ import Navbar from "@/components/navbar";
 
 const bookings = [
   {
-    id: "VS-2026-1048",
+    id: 1,
+    displayId: "VS-2026-1048",
     type: "Stay",
     title: "A peaceful stay by the Ganges",
     location: "Varanasi, Uttar Pradesh",
@@ -13,32 +14,7 @@ const bookings = [
     guests: "2 Guests",
     amount: "₹18,500",
     status: "Confirmed",
-    image:
-      "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    id: "VS-2026-0981",
-    type: "Experience",
-    title: "Sunrise boat ride & old city walk",
-    location: "Varanasi, Uttar Pradesh",
-    dates: "19 Oct 2026",
-    guests: "2 Guests",
-    amount: "₹3,200",
-    status: "Confirmed",
-    image:
-      "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1000&q=80",
-  },
-  {
-    id: "VS-2026-0714",
-    type: "Stay",
-    title: "Heritage retreat in Jaipur",
-    location: "Jaipur, Rajasthan",
-    dates: "12 Aug – 15 Aug 2026",
-    guests: "2 Guests",
-    amount: "₹15,800",
-    status: "Completed",
-    image:
-      "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1000&q=80",
+    image: "/images/bookings/pag1 (14).jpg",
   },
 ];
 
@@ -76,7 +52,6 @@ export default function BookingsPage() {
 
       {/* CONTENT */}
       <section className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
-
         {/* FILTERS */}
         <div className="mb-8 flex flex-wrap gap-3">
           <button className="rounded-full bg-[#03045E] px-5 py-2.5 text-sm font-semibold text-white">
@@ -108,12 +83,12 @@ export default function BookingsPage() {
               className="group overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_12px_45px_rgba(3,4,94,0.05)] transition hover:shadow-[0_18px_55px_rgba(3,4,94,0.09)]"
             >
               <div className="flex flex-col md:flex-row">
-
                 {/* IMAGE */}
                 <div className="relative h-64 shrink-0 overflow-hidden md:h-auto md:w-72">
                   <img
                     src={booking.image}
                     alt={booking.title}
+                    loading="lazy"
                     className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                   />
 
@@ -124,7 +99,6 @@ export default function BookingsPage() {
 
                 {/* DETAILS */}
                 <div className="flex flex-1 flex-col p-6 md:p-7">
-
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                       <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#C6A15B]">
@@ -140,13 +114,7 @@ export default function BookingsPage() {
                       </p>
                     </div>
 
-                    <span
-                      className={`w-fit rounded-full px-3 py-1.5 text-xs font-bold ${
-                        booking.status === "Confirmed"
-                          ? "bg-[#ECFDF5] text-emerald-700"
-                          : "bg-[#F1F5F9] text-[#64748B]"
-                      }`}
-                    >
+                    <span className="w-fit rounded-full bg-[#ECFDF5] px-3 py-1.5 text-xs font-bold text-emerald-700">
                       {booking.status}
                     </span>
                   </div>
@@ -154,9 +122,7 @@ export default function BookingsPage() {
                   {/* META */}
                   <div className="mt-6 grid gap-4 border-y border-[#03045E]/10 py-5 sm:grid-cols-3">
                     <div>
-                      <p className="text-xs text-[#94A3B8]">
-                        DATES
-                      </p>
+                      <p className="text-xs text-[#94A3B8]">DATES</p>
 
                       <p className="mt-1 text-sm font-semibold text-[#03045E]">
                         {booking.dates}
@@ -164,9 +130,7 @@ export default function BookingsPage() {
                     </div>
 
                     <div>
-                      <p className="text-xs text-[#94A3B8]">
-                        GUESTS
-                      </p>
+                      <p className="text-xs text-[#94A3B8]">GUESTS</p>
 
                       <p className="mt-1 text-sm font-semibold text-[#03045E]">
                         {booking.guests}
@@ -174,9 +138,7 @@ export default function BookingsPage() {
                     </div>
 
                     <div>
-                      <p className="text-xs text-[#94A3B8]">
-                        TOTAL
-                      </p>
+                      <p className="text-xs text-[#94A3B8]">TOTAL</p>
 
                       <p className="mt-1 text-sm font-semibold text-[#03045E]">
                         {booking.amount}
@@ -189,11 +151,12 @@ export default function BookingsPage() {
                     <p className="text-xs text-[#94A3B8]">
                       Booking ID:{" "}
                       <span className="font-medium text-[#64748B]">
-                        {booking.id}
+                        {booking.displayId}
                       </span>
                     </p>
 
                     <div className="flex gap-3">
+                      {/* CORRECT ROUTE */}
                       <Link
                         href={`/bookings/${booking.id}`}
                         className="rounded-xl border border-[#03045E] px-5 py-2.5 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white"
@@ -201,10 +164,14 @@ export default function BookingsPage() {
                         View details
                       </Link>
 
+                      {/* CORRECT ROUTE */}
                       {booking.status === "Confirmed" && (
-                        <button className="rounded-xl bg-[#03045E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]">
+                        <Link
+                          href={`/bookings/${booking.id}`}
+                          className="rounded-xl bg-[#03045E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+                        >
                           Manage booking
-                        </button>
+                        </Link>
                       )}
                     </div>
                   </div>
@@ -214,9 +181,9 @@ export default function BookingsPage() {
           ))}
         </div>
 
-        {/* PAYMENT / INVOICE */}
+        {/* PAYMENT / SUPPORT */}
         <div className="mt-10 grid gap-5 md:grid-cols-2">
-
+          {/* PAYMENT */}
           <div className="rounded-[28px] border border-[#03045E]/10 bg-[#FAFAF8] p-7">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
               PAYMENTS
@@ -238,6 +205,7 @@ export default function BookingsPage() {
             </Link>
           </div>
 
+          {/* SUPPORT */}
           <div className="rounded-[28px] border border-[#C6A15B]/25 bg-gradient-to-br from-[#F7F3EA] to-white p-7">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
               NEED HELP?
@@ -258,7 +226,6 @@ export default function BookingsPage() {
               Get support →
             </Link>
           </div>
-
         </div>
       </section>
     </main>
