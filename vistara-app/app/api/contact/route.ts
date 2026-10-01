@@ -5,12 +5,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const {
-      name,
-      email,
-      subject,
-      message,
-    } = body;
+    const { name, email, subject, message } = body;
 
     // Validation
     if (!name || !email || !subject || !message) {
@@ -23,7 +18,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Basic email validation
+    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
@@ -36,7 +31,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Save contact message
+    // Save message to database
     const contact = await prisma.contactMessage.create({
       data: {
         name: name.trim(),
