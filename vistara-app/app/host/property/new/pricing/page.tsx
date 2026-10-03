@@ -1,622 +1,848 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CalendarDays,
+  Check,
+  Clock3,
+  Info,
+  LockKeyhole,
+  Plus,
+  Minus,
+  Zap,
+} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
-export default function PropertyPricingPage() {
-  const [price, setPrice] = useState("4500");
-  const [cleaningFee, setCleaningFee] = useState("500");
-  const [serviceFee, setServiceFee] = useState("0");
-  const [smartPricing, setSmartPricing] = useState(true);
+type AvailabilityState = {
+  available: boolean;
+  minStay: number;
+  maxStay: number;
+  advanceNotice: number;
+  preparationTime: number;
+  instantBooking: boolean;
+  blockedDates: string[];
+};
 
-  const steps = [
-    "Basic",
-    "Location",
-    "Rooms",
-    "Amenities",
-    "Photos",
-    "Pricing",
-    "Availability",
-    "Rules",
-    "Guests",
-    "Preview",
-  ];
+const DEFAULT_AVAILABILITY: AvailabilityState = {
+  available: true,
+  minStay: 1,
+  maxStay: 30,
+  advanceNotice: 1,
+  preparationTime: 0,
+  instantBooking: false,
+  blockedDates: [],
+};
 
-  const basePrice = Number(price) || 0;
-  const cleaning = Number(cleaningFee) || 0;
-  const service = Number(serviceFee) || 0;
-  const guestTotal = basePrice + cleaning + service;
+const STORAGE_KEY_PREFIX = "vistara-property-";
 
-  const handleContinue = () => {
-    if (basePrice <= 0) {
-      alert("Please enter a valid nightly price.");
+export default function AvailabilityPage() {
+  const params = useParams();
+  const router = useRouter();
+
+  const id = String(params.id);
+  const storageKey =
+    `${STORAGE_KEY_PREFIX}${id}-availability`;
+
+  const [availability, setAvailability] =
+    useState<AvailabilityState>(
+      DEFAULT_AVAILABILITY,
+    );
+
+  const [loaded, setLoaded] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  /* ---------------------------------------------------------------------- */
+  /* LOAD                                                                    */
+  /* ---------------------------------------------------------------------- */
+
+  useEffect(() => {
+    try {
+      const stored =
+        localStorage.getItem(storageKey);
+
+      if (stored) {
+        const parsed = JSON.parse(stored);
+
+        setAvailability({
+          available:
+            typeof parsed.available === "boolean"
+              ? parsed.available
+              : true,
+
+          minStay:
+            typeof parsed.minStay === "number"
+              ? parsed.minStay
+              : 1,
+
+          maxStay:
+            typeof parsed.maxStay === "number"
+              ? parsed.maxStay
+              : 30,
+
+          advanceNotice:
+            typeof parsed.advanceNotice === "number"
+              ? parsed.advanceNotice
+              : 1,
+
+          preparationTime:
+            typeof parsed.preparationTime === "number"
+              ? parsed.preparationTime
+              : 0,
+
+          instantBooking:
+            typeof parsed.instantBooking === "boolean"
+              ? parsed.instantBooking
+              : false,
+
+          blockedDates:
+            Array.isArray(parsed.blockedDates)
+              ? parsed.blockedDates
+              : [],
+        });
+      }
+    } catch {
+      setAvailability(DEFAULT_AVAILABILITY);
+    } finally {
+      setLoaded(true);
+    }
+  }, [storageKey]);
+
+  /* ---------------------------------------------------------------------- */
+  /* UPDATE                                                                  */
+  /* ---------------------------------------------------------------------- */
+
+  function updateField(
+    field: keyof AvailabilityState,
+    value:
+      | boolean
+      | number
+      | string[],
+  ) {
+    setSaved(false);
+
+    setAvailability((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* SAVE                                                                    */
+  /* ---------------------------------------------------------------------- */
+
+  function saveAvailability() {
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(availability),
+      );
+
+      setSaved(true);
+    } catch {
+      setSaved(false);
+    }
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* CONTINUE                                                                */
+  /* ---------------------------------------------------------------------- */
+
+  function handleContinue() {
+    if (
+      availability.minStay >
+      availability.maxStay
+    ) {
       return;
     }
 
-    console.log({
-      price: basePrice,
-      cleaningFee: cleaning,
-      serviceFee: service,
-      smartPricing,
-    });
-  };
+    setSaving(true);
+
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(availability),
+      );
+    } finally {
+      setTimeout(() => {
+        router.push(
+          `/host/property/new/${id}/pricing`,
+        );
+      }, 300);
+    }
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* DATE HELPERS                                                             */
+  /* ---------------------------------------------------------------------- */
+
+  const upcomingDates = useMemo(() => {
+    const dates: Date[] = [];
+    const today = new Date();
+
+    for (let i = 0; i < 14; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      dates.push(date);
+    }
+
+    return dates;
+  }, []);
+
+  function formatDate(date: Date) {
+    return date.toISOString().split("T")[0];
+  }
+
+  function toggleDate(date: Date) {
+    const formatted = formatDate(date);
+
+    const exists =
+      availability.blockedDates.includes(
+        formatted,
+      );
+
+    const nextDates = exists
+      ? availability.blockedDates.filter(
+          (item) => item !== formatted,
+        )
+      : [
+          ...availability.blockedDates,
+          formatted,
+        ];
+
+    updateField(
+      "blockedDates",
+      nextDates,
+    );
+  }
+
+  function isBlocked(date: Date) {
+    return availability.blockedDates.includes(
+      formatDate(date),
+    );
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* LOADING                                                                 */
+  /* ---------------------------------------------------------------------- */
+
+  if (!loaded) {
+    return (
+      <main className="min-h-screen bg-[#FAF8F3]">
+        <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+          <div className="animate-pulse">
+            <div className="h-5 w-28 rounded bg-[#E7E0D4]" />
+
+            <div className="mt-12 h-10 w-80 rounded bg-[#E7E0D4]" />
+
+            <div className="mt-4 h-4 w-[450px] max-w-full rounded bg-[#E7E0D4]" />
+
+            <div className="mt-10 h-72 rounded-[28px] bg-[#E7E0D4]" />
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
+    <main className="min-h-screen bg-[#FAF8F3] text-[#18181B]">
+      {/* ================================================================== */}
+      {/* HEADER                                                             */}
+      {/* ================================================================== */}
 
-      {/* HEADER */}
-      <header className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between px-6 lg:px-10">
+      <header className="sticky top-0 z-40 border-b border-black/[0.07] bg-[#FAF8F3]/95 backdrop-blur-xl">
+        <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link
+            href={`/host/property/new/${id}/location`}
+            className="inline-flex items-center gap-2 text-xs font-bold text-[#57534E] transition hover:text-[#9A711E]"
+          >
+            <ArrowLeft size={16} />
 
-          <div className="flex items-center gap-3">
+            <span className="hidden sm:inline">
+              Back to location
+            </span>
 
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#03045E]">
-              <span className="font-bold text-white">V</span>
+            <span className="sm:hidden">
+              Back
+            </span>
+          </Link>
+
+          <div className="hidden items-center gap-2 sm:flex">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#18181B] text-xs font-bold text-white">
+              V
             </div>
 
-            <div>
-              <p className="text-sm font-semibold tracking-tight">
-                VISTARA
-              </p>
-
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[#03045E]/40">
-                Host Studio
-              </p>
-            </div>
-
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#78716C]">
+              Property setup
+            </span>
           </div>
 
-          <button className="rounded-full border border-[#03045E]/10 px-4 py-2 text-sm text-[#03045E]/60 transition hover:bg-[#03045E]/5">
-            Exit
-          </button>
-
+          <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#A8A29E]">
+            06 / 08
+          </span>
         </div>
       </header>
 
+      {/* ================================================================== */}
+      {/* PROGRESS                                                            */}
+      {/* ================================================================== */}
 
-      {/* MAIN */}
-      <div className="mx-auto max-w-[1500px] px-6 py-10 lg:px-10 lg:py-14">
+      <div className="border-b border-black/[0.06] bg-white">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-1.5">
+            <div className="w-[76%] bg-[#D9A441]" />
+            <div className="flex-1 bg-[#EEE9E0]" />
+          </div>
+        </div>
+      </div>
 
-        {/* HEADING */}
-        <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+      {/* ================================================================== */}
+      {/* CONTENT                                                             */}
+      {/* ================================================================== */}
 
-          <div>
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
+        {/* INTRO */}
 
-            <div className="mb-4 flex items-center gap-3">
-              <span className="h-2 w-2 rounded-full bg-[#0D21A1]" />
+        <section className="max-w-2xl">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FFF4D8] text-[#9A711E]">
+            <CalendarDays size={21} />
+          </div>
 
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#0D21A1]">
-                Create your listing
-              </span>
+          <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.22em] text-[#9A711E]">
+            Availability
+          </p>
+
+          <h1 className="mt-2 font-serif text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+            When can guests stay?
+          </h1>
+
+          <p className="mt-4 max-w-xl text-sm leading-7 text-[#78716C]">
+            Control when your property is available,
+            how long guests can stay, and how much notice
+            you need before a booking.
+          </p>
+        </section>
+
+        {/* ================================================================== */}
+        {/* AVAILABILITY STATUS                                                 */}
+        {/* ================================================================== */}
+
+        <section className="mt-10 rounded-[28px] border border-[#E4DDD1] bg-white p-5 shadow-[0_15px_45px_rgba(24,24,27,0.04)] sm:p-6">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex gap-4">
+              <div
+                className={[
+                  "flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl",
+                  availability.available
+                    ? "bg-[#F1F4EA] text-[#68705A]"
+                    : "bg-[#F4EDEA] text-[#8B5E52]",
+                ].join(" ")}
+              >
+                <CalendarDays size={19} />
+              </div>
+
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#A8A29E]">
+                  Listing status
+                </p>
+
+                <h2 className="mt-1 text-sm font-bold">
+                  {availability.available
+                    ? "Available for bookings"
+                    : "Currently unavailable"}
+                </h2>
+
+                <p className="mt-1 text-[11px] text-[#A8A29E]">
+                  You can change this anytime.
+                </p>
+              </div>
             </div>
 
-            <h1 className="text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-              Set a price that feels
-              <span className="block text-[#0D21A1]">
-                right for your stay.
-              </span>
-            </h1>
+            <button
+              type="button"
+              onClick={() =>
+                updateField(
+                  "available",
+                  !availability.available,
+                )
+              }
+              className={[
+                "relative h-7 w-12 shrink-0 rounded-full transition",
+                availability.available
+                  ? "bg-[#D9A441]"
+                  : "bg-[#C8C1B7]",
+              ].join(" ")}
+              aria-label="Toggle availability"
+            >
+              <span
+                className={[
+                  "absolute top-1 h-5 w-5 rounded-full bg-white shadow-sm transition",
+                  availability.available
+                    ? "left-6"
+                    : "left-1",
+                ].join(" ")}
+              />
+            </button>
+          </div>
+        </section>
 
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-[#03045E]/50 sm:text-base">
-              Choose your nightly rate and additional charges. You can
-              refine your pricing strategy after your listing goes live.
+        {/* ================================================================== */}
+        {/* STAY SETTINGS                                                       */}
+        {/* ================================================================== */}
+
+        <section className="mt-5 overflow-hidden rounded-[28px] border border-[#E4DDD1] bg-white shadow-[0_15px_45px_rgba(24,24,27,0.04)]">
+          <div className="border-b border-black/[0.07] p-5 sm:p-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A711E]">
+              Booking rules
             </p>
 
+            <h2 className="mt-2 font-serif text-2xl font-semibold">
+              Stay preferences
+            </h2>
           </div>
 
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#03045E]/35">
-              Current step
-            </p>
+          <div className="divide-y divide-black/[0.07]">
+            <NumberSetting
+              icon={<CalendarDays size={18} />}
+              title="Minimum stay"
+              description="Minimum number of nights per booking"
+              value={availability.minStay}
+              suffix={
+                availability.minStay === 1
+                  ? "night"
+                  : "nights"
+              }
+              min={1}
+              max={30}
+              onDecrease={() =>
+                updateField(
+                  "minStay",
+                  Math.max(
+                    1,
+                    availability.minStay - 1,
+                  ),
+                )
+              }
+              onIncrease={() =>
+                updateField(
+                  "minStay",
+                  Math.min(
+                    30,
+                    availability.minStay + 1,
+                  ),
+                )
+              }
+            />
 
-            <p className="mt-1 text-3xl font-semibold">
-              06<span className="text-[#03045E]/20">/10</span>
-            </p>
+            <NumberSetting
+              icon={<CalendarDays size={18} />}
+              title="Maximum stay"
+              description="Maximum number of nights per booking"
+              value={availability.maxStay}
+              suffix="nights"
+              min={1}
+              max={365}
+              onDecrease={() =>
+                updateField(
+                  "maxStay",
+                  Math.max(
+                    1,
+                    availability.maxStay - 1,
+                  ),
+                )
+              }
+              onIncrease={() =>
+                updateField(
+                  "maxStay",
+                  Math.min(
+                    365,
+                    availability.maxStay + 1,
+                  ),
+                )
+              }
+            />
+
+            <NumberSetting
+              icon={<Clock3 size={18} />}
+              title="Advance notice"
+              description="How much notice you need before arrival"
+              value={availability.advanceNotice}
+              suffix={
+                availability.advanceNotice === 1
+                  ? "day"
+                  : "days"
+              }
+              min={0}
+              max={30}
+              onDecrease={() =>
+                updateField(
+                  "advanceNotice",
+                  Math.max(
+                    0,
+                    availability.advanceNotice - 1,
+                  ),
+                )
+              }
+              onIncrease={() =>
+                updateField(
+                  "advanceNotice",
+                  Math.min(
+                    30,
+                    availability.advanceNotice + 1,
+                  ),
+                )
+              }
+            />
+
+            <NumberSetting
+              icon={<Clock3 size={18} />}
+              title="Preparation time"
+              description="Time needed between two reservations"
+              value={availability.preparationTime}
+              suffix={
+                availability.preparationTime === 1
+                  ? "day"
+                  : "days"
+              }
+              min={0}
+              max={7}
+              onDecrease={() =>
+                updateField(
+                  "preparationTime",
+                  Math.max(
+                    0,
+                    availability.preparationTime - 1,
+                  ),
+                )
+              }
+              onIncrease={() =>
+                updateField(
+                  "preparationTime",
+                  Math.min(
+                    7,
+                    availability.preparationTime + 1,
+                  ),
+                )
+              }
+            />
           </div>
+        </section>
 
-        </div>
+        {/* ================================================================== */}
+        {/* BLOCK DATES                                                         */}
+        {/* ================================================================== */}
 
+        <section className="mt-5 rounded-[28px] border border-[#E4DDD1] bg-white p-5 shadow-[0_15px_45px_rgba(24,24,27,0.04)] sm:p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F7F3EB] text-[#9A711E]">
+              <LockKeyhole size={18} />
+            </div>
 
-        {/* PROGRESS */}
-        <div className="mb-12 overflow-x-auto pb-2">
-
-          <div className="flex min-w-[900px] items-center">
-
-            {steps.map((step, index) => {
-
-              const active = index === 5;
-              const completed = index < 5;
-
-              return (
-                <div
-                  key={step}
-                  className="flex flex-1 items-center"
-                >
-
-                  <div className="flex items-center gap-3">
-
-                    <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
-                        active
-                          ? "bg-[#03045E] text-white shadow-[0_8px_25px_rgba(3,4,94,0.22)]"
-                          : completed
-                            ? "bg-[#0D21A1] text-white"
-                            : "border border-[#03045E]/10 text-[#03045E]/30"
-                      }`}
-                    >
-                      {completed
-                        ? "✓"
-                        : String(index + 1).padStart(2, "0")}
-                    </div>
-
-                    <span
-                      className={`hidden text-xs font-medium xl:block ${
-                        active
-                          ? "text-[#03045E]"
-                          : completed
-                            ? "text-[#0D21A1]"
-                            : "text-[#03045E]/30"
-                      }`}
-                    >
-                      {step}
-                    </span>
-
-                  </div>
-
-                  {index !== 9 && (
-                    <div
-                      className={`mx-3 h-px flex-1 ${
-                        index < 5
-                          ? "bg-[#0D21A1]/40"
-                          : "bg-[#03045E]/10"
-                      }`}
-                    />
-                  )}
-
-                </div>
-              );
-            })}
-
-          </div>
-
-        </div>
-
-
-        {/* CONTENT */}
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_390px]">
-
-          {/* PRICING CARD */}
-          <section className="overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_20px_70px_rgba(3,4,94,0.08)]">
-
-            <div className="border-b border-[#03045E]/8 px-7 py-8 sm:px-10">
-
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#0D21A1]">
-                Step 06
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#9A711E]">
+                Calendar
               </p>
 
-              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                Pricing
+              <h2 className="mt-1 text-base font-bold">
+                Block dates
               </h2>
 
-              <p className="mt-3 max-w-xl text-sm leading-6 text-[#03045E]/50">
-                Set the amount guests will see when they book your
-                property.
+              <p className="mt-1 text-[11px] leading-5 text-[#A8A29E]">
+                Select dates when your property should
+                not accept bookings.
               </p>
-
             </div>
-
-
-            <div className="px-7 py-8 sm:px-10 sm:py-10">
-
-              {/* NIGHTLY PRICE */}
-              <div>
-
-                <div className="mb-4 flex items-end justify-between gap-4">
-
-                  <div>
-
-                    <label className="text-sm font-semibold">
-                      Nightly price
-                    </label>
-
-                    <p className="mt-1 text-xs text-[#03045E]/40">
-                      Your base price before additional charges.
-                    </p>
-
-                  </div>
-
-                  <span className="text-xs font-medium text-[#0D21A1]">
-                    INR / night
-                  </span>
-
-                </div>
-
-
-                <div className="relative">
-
-                  <span className="absolute left-5 top-1/2 -translate-y-1/2 text-lg font-semibold text-[#03045E]/40">
-                    ₹
-                  </span>
-
-                  <input
-                    type="number"
-                    min="0"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                    className="h-20 w-full rounded-2xl border border-[#0D21A1]/20 bg-[#0D21A1]/[0.035] pl-12 pr-5 text-3xl font-semibold outline-none transition hover:border-[#0D21A1]/40 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                  />
-
-                </div>
-
-              </div>
-
-
-              {/* SMART PRICING */}
-              <div className="my-8 rounded-2xl border border-[#0D21A1]/15 bg-[#0D21A1]/[0.035] p-5">
-
-                <div className="flex items-start justify-between gap-5">
-
-                  <div className="flex gap-4">
-
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#03045E] text-white">
-                      ✦
-                    </div>
-
-                    <div>
-
-                      <h3 className="text-sm font-semibold">
-                        Smart pricing
-                      </h3>
-
-                      <p className="mt-1 max-w-lg text-xs leading-5 text-[#03045E]/45">
-                        Allow Vistara to suggest pricing based on
-                        demand, seasonality and local market signals.
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setSmartPricing(!smartPricing)}
-                    className={`relative h-6 w-11 shrink-0 rounded-full transition ${
-                      smartPricing
-                        ? "bg-[#03045E]"
-                        : "bg-[#03045E]/15"
-                    }`}
-                  >
-
-                    <span
-                      className={`absolute top-1 h-4 w-4 rounded-full bg-white shadow-sm transition ${
-                        smartPricing
-                          ? "left-6"
-                          : "left-1"
-                      }`}
-                    />
-
-                  </button>
-
-                </div>
-
-              </div>
-
-
-              {/* EXTRA FEES */}
-              <div>
-
-                <div className="mb-5">
-
-                  <h3 className="text-sm font-semibold">
-                    Additional charges
-                  </h3>
-
-                  <p className="mt-1 text-xs text-[#03045E]/40">
-                    Optional fees shown clearly to guests.
-                  </p>
-
-                </div>
-
-
-                <div className="grid gap-5 sm:grid-cols-2">
-
-                  <PriceInput
-                    label="Cleaning fee"
-                    value={cleaningFee}
-                    onChange={setCleaningFee}
-                  />
-
-                  <PriceInput
-                    label="Service fee"
-                    value={serviceFee}
-                    onChange={setServiceFee}
-                  />
-
-                </div>
-
-              </div>
-
-
-              {/* SUMMARY */}
-              <div className="mt-10 rounded-[24px] bg-[#03045E] p-6 text-white">
-
-                <div className="flex items-center justify-between">
-
-                  <div>
-
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
-                      Guest price preview
-                    </p>
-
-                    <p className="mt-2 text-3xl font-semibold">
-                      ₹{guestTotal.toLocaleString("en-IN")}
-                    </p>
-
-                  </div>
-
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] uppercase tracking-[0.14em] text-white/45">
-                    per night
-                  </span>
-
-                </div>
-
-
-                <div className="mt-6 space-y-3 border-t border-white/10 pt-5">
-
-                  <SummaryRow
-                    label="Base price"
-                    value={`₹${basePrice.toLocaleString("en-IN")}`}
-                  />
-
-                  <SummaryRow
-                    label="Cleaning"
-                    value={`₹${cleaning.toLocaleString("en-IN")}`}
-                  />
-
-                  <SummaryRow
-                    label="Service"
-                    value={`₹${service.toLocaleString("en-IN")}`}
-                  />
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            {/* FOOTER */}
-            <div className="flex flex-col-reverse gap-4 border-t border-[#03045E]/8 bg-[#03045E]/[0.015] px-7 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-
-              <button
-                type="button"
-                className="text-sm font-medium text-[#03045E]/45 transition hover:text-[#03045E]"
-              >
-                ← Back
-              </button>
-
-              <button
-                type="button"
-                onClick={handleContinue}
-                className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-[#03045E] px-7 py-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(3,4,94,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#0D21A1]"
-              >
-                Continue
-
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-
-              </button>
-
-            </div>
-
-          </section>
-
-
-          {/* SIDE PANEL */}
-          <aside>
-
-            <div className="relative min-h-[650px] overflow-hidden rounded-[28px] bg-[#03045E] p-8 text-white shadow-[0_25px_70px_rgba(3,4,94,0.18)] sm:p-10">
-
-              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#0D21A1]/50 blur-3xl" />
-
-              <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[#0D21A1]/30 blur-3xl" />
-
-
-              <div className="relative z-10 flex h-full flex-col">
-
-                <div className="flex items-center justify-between">
-
-                  <span className="text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
-                    Vistara
-                  </span>
-
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] uppercase tracking-[0.16em] text-white/50">
-                    Pricing intelligence
-                  </span>
-
-                </div>
-
-
-                <div className="mt-20">
-
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10">
-                    <span className="text-lg">₹</span>
-                  </div>
-
-                  <h3 className="max-w-xs text-3xl font-semibold leading-tight tracking-[-0.03em]">
-                    Price with clarity, then grow with intelligence.
-                  </h3>
-
-                  <p className="mt-5 max-w-sm text-sm leading-7 text-white/55">
-                    Start with a price that reflects your property.
-                    Vistara can help you understand pricing signals
-                    as your listing evolves.
-                  </p>
-
-                </div>
-
-
-                {/* PRICE VISUAL */}
-                <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-
-                  <div className="flex items-end justify-between">
-
-                    <div>
-
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
-                        Your nightly rate
-                      </p>
-
-                      <p className="mt-2 text-3xl font-semibold">
-                        ₹{basePrice.toLocaleString("en-IN")}
-                      </p>
-
-                    </div>
-
-                    <span className="text-xs text-white/35">
-                      INR
-                    </span>
-
-                  </div>
-
-
-                  <div className="mt-6 flex h-16 items-end gap-1">
-
-                    {[35, 45, 32, 55, 48, 68, 58, 78, 65, 85].map(
-                      (height, index) => (
-                        <div
-                          key={index}
-                          className={`flex-1 rounded-t-sm ${
-                            index === 9
-                              ? "bg-white"
-                              : "bg-white/15"
-                          }`}
-                          style={{ height: `${height}%` }}
-                        />
-                      )
+          </div>
+
+          <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4 md:grid-cols-7">
+            {upcomingDates.map((date) => {
+              const blocked = isBlocked(date);
+
+              return (
+                <button
+                  key={formatDate(date)}
+                  type="button"
+                  onClick={() =>
+                    toggleDate(date)
+                  }
+                  className={[
+                    "rounded-2xl border p-3 text-center transition",
+                    blocked
+                      ? "border-[#D9A441] bg-[#FFF4D8]"
+                      : "border-[#E4DDD1] bg-[#FCFBF8] hover:border-[#D9A441]",
+                  ].join(" ")}
+                >
+                  <p className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#A8A29E]">
+                    {date.toLocaleDateString(
+                      "en-IN",
+                      {
+                        weekday: "short",
+                      },
                     )}
-
-                  </div>
-
-                  <p className="mt-3 text-[10px] text-white/30">
-                    Illustrative demand trend
                   </p>
 
-                </div>
-
-
-                <div className="mt-auto pt-10">
-
-                  <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/35">
-                    Pricing essentials
+                  <p className="mt-1 font-serif text-xl font-semibold">
+                    {date.getDate()}
                   </p>
 
-                  <div className="space-y-4">
+                  <p className="mt-1 text-[9px] text-[#A8A29E]">
+                    {date.toLocaleDateString(
+                      "en-IN",
+                      {
+                        month: "short",
+                      },
+                    )}
+                  </p>
 
-                    <Feature text="Transparent guest pricing" />
+                  {blocked && (
+                    <span className="mt-2 block text-[8px] font-bold uppercase tracking-wider text-[#9A711E]">
+                      Blocked
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
 
-                    <Feature text="Flexible additional fees" />
+          {availability.blockedDates.length > 0 && (
+            <div className="mt-4 rounded-xl bg-[#F7F3EB] px-4 py-3 text-[10px] font-semibold text-[#57534E]">
+              {availability.blockedDates.length}{" "}
+              {availability.blockedDates.length === 1
+                ? "date"
+                : "dates"}{" "}
+              currently blocked.
+            </div>
+          )}
+        </section>
 
-                    <Feature text="Future-ready pricing insights" />
+        {/* ================================================================== */}
+        {/* INSTANT BOOKING                                                     */}
+        {/* ================================================================== */}
 
-                  </div>
-
-                </div>
-
+        <section className="mt-5 rounded-[28px] border border-[#E4DDD1] bg-white p-5 shadow-[0_15px_45px_rgba(24,24,27,0.04)] sm:p-6">
+          <div className="flex items-center justify-between gap-5">
+            <div className="flex gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FFF4D8] text-[#9A711E]">
+                <Zap size={18} />
               </div>
 
+              <div>
+                <h2 className="text-sm font-bold">
+                  Instant booking
+                </h2>
+
+                <p className="mt-1 max-w-lg text-[11px] leading-5 text-[#A8A29E]">
+                  Allow eligible guests to book without
+                  waiting for you to manually approve the
+                  request.
+                </p>
+              </div>
             </div>
 
-          </aside>
+            <button
+              type="button"
+              onClick={() =>
+                updateField(
+                  "instantBooking",
+                  !availability.instantBooking,
+                )
+              }
+              className={[
+                "relative h-7 w-12 shrink-0 rounded-full transition",
+                availability.instantBooking
+                  ? "bg-[#D9A441]"
+                  : "bg-[#C8C1B7]",
+              ].join(" ")}
+            >
+              <span
+                className={[
+                  "absolute top-1 h-5 w-5 rounded-full bg-white shadow-sm transition",
+                  availability.instantBooking
+                    ? "left-6"
+                    : "left-1",
+                ].join(" ")}
+              />
+            </button>
+          </div>
+        </section>
 
+        {/* ================================================================== */}
+        {/* WARNING                                                             */}
+        {/* ================================================================== */}
+
+        {availability.minStay >
+          availability.maxStay && (
+          <section className="mt-5 rounded-2xl border border-[#D9A441] bg-[#FFF9EA] p-4">
+            <p className="text-xs font-bold text-[#7C5D17]">
+              Minimum stay cannot be greater than
+              maximum stay.
+            </p>
+
+            <p className="mt-1 text-[10px] text-[#8B7750]">
+              Adjust your stay settings before
+              continuing.
+            </p>
+          </section>
+        )}
+
+        {/* ================================================================== */}
+        {/* INFO                                                                */}
+        {/* ================================================================== */}
+
+        <section className="mt-5 flex gap-3 rounded-2xl border border-[#E7DCC4] bg-[#FFF9EA] p-4 sm:p-5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-[#9A711E]">
+            <Info size={17} />
+          </div>
+
+          <div>
+            <p className="text-xs font-bold text-[#51472F]">
+              You stay in control
+            </p>
+
+            <p className="mt-1 text-[11px] leading-5 text-[#7C7052]">
+              Availability can be changed later from your
+              host calendar. Blocked dates will prevent new
+              reservations for those days.
+            </p>
+          </div>
+        </section>
+
+        {/* ================================================================== */}
+        {/* SAVED                                                               */}
+        {/* ================================================================== */}
+
+        <div className="mt-5 flex min-h-5 justify-center">
+          {saved && (
+            <p className="flex items-center gap-1.5 text-[10px] font-bold text-[#68705A]">
+              <Check size={13} />
+              Availability saved
+            </p>
+          )}
         </div>
-
       </div>
+
+      {/* ================================================================== */}
+      {/* FOOTER                                                               */}
+      {/* ================================================================== */}
+
+      <footer className="sticky bottom-0 z-30 border-t border-black/[0.07] bg-[#FAF8F3]/95 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <Link
+            href={`/host/property/new/${id}/location`}
+            className="inline-flex items-center gap-2 rounded-xl px-3 py-3 text-xs font-bold text-[#57534E] transition hover:bg-white"
+          >
+            <ArrowLeft size={15} />
+
+            <span className="hidden sm:inline">
+              Back
+            </span>
+          </Link>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={saveAvailability}
+              className="hidden rounded-xl border border-[#D8D1C5] bg-white px-5 py-3 text-xs font-bold text-[#403C37] transition hover:border-[#D9A441] sm:inline-flex"
+            >
+              Save
+            </button>
+
+            <button
+              type="button"
+              onClick={handleContinue}
+              disabled={
+                saving ||
+                availability.minStay >
+                  availability.maxStay
+              }
+              className="inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-xs font-bold text-[#18181B] shadow-[0_8px_20px_rgba(217,164,65,0.18)] transition hover:bg-[#E7C46D] disabled:cursor-not-allowed disabled:opacity-50 sm:px-6"
+            >
+              {saving ? "Saving..." : "Continue"}
+
+              {!saving && (
+                <ArrowRight size={15} />
+              )}
+            </button>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
 
+/* ========================================================================== */
+/* NUMBER SETTING                                                             */
+/* ========================================================================== */
 
-/* PRICE INPUT */
-
-function PriceInput({
-  label,
+function NumberSetting({
+  icon,
+  title,
+  description,
   value,
-  onChange,
+  suffix,
+  min,
+  max,
+  onDecrease,
+  onIncrease,
 }: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  value: number;
+  suffix: string;
+  min: number;
+  max: number;
+  onDecrease: () => void;
+  onIncrease: () => void;
 }) {
   return (
-    <div>
-
-      <label className="mb-3 block text-sm font-semibold">
-        {label}
-      </label>
-
-      <div className="relative">
-
-        <span className="absolute left-5 top-1/2 -translate-y-1/2 font-medium text-[#03045E]/35">
-          ₹
-        </span>
-
-        <input
-          type="number"
-          min="0"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="h-14 w-full rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.025] pl-10 pr-5 text-sm font-medium outline-none transition placeholder:text-[#03045E]/25 hover:border-[#0D21A1]/20 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-        />
-
+    <div className="flex items-center gap-4 px-5 py-5 sm:px-6">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F7F3EB] text-[#9A711E]">
+        {icon}
       </div>
 
-    </div>
-  );
-}
+      <div className="min-w-0 flex-1">
+        <h3 className="text-sm font-bold">
+          {title}
+        </h3>
 
-
-/* SUMMARY ROW */
-
-function SummaryRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-center justify-between text-xs">
-
-      <span className="text-white/45">
-        {label}
-      </span>
-
-      <span className="font-medium text-white/75">
-        {value}
-      </span>
-
-    </div>
-  );
-}
-
-
-/* FEATURE */
-
-function Feature({ text }: { text: string }) {
-  return (
-    <div className="flex items-center gap-3">
-
-      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10">
-        <span className="text-[10px] text-white">
-          ✓
-        </span>
+        <p className="mt-1 text-[11px] leading-5 text-[#A8A29E]">
+          {description}
+        </p>
       </div>
 
-      <span className="text-sm text-white/65">
-        {text}
-      </span>
+      <div className="flex shrink-0 items-center gap-3">
+        <button
+          type="button"
+          onClick={onDecrease}
+          disabled={value <= min}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D8D1C5] bg-white text-[#57534E] transition hover:border-[#D9A441] disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          <Minus size={15} />
+        </button>
 
+        <div className="w-16 text-center">
+          <span className="block text-sm font-bold">
+            {value}
+          </span>
+
+          <span className="text-[9px] text-[#A8A29E]">
+            {suffix}
+          </span>
+        </div>
+
+        <button
+          type="button"
+          onClick={onIncrease}
+          disabled={value >= max}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D8D1C5] bg-white text-[#57534E] transition hover:border-[#D9A441] disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          <Plus size={15} />
+        </button>
+      </div>
     </div>
   );
 }

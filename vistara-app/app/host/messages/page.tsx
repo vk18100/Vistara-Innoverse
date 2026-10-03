@@ -1,194 +1,318 @@
 "use client";
 
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCheck,
+  ChevronRight,
+  Clock3,
+  MessageCircle,
+  Paperclip,
+  Search,
+  Send,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
 import Navbar from "@/components/navbar";
+
+/* -------------------------------------------------------------------------- */
+/* Vistara Host Messages                                                       */
+/* Premium palette: ivory + charcoal + gold. No blue.                       */
+/* -------------------------------------------------------------------------- */
+
+type MessageStatus = "READ" | "DELIVERED" | "SENT";
+type ConversationStatus = "ACTIVE" | "ARCHIVED";
 
 type Message = {
   id: string;
   sender: "HOST" | "GUEST";
   text: string;
-  time: string;
-  read?: boolean;
+  createdAt: string;
+  status?: MessageStatus;
 };
 
 type Conversation = {
   id: string;
-  guest: string;
-  property: string;
+  guestName: string;
   initials: string;
+  propertyName: string;
+  bookingId?: string;
   lastMessage: string;
-  lastTime: string;
-  unread: number;
-  bookingStatus: "CONFIRMED" | "PENDING";
-  checkIn: string;
-  checkOut: string;
+  lastMessageAt: string;
+  unreadCount: number;
+  status: ConversationStatus;
+  online?: boolean;
   messages: Message[];
 };
 
-const initialConversations: Conversation[] = [
+type MessagesResponse = {
+  success?: boolean;
+  data?: Conversation[];
+  message?: string;
+};
+
+const DEMO_CONVERSATIONS: Conversation[] = [
   {
-    id: "conversation-1",
-    guest: "Aarav Sharma",
-    property: "The Heritage Courtyard",
+    id: "conv-1",
+    guestName: "Aarav Sharma",
     initials: "AS",
-    lastMessage: "Hi, is early check-in possible?",
-    lastTime: "10:42 AM",
-    unread: 2,
-    bookingStatus: "CONFIRMED",
-    checkIn: "18 Oct",
-    checkOut: "21 Oct",
+    propertyName: "Dubai Skyline Residence",
+    bookingId: "VS-1048",
+    lastMessage: "Thank you! I will share the check-in details with my family.",
+    lastMessageAt: "2026-10-03T10:42:00",
+    unreadCount: 2,
+    status: "ACTIVE",
+    online: true,
     messages: [
       {
         id: "m1",
         sender: "GUEST",
-        text: "Hi! I have a booking at The Heritage Courtyard.",
-        time: "10:32 AM",
-        read: true,
+        text: "Hi! We are arriving in Dubai on Friday. Is early check-in possible?",
+        createdAt: "2026-10-03T10:12:00",
+        status: "READ",
       },
       {
         id: "m2",
-        sender: "GUEST",
-        text: "Is early check-in possible?",
-        time: "10:42 AM",
-        read: true,
+        sender: "HOST",
+        text: "Hi Aarav, welcome! I can arrange an early check-in if the apartment is ready. I’ll confirm it the evening before your arrival.",
+        createdAt: "2026-10-03T10:18:00",
+        status: "READ",
       },
       {
         id: "m3",
-        sender: "HOST",
-        text: "Hi Aarav, yes. What time are you planning to arrive?",
-        time: "10:46 AM",
-        read: true,
+        sender: "GUEST",
+        text: "Perfect. Also, could you share the check-in instructions?",
+        createdAt: "2026-10-03T10:31:00",
+        status: "READ",
       },
-    ],
-  },
-  {
-    id: "conversation-2",
-    guest: "Riya Mehta",
-    property: "Ganga Riverside Retreat",
-    initials: "RM",
-    lastMessage: "Can we add one more guest?",
-    lastTime: "Yesterday",
-    unread: 1,
-    bookingStatus: "CONFIRMED",
-    checkIn: "24 Oct",
-    checkOut: "27 Oct",
-    messages: [
       {
         id: "m4",
-        sender: "GUEST",
-        text: "Hello! I wanted to confirm something about my stay.",
-        time: "Yesterday",
-        read: true,
+        sender: "HOST",
+        text: "Absolutely. I’ll send the complete instructions and access details once your arrival time is confirmed.",
+        createdAt: "2026-10-03T10:36:00",
+        status: "DELIVERED",
       },
       {
         id: "m5",
         sender: "GUEST",
-        text: "Can we add one more guest?",
-        time: "Yesterday",
-        read: false,
+        text: "Thank you! I will share the check-in details with my family.",
+        createdAt: "2026-10-03T10:42:00",
+        status: "READ",
       },
     ],
   },
   {
-    id: "conversation-3",
-    guest: "Kabir Singh",
-    property: "The Quiet House",
-    initials: "KS",
-    lastMessage: "Thank you for the information.",
-    lastTime: "20 Sep",
-    unread: 0,
-    bookingStatus: "PENDING",
-    checkIn: "05 Nov",
-    checkOut: "08 Nov",
+    id: "conv-2",
+    guestName: "Meera Kapoor",
+    initials: "MK",
+    propertyName: "Vistara Beach House",
+    bookingId: "VS-1052",
+    lastMessage: "Is there parking available near the house?",
+    lastMessageAt: "2026-10-03T09:15:00",
+    unreadCount: 1,
+    status: "ACTIVE",
+    online: false,
     messages: [
       {
         id: "m6",
         sender: "GUEST",
-        text: "Is the property available for five people?",
-        time: "20 Sep",
-        read: true,
+        text: "Hello! Is there parking available near the house?",
+        createdAt: "2026-10-03T09:15:00",
+        status: "SENT",
       },
+    ],
+  },
+  {
+    id: "conv-3",
+    guestName: "Rohan Verma",
+    initials: "RV",
+    propertyName: "The Heritage House",
+    bookingId: "VS-1057",
+    lastMessage: "The place looks beautiful. Looking forward to the stay.",
+    lastMessageAt: "2026-10-02T20:08:00",
+    unreadCount: 0,
+    status: "ACTIVE",
+    online: false,
+    messages: [
       {
         id: "m7",
         sender: "HOST",
-        text: "Yes, the property can accommodate five guests.",
-        time: "20 Sep",
-        read: true,
+        text: "Hi Rohan, your booking is confirmed. We look forward to hosting you.",
+        createdAt: "2026-10-02T19:45:00",
+        status: "READ",
       },
       {
         id: "m8",
         sender: "GUEST",
-        text: "Thank you for the information.",
-        time: "20 Sep",
-        read: true,
+        text: "The place looks beautiful. Looking forward to the stay.",
+        createdAt: "2026-10-02T20:08:00",
+        status: "READ",
+      },
+    ],
+  },
+  {
+    id: "conv-4",
+    guestName: "Ananya Singh",
+    initials: "AS",
+    propertyName: "Green Valley Farm Stay",
+    bookingId: "VS-1039",
+    lastMessage: "Can we request a late checkout?",
+    lastMessageAt: "2026-10-01T16:22:00",
+    unreadCount: 0,
+    status: "ACTIVE",
+    online: false,
+    messages: [
+      {
+        id: "m9",
+        sender: "GUEST",
+        text: "Can we request a late checkout?",
+        createdAt: "2026-10-01T16:22:00",
+        status: "READ",
       },
     ],
   },
 ];
 
+function formatTime(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+
+  return date.toLocaleTimeString("en-IN", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
+
+function formatConversationDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "";
+
+  const now = new Date();
+
+  if (date.toDateString() === now.toDateString()) {
+    return formatTime(value);
+  }
+
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+  });
+}
+
+function avatarTone(index: number) {
+  const tones = [
+    "bg-[#FFF8E8] text-[#8A651B]",
+    "bg-[#F1F0EB] text-[#44403C]",
+    "bg-[#F5EEE3] text-[#765817]",
+    "bg-[#EEECE5] text-[#57534E]",
+  ];
+
+  return tones[index % tones.length];
+}
+
 export default function HostMessagesPage() {
-  const [conversations, setConversations] = useState(
-    initialConversations
-  );
-
-  const [selectedId, setSelectedId] = useState(
-    initialConversations[0].id
-  );
-
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
-  const [message, setMessage] = useState("");
-  const [showChat, setShowChat] = useState(false);
+  const [draft, setDraft] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [mobileChatOpen, setMobileChatOpen] = useState(false);
+  const [demoMode, setDemoMode] = useState(false);
 
-  const selectedConversation = conversations.find(
-    (conversation) => conversation.id === selectedId
-  );
+  useEffect(() => {
+    async function loadMessages() {
+      try {
+        const response = await fetch("/api/host/messages", {
+          method: "GET",
+          cache: "no-store",
+          credentials: "include",
+        });
+
+        const raw = await response.text();
+
+        let result: MessagesResponse = {};
+
+        try {
+          result = raw ? JSON.parse(raw) : {};
+        } catch {
+          throw new Error("Invalid messages response.");
+        }
+
+        if (!response.ok || result.success === false) {
+          throw new Error(result.message || "Unable to load messages.");
+        }
+
+        const live = Array.isArray(result.data) ? result.data : [];
+
+        if (live.length > 0) {
+          setConversations(live);
+          setSelectedId(live[0].id);
+          setDemoMode(false);
+        } else {
+          setConversations(DEMO_CONVERSATIONS);
+          setSelectedId(DEMO_CONVERSATIONS[0].id);
+          setDemoMode(true);
+        }
+      } catch (error) {
+        console.error("HOST_MESSAGES_ERROR:", error);
+        setConversations(DEMO_CONVERSATIONS);
+        setSelectedId(DEMO_CONVERSATIONS[0].id);
+        setDemoMode(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadMessages();
+  }, []);
 
   const filteredConversations = useMemo(() => {
     const query = search.trim().toLowerCase();
 
     if (!query) return conversations;
 
-    return conversations.filter(
-      (conversation) =>
-        conversation.guest.toLowerCase().includes(query) ||
-        conversation.property.toLowerCase().includes(query) ||
-        conversation.lastMessage.toLowerCase().includes(query)
+    return conversations.filter((conversation) =>
+      [
+        conversation.guestName,
+        conversation.propertyName,
+        conversation.bookingId,
+        conversation.lastMessage,
+      ]
+        .filter(Boolean)
+        .some((value) => String(value).toLowerCase().includes(query)),
     );
   }, [conversations, search]);
 
-  const totalUnread = conversations.reduce(
-    (total, conversation) => total + conversation.unread,
-    0
+  const selectedConversation = conversations.find(
+    (conversation) => conversation.id === selectedId,
   );
 
-  function selectConversation(id: string) {
+  function openConversation(id: string) {
     setSelectedId(id);
-    setShowChat(true);
+    setMobileChatOpen(true);
 
     setConversations((current) =>
       current.map((conversation) =>
         conversation.id === id
-          ? { ...conversation, unread: 0 }
-          : conversation
-      )
+          ? { ...conversation, unreadCount: 0 }
+          : conversation,
+      ),
     );
   }
 
   function sendMessage() {
-    const text = message.trim();
+    const text = draft.trim();
 
     if (!text || !selectedConversation) return;
 
     const newMessage: Message = {
-      id: `message-${Date.now()}`,
+      id: `local-${Date.now()}`,
       sender: "HOST",
       text,
-      time: new Date().toLocaleTimeString("en-IN", {
-        hour: "numeric",
-        minute: "2-digit",
-      }),
-      read: true,
+      createdAt: new Date().toISOString(),
+      status: "SENT",
     };
 
     setConversations((current) =>
@@ -197,281 +321,143 @@ export default function HostMessagesPage() {
           ? {
               ...conversation,
               lastMessage: text,
-              lastTime: "Now",
-              messages: [
-                ...conversation.messages,
-                newMessage,
-              ],
+              lastMessageAt: newMessage.createdAt,
+              messages: [...conversation.messages, newMessage],
             }
-          : conversation
-      )
+          : conversation,
+      ),
     );
 
-    setMessage("");
+    setDraft("");
+  }
+
+  if (loading) {
+    return <MessagesSkeleton />;
   }
 
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#03045E]">
+    <main className="min-h-screen bg-[#FAF8F3] text-[#18181B]">
       <Navbar />
 
-      {/* HEADER */}
-      <section className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-9 lg:px-10">
-          <Link
-            href="/host"
-            className="text-sm font-medium text-[#64748B] transition hover:text-[#03045E]"
-          >
-            ← Host dashboard
-          </Link>
-
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+      <section className="border-b border-black/8 bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-9 sm:px-8 lg:px-10 lg:py-12">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-                HOST COMMUNICATION
-              </p>
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#D9A441]/25 bg-[#FFF8E8] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.22em] text-[#8A651B]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D9A441]" />
+                Host inbox
+              </div>
 
-              <h1 className="mt-3 font-serif text-4xl font-semibold md:text-5xl">
+              <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
                 Messages
               </h1>
 
-              <p className="mt-3 max-w-xl text-sm leading-6 text-[#64748B]">
-                Communicate directly with guests before and during
-                their stay.
+              <p className="mt-2 text-sm leading-6 text-[#71717A] sm:text-base">
+                Stay connected with guests before, during and after their
+                stays.
               </p>
             </div>
 
-            {totalUnread > 0 && (
-              <div className="w-fit rounded-full bg-[#EEF2FF] px-4 py-2 text-xs font-semibold text-[#03045E]">
-                {totalUnread} unread{" "}
-                {totalUnread === 1 ? "message" : "messages"}
-              </div>
-            )}
+            <Link
+              href="/host/bookings"
+              className="inline-flex w-fit items-center gap-2 rounded-xl border border-black/10 bg-white px-4 py-3 text-sm font-semibold transition hover:border-[#D9A441]/40 hover:bg-[#FFF8E8]"
+            >
+              View bookings
+              <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* MESSAGES */}
-      <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-10">
-        <div className="overflow-hidden rounded-[30px] border border-[#03045E]/10 bg-white shadow-[0_12px_40px_rgba(3,4,94,0.05)]">
-          <div className="grid min-h-[680px] lg:grid-cols-[350px_1fr]">
-            {/* CONVERSATIONS */}
+      <section className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8 lg:py-7">
+        {demoMode && (
+          <div className="mb-5 rounded-2xl border border-[#D9A441]/25 bg-[#FFF8E8] px-4 py-3 text-sm text-[#765817]">
+            Sample guest conversations are displayed for the demo because no
+            live messages are available yet.
+          </div>
+        )}
+
+        <div className="overflow-hidden rounded-[28px] border border-black/8 bg-white shadow-[0_18px_60px_rgba(24,24,27,0.06)]">
+          <div className="grid min-h-[690px] lg:grid-cols-[340px_minmax(0,1fr)]">
+            {/* Conversations */}
             <aside
-              className={`border-r border-[#03045E]/10 ${
-                showChat ? "hidden lg:block" : "block"
+              className={`border-r border-black/8 ${
+                mobileChatOpen ? "hidden lg:block" : "block"
               }`}
             >
-              <div className="border-b border-[#03045E]/10 p-5">
+              <div className="border-b border-black/8 p-4 sm:p-5">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="font-serif text-xl font-semibold">
+                    <p className="font-serif text-xl font-semibold">
                       Conversations
-                    </h2>
-
-                    <p className="mt-1 text-xs text-[#94A3B8]">
-                      {conversations.length} active conversations
                     </p>
+                    <p className="mt-1 text-xs text-[#A8A29E]">
+                      {conversations.length} active thread
+                      {conversations.length !== 1 ? "s" : ""}
+                    </p>
+                  </div>
+
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF8E8] text-[#9A711E]">
+                    <MessageCircle size={18} />
                   </div>
                 </div>
 
-                <div className="mt-5">
+                <label className="relative mt-5 block">
+                  <Search
+                    size={17}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-[#A8A29E]"
+                  />
                   <input
                     value={search}
-                    onChange={(event) =>
-                      setSearch(event.target.value)
-                    }
-                    placeholder="Search guests..."
-                    className="w-full rounded-xl border border-[#03045E]/10 bg-[#FAFAF8] px-4 py-3 text-sm outline-none placeholder:text-[#94A3B8] focus:border-[#03045E]"
+                    onChange={(event) => setSearch(event.target.value)}
+                    placeholder="Search guests or properties"
+                    className="h-11 w-full rounded-xl border border-black/8 bg-[#FAF8F3] pl-10 pr-3 text-sm outline-none transition placeholder:text-[#A8A29E] focus:border-[#D9A441]/60 focus:ring-4 focus:ring-[#D9A441]/10"
                   />
-                </div>
+                </label>
               </div>
 
               <div className="max-h-[590px] overflow-y-auto">
                 {filteredConversations.length === 0 ? (
-                  <div className="p-8 text-center">
-                    <p className="text-sm font-semibold">
-                      No conversations found
-                    </p>
-
-                    <p className="mt-1 text-xs text-[#94A3B8]">
+                  <div className="px-6 py-16 text-center">
+                    <Search
+                      size={22}
+                      className="mx-auto text-[#A8A29E]"
+                    />
+                    <p className="mt-4 font-semibold">No conversations found</p>
+                    <p className="mt-1 text-xs text-[#A8A29E]">
                       Try another guest or property name.
                     </p>
                   </div>
                 ) : (
-                  filteredConversations.map((conversation) => (
-                    <button
+                  filteredConversations.map((conversation, index) => (
+                    <ConversationItem
                       key={conversation.id}
-                      onClick={() =>
-                        selectConversation(conversation.id)
-                      }
-                      className={`w-full border-b border-[#03045E]/10 p-5 text-left transition ${
-                        selectedId === conversation.id
-                          ? "bg-[#F5F7FF]"
-                          : "hover:bg-[#FAFAF8]"
-                      }`}
-                    >
-                      <div className="flex gap-3">
-                        <Avatar
-                          initials={conversation.initials}
-                        />
-
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-start justify-between gap-3">
-                            <p className="truncate text-sm font-semibold">
-                              {conversation.guest}
-                            </p>
-
-                            <span className="shrink-0 text-[10px] text-[#94A3B8]">
-                              {conversation.lastTime}
-                            </span>
-                          </div>
-
-                          <p className="mt-1 truncate text-xs text-[#64748B]">
-                            {conversation.property}
-                          </p>
-
-                          <div className="mt-2 flex items-center gap-2">
-                            <p className="truncate text-xs text-[#94A3B8]">
-                              {conversation.lastMessage}
-                            </p>
-
-                            {conversation.unread > 0 && (
-                              <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-[#03045E] px-1 text-[9px] font-bold text-white">
-                                {conversation.unread}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </button>
+                      conversation={conversation}
+                      active={selectedId === conversation.id}
+                      tone={avatarTone(index)}
+                      onClick={() => openConversation(conversation.id)}
+                    />
                   ))
                 )}
               </div>
             </aside>
 
-            {/* CHAT */}
+            {/* Chat */}
             <section
-              className={`flex min-w-0 flex-col ${
-                showChat ? "flex" : "hidden lg:flex"
+              className={`min-w-0 ${
+                mobileChatOpen ? "block" : "hidden lg:block"
               }`}
             >
               {selectedConversation ? (
-                <>
-                  {/* CHAT HEADER */}
-                  <div className="flex items-center gap-3 border-b border-[#03045E]/10 px-5 py-4 sm:px-7">
-                    <button
-                      onClick={() => setShowChat(false)}
-                      className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#03045E]/10 lg:hidden"
-                      aria-label="Back to conversations"
-                    >
-                      ←
-                    </button>
-
-                    <Avatar
-                      initials={selectedConversation.initials}
-                    />
-
-                    <div className="min-w-0 flex-1">
-                      <h2 className="truncate text-sm font-semibold">
-                        {selectedConversation.guest}
-                      </h2>
-
-                      <p className="truncate text-xs text-[#64748B]">
-                        {selectedConversation.property}
-                      </p>
-                    </div>
-
-                    <div className="hidden sm:block">
-                      <BookingStatus
-                        status={
-                          selectedConversation.bookingStatus
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  {/* BOOKING CONTEXT */}
-                  <div className="border-b border-[#03045E]/10 bg-[#FAFAF8] px-5 py-4 sm:px-7">
-                    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                      <div>
-                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#C6A15B]">
-                          STAY DETAILS
-                        </p>
-
-                        <p className="mt-1 text-sm font-semibold">
-                          {selectedConversation.property}
-                        </p>
-                      </div>
-
-                      <div className="flex gap-6">
-                        <StayDetail
-                          label="Check-in"
-                          value={selectedConversation.checkIn}
-                        />
-
-                        <StayDetail
-                          label="Check-out"
-                          value={selectedConversation.checkOut}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* MESSAGE AREA */}
-                  <div className="flex-1 space-y-5 overflow-y-auto bg-white p-5 sm:p-7">
-                    <div className="flex justify-center">
-                      <span className="rounded-full bg-[#FAFAF8] px-3 py-1 text-[10px] font-medium text-[#94A3B8]">
-                        Conversation
-                      </span>
-                    </div>
-
-                    {selectedConversation.messages.map(
-                      (item) => (
-                        <MessageBubble
-                          key={item.id}
-                          message={item}
-                        />
-                      )
-                    )}
-                  </div>
-
-                  {/* COMPOSER */}
-                  <div className="border-t border-[#03045E]/10 bg-white p-4 sm:p-5">
-                    <div className="flex items-end gap-3 rounded-2xl border border-[#03045E]/10 bg-[#FAFAF8] p-2">
-                      <textarea
-                        value={message}
-                        onChange={(event) =>
-                          setMessage(event.target.value)
-                        }
-                        onKeyDown={(event) => {
-                          if (
-                            event.key === "Enter" &&
-                            !event.shiftKey
-                          ) {
-                            event.preventDefault();
-                            sendMessage();
-                          }
-                        }}
-                        rows={1}
-                        placeholder="Write a message..."
-                        className="max-h-28 min-h-11 flex-1 resize-none bg-transparent px-3 py-2.5 text-sm outline-none placeholder:text-[#94A3B8]"
-                      />
-
-                      <button
-                        onClick={sendMessage}
-                        disabled={!message.trim()}
-                        className="rounded-xl bg-[#03045E] px-5 py-3 text-xs font-semibold text-white transition hover:bg-[#0D21A1] disabled:cursor-not-allowed disabled:opacity-40"
-                      >
-                        Send
-                      </button>
-                    </div>
-
-                    <p className="mt-2 px-2 text-[10px] text-[#94A3B8]">
-                      Press Enter to send · Shift + Enter for a new line
-                    </p>
-                  </div>
-                </>
+                <ChatPanel
+                  conversation={selectedConversation}
+                  draft={draft}
+                  setDraft={setDraft}
+                  onSend={sendMessage}
+                  onBack={() => setMobileChatOpen(false)}
+                />
               ) : (
-                <EmptyChat />
+                <NoConversation />
               )}
             </section>
           </div>
@@ -481,66 +467,247 @@ export default function HostMessagesPage() {
   );
 }
 
-/* -------------------------------- */
-/* AVATAR */
-/* -------------------------------- */
-
-function Avatar({
-  initials,
+function ConversationItem({
+  conversation,
+  active,
+  tone,
+  onClick,
 }: {
-  initials: string;
+  conversation: Conversation;
+  active: boolean;
+  tone: string;
+  onClick: () => void;
 }) {
   return (
-    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#EEF2FF] text-xs font-bold text-[#03045E]">
-      {initials}
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex w-full items-start gap-3 border-b border-black/6 px-4 py-4 text-left transition sm:px-5 ${
+        active
+          ? "bg-[#FFF8E8]"
+          : "bg-white hover:bg-[#FAF8F3]"
+      }`}
+    >
+      <div className="relative shrink-0">
+        <div
+          className={`flex h-11 w-11 items-center justify-center rounded-full text-xs font-bold ${tone}`}
+        >
+          {conversation.initials}
+        </div>
+
+        {conversation.online && (
+          <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-[#6C8A54]" />
+        )}
+      </div>
+
+      <div className="min-w-0 flex-1">
+        <div className="flex items-start justify-between gap-3">
+          <p className="truncate text-sm font-semibold text-[#292524]">
+            {conversation.guestName}
+          </p>
+
+          <span className="shrink-0 text-[10px] text-[#A8A29E]">
+            {formatConversationDate(conversation.lastMessageAt)}
+          </span>
+        </div>
+
+        <p className="mt-1 truncate text-[11px] font-medium text-[#9A711E]">
+          {conversation.propertyName}
+        </p>
+
+        <div className="mt-1.5 flex items-center justify-between gap-3">
+          <p className="truncate text-xs text-[#78716C]">
+            {conversation.lastMessage}
+          </p>
+
+          {conversation.unreadCount > 0 && (
+            <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-[#D9A441] px-1.5 text-[10px] font-bold text-[#18181B]">
+              {conversation.unreadCount}
+            </span>
+          )}
+        </div>
+      </div>
+
+      <ChevronRight
+        size={15}
+        className={`mt-3 shrink-0 ${
+          active ? "text-[#9A711E]" : "text-[#D4D0C8]"
+        }`}
+      />
+    </button>
+  );
+}
+
+function ChatPanel({
+  conversation,
+  draft,
+  setDraft,
+  onSend,
+  onBack,
+}: {
+  conversation: Conversation;
+  draft: string;
+  setDraft: (value: string) => void;
+  onSend: () => void;
+  onBack: () => void;
+}) {
+  return (
+    <div className="flex h-full min-h-[690px] flex-col">
+      {/* Chat header */}
+      <header className="flex items-center gap-3 border-b border-black/8 px-4 py-4 sm:px-6">
+        <button
+          type="button"
+          onClick={onBack}
+          className="flex h-9 w-9 items-center justify-center rounded-xl text-[#57534E] hover:bg-[#FAF8F3] lg:hidden"
+          aria-label="Back to conversations"
+        >
+          <ArrowLeft size={18} />
+        </button>
+
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#FFF8E8] text-xs font-bold text-[#8A651B]">
+          {conversation.initials}
+        </div>
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <h2 className="truncate text-sm font-semibold">
+              {conversation.guestName}
+            </h2>
+
+            {conversation.online && (
+              <span className="hidden items-center gap-1 text-[10px] font-medium text-[#6C8A54] sm:inline-flex">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#6C8A54]" />
+                Online
+              </span>
+            )}
+          </div>
+
+          <p className="truncate text-xs text-[#9A711E]">
+            {conversation.propertyName}
+            {conversation.bookingId
+              ? ` · Booking #${conversation.bookingId}`
+              : ""}
+          </p>
+        </div>
+
+        <Link
+          href={
+            conversation.bookingId
+              ? `/host/bookings/${conversation.bookingId}`
+              : "/host/bookings"
+          }
+          className="hidden items-center gap-1.5 rounded-xl border border-black/8 px-3 py-2 text-xs font-semibold text-[#57534E] transition hover:border-[#D9A441]/40 hover:bg-[#FFF8E8] sm:inline-flex"
+        >
+          Booking
+          <ArrowRight size={13} />
+        </Link>
+      </header>
+
+      {/* Trust banner */}
+      <div className="border-b border-black/6 bg-[#FAF8F3] px-4 py-2.5 sm:px-6">
+        <div className="flex items-center gap-2 text-[10px] font-medium text-[#78716C]">
+          <ShieldCheck size={14} className="text-[#9A711E]" />
+          Keep payments and sensitive personal information inside Vistara.
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto bg-[#FCFBF8] px-4 py-6 sm:px-6">
+        <div className="mx-auto max-w-3xl space-y-3">
+          <div className="mb-6 flex items-center justify-center">
+            <span className="rounded-full border border-black/6 bg-white px-3 py-1 text-[10px] font-medium text-[#A8A29E]">
+              Conversation
+            </span>
+          </div>
+
+          {conversation.messages.map((message) => (
+            <MessageBubble key={message.id} message={message} />
+          ))}
+        </div>
+      </div>
+
+      {/* Composer */}
+      <div className="border-t border-black/8 bg-white p-3 sm:p-4">
+        <div className="mx-auto flex max-w-3xl items-end gap-2">
+          <button
+            type="button"
+            className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl text-[#78716C] transition hover:bg-[#FAF8F3] hover:text-[#9A711E] sm:flex"
+            aria-label="Attach file"
+          >
+            <Paperclip size={18} />
+          </button>
+
+          <div className="relative flex-1">
+            <textarea
+              value={draft}
+              onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" && !event.shiftKey) {
+                  event.preventDefault();
+                  onSend();
+                }
+              }}
+              rows={1}
+              placeholder="Write a message..."
+              className="min-h-11 w-full resize-none rounded-xl border border-black/10 bg-[#FAF8F3] px-4 py-3 pr-4 text-sm outline-none transition placeholder:text-[#A8A29E] focus:border-[#D9A441]/60 focus:ring-4 focus:ring-[#D9A441]/10"
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={onSend}
+            disabled={!draft.trim()}
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#D9A441] text-[#18181B] transition hover:bg-[#E7C46D] disabled:cursor-not-allowed disabled:opacity-40"
+            aria-label="Send message"
+          >
+            <Send size={17} />
+          </button>
+        </div>
+
+        <p className="mx-auto mt-2 hidden max-w-3xl text-[10px] text-[#A8A29E] sm:block">
+          Press Enter to send · Shift + Enter for a new line
+        </p>
+      </div>
     </div>
   );
 }
 
-/* -------------------------------- */
-/* MESSAGE */
-/* -------------------------------- */
-
-function MessageBubble({
-  message,
-}: {
-  message: Message;
-}) {
+function MessageBubble({ message }: { message: Message }) {
   const isHost = message.sender === "HOST";
 
   return (
-    <div
-      className={`flex ${
-        isHost ? "justify-end" : "justify-start"
-      }`}
-    >
+    <div className={`flex ${isHost ? "justify-end" : "justify-start"}`}>
       <div
-        className={`max-w-[85%] sm:max-w-[70%] ${
+        className={`max-w-[82%] sm:max-w-[70%] ${
           isHost ? "items-end" : "items-start"
-        }`}
+        } flex flex-col`}
       >
         <div
           className={`rounded-2xl px-4 py-3 text-sm leading-6 ${
             isHost
-              ? "rounded-br-md bg-[#03045E] text-white"
-              : "rounded-bl-md bg-[#F1F3F8] text-[#03045E]"
+              ? "rounded-br-md bg-[#D9A441] text-[#18181B]"
+              : "rounded-bl-md border border-black/7 bg-white text-[#292524]"
           }`}
         >
           {message.text}
         </div>
 
         <div
-          className={`mt-1.5 flex items-center gap-2 px-1 ${
+          className={`mt-1.5 flex items-center gap-1.5 px-1 text-[10px] text-[#A8A29E] ${
             isHost ? "justify-end" : "justify-start"
           }`}
         >
-          <span className="text-[10px] text-[#94A3B8]">
-            {message.time}
-          </span>
+          <span>{formatTime(message.createdAt)}</span>
 
-          {isHost && message.read && (
-            <span className="text-[10px] font-semibold text-[#0D21A1]">
-              ✓✓
+          {isHost && (
+            <span
+              className={
+                message.status === "READ"
+                  ? "text-[#9A711E]"
+                  : "text-[#A8A29E]"
+              }
+            >
+              <CheckCheck size={13} />
             </span>
           )}
         </div>
@@ -549,73 +716,65 @@ function MessageBubble({
   );
 }
 
-/* -------------------------------- */
-/* BOOKING STATUS */
-/* -------------------------------- */
-
-function BookingStatus({
-  status,
-}: {
-  status: "CONFIRMED" | "PENDING";
-}) {
+function NoConversation() {
   return (
-    <span
-      className={`rounded-full px-3 py-1.5 text-[10px] font-bold ${
-        status === "CONFIRMED"
-          ? "bg-[#ECFDF5] text-emerald-700"
-          : "bg-[#FFF7E6] text-[#9A6700]"
-      }`}
-    >
-      {status === "CONFIRMED" ? "Confirmed" : "Pending"}
-    </span>
-  );
-}
-
-/* -------------------------------- */
-/* STAY DETAIL */
-/* -------------------------------- */
-
-function StayDetail({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div>
-      <p className="text-[9px] uppercase tracking-wider text-[#94A3B8]">
-        {label}
-      </p>
-
-      <p className="mt-1 text-xs font-semibold">
-        {value}
-      </p>
-    </div>
-  );
-}
-
-/* -------------------------------- */
-/* EMPTY CHAT */
-/* -------------------------------- */
-
-function EmptyChat() {
-  return (
-    <div className="flex flex-1 items-center justify-center p-8">
-      <div className="text-center">
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#EEF2FF] text-xl text-[#03045E]">
-          💬
+    <div className="flex min-h-[690px] items-center justify-center bg-[#FCFBF8] p-8 text-center">
+      <div>
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#FFF8E8] text-[#9A711E]">
+          <MessageCircle size={28} />
         </div>
 
         <h2 className="mt-5 font-serif text-2xl font-semibold">
           Select a conversation
         </h2>
 
-        <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-[#64748B]">
-          Choose a guest from your conversations to start
-          messaging.
+        <p className="mt-2 max-w-sm text-sm leading-6 text-[#78716C]">
+          Choose a guest from your inbox to view the conversation and reply.
         </p>
       </div>
     </div>
+  );
+}
+
+function MessagesSkeleton() {
+  return (
+    <main className="min-h-screen bg-[#FAF8F3]">
+      <Navbar />
+
+      <section className="border-b border-black/8 bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
+          <div className="h-7 w-28 animate-pulse rounded-full bg-[#F1F0EB]" />
+          <div className="mt-5 h-12 w-64 animate-pulse rounded-xl bg-[#F1F0EB]" />
+          <div className="mt-3 h-4 w-96 max-w-full animate-pulse rounded bg-[#F5F4EF]" />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-7 sm:px-6 lg:px-8">
+        <div className="grid min-h-[690px] overflow-hidden rounded-[28px] border border-black/8 bg-white lg:grid-cols-[340px_1fr]">
+          <div className="border-r border-black/8 p-5">
+            <div className="h-6 w-32 animate-pulse rounded bg-[#F1F0EB]" />
+            <div className="mt-5 h-11 animate-pulse rounded-xl bg-[#F5F4EF]" />
+
+            <div className="mt-5 space-y-3">
+              {[1, 2, 3, 4, 5].map((item) => (
+                <div key={item} className="flex gap-3 p-3">
+                  <div className="h-11 w-11 animate-pulse rounded-full bg-[#F1F0EB]" />
+                  <div className="flex-1">
+                    <div className="h-3 w-24 animate-pulse rounded bg-[#F1F0EB]" />
+                    <div className="mt-2 h-3 w-36 animate-pulse rounded bg-[#F5F4EF]" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="hidden lg:block">
+            <div className="h-[72px] animate-pulse border-b border-black/8 bg-[#F5F4EF]" />
+            <div className="h-[545px] animate-pulse bg-[#FCFBF8]" />
+            <div className="h-[73px] animate-pulse border-t border-black/8 bg-white" />
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

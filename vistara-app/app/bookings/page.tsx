@@ -1,233 +1,510 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo, useState } from "react";
+
+import {
+  ArrowRight,
+  CalendarDays,
+  CheckCircle2,
+  Clock3,
+  CreditCard,
+  MapPin,
+  ReceiptText,
+  XCircle,
+} from "lucide-react";
+
 import Navbar from "@/components/navbar";
 
-const bookings = [
+type BookingStatus =
+  | "Confirmed"
+  | "Completed"
+  | "Cancelled"
+  | "Pending";
+
+type BookingType = "Stay" | "Experience";
+
+type Booking = {
+  id: number;
+  displayId: string;
+  type: BookingType;
+  title: string;
+  location: string;
+  description: string;
+  dates: string;
+  guests: string;
+  amount: string;
+  status: BookingStatus;
+  image: string;
+};
+
+const bookings: Booking[] = [
   {
     id: 1,
     displayId: "VS-2026-1048",
     type: "Stay",
-    title: "A peaceful stay by the Ganges",
-    location: "Varanasi, Uttar Pradesh",
+    title: "A heritage stay near Hawa Mahal",
+    location: "Jaipur, Rajasthan",
+    description:
+      "Experience the charm of Jaipur with a comfortable stay close to the iconic Hawa Mahal and the city's historic streets.",
     dates: "18 Oct – 21 Oct 2026",
     guests: "2 Guests",
     amount: "₹18,500",
     status: "Confirmed",
-    image: "/images/bookings/pag1 (14).jpg",
+    image: "/images/hawamahal.jpg",
   },
 ];
 
+const filters = [
+  "All bookings",
+  "Stays",
+  "Experiences",
+  "Completed",
+  "Cancelled",
+] as const;
+
+type Filter = (typeof filters)[number];
+
 export default function BookingsPage() {
+  const [activeFilter, setActiveFilter] =
+    useState<Filter>("All bookings");
+
+  const filteredBookings = useMemo(() => {
+    switch (activeFilter) {
+      case "Stays":
+        return bookings.filter(
+          (booking) => booking.type === "Stay"
+        );
+
+      case "Experiences":
+        return bookings.filter(
+          (booking) => booking.type === "Experience"
+        );
+
+      case "Completed":
+        return bookings.filter(
+          (booking) => booking.status === "Completed"
+        );
+
+      case "Cancelled":
+        return bookings.filter(
+          (booking) => booking.status === "Cancelled"
+        );
+
+      default:
+        return bookings;
+    }
+  }, [activeFilter]);
+
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
+    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
       <Navbar />
 
-      {/* HEADER */}
-      <section className="border-b border-[#03045E]/10 bg-[#F7F3EA]">
-        <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
+      <section className="border-b border-[#E7DFD7] bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-11 sm:px-7 lg:px-10 lg:py-14">
+
           <Link
             href="/settings"
-            className="text-sm font-medium text-[#64748B] hover:text-[#03045E]"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#756D67] transition hover:text-[#B76545]"
           >
             ← Settings
           </Link>
 
-          <div className="mt-9">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#C6A15B]">
-              YOUR BOOKINGS
-            </p>
+          <div className="mt-10 flex flex-col justify-between gap-7 sm:flex-row sm:items-end">
 
-            <h1 className="mt-3 font-serif text-4xl font-semibold text-[#03045E] md:text-5xl">
-              Bookings
-            </h1>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#B76545]">
+                Your journey
+              </p>
 
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#64748B]">
-              Manage your stays, experiences and previous reservations
-              from one place.
-            </p>
+              <h1 className="mt-3 font-serif text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+                Bookings
+              </h1>
+
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#756D67]">
+                Manage your stays, experiences and reservations
+                from one place.
+              </p>
+            </div>
+
+            <div className="flex w-fit items-center gap-2 rounded-full border border-[#E1D9D1] bg-[#FAF8F3] px-4 py-2.5">
+              <CalendarDays
+                size={15}
+                className="text-[#B8945A]"
+              />
+
+              <span className="text-sm font-semibold text-[#4A403A]">
+                {bookings.length}{" "}
+                {bookings.length === 1
+                  ? "booking"
+                  : "bookings"}
+              </span>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* CONTENT */}
-      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
+      {/* =====================================================
+          CONTENT
+      ===================================================== */}
+
+      <section className="mx-auto max-w-7xl px-5 py-10 sm:px-7 lg:px-10 lg:py-12">
+
         {/* FILTERS */}
-        <div className="mb-8 flex flex-wrap gap-3">
-          <button className="rounded-full bg-[#03045E] px-5 py-2.5 text-sm font-semibold text-white">
-            All bookings
-          </button>
 
-          <button className="rounded-full border border-[#DDE2E8] px-5 py-2.5 text-sm font-medium text-[#64748B] hover:border-[#03045E]">
-            Stays
-          </button>
+        <div className="mb-8 flex flex-wrap gap-2.5">
+          {filters.map((filter) => {
+            const active = activeFilter === filter;
 
-          <button className="rounded-full border border-[#DDE2E8] px-5 py-2.5 text-sm font-medium text-[#64748B] hover:border-[#03045E]">
-            Experiences
-          </button>
-
-          <button className="rounded-full border border-[#DDE2E8] px-5 py-2.5 text-sm font-medium text-[#64748B] hover:border-[#03045E]">
-            Completed
-          </button>
-
-          <button className="rounded-full border border-[#DDE2E8] px-5 py-2.5 text-sm font-medium text-[#64748B] hover:border-[#03045E]">
-            Cancelled
-          </button>
+            return (
+              <button
+                key={filter}
+                type="button"
+                onClick={() => setActiveFilter(filter)}
+                className={`rounded-full px-5 py-2.5 text-sm font-medium transition ${
+                  active
+                    ? "bg-[#3A302A] text-white shadow-sm"
+                    : "border border-[#DED5CD] bg-white text-[#756D67] hover:border-[#B76545] hover:text-[#B76545]"
+                }`}
+              >
+                {filter}
+              </button>
+            );
+          })}
         </div>
 
-        {/* BOOKING LIST */}
-        <div className="space-y-5">
-          {bookings.map((booking) => (
-            <article
-              key={booking.id}
-              className="group overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_12px_45px_rgba(3,4,94,0.05)] transition hover:shadow-[0_18px_55px_rgba(3,4,94,0.09)]"
-            >
-              <div className="flex flex-col md:flex-row">
-                {/* IMAGE */}
-                <div className="relative h-64 shrink-0 overflow-hidden md:h-auto md:w-72">
-                  <img
-                    src={booking.image}
-                    alt={booking.title}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                  />
+        {/* ===================================================
+            BOOKING LIST
+        =================================================== */}
 
-                  <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-[#03045E] backdrop-blur">
-                    {booking.type}
-                  </div>
-                </div>
+        {filteredBookings.length > 0 ? (
+          <div className="space-y-5">
+            {filteredBookings.map((booking) => (
+              <BookingCard
+                key={booking.id}
+                booking={booking}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyBookings />
+        )}
 
-                {/* DETAILS */}
-                <div className="flex flex-1 flex-col p-6 md:p-7">
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                    <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#C6A15B]">
-                        {booking.status}
-                      </p>
+        {/* ===================================================
+            LOWER CARDS
+        =================================================== */}
 
-                      <h2 className="mt-2 text-xl font-semibold text-[#03045E]">
-                        {booking.title}
-                      </h2>
-
-                      <p className="mt-1 text-sm text-[#64748B]">
-                        {booking.location}
-                      </p>
-                    </div>
-
-                    <span className="w-fit rounded-full bg-[#ECFDF5] px-3 py-1.5 text-xs font-bold text-emerald-700">
-                      {booking.status}
-                    </span>
-                  </div>
-
-                  {/* META */}
-                  <div className="mt-6 grid gap-4 border-y border-[#03045E]/10 py-5 sm:grid-cols-3">
-                    <div>
-                      <p className="text-xs text-[#94A3B8]">DATES</p>
-
-                      <p className="mt-1 text-sm font-semibold text-[#03045E]">
-                        {booking.dates}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs text-[#94A3B8]">GUESTS</p>
-
-                      <p className="mt-1 text-sm font-semibold text-[#03045E]">
-                        {booking.guests}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs text-[#94A3B8]">TOTAL</p>
-
-                      <p className="mt-1 text-sm font-semibold text-[#03045E]">
-                        {booking.amount}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* FOOTER */}
-                  <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-xs text-[#94A3B8]">
-                      Booking ID:{" "}
-                      <span className="font-medium text-[#64748B]">
-                        {booking.displayId}
-                      </span>
-                    </p>
-
-                    <div className="flex gap-3">
-                      {/* CORRECT ROUTE */}
-                      <Link
-                        href={`/bookings/${booking.id}`}
-                        className="rounded-xl border border-[#03045E] px-5 py-2.5 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white"
-                      >
-                        View details
-                      </Link>
-
-                      {/* CORRECT ROUTE */}
-                      {booking.status === "Confirmed" && (
-                        <Link
-                          href={`/bookings/${booking.id}`}
-                          className="rounded-xl bg-[#03045E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-                        >
-                          Manage booking
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        {/* PAYMENT / SUPPORT */}
         <div className="mt-10 grid gap-5 md:grid-cols-2">
+
           {/* PAYMENT */}
-          <div className="rounded-[28px] border border-[#03045E]/10 bg-[#FAFAF8] p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-              PAYMENTS
+
+          <Link
+            href="/payments"
+            className="group rounded-[26px] border border-[#E5DED6] bg-white p-7 transition hover:-translate-y-0.5 hover:border-[#D2C1B5] hover:shadow-[0_15px_45px_rgba(44,36,32,0.06)]"
+          >
+            <div className="flex items-start justify-between gap-5">
+
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F3EFEA] text-[#B8945A]">
+                <CreditCard size={19} />
+              </div>
+
+              <ArrowRight
+                size={17}
+                className="text-[#A59C95] transition group-hover:translate-x-1 group-hover:text-[#B76545]"
+              />
+
+            </div>
+
+            <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.2em] text-[#B8945A]">
+              Payments
             </p>
 
             <h2 className="mt-2 font-serif text-2xl font-semibold">
               Payment history
             </h2>
 
-            <p className="mt-2 text-sm leading-6 text-[#64748B]">
-              Review payments made for your Vistara bookings.
+            <p className="mt-2 text-sm leading-6 text-[#756D67]">
+              Review payments and transaction details for your
+              Vistara bookings.
             </p>
 
-            <Link
-              href="/payments"
-              className="mt-5 inline-block text-sm font-semibold text-[#0D21A1] hover:underline"
-            >
-              View payment history →
-            </Link>
-          </div>
+            <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#B76545]">
+              View payment history
+              <ArrowRight size={14} />
+            </div>
+          </Link>
 
           {/* SUPPORT */}
-          <div className="rounded-[28px] border border-[#C6A15B]/25 bg-gradient-to-br from-[#F7F3EA] to-white p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-              NEED HELP?
+
+          <Link
+            href="/support"
+            className="group rounded-[26px] border border-[#E1D4CA] bg-[#F3EFEA] p-7 transition hover:-translate-y-0.5 hover:border-[#CDB9A9] hover:shadow-[0_15px_45px_rgba(44,36,32,0.06)]"
+          >
+            <div className="flex items-start justify-between gap-5">
+
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-[#B76545] shadow-sm">
+                <ReceiptText size={19} />
+              </div>
+
+              <ArrowRight
+                size={17}
+                className="text-[#A59C95] transition group-hover:translate-x-1 group-hover:text-[#B76545]"
+              />
+
+            </div>
+
+            <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.2em] text-[#B76545]">
+              Need help?
             </p>
 
             <h2 className="mt-2 font-serif text-2xl font-semibold">
               Something about a booking?
             </h2>
 
-            <p className="mt-2 text-sm leading-6 text-[#64748B]">
-              Get help with your reservation or booking details.
+            <p className="mt-2 text-sm leading-6 text-[#756D67]">
+              Get help with your reservation, payment or booking
+              details.
             </p>
 
-            <Link
-              href="/support"
-              className="mt-5 inline-block text-sm font-semibold text-[#0D21A1] hover:underline"
-            >
-              Get support →
-            </Link>
-          </div>
+            <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#B76545]">
+              Get support
+              <ArrowRight size={14} />
+            </div>
+          </Link>
+
         </div>
       </section>
     </main>
+  );
+}
+
+/* ============================================================
+   BOOKING CARD
+============================================================ */
+
+function BookingCard({
+  booking,
+}: {
+  booking: Booking;
+}) {
+  const statusStyles: Record<BookingStatus, string> = {
+    Confirmed:
+      "bg-[#68705A]/10 text-[#68705A]",
+
+    Completed:
+      "bg-[#B8945A]/10 text-[#8D6E38]",
+
+    Cancelled:
+      "bg-[#B76545]/10 text-[#A04E32]",
+
+    Pending:
+      "bg-[#F1ECE6] text-[#756D67]",
+  };
+
+  const StatusIcon =
+    booking.status === "Confirmed" ||
+    booking.status === "Completed"
+      ? CheckCircle2
+      : booking.status === "Cancelled"
+        ? XCircle
+        : Clock3;
+
+  return (
+    <article className="group overflow-hidden rounded-[28px] border border-[#E5DED6] bg-white transition duration-300 hover:border-[#D2C1B5] hover:shadow-[0_18px_55px_rgba(44,36,32,0.07)]">
+
+      <div className="flex flex-col lg:flex-row">
+
+        {/* IMAGE */}
+
+        <Link
+          href={`/bookings/${booking.id}`}
+          className="relative h-64 shrink-0 overflow-hidden lg:h-auto lg:w-[320px]"
+        >
+          <img
+            src={booking.image}
+            alt="Hawa Mahal, Jaipur"
+            loading="lazy"
+            className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
+          />
+
+          <div className="absolute left-4 top-4 rounded-full bg-white/95 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wide text-[#4A403A] shadow-sm backdrop-blur">
+            {booking.type}
+          </div>
+        </Link>
+
+        {/* DETAILS */}
+
+        <div className="flex min-w-0 flex-1 flex-col p-6 sm:p-7">
+
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+
+            <div className="min-w-0">
+
+              <div className="flex flex-wrap items-center gap-2">
+
+                <span
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide ${statusStyles[booking.status]}`}
+                >
+                  <StatusIcon size={11} />
+                  {booking.status}
+                </span>
+
+              </div>
+
+              <Link href={`/bookings/${booking.id}`}>
+                <h2 className="mt-3 font-serif text-2xl font-semibold tracking-[-0.02em] text-[#2C2420] transition hover:text-[#B76545]">
+                  {booking.title}
+                </h2>
+              </Link>
+
+              <div className="mt-2 flex items-center gap-1.5 text-sm text-[#756D67]">
+                <MapPin
+                  size={14}
+                  className="shrink-0"
+                />
+
+                <span>{booking.location}</span>
+              </div>
+
+              {/* HAWA MAHAL DESCRIPTION */}
+
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#756D67]">
+                {booking.description}
+              </p>
+
+            </div>
+          </div>
+
+          {/* META */}
+
+          <div className="mt-7 grid gap-5 border-y border-[#EAE4DE] py-5 sm:grid-cols-3">
+
+            <InfoItem
+              label="Dates"
+              value={booking.dates}
+              icon={<CalendarDays size={15} />}
+            />
+
+            <InfoItem
+              label="Guests"
+              value={booking.guests}
+              icon={<Clock3 size={15} />}
+            />
+
+            <InfoItem
+              label="Total"
+              value={booking.amount}
+              icon={<CreditCard size={15} />}
+            />
+
+          </div>
+
+          {/* FOOTER */}
+
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#A59C95]">
+                Booking ID
+              </p>
+
+              <p className="mt-1 text-xs font-medium text-[#756D67]">
+                {booking.displayId}
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2.5 sm:flex-row">
+
+              <Link
+                href={`/bookings/${booking.id}`}
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#D9D0C8] px-5 py-2.5 text-sm font-semibold text-[#4A403A] transition hover:border-[#B76545] hover:text-[#B76545]"
+              >
+                View details
+              </Link>
+
+              {booking.status === "Confirmed" && (
+                <Link
+                  href={`/bookings/${booking.id}`}
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#B76545] px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#965039]"
+                >
+                  Manage booking
+                  <ArrowRight size={14} />
+                </Link>
+              )}
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/* ============================================================
+   INFO ITEM
+============================================================ */
+
+function InfoItem({
+  label,
+  value,
+  icon,
+}: {
+  label: string;
+  value: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div>
+      <div className="flex items-center gap-2 text-[#A59C95]">
+        {icon}
+
+        <span className="text-[10px] font-bold uppercase tracking-[0.15em]">
+          {label}
+        </span>
+      </div>
+
+      <p className="mt-2 text-sm font-semibold text-[#3A302A]">
+        {value}
+      </p>
+    </div>
+  );
+}
+
+/* ============================================================
+   EMPTY STATE
+============================================================ */
+
+function EmptyBookings() {
+  return (
+    <div className="rounded-[28px] border border-[#E5DED6] bg-white px-6 py-16 text-center">
+
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#F3EFEA] text-[#B76545]">
+        <CalendarDays size={27} />
+      </div>
+
+      <h2 className="mt-6 font-serif text-2xl font-semibold">
+        No bookings here
+      </h2>
+
+      <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#756D67]">
+        There are no bookings matching this filter yet.
+        Explore Vistara and start planning your next journey.
+      </p>
+
+      <Link
+        href="/stays"
+        className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#B76545] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#965039]"
+      >
+        Explore stays
+        <ArrowRight size={15} />
+      </Link>
+
+    </div>
   );
 }

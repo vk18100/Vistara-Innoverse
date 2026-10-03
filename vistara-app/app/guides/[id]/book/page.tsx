@@ -1,594 +1,515 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
-import Navbar from "@/components/navbar";
+import { useParams } from "next/navigation";
+import { useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
   CalendarDays,
+  Check,
   CheckCircle2,
   Clock3,
-  Globe2,
-  MapPin,
   Minus,
   Plus,
+  ShieldCheck,
   Star,
   Users,
 } from "lucide-react";
 
-type Guide = {
-  id: string;
-  name: string;
-  location: string;
-  bio: string;
-  about: string;
-  languages: string[];
-  specialties: string[];
-  rating: number;
-  reviews: number;
-  experience: string;
-  pricePerHour: number;
-  currency: string;
-  image: string;
-  verified: boolean;
-  availableDays: string[];
-};
-
-const DURATIONS = [1, 2, 4, 6, 8];
-
-export default function GuideBookPage() {
-  const params = useParams<{ id: string }>();
-  const router = useRouter();
-
-  const guideId = params?.id;
-
-  const [guide, setGuide] = useState<Guide | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [booking, setBooking] = useState(false);
-  const [error, setError] = useState("");
-  const [bookingError, setBookingError] = useState("");
+export default function GuideBookingPage() {
+  const params = useParams();
+  const id = String(params.id);
 
   const [date, setDate] = useState("");
-  const [duration, setDuration] = useState(2);
-  const [guests, setGuests] = useState(1);
-  const [notes, setNotes] = useState("");
+  const [time, setTime] = useState("10:00");
+  const [guests, setGuests] = useState(2);
+  const [booked, setBooked] = useState(false);
 
-  useEffect(() => {
-    if (!guideId) return;
+  const guideName =
+    id === "rajiv"
+      ? "Rajiv Kumar"
+      : id === "amit"
+      ? "Amit Singh"
+      : id === "neha"
+      ? "Neha Sharma"
+      : id === "vikas"
+      ? "Vikas Kumar"
+      : "Rajiv Kumar";
 
-    async function loadGuide() {
-      try {
-        setLoading(true);
-        setError("");
-
-        const response = await fetch(`/api/guides/${guideId}`, {
-          method: "GET",
-          cache: "no-store",
-        });
-
-        const result = await response.json();
-
-        console.log("GUIDE BOOK API:", result);
-
-        if (!response.ok) {
-          throw new Error(
-            result?.message || "Unable to load guide."
-          );
-        }
-
-        setGuide(result.data ?? null);
-      } catch (err) {
-        console.error("GUIDE BOOK LOAD ERROR:", err);
-
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Unable to load guide."
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadGuide();
-  }, [guideId]);
-
-  const totalAmount = useMemo(() => {
-    if (!guide) return 0;
-
-    return Number(guide.pricePerHour || 0) * duration;
-  }, [guide, duration]);
-
-  function formatCurrency(value: number) {
-    return new Intl.NumberFormat("en-IN", {
-      style: "currency",
-      currency: "INR",
-      maximumFractionDigits: 0,
-    }).format(value);
-  }
-
-  function increaseGuests() {
-    setGuests((current) => Math.min(current + 1, 10));
-  }
-
-  function decreaseGuests() {
-    setGuests((current) => Math.max(current - 1, 1));
-  }
-
-  async function handleBooking() {
-    if (!guide) return;
-
-    setBookingError("");
-
-    if (!date) {
-      setBookingError("Please select a date.");
-      return;
-    }
-
-    try {
-      setBooking(true);
-
-      /*
-       * Booking API contract:
-       * POST /api/guides/[id]/book
-       *
-       * body:
-       * {
-       *   guideId,
-       *   date,
-       *   durationHours,
-       *   guests,
-       *   notes
-       * }
-       */
-
-      const response = await fetch(
-        `/api/guides/${guide.id}/book`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            guideId: guide.id,
-            date,
-            durationHours: duration,
-            guests,
-            notes: notes.trim() || null,
-          }),
-        }
-      );
-
-      const result = await response.json();
-
-      console.log("GUIDE BOOKING RESPONSE:", result);
-
-      if (!response.ok || !result.success) {
-        throw new Error(
-          result?.message || "Unable to create booking."
-        );
-      }
-
-      /*
-       * If backend returns a booking id,
-       * move to confirmation/payment page.
-       */
-      const bookingId =
-        result.booking?.id ||
-        result.data?.id ||
-        result.data?.booking?.id;
-
-      if (bookingId) {
-        router.push(`/booking/${bookingId}`);
-        return;
-      }
-
-      router.push("/booking");
-    } catch (err) {
-      console.error("GUIDE BOOKING ERROR:", err);
-
-      setBookingError(
-        err instanceof Error
-          ? err.message
-          : "Unable to create booking."
-      );
-    } finally {
-      setBooking(false);
-    }
-  }
-
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-white text-[#03045E]">
-        <Navbar />
-
-        <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-          <div className="h-5 w-32 animate-pulse rounded bg-[#F5F7FF]" />
-
-          <div className="mt-8 grid gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-            <div className="h-[520px] animate-pulse rounded-[30px] bg-[#F5F7FF]" />
-
-            <div className="h-[620px] animate-pulse rounded-[30px] bg-[#F5F7FF]" />
-          </div>
-        </section>
-      </main>
-    );
-  }
-
-  if (error || !guide) {
-    return (
-      <main className="min-h-screen bg-white text-[#03045E]">
-        <Navbar />
-
-        <section className="mx-auto max-w-3xl px-6 py-24 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-            GUIDE BOOKING
-          </p>
-
-          <h1 className="mt-4 font-serif text-4xl font-semibold">
-            Guide not found
-          </h1>
-
-          <p className="mt-3 text-sm text-gray-500">
-            This guide may no longer be available.
-          </p>
-
-          <Link
-            href="/guides"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#03045E] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-          >
-            <ArrowLeft size={16} />
-            Back to Guides
-          </Link>
-        </section>
-      </main>
-    );
-  }
+  const price = 699;
+  const serviceFee = 99;
+  const subtotal = price * guests;
+  const total = subtotal + serviceFee;
 
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#03045E]">
-      <Navbar />
+    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
 
-      {/* HEADER */}
-      <section className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-7 lg:px-10">
+      {/* NAVBAR */}
+      <header className="sticky top-0 z-50 border-b border-[#E5DED6] bg-[#FAF8F3]/95 backdrop-blur">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-10">
+
           <Link
-            href={`/guides/${guide.id}`}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-[#03045E]"
+            href={`/guides/${id}`}
+            className="flex items-center gap-2 text-sm font-semibold text-[#2C2420] transition hover:text-[#B76545]"
           >
-            <ArrowLeft size={16} />
-            Back to {guide.name}
+            <ArrowLeft size={18} />
+            Back to guide
           </Link>
+
+          <Link
+            href="/"
+            className="font-serif text-2xl font-bold tracking-[0.16em] text-[#2C2420]"
+          >
+            VISTARA
+          </Link>
+
+          <div className="flex items-center gap-2 text-xs font-semibold text-[#68705A]">
+            <ShieldCheck size={16} />
+            Secure
+          </div>
         </div>
-      </section>
+      </header>
 
       {/* MAIN */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10 lg:py-14">
-        <div className="grid gap-10 lg:grid-cols-[1fr_460px]">
-          {/* LEFT */}
-          <div>
-            <div className="overflow-hidden rounded-[30px] bg-white shadow-[0_12px_45px_rgba(3,4,94,0.05)]">
-              <div className="relative h-[360px] md:h-[460px]">
-                <img
-                  src={guide.image}
-                  alt={guide.name}
-                  className="h-full w-full object-cover"
-                />
+      <section className="mx-auto max-w-7xl px-5 py-10 lg:px-10 lg:py-14">
 
-                {guide.verified && (
-                  <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-white/95 px-4 py-2.5 text-xs font-bold text-[#03045E] shadow-lg">
+        {/* TITLE */}
+        <div className="mb-10 max-w-3xl">
+
+          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B76545]">
+            BOOK YOUR EXPERIENCE
+          </p>
+
+          <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight text-[#2C2420] sm:text-5xl">
+            Plan your time with{" "}
+            <span className="text-[#B76545]">
+              {guideName.split(" ")[0]}.
+            </span>
+          </h1>
+
+          <p className="mt-4 text-base leading-7 text-[#756D67]">
+            Choose when you want to explore, how many people are joining,
+            and we'll take care of the rest.
+          </p>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-[1fr_420px]">
+
+          {/* LEFT SIDE */}
+          <div className="space-y-6">
+
+            {/* HOST CARD */}
+            <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_10px_35px_rgba(44,36,32,0.04)] sm:p-8">
+
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#B76545]">
+                YOUR HOST
+              </p>
+
+              <div className="mt-5 flex items-center gap-4">
+
+                {/* RAJIV PROFILE IMAGE */}
+                <div className="h-16 w-16 shrink-0 overflow-hidden rounded-full border-4 border-[#E8DED0] bg-[#E8DED0]">
+                  <img
+                    src="/images/profile.jpg"
+                    alt={`${guideName} profile`}
+                    className="h-full w-full object-cover"
+                    loading="eager"
+                  />
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2">
+
+                    <h2 className="font-serif text-2xl font-semibold text-[#2C2420]">
+                      {guideName}
+                    </h2>
+
                     <CheckCircle2
-                      size={15}
-                      className="text-[#0D21A1]"
+                      size={17}
+                      className="text-[#68705A]"
                     />
-                    Verified Local Guide
                   </div>
-                )}
+
+                  <p className="mt-1 text-sm text-[#756D67]">
+                    Local host · Patna, Bihar
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* DATE & TIME */}
+            <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_10px_35px_rgba(44,36,32,0.04)] sm:p-8">
+
+              <h2 className="font-serif text-2xl font-semibold text-[#2C2420]">
+                When are you going?
+              </h2>
+
+              <p className="mt-2 text-sm text-[#756D67]">
+                Select a date and preferred starting time.
+              </p>
+
+              {/* DATE */}
+              <div className="mt-7">
+                <label className="mb-2 block text-sm font-bold text-[#2C2420]">
+                  Date
+                </label>
+
+                <div className="relative">
+
+                  <CalendarDays
+                    size={18}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-[#B76545]"
+                  />
+
+                  <input
+                    type="date"
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className="h-14 w-full rounded-2xl border border-[#D8CEC4] bg-[#FAF8F3] pl-12 pr-4 text-sm text-[#2C2420] outline-none transition focus:border-[#B76545] focus:ring-4 focus:ring-[#B76545]/10"
+                  />
+
+                </div>
               </div>
 
-              <div className="p-7 md:p-9">
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-                    LOCAL EXPERT
+              {/* TIME */}
+              <div className="mt-7">
+
+                <label className="mb-3 block text-sm font-bold text-[#2C2420]">
+                  Start time
+                </label>
+
+                <div className="grid grid-cols-3 gap-3">
+
+                  {["09:00", "10:00", "14:00"].map((item) => {
+                    const active = time === item;
+
+                    return (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => setTime(item)}
+                        className={`rounded-2xl border px-3 py-3.5 text-sm font-semibold transition ${
+                          active
+                            ? "border-[#B76545] bg-[#B76545] text-white shadow-md"
+                            : "border-[#E5DED6] bg-white text-[#2C2420] hover:border-[#B76545] hover:bg-[#FAF8F3]"
+                        }`}
+                      >
+                        {item}
+                      </button>
+                    );
+                  })}
+
+                </div>
+              </div>
+            </div>
+
+            {/* GUESTS */}
+            <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_10px_35px_rgba(44,36,32,0.04)] sm:p-8">
+
+              <h2 className="font-serif text-2xl font-semibold">
+                Who's coming?
+              </h2>
+
+              <div className="mt-6 flex items-center justify-between">
+
+                <div className="flex items-center gap-4">
+
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F3E7DE] text-[#B76545]">
+                    <Users size={20} />
+                  </div>
+
+                  <div>
+                    <p className="font-bold">
+                      Guests
+                    </p>
+
+                    <p className="text-sm text-[#756D67]">
+                      Up to 6 people
+                    </p>
+                  </div>
+
+                </div>
+
+                <div className="flex items-center gap-3">
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setGuests(Math.max(1, guests - 1))
+                    }
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D8CEC4] bg-white transition hover:bg-[#FAF8F3]"
+                  >
+                    <Minus size={16} />
+                  </button>
+
+                  <span className="w-6 text-center font-bold">
+                    {guests}
                   </span>
 
-                  <span className="h-1 w-1 rounded-full bg-gray-300" />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setGuests(Math.min(6, guests + 1))
+                    }
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D8CEC4] bg-white transition hover:bg-[#FAF8F3]"
+                  >
+                    <Plus size={16} />
+                  </button>
 
-                  <div className="flex items-center gap-1 text-sm font-semibold">
-                    <Star
-                      size={15}
-                      className="fill-[#0D21A1] text-[#0D21A1]"
-                    />
-                    {guide.rating}
+                </div>
+              </div>
+            </div>
 
-                    <span className="font-normal text-gray-400">
-                      ({guide.reviews} reviews)
+            {/* INCLUDED */}
+            <div className="rounded-[28px] bg-[#E8DED0] p-6 sm:p-8">
+
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#68705A]">
+                INCLUDED
+              </p>
+
+              <h2 className="mt-3 font-serif text-2xl">
+                Everything you need for the experience.
+              </h2>
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-2">
+
+                {[
+                  "Local host",
+                  "3 hour experience",
+                  "Local food stops",
+                  "Hidden destination spots",
+                  "Local recommendations",
+                  "Flexible conversation",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-3 rounded-xl bg-white/55 px-4 py-3 text-sm"
+                  >
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[#68705A]">
+                      <Check size={13} strokeWidth={3} />
                     </span>
+
+                    <span>{item}</span>
                   </div>
-                </div>
+                ))}
 
-                <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-                  Book {guide.name}
-                </h1>
-
-                <p className="mt-4 flex items-center gap-2 text-sm text-gray-500">
-                  <MapPin size={17} />
-                  {guide.location}
-                </p>
-
-                <p className="mt-6 max-w-2xl text-sm leading-7 text-gray-500">
-                  {guide.about || guide.bio}
-                </p>
-
-                {/* GUIDE DETAILS */}
-                <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-[#03045E]/10 bg-[#FAFAF8] p-5">
-                    <div className="flex items-center gap-2">
-                      <Clock3
-                        size={18}
-                        className="text-[#0D21A1]"
-                      />
-
-                      <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                        Experience
-                      </p>
-                    </div>
-
-                    <p className="mt-3 text-sm font-semibold">
-                      {guide.experience}
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl border border-[#03045E]/10 bg-[#FAFAF8] p-5">
-                    <div className="flex items-center gap-2">
-                      <Globe2
-                        size={18}
-                        className="text-[#0D21A1]"
-                      />
-
-                      <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
-                        Languages
-                      </p>
-                    </div>
-
-                    <p className="mt-3 text-sm font-semibold">
-                      {guide.languages.join(" · ")}
-                    </p>
-                  </div>
-                </div>
-
-                {/* SPECIALTIES */}
-                <div className="mt-8 border-t border-[#03045E]/10 pt-7">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
-                    AREAS OF EXPERTISE
-                  </p>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {guide.specialties.map((specialty) => (
-                      <span
-                        key={specialty}
-                        className="rounded-full bg-[#F5F7FF] px-4 py-2 text-xs font-medium text-[#03045E]"
-                      >
-                        {specialty}
-                      </span>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
 
-          {/* RIGHT BOOKING FORM */}
+          {/* RIGHT SUMMARY */}
           <aside>
-            <div className="sticky top-8 rounded-[30px] border border-[#03045E]/10 bg-white p-6 shadow-[0_18px_60px_rgba(3,4,94,0.08)] md:p-7">
-              {/* PRICE */}
-              <div className="border-b border-[#03045E]/10 pb-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-gray-400">
-                  Guide booking
-                </p>
 
-                <div className="mt-3 flex items-end justify-between">
-                  <div>
-                    <span className="text-3xl font-semibold">
-                      {formatCurrency(guide.pricePerHour)}
-                    </span>
+            <div className="sticky top-28 rounded-[30px] border border-[#E5DED6] bg-white p-6 shadow-[0_20px_60px_rgba(44,36,32,0.10)]">
 
-                    <span className="ml-1 text-sm text-gray-400">
-                      / hour
-                    </span>
-                  </div>
+              {/* EXPERIENCE HEADER */}
+              <div className="flex items-center gap-4 border-b border-[#E5DED6] pb-6">
 
-                  <div className="flex items-center gap-1 text-sm font-semibold">
+                <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[#E8DED0]">
+                  <img
+                    src="/images/profile.jpg"
+                    alt={guideName}
+                    className="h-full w-full object-cover"
+                    loading="eager"
+                  />
+                </div>
+
+                <div className="min-w-0">
+
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#B76545]">
+                    EXPERIENCE
+                  </p>
+
+                  <h2 className="mt-1 font-serif text-xl font-semibold text-[#2C2420]">
+                    Patna with {guideName.split(" ")[0]}
+                  </h2>
+
+                  <div className="mt-1 flex items-center gap-1 text-sm text-[#756D67]">
+
                     <Star
-                      size={15}
-                      className="fill-[#0D21A1] text-[#0D21A1]"
+                      size={14}
+                      fill="currentColor"
+                      className="text-[#B8945A]"
                     />
-                    {guide.rating}
+
+                    <span className="font-semibold text-[#2C2420]">
+                      4.9
+                    </span>
+
+                    <span>
+                      · 124 reviews
+                    </span>
+
                   </div>
                 </div>
               </div>
 
-              {/* DATE */}
-              <div className="pt-6">
-                <label className="flex items-center gap-2 text-sm font-semibold">
-                  <CalendarDays
-                    size={17}
-                    className="text-[#0D21A1]"
-                  />
-                  Select date
-                </label>
+              {/* SELECTED DETAILS */}
+              <div className="mt-6 space-y-3">
 
-                <input
-                  type="date"
-                  value={date}
-                  min={new Date()
-                    .toISOString()
-                    .split("T")[0]}
-                  onChange={(event) =>
-                    setDate(event.target.value)
-                  }
-                  className="mt-3 w-full rounded-xl border border-[#03045E]/10 bg-white px-4 py-3 text-sm outline-none transition focus:border-[#0D21A1] focus:ring-2 focus:ring-[#0D21A1]/10"
-                />
-              </div>
+                <div className="flex items-center justify-between rounded-2xl bg-[#FAF8F3] px-4 py-3">
 
-              {/* DURATION */}
-              <div className="mt-6">
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-2 text-sm font-semibold">
+                  <div className="flex items-center gap-3">
+
+                    <CalendarDays
+                      size={17}
+                      className="text-[#B76545]"
+                    />
+
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wide text-[#756D67]">
+                        Date
+                      </p>
+
+                      <p className="mt-0.5 text-sm font-semibold">
+                        {date || "Select date"}
+                      </p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div className="flex items-center justify-between rounded-2xl bg-[#FAF8F3] px-4 py-3">
+
+                  <div className="flex items-center gap-3">
+
                     <Clock3
                       size={17}
-                      className="text-[#0D21A1]"
+                      className="text-[#B76545]"
                     />
-                    Duration
-                  </label>
 
-                  <span className="text-xs text-gray-400">
-                    {duration}{" "}
-                    {duration === 1 ? "hour" : "hours"}
-                  </span>
-                </div>
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wide text-[#756D67]">
+                        Starting time
+                      </p>
 
-                <div className="mt-3 grid grid-cols-5 gap-2">
-                  {DURATIONS.map((hours) => (
-                    <button
-                      key={hours}
-                      type="button"
-                      onClick={() => setDuration(hours)}
-                      className={`rounded-xl border px-2 py-3 text-xs font-semibold transition ${
-                        duration === hours
-                          ? "border-[#03045E] bg-[#03045E] text-white"
-                          : "border-[#03045E]/10 bg-white text-[#03045E] hover:border-[#0D21A1]"
-                      }`}
-                    >
-                      {hours}h
-                    </button>
-                  ))}
-                </div>
-              </div>
+                      <p className="mt-0.5 text-sm font-semibold">
+                        {time}
+                      </p>
+                    </div>
 
-              {/* GUESTS */}
-              <div className="mt-6">
-                <label className="flex items-center gap-2 text-sm font-semibold">
-                  <Users
-                    size={17}
-                    className="text-[#0D21A1]"
-                  />
-                  Guests
-                </label>
-
-                <div className="mt-3 flex items-center justify-between rounded-xl border border-[#03045E]/10 px-4 py-3">
-                  <div>
-                    <p className="text-sm font-semibold">
-                      {guests}{" "}
-                      {guests === 1 ? "guest" : "guests"}
-                    </p>
-
-                    <p className="mt-0.5 text-xs text-gray-400">
-                      People joining the guide
-                    </p>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={decreaseGuests}
-                      disabled={guests <= 1}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#03045E]/10 transition hover:bg-[#F5F7FF] disabled:opacity-40"
-                    >
-                      <Minus size={14} />
-                    </button>
+                </div>
 
-                    <span className="w-5 text-center text-sm font-semibold">
-                      {guests}
+                <div className="flex items-center justify-between rounded-2xl bg-[#FAF8F3] px-4 py-3">
+
+                  <div className="flex items-center gap-3">
+
+                    <Users
+                      size={17}
+                      className="text-[#B76545]"
+                    />
+
+                    <div>
+                      <p className="text-[10px] uppercase tracking-wide text-[#756D67]">
+                        Guests
+                      </p>
+
+                      <p className="mt-0.5 text-sm font-semibold">
+                        {guests} {guests === 1 ? "guest" : "guests"}
+                      </p>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* PRICE */}
+              <div className="mt-6 space-y-4 text-sm">
+
+                <div className="flex justify-between">
+
+                  <span className="text-[#756D67]">
+                    ₹699 × {guests} guests
+                  </span>
+
+                  <span className="font-semibold">
+                    ₹{subtotal.toLocaleString("en-IN")}
+                  </span>
+
+                </div>
+
+                <div className="flex justify-between">
+
+                  <span className="text-[#756D67]">
+                    Service fee
+                  </span>
+
+                  <span className="font-semibold">
+                    ₹{serviceFee}
+                  </span>
+
+                </div>
+
+                <div className="border-t border-[#E5DED6] pt-5">
+
+                  <div className="flex items-end justify-between">
+
+                    <span className="font-bold text-[#2C2420]">
+                      Total
                     </span>
 
-                    <button
-                      type="button"
-                      onClick={increaseGuests}
-                      disabled={guests >= 10}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#03045E]/10 transition hover:bg-[#F5F7FF] disabled:opacity-40"
-                    >
-                      <Plus size={14} />
-                    </button>
+                    <span className="text-2xl font-bold text-[#B76545]">
+                      ₹{total.toLocaleString("en-IN")}
+                    </span>
+
                   </div>
+
                 </div>
+
               </div>
 
-              {/* NOTES */}
-              <div className="mt-6">
-                <label className="text-sm font-semibold">
-                  Notes{" "}
-                  <span className="font-normal text-gray-400">
-                    (optional)
-                  </span>
-                </label>
-
-                <textarea
-                  value={notes}
-                  onChange={(event) =>
-                    setNotes(event.target.value)
-                  }
-                  rows={4}
-                  placeholder="Tell your guide anything they should know..."
-                  className="mt-3 w-full resize-none rounded-xl border border-[#03045E]/10 px-4 py-3 text-sm outline-none placeholder:text-gray-400 focus:border-[#0D21A1] focus:ring-2 focus:ring-[#0D21A1]/10"
-                />
-              </div>
-
-              {/* ERROR */}
-              {bookingError && (
-                <div className="mt-5 rounded-xl border border-red-100 bg-red-50 p-4 text-xs leading-5 text-red-700">
-                  {bookingError}
-                </div>
-              )}
-
-              {/* SUMMARY */}
-              <div className="mt-6 border-t border-[#03045E]/10 pt-6">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-500">
-                    {formatCurrency(guide.pricePerHour)} ×{" "}
-                    {duration} hours
-                  </span>
-
-                  <span className="font-medium">
-                    {formatCurrency(totalAmount)}
-                  </span>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between">
-                  <span className="text-sm font-semibold">
-                    Total
-                  </span>
-
-                  <span className="text-xl font-semibold">
-                    {formatCurrency(totalAmount)}
-                  </span>
-                </div>
-              </div>
-
-              {/* BOOK */}
+              {/* BOOK BUTTON */}
               <button
                 type="button"
-                onClick={handleBooking}
-                disabled={booking}
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-[#03045E] px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#0D21A1] disabled:cursor-not-allowed disabled:opacity-60"
+                onClick={() => {
+                  if (!date) {
+                    alert("Please select a date first.");
+                    return;
+                  }
+
+                  setBooked(true);
+                }}
+                className="mt-7 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#B76545] px-5 py-4 text-sm font-bold text-white shadow-[0_10px_25px_rgba(183,101,69,0.22)] transition hover:bg-[#965039] hover:shadow-[0_12px_30px_rgba(183,101,69,0.28)]"
               >
-                {booking ? (
-                  "Creating booking..."
+                {booked ? (
+                  <>
+                    <CheckCircle2 size={18} />
+                    Booking requested
+                  </>
                 ) : (
                   <>
-                    Continue to Booking
-                    <ArrowRight size={17} />
+                    Request to book
+                    <ArrowRight size={18} />
                   </>
                 )}
               </button>
 
-              <p className="mt-3 text-center text-xs leading-5 text-gray-400">
-                Your booking details will be confirmed before
-                payment.
-              </p>
+              {/* SECURITY */}
+              <div className="mt-5 flex items-start gap-3 border-t border-[#E5DED6] pt-5">
+
+                <ShieldCheck
+                  size={18}
+                  className="mt-0.5 shrink-0 text-[#68705A]"
+                />
+
+                <p className="text-xs leading-5 text-[#756D67]">
+                  Your booking request is only confirmed after the host
+                  accepts it.
+                </p>
+
+              </div>
+
+              <div className="mt-5 flex items-center justify-center gap-2 text-xs text-[#756D67]">
+                <CheckCircle2 size={14} className="text-[#68705A]" />
+                Free cancellation before confirmation
+              </div>
+
             </div>
           </aside>
         </div>

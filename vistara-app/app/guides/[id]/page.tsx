@@ -1,625 +1,539 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import Navbar from "@/components/navbar";
+import { useParams } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
   CalendarDays,
   CheckCircle2,
-  Globe2,
+  Clock3,
+  Heart,
   Languages,
   MapPin,
+  MessageCircle,
+  Navigation,
+  Share2,
   Star,
-  UserRound,
+  Users,
 } from "lucide-react";
 
-type Guide = {
-  id: string;
-
-  userId?: string;
-
-  name: string;
-
-  location: string;
-
-  city?: string;
-
-  bio: string;
-
-  about: string;
-
-  languages: string[];
-
-  specialties: string[];
-
-  rating: number;
-
-  reviews: number;
-
-  reviewCount?: number;
-
-  experience: string;
-
-  experienceYears?: number | null;
-
-  pricePerHour: number;
-
-  hourlyRate?: number | null;
-
-  currency: string;
-
-  image: string;
-
-  verified: boolean;
-
-  availableDays: string[];
-};
-
-export default function GuideDetailsPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const [guide, setGuide] = useState<Guide | null>(null);
-
-  const [loading, setLoading] = useState(true);
-
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    async function loadGuide() {
-      try {
-        setLoading(true);
-        setError("");
-
-        /*
-         * IMPORTANT:
-         * [id] comes from:
-         *
-         * /guides/[id]
-         *
-         * Example:
-         * /guides/clxxx123
-         */
-
-        const { id } = await params;
-
-        if (!id) {
-          throw new Error("Guide ID is missing.");
-        }
-
-        console.log("GUIDE ID:", id);
-
-        const response = await fetch(`/api/guides/${id}`, {
-          method: "GET",
-          credentials: "include",
-          cache: "no-store",
-        });
-
-        const result = await response.json();
-
-        console.log("GUIDE DETAILS API:", result);
-
-        if (!response.ok) {
-          throw new Error(
-            result?.message || "Guide not found."
-          );
-        }
-
-        /*
-         * API may return:
-         *
-         * {
-         *   success: true,
-         *   data: {...}
-         * }
-         *
-         * or:
-         *
-         * {
-         *   success: true,
-         *   data: {
-         *      guide: {...}
-         *   }
-         * }
-         */
-
-        const rawGuide =
-          result?.data?.guide ??
-          result?.data ??
-          result?.guide ??
-          null;
-
-        if (!rawGuide) {
-          throw new Error("Guide data not found.");
-        }
-
-        /*
-         * The backend GuideProfile contains:
-         *
-         * city
-         * bio
-         * languages
-         * specialties
-         * rating
-         * reviewCount
-         * experienceYears
-         * hourlyRate
-         *
-         * User contains:
-         *
-         * name
-         * profile.avatar
-         */
-
-        const normalizedGuide: Guide = {
-          id: rawGuide.id ?? id,
-
-          userId: rawGuide.userId,
-
-          name:
-            rawGuide.user?.name ??
-            rawGuide.name ??
-            "Local Guide",
-
-          location:
-            rawGuide.city ??
-            rawGuide.location ??
-            "Unknown location",
-
-          city:
-            rawGuide.city ??
-            rawGuide.location ??
-            "",
-
-          bio:
-            rawGuide.bio ??
-            "A local expert ready to help you discover the destination.",
-
-          about:
-            rawGuide.about ??
-            rawGuide.bio ??
-            "A local expert ready to help you discover the destination.",
-
-          languages: Array.isArray(rawGuide.languages)
-            ? rawGuide.languages
-            : [],
-
-          specialties: Array.isArray(rawGuide.specialties)
-            ? rawGuide.specialties
-            : [],
-
-          rating:
-            typeof rawGuide.rating === "number"
-              ? rawGuide.rating
-              : 0,
-
-          reviews:
-            typeof rawGuide.reviewCount === "number"
-              ? rawGuide.reviewCount
-              : typeof rawGuide.reviews === "number"
-              ? rawGuide.reviews
-              : 0,
-
-          reviewCount:
-            typeof rawGuide.reviewCount === "number"
-              ? rawGuide.reviewCount
-              : 0,
-
-          experience:
-            rawGuide.experienceYears != null
-              ? `${rawGuide.experienceYears} ${
-                  rawGuide.experienceYears === 1
-                    ? "year"
-                    : "years"
-                } of experience`
-              : "Local experience",
-
-          experienceYears:
-            rawGuide.experienceYears ?? null,
-
-          pricePerHour:
-            typeof rawGuide.hourlyRate === "number"
-              ? rawGuide.hourlyRate
-              : typeof rawGuide.pricePerHour === "number"
-              ? rawGuide.pricePerHour
-              : 0,
-
-          hourlyRate:
-            typeof rawGuide.hourlyRate === "number"
-              ? rawGuide.hourlyRate
-              : null,
-
-          currency: "INR",
-
-          image:
-            rawGuide.user?.profile?.avatar ??
-            rawGuide.image ??
-            "/images/guide-placeholder.jpg",
-
-          /*
-           * If your database has no verified field yet,
-           * don't assume the guide is verified.
-           */
-          verified:
-            rawGuide.verified === true ||
-            rawGuide.isVerified === true,
-
-          /*
-           * Current API does not show availableDays.
-           * Therefore safely use an empty array.
-           */
-          availableDays: Array.isArray(
-            rawGuide.availableDays
-          )
-            ? rawGuide.availableDays
-            : [],
-        };
-
-        setGuide(normalizedGuide);
-      } catch (error) {
-        console.error(
-          "GUIDE_DETAILS_ERROR:",
-          error
-        );
-
-        setGuide(null);
-
-        setError(
-          error instanceof Error
-            ? error.message
-            : "Unable to load this guide."
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    loadGuide();
-  }, [params]);
-
-  /*
-   * LOADING
-   */
-
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-white text-[#03045E]">
-        <Navbar />
-
-        <div className="mx-auto max-w-7xl px-6 py-12 lg:px-10">
-          <div className="h-5 w-32 animate-pulse rounded bg-[#F5F7FF]" />
-
-          <div className="mt-8 grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="h-[520px] animate-pulse rounded-[32px] bg-[#F5F7FF]" />
-
-            <div className="h-[520px] animate-pulse rounded-[28px] bg-[#F5F7FF]" />
-          </div>
-        </div>
-      </main>
-    );
-  }
-
-  /*
-   * ERROR / NOT FOUND
-   */
-
-  if (error || !guide) {
-    return (
-      <main className="min-h-screen bg-white text-[#03045E]">
-        <Navbar />
-
-        <div className="mx-auto max-w-3xl px-6 py-24 text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#F5F7FF]">
-            <Globe2 className="h-7 w-7 text-[#0D21A1]" />
-          </div>
-
-          <h1 className="mt-6 font-serif text-4xl font-semibold">
-            Guide not found
-          </h1>
-
-          <p className="mt-3 text-sm leading-6 text-gray-500">
-            {error ||
-              "This guide may no longer be available."}
-          </p>
-
-          <Link
-            href="/guides"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#03045E] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-          >
-            <ArrowLeft size={16} />
-            Back to Guides
-          </Link>
-        </div>
-      </main>
-    );
-  }
-
-  /*
-   * MAIN PAGE
-   */
+const guides = [
+  {
+    id: "rajiv",
+    name: "Rajiv Kumar",
+    location: "Patna, Bihar",
+    image: "/images/profile.jpg",
+    rating: 4.9,
+    reviews: 124,
+    experience: "8 years",
+    languages: ["Hindi", "English"],
+    specialties: ["Heritage", "Food", "Local Life"],
+    price: 699,
+    bio: "I love showing travellers the real Patna — from historic places and hidden streets to local food and stories that you won't find in a guidebook.",
+  },
+  {
+    id: "amit",
+    name: "Amit Singh",
+    location: "Patna, Bihar",
+    image: "/images/profile.jpg",
+    rating: 4.8,
+    reviews: 96,
+    experience: "6 years",
+    languages: ["Hindi", "English"],
+    specialties: ["History", "Culture", "Photography"],
+    price: 599,
+    bio: "Discover Patna through its history, riverside views and everyday local life.",
+  },
+  {
+    id: "neha",
+    name: "Neha Sharma",
+    location: "Patna, Bihar",
+    image: "/images/profile.jpg",
+    rating: 4.9,
+    reviews: 87,
+    experience: "5 years",
+    languages: ["Hindi", "English"],
+    specialties: ["Food", "Shopping", "Culture"],
+    price: 649,
+    bio: "Let's explore Patna through its flavours, markets and local culture.",
+  },
+  {
+    id: "vikas",
+    name: "Vikas Kumar",
+    location: "Rajgir, Bihar",
+    image: "/images/profile.jpg",
+    rating: 4.7,
+    reviews: 71,
+    experience: "7 years",
+    languages: ["Hindi", "English"],
+    specialties: ["Nature", "History", "Adventure"],
+    price: 599,
+    bio: "Explore Rajgir and Nalanda with someone who knows the stories behind every place.",
+  },
+];
+
+const reviews = [
+  {
+    name: "Ananya",
+    text: "Rajiv made our Patna trip feel completely different. We discovered places we would never have found ourselves.",
+  },
+  {
+    name: "Rohan",
+    text: "Very friendly and knowledgeable. The local food stops were definitely my favourite part.",
+  },
+  {
+    name: "Meera",
+    text: "The whole experience felt personal instead of like a regular tourist tour.",
+  },
+];
+
+export default function GuideDetailPage() {
+  const params = useParams();
+  const id = String(params.id);
+
+  const guide = guides.find((item) => item.id === id) ?? guides[0];
 
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
-      <Navbar />
+    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
 
-      {/* BACK */}
-      <section className="border-b border-[#03045E]/10">
-        <div className="mx-auto max-w-7xl px-6 py-7 lg:px-10">
+      {/* NAVBAR */}
+      <header className="sticky top-0 z-50 border-b border-[#E5DED6] bg-[#FAF8F3]/95 backdrop-blur">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-10">
+
           <Link
             href="/guides"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-[#03045E]"
+            className="flex items-center gap-2 text-sm font-semibold text-[#2C2420] transition hover:text-[#B76545]"
           >
-            <ArrowLeft size={16} />
-
-            All Guides
+            <ArrowLeft size={18} />
+            Back to guides
           </Link>
+
+          <Link
+            href="/"
+            className="font-serif text-2xl font-bold tracking-[0.16em]"
+          >
+            VISTARA
+          </Link>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              className="hidden h-10 w-10 items-center justify-center rounded-full border border-[#E5DED6] bg-white sm:flex"
+            >
+              <Share2 size={17} />
+            </button>
+
+            <button
+              type="button"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E5DED6] bg-white"
+            >
+              <Heart size={18} />
+            </button>
+          </div>
         </div>
-      </section>
+      </header>
 
-      {/* MAIN */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10 lg:py-14">
-        <div className="grid gap-10 lg:grid-cols-[1.25fr_0.75fr]">
+      {/* HERO */}
+      <section className="mx-auto max-w-7xl px-5 pb-10 pt-7 lg:px-10 lg:pt-10">
 
-          {/* LEFT */}
-          <div>
+        <div className="grid overflow-hidden rounded-[32px] bg-white shadow-[0_20px_60px_rgba(44,36,32,0.08)] lg:grid-cols-[1.15fr_0.85fr]">
 
-            {/* IMAGE */}
-            <div className="relative h-[420px] overflow-hidden rounded-[32px] bg-[#F5F7FF] md:h-[560px]">
-              <img
-                src={guide.image}
-                alt={guide.name}
-                className="h-full w-full object-cover"
-                onError={(event) => {
-                  event.currentTarget.src =
-                    "/images/guide-placeholder.jpg";
-                }}
-              />
+          {/* IMAGE */}
+          <div className="relative min-h-[430px] lg:min-h-[600px]">
+            <img
+              src={guide.image}
+              alt={guide.name}
+              loading="eager"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
 
-              {guide.verified && (
-                <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-white px-4 py-2.5 text-xs font-bold text-[#03045E] shadow-lg">
-                  <CheckCircle2
-                    size={15}
-                    className="text-[#0D21A1]"
-                  />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2C2420]/65 via-transparent to-transparent" />
 
-                  Verified Local Guide
-                </div>
-              )}
-            </div>
-
-            {/* INTRO */}
-            <div className="mt-9">
-              <div className="flex flex-wrap items-center gap-3">
-                <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#0D21A1]">
-                  LOCAL EXPERT
-                </p>
-
-                <span className="h-1 w-1 rounded-full bg-gray-300" />
-
-                <div className="flex items-center gap-1 text-sm font-semibold">
-                  <Star
-                    size={15}
-                    className="fill-[#0D21A1] text-[#0D21A1]"
-                  />
-
-                  {guide.rating.toFixed(1)}
-
-                  <span className="font-normal text-gray-400">
-                    ({guide.reviews}{" "}
-                    {guide.reviews === 1
-                      ? "review"
-                      : "reviews"})
+            <div className="absolute bottom-7 left-7 right-7 text-white">
+              <div className="mb-4 flex flex-wrap gap-2">
+                {guide.specialties.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-[#2C2420]"
+                  >
+                    {item}
                   </span>
-                </div>
+                ))}
               </div>
 
-              <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-                {guide.name}
+              <h1 className="font-serif text-4xl font-semibold sm:text-5xl">
+                Meet {guide.name}
               </h1>
 
-              <p className="mt-4 flex items-center gap-2 text-sm text-gray-500">
-                <MapPin size={17} />
-
+              <div className="mt-3 flex items-center gap-2 text-sm text-white/90">
+                <MapPin size={16} />
                 {guide.location}
-              </p>
-            </div>
-
-            {/* ABOUT */}
-            <div className="mt-10 border-t border-[#03045E]/10 pt-8">
-              <h2 className="font-serif text-2xl font-semibold">
-                About {guide.name.split(" ")[0]}
-              </h2>
-
-              <p className="mt-4 max-w-3xl text-sm leading-7 text-gray-500">
-                {guide.about}
-              </p>
-            </div>
-
-            {/* SPECIALTIES */}
-            {guide.specialties.length > 0 && (
-              <div className="mt-9 border-t border-[#03045E]/10 pt-8">
-                <h2 className="font-serif text-2xl font-semibold">
-                  Areas of expertise
-                </h2>
-
-                <div className="mt-5 flex flex-wrap gap-3">
-                  {guide.specialties.map(
-                    (specialty) => (
-                      <span
-                        key={specialty}
-                        className="rounded-full bg-[#F5F7FF] px-4 py-2.5 text-sm font-medium text-[#03045E]"
-                      >
-                        {specialty}
-                      </span>
-                    )
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* INFO */}
-            <div className="mt-9 grid gap-4 border-t border-[#03045E]/10 pt-8 sm:grid-cols-2">
-
-              {/* EXPERIENCE */}
-              <div className="rounded-2xl border border-[#03045E]/10 p-5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F5F7FF] text-[#0D21A1]">
-                  <UserRound size={19} />
-                </div>
-
-                <p className="mt-4 text-xs uppercase tracking-wide text-gray-400">
-                  Experience
-                </p>
-
-                <p className="mt-1 font-semibold">
-                  {guide.experience}
-                </p>
-              </div>
-
-              {/* LANGUAGES */}
-              <div className="rounded-2xl border border-[#03045E]/10 p-5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F5F7FF] text-[#0D21A1]">
-                  <Languages size={19} />
-                </div>
-
-                <p className="mt-4 text-xs uppercase tracking-wide text-gray-400">
-                  Languages
-                </p>
-
-                <p className="mt-1 text-sm font-semibold">
-                  {guide.languages.length > 0
-                    ? guide.languages.join(" · ")
-                    : "Not specified"}
-                </p>
               </div>
             </div>
           </div>
 
-          {/* RIGHT BOOKING CARD */}
-          <aside>
-            <div className="sticky top-8 rounded-[28px] border border-[#03045E]/10 bg-white p-6 shadow-[0_18px_60px_rgba(3,4,94,0.08)] md:p-7">
+          {/* INTRO */}
+          <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
 
-              {/* PRICE */}
-              <div className="border-b border-[#03045E]/10 pb-6">
-                <p className="text-xs uppercase tracking-[0.18em] text-gray-400">
-                  Local guide
-                </p>
-
-                <div className="mt-2 flex items-end justify-between gap-4">
-                  <div>
-                    <span className="text-3xl font-semibold">
-                      ₹
-                      {guide.pricePerHour.toLocaleString(
-                        "en-IN"
-                      )}
-                    </span>
-
-                    <span className="ml-1 text-sm text-gray-400">
-                      / hour
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-1 text-sm font-semibold">
-                    <Star
-                      size={15}
-                      className="fill-[#0D21A1] text-[#0D21A1]"
-                    />
-
-                    {guide.rating.toFixed(1)}
-                  </div>
-                </div>
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-16 w-16 overflow-hidden rounded-full border-4 border-[#E8DED0]">
+                <img
+                  src="/images/profile.jpg"
+                  alt={guide.name}
+                  className="h-full w-full object-cover"
+                />
               </div>
 
-              {/* LOCATION */}
-              <div className="space-y-5 py-6">
-
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5F7FF] text-[#0D21A1]">
-                    <MapPin size={18} />
-                  </div>
-
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-gray-400">
-                      Based in
-                    </p>
-
-                    <p className="mt-1 text-sm font-semibold">
-                      {guide.location}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5F7FF] text-[#0D21A1]">
-                    <Globe2 size={18} />
-                  </div>
-
-                  <div>
-                    <p className="text-xs uppercase tracking-wide text-gray-400">
-                      Speaks
-                    </p>
-
-                    <p className="mt-1 text-sm font-semibold">
-                      {guide.languages.length > 0
-                        ? guide.languages.join(" · ")
-                        : "Not specified"}
-                    </p>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* AVAILABILITY */}
-              <div className="border-t border-[#03045E]/10 pt-6">
+              <div>
                 <div className="flex items-center gap-2">
-                  <CalendarDays
-                    size={17}
-                    className="text-[#0D21A1]"
-                  />
+                  <h2 className="font-serif text-2xl font-semibold">
+                    {guide.name}
+                  </h2>
 
-                  <p className="text-sm font-semibold">
-                    Available days
-                  </p>
+                  <CheckCircle2
+                    size={18}
+                    className="text-[#68705A]"
+                  />
                 </div>
 
-                {guide.availableDays.length > 0 ? (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {guide.availableDays.map(
-                      (day) => (
-                        <span
-                          key={day}
-                          className="rounded-full border border-[#03045E]/10 px-3 py-1.5 text-xs text-gray-600"
-                        >
-                          {day}
-                        </span>
-                      )
-                    )}
-                  </div>
-                ) : (
-                  <p className="mt-4 text-xs text-gray-400">
-                    Availability will be confirmed during
-                    booking.
-                  </p>
-                )}
+                <p className="text-sm text-[#756D67]">
+                  Local host · {guide.location}
+                </p>
               </div>
-
-              {/* CTA */}
-           <Link
-  href={`/guides/${guide.id}/book`}
-  className="mt-7 flex w-full items-center justify-center gap-2 rounded-xl bg-[#03045E] px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
->
-  Book This Guide
-  <ArrowRight size={17} />
-</Link>
-              <p className="mt-3 text-center text-xs text-gray-400">
-                You can choose your date and duration next.
-              </p>
             </div>
-          </aside>
+
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#B76545]">
+              LOCAL HOST
+            </p>
+
+            <h2 className="mt-4 font-serif text-4xl leading-tight sm:text-5xl">
+              See the place
+              <br />
+              through local eyes.
+            </h2>
+
+            <p className="mt-6 text-base leading-8 text-[#756D67]">
+              {guide.bio}
+            </p>
+
+            <div className="mt-8 grid grid-cols-2 gap-3">
+              <Info
+                icon={<Star size={17} />}
+                label="Rating"
+                value={`${guide.rating} · ${guide.reviews} reviews`}
+              />
+
+              <Info
+                icon={<Clock3 size={17} />}
+                label="Experience"
+                value={guide.experience}
+              />
+
+              <Info
+                icon={<Languages size={17} />}
+                label="Languages"
+                value={guide.languages.join(", ")}
+              />
+
+              <Info
+                icon={<Users size={17} />}
+                label="Group"
+                value="Up to 6"
+              />
+            </div>
+
+            <Link
+              href={`/guides/${guide.id}/book`}
+              className="mt-8 flex items-center justify-center gap-3 rounded-2xl bg-[#B76545] px-6 py-4 text-sm font-bold text-white transition hover:bg-[#965039]"
+            >
+              Book an experience
+              <ArrowRight size={18} />
+            </Link>
+          </div>
         </div>
       </section>
+
+      {/* EXPERIENCE */}
+      <section className="mx-auto max-w-7xl px-5 py-12 lg:px-10 lg:py-20">
+
+        <div className="grid gap-10 lg:grid-cols-[1fr_0.85fr]">
+
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#B76545]">
+              THE EXPERIENCE
+            </p>
+
+            <h2 className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">
+              A day shaped
+              <br />
+              around the city.
+            </h2>
+
+            <p className="mt-6 max-w-2xl leading-8 text-[#756D67]">
+              This isn't a fixed tourist itinerary. Your host will take you
+              through local streets, cultural landmarks, food spots and places
+              that show the everyday character of the destination.
+            </p>
+
+            <div className="mt-8 space-y-4">
+              <Experience
+                number="01"
+                title="Meet your host"
+                text="Start at an easy-to-find local meeting point."
+              />
+
+              <Experience
+                number="02"
+                title="Explore hidden places"
+                text="Walk through local neighbourhoods and discover places beyond the usual route."
+              />
+
+              <Experience
+                number="03"
+                title="Taste something local"
+                text="Stop at selected local food spots and try authentic regional flavours."
+              />
+
+              <Experience
+                number="04"
+                title="Finish with a local story"
+                text="End the experience with stories, recommendations and places to explore next."
+              />
+            </div>
+          </div>
+
+          {/* FOOD */}
+          <div className="rounded-[28px] bg-[#E8DED0] p-7 sm:p-9">
+
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#68705A]">
+              LOCAL FLAVOURS
+            </p>
+
+            <h3 className="mt-3 font-serif text-3xl">
+              What you might taste
+            </h3>
+
+            <div className="mt-7 space-y-3">
+              {[
+                "Litti Chokha",
+                "Sattu-based local dishes",
+                "Traditional sweets",
+                "Seasonal street food",
+                "Local tea & snacks",
+              ].map((food) => (
+                <div
+                  key={food}
+                  className="flex items-center justify-between border-b border-[#CFC2B3] py-4"
+                >
+                  <span className="font-medium">{food}</span>
+                  <span className="text-[#B76545]">→</span>
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-7 text-sm leading-6 text-[#756D67]">
+              Food stops can change depending on the day, availability and
+              your preferences.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* MAP */}
+      <section className="border-y border-[#E5DED6] bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-14 lg:px-10 lg:py-20">
+
+          <div className="mb-8">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#B76545]">
+              MEET & EXPLORE
+            </p>
+
+            <h2 className="mt-3 font-serif text-4xl">
+              Around {guide.location.split(",")[0]}
+            </h2>
+          </div>
+
+          <div className="relative h-[380px] overflow-hidden rounded-[28px] bg-[#E8DED0]">
+
+            <iframe
+              title={`${guide.location} map`}
+              src="https://www.google.com/maps?q=Gandhi+Maidan+Patna+Bihar&output=embed"
+              className="h-full w-full border-0 grayscale-[20%]"
+              loading="lazy"
+            />
+
+            <div className="absolute bottom-5 left-5 max-w-xs rounded-2xl bg-white p-4 shadow-xl">
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F3E7DE] text-[#B76545]">
+                  <Navigation size={18} />
+                </div>
+
+                <div>
+                  <p className="text-xs text-[#756D67]">
+                    Meeting point
+                  </p>
+
+                  <p className="mt-1 font-bold">
+                    Gandhi Maidan, Patna
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* REVIEWS */}
+      <section className="mx-auto max-w-7xl px-5 py-14 lg:px-10 lg:py-20">
+
+        <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#B76545]">
+              GUEST REVIEWS
+            </p>
+
+            <h2 className="mt-3 font-serif text-4xl">
+              What travellers say.
+            </h2>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Star
+              size={20}
+              fill="currentColor"
+              className="text-[#B8945A]"
+            />
+            <span className="font-bold">{guide.rating}</span>
+            <span className="text-[#756D67]">
+              · {guide.reviews} reviews
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {reviews.map((review) => (
+            <div
+              key={review.name}
+              className="rounded-[24px] border border-[#E5DED6] bg-white p-6"
+            >
+              <div className="flex gap-1 text-[#B8945A]">
+                {[1, 2, 3, 4, 5].map((item) => (
+                  <Star
+                    key={item}
+                    size={15}
+                    fill="currentColor"
+                  />
+                ))}
+              </div>
+
+              <p className="mt-5 text-sm leading-7 text-[#756D67]">
+                “{review.text}”
+              </p>
+
+              <p className="mt-5 font-bold">
+                {review.name}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* HOST */}
+      <section className="mx-auto max-w-7xl px-5 pb-20 lg:px-10">
+
+        <div className="rounded-[30px] bg-[#2C2420] p-7 text-white sm:p-10 lg:p-12">
+
+          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+
+            <div className="flex items-center gap-5">
+
+              <div className="h-20 w-20 overflow-hidden rounded-full border-4 border-white/20">
+                <img
+                  src="/images/profile.jpg"
+                  alt={guide.name}
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#D8B9A9]">
+                  YOUR HOST
+                </p>
+
+                <h2 className="mt-1 font-serif text-3xl">
+                  {guide.name}
+                </h2>
+
+                <p className="mt-1 text-sm text-white/60">
+                  Local host · {guide.location}
+                </p>
+              </div>
+            </div>
+
+            <Link
+              href={`/guides/${guide.id}/book`}
+              className="flex items-center justify-center gap-3 rounded-2xl bg-[#B76545] px-7 py-4 text-sm font-bold text-white transition hover:bg-[#C87553]"
+            >
+              Book with {guide.name.split(" ")[0]}
+              <ArrowRight size={18} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
     </main>
+  );
+}
+
+function Info({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] p-4">
+      <div className="text-[#B76545]">{icon}</div>
+
+      <p className="mt-3 text-xs text-[#756D67]">
+        {label}
+      </p>
+
+      <p className="mt-1 text-sm font-bold">
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function Experience({
+  number,
+  title,
+  text,
+}: {
+  number: string;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="flex gap-5 border-b border-[#E5DED6] pb-5">
+      <span className="font-serif text-xl text-[#B76545]">
+        {number}
+      </span>
+
+      <div>
+        <h3 className="font-bold">{title}</h3>
+
+        <p className="mt-1 text-sm leading-6 text-[#756D67]">
+          {text}
+        </p>
+      </div>
+    </div>
   );
 }

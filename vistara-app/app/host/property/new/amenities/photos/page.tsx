@@ -1,565 +1,638 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  ImagePlus,
+  Loader2,
+  Plus,
+  Star,
+  Trash2,
+  Upload,
+  X,
+} from "lucide-react";
+import { ChangeEvent, DragEvent, useRef, useState } from "react";
 
-export default function PropertyPhotosPage() {
-  const [photos, setPhotos] = useState<string[]>([]);
+type PhotoItem = {
+  id: string;
+  url: string;
+  name: string;
+  isCover: boolean;
+};
 
-  const steps = [
-    "Basic",
-    "Location",
-    "Rooms",
-    "Amenities",
-    "Photos",
-    "Pricing",
-    "Availability",
-    "Rules",
-    "Guests",
-    "Preview",
-  ];
+const initialPhotos: PhotoItem[] = [
+  {
+    id: "photo-1",
+    url: "/images/house.jpg",
+    name: "house.jpg",
+    isCover: true,
+  },
+  {
+    id: "photo-2",
+    url: "/images/beachhouse.jpg",
+    name: "beachhouse.jpg",
+    isCover: false,
+  },
+  {
+    id: "photo-3",
+    url: "/images/dubai.jpg",
+    name: "dubai.jpg",
+    isCover: false,
+  },
+  {
+    id: "photo-4",
+    url: "/images/big.jpg",
+    name: "big.jpg",
+    isCover: false,
+  },
+];
 
-  const handleFiles = (files: FileList | null) => {
-    if (!files) return;
+export default function PhotosPage() {
+  const params = useParams();
+  const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-    const newPhotos = Array.from(files).map((file) =>
-      URL.createObjectURL(file)
+  const propertyId = params.id as string;
+
+  const [photos, setPhotos] =
+    useState<PhotoItem[]>(initialPhotos);
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+
+  const maxPhotos = 12;
+
+  function createPhoto(file: File): PhotoItem {
+    return {
+      id: `${file.name}-${Date.now()}-${Math.random()}`,
+      url: URL.createObjectURL(file),
+      name: file.name,
+      isCover: photos.length === 0,
+    };
+  }
+
+  function addFiles(files: FileList | File[]) {
+    const validFiles = Array.from(files).filter((file) =>
+      file.type.startsWith("image/"),
     );
 
-    setPhotos((current) => [...current, ...newPhotos].slice(0, 20));
-  };
-
-  const removePhoto = (index: number) => {
-    setPhotos((current) => current.filter((_, i) => i !== index));
-  };
-
-  const handleContinue = () => {
-    if (photos.length < 5) {
-      alert("Please add at least 5 photos.");
+    if (!validFiles.length) {
+      setError("Please select valid image files.");
       return;
     }
 
-    console.log({
-      photos,
+    const remaining = maxPhotos - photos.length;
+
+    if (remaining <= 0) {
+      setError(`You can upload up to ${maxPhotos} photos.`);
+      return;
+    }
+
+    const selected = validFiles.slice(0, remaining);
+
+    const newPhotos = selected.map(createPhoto);
+
+    setPhotos((current) => [...current, ...newPhotos]);
+    setError("");
+  }
+
+  function handleFileChange(
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
+    if (event.target.files) {
+      addFiles(event.target.files);
+    }
+
+    event.target.value = "";
+  }
+
+  function handleDrop(event: DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    setIsDragging(false);
+
+    if (event.dataTransfer.files) {
+      addFiles(event.dataTransfer.files);
+    }
+  }
+
+  function removePhoto(id: string) {
+    setPhotos((current) => {
+      const photo = current.find((item) => item.id === id);
+
+      if (photo?.url.startsWith("blob:")) {
+        URL.revokeObjectURL(photo.url);
+      }
+
+      const remaining = current.filter(
+        (item) => item.id !== id,
+      );
+
+      if (
+        photo?.isCover &&
+        remaining.length > 0
+      ) {
+        return remaining.map((item, index) => ({
+          ...item,
+          isCover: index === 0,
+        }));
+      }
+
+      return remaining;
     });
-  };
+  }
+
+  function setCover(id: string) {
+    setPhotos((current) =>
+      current.map((photo) => ({
+        ...photo,
+        isCover: photo.id === id,
+      })),
+    );
+  }
+
+  async function handleSave() {
+    if (photos.length < 3) {
+      setError(
+        "Please add at least 3 photos before continuing.",
+      );
+      return;
+    }
+
+    try {
+      setSaving(true);
+      setError("");
+
+      /*
+       * Production API:
+       *
+       * const formData = new FormData();
+       *
+       * photos.forEach((photo) => {
+       *   // Upload actual File objects here.
+       * });
+       *
+       * await fetch(
+       *   `/api/host/properties/${propertyId}/photos`,
+       *   {
+       *     method: "POST",
+       *     body: formData,
+       *   }
+       * );
+       */
+
+      await new Promise((resolve) =>
+        setTimeout(resolve, 900),
+      );
+
+      router.push(
+        `/host/property/new/${propertyId}/guests`,
+      );
+    } catch {
+      setError(
+        "Something went wrong while saving your photos.",
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
-
+    <main className="min-h-screen bg-[#FAF8F3] text-[#18181B]">
       {/* HEADER */}
-      <header className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between px-6 lg:px-10">
+      <header className="sticky top-0 z-40 border-b border-black/8 bg-[#FAF8F3]/95 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
+          <Link
+            href={`/host/property/new/${propertyId}/amenities`}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#57534E] transition hover:text-[#18181B]"
+          >
+            <ArrowLeft size={17} />
+            <span className="hidden sm:inline">
+              Back
+            </span>
+          </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9A711E]">
+              List your property
+            </p>
 
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#03045E]">
-              <span className="font-bold text-white">V</span>
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold tracking-tight">
-                VISTARA
-              </p>
-
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[#03045E]/40">
-                Host Studio
-              </p>
-            </div>
-
+            <p className="mt-1 text-xs text-[#78716C]">
+              Photos
+            </p>
           </div>
 
-          <button className="rounded-full border border-[#03045E]/10 px-4 py-2 text-sm text-[#03045E]/60 transition hover:bg-[#03045E]/5">
-            Exit
-          </button>
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-4 py-2.5 text-sm font-bold text-[#18181B] transition hover:bg-[#E7C46D] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {saving ? (
+              <Loader2
+                size={15}
+                className="animate-spin"
+              />
+            ) : (
+              <Check size={15} />
+            )}
 
+            <span className="hidden sm:inline">
+              {saving ? "Saving..." : "Save & continue"}
+            </span>
+
+            <span className="sm:hidden">
+              {saving ? "Saving" : "Save"}
+            </span>
+          </button>
         </div>
       </header>
 
-
-      {/* MAIN */}
-      <div className="mx-auto max-w-[1500px] px-6 py-10 lg:px-10 lg:py-14">
-
-        {/* HEADING */}
-        <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-
-          <div>
-
-            <div className="mb-4 flex items-center gap-3">
-
-              <span className="h-2 w-2 rounded-full bg-[#0D21A1]" />
-
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#0D21A1]">
-                Create your listing
-              </span>
-
-            </div>
-
-            <h1 className="text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-
-              Show guests what makes
-              <span className="block text-[#0D21A1]">
-                your place worth remembering.
-              </span>
-
-            </h1>
-
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-[#03045E]/50 sm:text-base">
-              Great photography gives travellers a feeling for the
-              property before they arrive. Add your best images first.
+      {/* PROGRESS */}
+      <div className="border-b border-black/6 bg-white">
+        <div className="mx-auto max-w-6xl px-5 py-3 sm:px-8">
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-xs font-semibold text-[#57534E]">
+              Step 3 of 7
             </p>
 
+            <p className="text-xs text-[#A8A29E]">
+              {photos.length}/{maxPhotos} photos
+            </p>
           </div>
 
-          <div>
+          <div className="mt-2 h-1 overflow-hidden rounded-full bg-[#E9E5DB]">
+            <div className="h-full w-[43%] rounded-full bg-[#D9A441]" />
+          </div>
+        </div>
+      </div>
 
-            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#03045E]/35">
-              Current step
-            </p>
-
-            <p className="mt-1 text-3xl font-semibold">
-              05<span className="text-[#03045E]/20">/10</span>
-            </p>
-
+      {/* CONTENT */}
+      <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8 lg:py-12">
+        {/* TITLE */}
+        <div className="mx-auto max-w-3xl text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF8E8] text-[#9A711E]">
+            <ImagePlus size={25} />
           </div>
 
+          <h1 className="mt-5 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
+            Show guests your space
+          </h1>
+
+          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#78716C]">
+            Great photos help guests understand your property
+            before they book. Add your best photos and choose
+            one as the cover image.
+          </p>
         </div>
 
+        {/* ERROR */}
+        {error && (
+          <div className="mx-auto mt-7 flex max-w-3xl items-start gap-3 rounded-2xl border border-[#E7B7B0] bg-[#FFF1EF] p-4 text-sm text-[#873F36]">
+            <X size={17} className="mt-0.5 shrink-0" />
 
-        {/* PROGRESS */}
-        <div className="mb-12 overflow-x-auto pb-2">
+            <div>
+              <p className="font-bold">
+                Something needs attention
+              </p>
 
-          <div className="flex min-w-[900px] items-center">
+              <p className="mt-1">{error}</p>
+            </div>
 
-            {steps.map((step, index) => {
+            <button
+              type="button"
+              onClick={() => setError("")}
+              className="ml-auto"
+            >
+              <X size={15} />
+            </button>
+          </div>
+        )}
 
-              const active = index === 4;
-              const completed = index < 4;
+        {/* UPLOAD */}
+        <div className="mx-auto mt-9 max-w-5xl">
+          <div
+            onDragEnter={(event) => {
+              event.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragOver={(event) => {
+              event.preventDefault();
+              setIsDragging(true);
+            }}
+            onDragLeave={(event) => {
+              event.preventDefault();
+              setIsDragging(false);
+            }}
+            onDrop={handleDrop}
+            className={`rounded-[28px] border-2 border-dashed p-6 transition sm:p-8 ${
+              isDragging
+                ? "border-[#D9A441] bg-[#FFF8E8]"
+                : "border-[#D8D3C8] bg-white"
+            }`}
+          >
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F5F2EB] text-[#9A711E]">
+                <Upload size={23} />
+              </div>
 
-              return (
-                <div
-                  key={step}
-                  className="flex flex-1 items-center"
+              <h2 className="mt-4 text-base font-bold">
+                {isDragging
+                  ? "Drop your photos here"
+                  : "Add photos of your property"}
+              </h2>
+
+              <p className="mt-2 text-xs leading-5 text-[#78716C]">
+                Drag and drop images here, or select them
+                from your device.
+              </p>
+
+              <button
+                type="button"
+                onClick={() => inputRef.current?.click()}
+                disabled={photos.length >= maxPhotos}
+                className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#18181B] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#292524] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Plus size={16} />
+                Add photos
+              </button>
+
+              <input
+                ref={inputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+                onChange={handleFileChange}
+                className="hidden"
+              />
+
+              <p className="mt-4 text-[11px] text-[#A8A29E]">
+                JPG, PNG or WEBP · Up to {maxPhotos} photos
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* PHOTO GRID */}
+        <section className="mx-auto mt-9 max-w-5xl">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A711E]">
+                Your gallery
+              </p>
+
+              <h2 className="mt-1 font-serif text-2xl font-semibold">
+                Property photos
+              </h2>
+            </div>
+
+            <span className="text-xs text-[#78716C]">
+              {photos.length} added
+            </span>
+          </div>
+
+          {photos.length === 0 ? (
+            <EmptyPhotos
+              onAdd={() => inputRef.current?.click()}
+            />
+          ) : (
+            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {photos.map((photo, index) => (
+                <PhotoCard
+                  key={photo.id}
+                  photo={photo}
+                  index={index}
+                  onCover={() => setCover(photo.id)}
+                  onRemove={() =>
+                    removePhoto(photo.id)
+                  }
+                />
+              ))}
+
+              {photos.length < maxPhotos && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    inputRef.current?.click()
+                  }
+                  className="group flex min-h-[190px] flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[#D8D3C8] bg-white transition hover:border-[#D9A441] hover:bg-[#FFFDF7]"
                 >
-
-                  <div className="flex items-center gap-3">
-
-                    <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
-                        active
-                          ? "bg-[#03045E] text-white shadow-[0_8px_25px_rgba(3,4,94,0.22)]"
-                          : completed
-                            ? "bg-[#0D21A1] text-white"
-                            : "border border-[#03045E]/10 text-[#03045E]/30"
-                      }`}
-                    >
-                      {completed
-                        ? "✓"
-                        : String(index + 1).padStart(2, "0")}
-                    </div>
-
-                    <span
-                      className={`hidden text-xs font-medium xl:block ${
-                        active
-                          ? "text-[#03045E]"
-                          : completed
-                            ? "text-[#0D21A1]"
-                            : "text-[#03045E]/30"
-                      }`}
-                    >
-                      {step}
-                    </span>
-
-                  </div>
-
-                  {index !== 9 && (
-                    <div
-                      className={`mx-3 h-px flex-1 ${
-                        index < 4
-                          ? "bg-[#0D21A1]/40"
-                          : "bg-[#03045E]/10"
-                      }`}
-                    />
-                  )}
-
-                </div>
-              );
-            })}
-
-          </div>
-
-        </div>
-
-
-        {/* CONTENT */}
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_390px]">
-
-
-          {/* PHOTO CARD */}
-          <section className="overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_20px_70px_rgba(3,4,94,0.08)]">
-
-            <div className="border-b border-[#03045E]/8 px-7 py-8 sm:px-10">
-
-              <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-
-                <div>
-
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#0D21A1]">
-                    Step 05
-                  </p>
-
-                  <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                    Property photos
-                  </h2>
-
-                  <p className="mt-3 max-w-xl text-sm leading-6 text-[#03045E]/50">
-                    Upload at least 5 high-quality photos. Your first
-                    image will become the cover of your listing.
-                  </p>
-
-                </div>
-
-                <div className="rounded-full bg-[#03045E]/5 px-4 py-2">
-
-                  <span className="text-xs font-semibold">
-                    {photos.length} / 20 photos
+                  <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F5F2EB] text-[#9A711E] transition group-hover:bg-[#FFF8E8]">
+                    <Plus size={20} />
                   </span>
 
-                </div>
+                  <span className="mt-3 text-sm font-bold">
+                    Add another
+                  </span>
 
-              </div>
-
-            </div>
-
-
-            <div className="px-7 py-8 sm:px-10 sm:py-10">
-
-              {/* Upload */}
-              <label
-                htmlFor="photos"
-                className="group relative flex min-h-[260px] cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[24px] border border-dashed border-[#0D21A1]/30 bg-[#0D21A1]/[0.025] px-6 text-center transition duration-300 hover:border-[#0D21A1] hover:bg-[#0D21A1]/[0.05]"
-              >
-
-                <input
-                  id="photos"
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  className="hidden"
-                  onChange={(e) => handleFiles(e.target.files)}
-                />
-
-                <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#03045E] text-2xl text-white shadow-[0_12px_30px_rgba(3,4,94,0.18)] transition duration-300 group-hover:-translate-y-1">
-                  ↑
-                </div>
-
-                <h3 className="text-base font-semibold">
-                  Drop your photos here
-                </h3>
-
-                <p className="mt-2 text-sm text-[#03045E]/40">
-                  or click to browse your device
-                </p>
-
-                <span className="mt-5 rounded-full border border-[#03045E]/10 bg-white px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#03045E]/45">
-                  JPG · PNG · WEBP
-                </span>
-
-              </label>
-
-
-              {/* Photo Grid */}
-              {photos.length > 0 && (
-
-                <div className="mt-10">
-
-                  <div className="mb-5 flex items-center justify-between">
-
-                    <div>
-
-                      <h3 className="text-sm font-semibold">
-                        Your gallery
-                      </h3>
-
-                      <p className="mt-1 text-xs text-[#03045E]/40">
-                        Drag-and-drop ordering can be added next.
-                      </p>
-
-                    </div>
-
-                    <span className="text-xs font-medium text-[#0D21A1]">
-                      {photos.length} uploaded
-                    </span>
-
-                  </div>
-
-
-                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-
-                    {photos.map((photo, index) => (
-
-                      <div
-                        key={photo}
-                        className={`group relative overflow-hidden rounded-2xl border border-[#03045E]/10 bg-[#03045E]/5 ${
-                          index === 0
-                            ? "sm:col-span-2 sm:row-span-2"
-                            : ""
-                        }`}
-                      >
-
-                        <img
-                          src={photo}
-                          alt={`Property photo ${index + 1}`}
-                          className={`h-full w-full object-cover ${
-                            index === 0
-                              ? "aspect-square"
-                              : "aspect-[4/3]"
-                          }`}
-                        />
-
-                        {/* Cover */}
-                        {index === 0 && (
-                          <div className="absolute left-3 top-3 rounded-full bg-[#03045E] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-white">
-                            Cover photo
-                          </div>
-                        )}
-
-                        {/* Remove */}
-                        <button
-                          type="button"
-                          onClick={() => removePhoto(index)}
-                          className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-sm text-[#03045E] opacity-0 shadow-lg backdrop-blur transition group-hover:opacity-100"
-                        >
-                          ×
-                        </button>
-
-                      </div>
-
-                    ))}
-
-                  </div>
-
-                </div>
-
+                  <span className="mt-1 text-[11px] text-[#A8A29E]">
+                    {maxPhotos - photos.length} slots left
+                  </span>
+                </button>
               )}
+            </div>
+          )}
+        </section>
 
-
-              {/* Tips */}
-              <div className="mt-10 grid gap-3 sm:grid-cols-3">
-
-                <PhotoTip
-                  number="01"
-                  title="Bright"
-                  text="Use natural light whenever possible."
-                />
-
-                <PhotoTip
-                  number="02"
-                  title="Wide"
-                  text="Show the full room and surroundings."
-                />
-
-                <PhotoTip
-                  number="03"
-                  title="Authentic"
-                  text="Keep photos realistic and current."
-                />
-
-              </div>
-
+        {/* TIPS */}
+        <section className="mx-auto mt-10 max-w-5xl rounded-[26px] border border-[#D9A441]/25 bg-[#FFF8E8] p-6 sm:p-7">
+          <div className="flex flex-col gap-6 sm:flex-row">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-[#9A711E] shadow-sm">
+              <Star size={18} />
             </div>
 
+            <div className="flex-1">
+              <h3 className="font-serif text-xl font-semibold">
+                Tips for better property photos
+              </h3>
 
-            {/* FOOTER */}
-            <div className="flex flex-col-reverse gap-4 border-t border-[#03045E]/8 bg-[#03045E]/[0.015] px-7 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+              <p className="mt-1 text-sm text-[#78716C]">
+                Make your listing easier for guests to
+                understand.
+              </p>
 
-              <button
-                type="button"
-                className="text-sm font-medium text-[#03045E]/45 transition hover:text-[#03045E]"
-              >
-                ← Back
-              </button>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <Tip text="Use bright, well-lit photos." />
+                <Tip text="Show bedrooms and bathrooms clearly." />
+                <Tip text="Include exterior and common areas." />
+                <Tip text="Keep photos landscape where possible." />
+                <Tip text="Avoid blurry or heavily edited images." />
+                <Tip text="Choose your strongest image as the cover." />
+              </div>
+            </div>
+          </div>
+        </section>
 
-              <button
-                type="button"
-                onClick={handleContinue}
-                className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-[#03045E] px-7 py-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(3,4,94,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#0D21A1]"
-              >
+        {/* BOTTOM NAV */}
+        <div className="mx-auto mt-10 flex max-w-5xl items-center justify-between border-t border-black/8 pt-6">
+          <Link
+            href={`/host/property/new/${propertyId}/amenities`}
+            className="inline-flex items-center gap-2 rounded-xl border border-black/8 bg-white px-4 py-3 text-sm font-bold text-[#57534E] transition hover:bg-[#F5F2EB]"
+          >
+            <ArrowLeft size={16} />
+            Previous
+          </Link>
+
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            className="inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-sm font-bold text-[#18181B] transition hover:bg-[#E7C46D] disabled:opacity-60"
+          >
+            {saving ? (
+              <>
+                <Loader2
+                  size={16}
+                  className="animate-spin"
+                />
+                Saving...
+              </>
+            ) : (
+              <>
                 Continue
-
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-
-              </button>
-
-            </div>
-
-          </section>
-
-
-          {/* SIDE PANEL */}
-          <aside>
-
-            <div className="relative min-h-[650px] overflow-hidden rounded-[28px] bg-[#03045E] p-8 text-white shadow-[0_25px_70px_rgba(3,4,94,0.18)] sm:p-10">
-
-              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#0D21A1]/50 blur-3xl" />
-
-              <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[#0D21A1]/30 blur-3xl" />
-
-
-              <div className="relative z-10 flex h-full flex-col">
-
-                <div className="flex items-center justify-between">
-
-                  <span className="text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
-                    Vistara
-                  </span>
-
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] uppercase tracking-[0.16em] text-white/50">
-                    Visual story
-                  </span>
-
-                </div>
-
-
-                <div className="mt-20">
-
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10">
-                    <span className="text-lg">◈</span>
-                  </div>
-
-                  <h3 className="max-w-xs text-3xl font-semibold leading-tight tracking-[-0.03em]">
-                    Let the property speak for itself.
-                  </h3>
-
-                  <p className="mt-5 max-w-sm text-sm leading-7 text-white/55">
-                    Your photos are often the first emotional connection
-                    a traveller makes with your property.
-                  </p>
-
-                </div>
-
-
-                {/* Photo counter */}
-                <div className="mt-10 rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-
-                  <div className="flex items-end justify-between">
-
-                    <div>
-
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/35">
-                        Gallery progress
-                      </p>
-
-                      <p className="mt-2 text-4xl font-semibold">
-                        {String(photos.length).padStart(2, "0")}
-                      </p>
-
-                    </div>
-
-                    <span className="pb-1 text-xs text-white/35">
-                      / 20
-                    </span>
-
-                  </div>
-
-
-                  <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-white/10">
-
-                    <div
-                      className="h-full rounded-full bg-white transition-all duration-500"
-                      style={{
-                        width: `${Math.min(
-                          (photos.length / 20) * 100,
-                          100
-                        )}%`,
-                      }}
-                    />
-
-                  </div>
-
-                </div>
-
-
-                <div className="mt-auto pt-10">
-
-                  <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/35">
-                    Photography essentials
-                  </p>
-
-                  <div className="space-y-4">
-
-                    <Feature text="Show the property honestly" />
-
-                    <Feature text="Lead with your strongest image" />
-
-                    <Feature text="Capture different spaces" />
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </aside>
-
+                <ArrowRight size={16} />
+              </>
+            )}
+          </button>
         </div>
-
       </div>
     </main>
   );
 }
 
+/* -------------------------------------------------------------------------- */
+/* PHOTO CARD                                                                  */
+/* -------------------------------------------------------------------------- */
 
-/* PHOTO TIP */
-
-function PhotoTip({
-  number,
-  title,
-  text,
+function PhotoCard({
+  photo,
+  index,
+  onCover,
+  onRemove,
 }: {
-  number: string;
-  title: string;
-  text: string;
+  photo: PhotoItem;
+  index: number;
+  onCover: () => void;
+  onRemove: () => void;
 }) {
   return (
-    <div className="rounded-2xl border border-[#03045E]/8 bg-[#03045E]/[0.02] p-4">
+    <div
+      className={`group relative overflow-hidden rounded-2xl bg-[#ECE9E1] ${
+        photo.isCover
+          ? "ring-2 ring-[#D9A441] ring-offset-2"
+          : ""
+      }`}
+    >
+      <div className="aspect-[4/3]">
+        <img
+          src={photo.url}
+          alt={`Property photo ${index + 1}`}
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+        />
+      </div>
 
-      <span className="text-[10px] font-semibold tracking-[0.15em] text-[#0D21A1]">
-        {number}
+      {/* DARK OVERLAY */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10 opacity-0 transition group-hover:opacity-100" />
+
+      {/* COVER */}
+      {photo.isCover && (
+        <div className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-[#D9A441] px-2.5 py-1.5 text-[10px] font-bold text-[#18181B]">
+          <Star
+            size={11}
+            fill="currentColor"
+          />
+          Cover
+        </div>
+      )}
+
+      {/* INDEX */}
+      <span className="absolute right-3 top-3 flex h-6 min-w-6 items-center justify-center rounded-full bg-black/50 px-1.5 text-[10px] font-bold text-white backdrop-blur">
+        {index + 1}
       </span>
 
-      <h4 className="mt-3 text-sm font-semibold">
-        {title}
-      </h4>
+      {/* ACTIONS */}
+      <div className="absolute inset-x-2 bottom-2 flex items-center justify-between gap-2 opacity-0 transition group-hover:opacity-100">
+        {!photo.isCover ? (
+          <button
+            type="button"
+            onClick={onCover}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-white/95 px-2.5 py-2 text-[10px] font-bold text-[#18181B] backdrop-blur"
+          >
+            <Star size={12} />
+            Make cover
+          </button>
+        ) : (
+          <span className="rounded-lg bg-black/45 px-2.5 py-2 text-[10px] font-semibold text-white backdrop-blur">
+            Main photo
+          </span>
+        )}
 
-      <p className="mt-1 text-xs leading-5 text-[#03045E]/40">
-        {text}
-      </p>
-
+        <button
+          type="button"
+          onClick={onRemove}
+          aria-label="Remove photo"
+          className="flex h-8 w-8 items-center justify-center rounded-lg bg-white/95 text-[#873F36] backdrop-blur transition hover:bg-white"
+        >
+          <Trash2 size={14} />
+        </button>
+      </div>
     </div>
   );
 }
 
+/* -------------------------------------------------------------------------- */
+/* EMPTY PHOTOS                                                                */
+/* -------------------------------------------------------------------------- */
 
-/* FEATURE */
-
-function Feature({ text }: { text: string }) {
+function EmptyPhotos({
+  onAdd,
+}: {
+  onAdd: () => void;
+}) {
   return (
-    <div className="flex items-center gap-3">
-
-      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10">
-        <span className="text-[10px] text-white">
-          ✓
-        </span>
+    <div className="mt-5 rounded-[24px] border border-black/8 bg-white px-6 py-14 text-center">
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F5F2EB] text-[#9A711E]">
+        <ImagePlus size={24} />
       </div>
 
-      <span className="text-sm text-white/65">
-        {text}
+      <h3 className="mt-4 font-serif text-xl font-semibold">
+        No photos added yet
+      </h3>
+
+      <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-[#78716C]">
+        Add at least three clear photos to continue with
+        your property listing.
+      </p>
+
+      <button
+        type="button"
+        onClick={onAdd}
+        className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#18181B] px-5 py-3 text-sm font-bold text-white"
+      >
+        <Plus size={16} />
+        Add first photo
+      </button>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* TIP                                                                         */
+/* -------------------------------------------------------------------------- */
+
+function Tip({ text }: { text: string }) {
+  return (
+    <div className="flex items-start gap-2.5">
+      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white text-[#9A711E]">
+        <Check size={12} />
       </span>
 
+      <p className="text-xs leading-5 text-[#57534E]">
+        {text}
+      </p>
     </div>
   );
 }

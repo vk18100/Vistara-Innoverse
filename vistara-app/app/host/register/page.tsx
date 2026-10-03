@@ -1,343 +1,575 @@
 "use client";
 
-import Link from "next/link";
 import { FormEvent, useState } from "react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Check,
+  Eye,
+  EyeOff,
+  Home,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
 
-export default function RegisterPage() {
+export default function HostRegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
 
   const [form, setForm] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
+    phone: "",
     password: "",
+    confirmPassword: "",
   });
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-    if (!form.name || !form.email || !form.password) {
-      alert("Please fill all fields.");
+  function updateField(
+    field: keyof typeof form,
+    value: string,
+  ) {
+    setForm((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    setError("");
+    setSuccess("");
+
+    if (
+      !form.firstName ||
+      !form.lastName ||
+      !form.email ||
+      !form.phone ||
+      !form.password ||
+      !form.confirmPassword
+    ) {
+      setError("Please complete all required fields.");
       return;
     }
 
-    setLoading(true);
+    if (form.password.length < 8) {
+      setError(
+        "Password must contain at least 8 characters.",
+      );
+      return;
+    }
 
-    // Backend / API will be connected here later
-    console.log(form);
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
 
-    setTimeout(() => {
+    try {
+      setLoading(true);
+
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          phone: form.phone,
+          password: form.password,
+          role: "HOST",
+        }),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          data?.message || "Registration failed.",
+        );
+      }
+
+      setSuccess(
+        "Your host account has been created successfully.",
+      );
+
+      setForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.",
+      );
+    } finally {
       setLoading(false);
-    }, 800);
-  };
+    }
+  }
 
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
-      <div className="grid min-h-screen lg:grid-cols-2">
+    <main className="min-h-screen bg-[#FAF8F3] text-[#18181B]">
+      <div className="grid min-h-screen lg:grid-cols-[0.9fr_1.1fr]">
+        {/* LEFT SIDE */}
+        <section className="relative hidden overflow-hidden bg-[#18181B] lg:block">
+          <img
+            src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=90"
+            alt="Beautiful Vistara property"
+            className="absolute inset-0 h-full w-full object-cover opacity-60"
+          />
 
-        {/* LEFT BRAND PANEL */}
-        <section className="relative hidden overflow-hidden bg-[#03045E] lg:flex">
-          <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#0D21A1]/50 blur-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#18181B] via-[#18181B]/45 to-transparent" />
 
-          <div className="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-[#0D21A1]/40 blur-3xl" />
-
-          <div className="relative z-10 flex w-full flex-col justify-between p-12 xl:p-16">
-
-            {/* LOGO */}
-            <Link href="/" className="flex items-center gap-3 text-white">
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white">
-                <span className="font-bold text-[#03045E]">V</span>
+          <div className="relative z-10 flex min-h-screen flex-col justify-between p-10 xl:p-14">
+            {/* Logo */}
+            <Link
+              href="/"
+              className="flex items-center gap-3 text-white"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#D9A441] text-[#18181B]">
+                <Home size={20} />
               </div>
 
-              <div>
-                <p className="text-sm font-semibold tracking-wide">
-                  VISTARA
-                </p>
-
-                <p className="text-[9px] uppercase tracking-[0.25em] text-white/40">
-                  Stay beyond ordinary
-                </p>
-              </div>
+              <span className="font-serif text-2xl font-semibold">
+                Vistara
+              </span>
             </Link>
 
-            {/* CENTER */}
-            <div className="max-w-lg">
-
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-white/40">
-                Welcome to Vistara
+            {/* Content */}
+            <div className="max-w-lg pb-8 text-white">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] backdrop-blur">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D9A441]" />
+                Become a host
               </span>
 
-              <h1 className="mt-5 text-5xl font-semibold leading-[1.05] tracking-[-0.04em] text-white xl:text-6xl">
-                Travel differently.
-                <span className="block text-[#0D21A1]">
-                  Stay meaningfully.
-                </span>
+              <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] xl:text-6xl">
+                Turn your space
+                <br />
+                into an experience.
               </h1>
 
-              <p className="mt-7 max-w-md text-sm leading-7 text-white/50">
-                Discover distinctive stays, hidden destinations and
-                experiences designed around the way you want to travel.
+              <p className="mt-6 max-w-md text-sm leading-7 text-white/70">
+                Share your property with travelers looking for
+                meaningful stays, hidden gems and memorable
+                experiences.
               </p>
 
+              <div className="mt-8 space-y-4">
+                <Feature
+                  title="Verified hosting"
+                  description="Build trust with a verified host profile."
+                />
+
+                <Feature
+                  title="Complete control"
+                  description="Manage availability, pricing and bookings."
+                />
+
+                <Feature
+                  title="Grow with Vistara"
+                  description="Reach travelers discovering unique stays."
+                />
+              </div>
             </div>
-
-            {/* FOOTER */}
-            <p className="text-xs text-white/30">
-              © 2026 Vistara. Crafted for meaningful journeys.
-            </p>
-
           </div>
         </section>
 
-
-        {/* RIGHT FORM */}
-        <section className="flex min-h-screen items-center justify-center px-6 py-12 sm:px-10">
-
-          <div className="w-full max-w-md">
-
-            {/* MOBILE LOGO */}
-            <div className="mb-12 lg:hidden">
-
-              <Link href="/" className="flex items-center gap-3">
-
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#03045E]">
-                  <span className="font-bold text-white">V</span>
+        {/* RIGHT SIDE */}
+        <section className="flex min-h-screen items-center justify-center px-5 py-10 sm:px-8 lg:px-12">
+          <div className="w-full max-w-xl">
+            {/* Mobile logo */}
+            <div className="mb-8 lg:hidden">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-3"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#D9A441] text-[#18181B]">
+                  <Home size={20} />
                 </div>
 
-                <div>
-                  <p className="text-sm font-semibold">
-                    VISTARA
-                  </p>
-
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-[#03045E]/35">
-                    Stay beyond ordinary
-                  </p>
-                </div>
-
+                <span className="font-serif text-2xl font-semibold">
+                  Vistara
+                </span>
               </Link>
-
             </div>
 
-
-            {/* HEADING */}
-            <div className="mb-9">
-
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#0D21A1]">
-                Create account
+            {/* Heading */}
+            <div className="mb-8">
+              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#9A711E]">
+                Host registration
               </p>
 
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.035em] sm:text-4xl">
-                Begin your journey.
+              <h2 className="mt-2 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
+                Create your host account
               </h2>
 
-              <p className="mt-3 text-sm leading-6 text-[#03045E]/45">
-                Create your Vistara account and start discovering
-                places worth remembering.
+              <p className="mt-3 text-sm leading-6 text-[#71717A]">
+                Start your hosting journey with Vistara.
               </p>
-
             </div>
 
+            {/* Alerts */}
+            {error && (
+              <div className="mb-5 rounded-xl border border-[#E7B4AD] bg-[#FFF1EF] px-4 py-3 text-sm text-[#8E3D34]">
+                {error}
+              </div>
+            )}
 
-            {/* SOCIAL */}
-            <button
-              type="button"
-              className="flex h-13 w-full items-center justify-center gap-3 rounded-2xl border border-[#03045E]/10 text-sm font-medium transition hover:bg-[#03045E]/[0.03]"
+            {success && (
+              <div className="mb-5 rounded-xl border border-[#C9D8BC] bg-[#F3F8EE] px-4 py-3 text-sm text-[#4E693E]">
+                {success}
+              </div>
+            )}
+
+            {/* Form */}
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-5"
             >
-              <span className="text-base font-semibold">G</span>
-              Continue with Google
-            </button>
-
-
-            {/* DIVIDER */}
-            <div className="my-7 flex items-center gap-4">
-
-              <div className="h-px flex-1 bg-[#03045E]/8" />
-
-              <span className="text-[10px] uppercase tracking-[0.15em] text-[#03045E]/30">
-                or continue with email
-              </span>
-
-              <div className="h-px flex-1 bg-[#03045E]/8" />
-
-            </div>
-
-
-            {/* FORM */}
-            <form onSubmit={handleSubmit} className="space-y-5">
-
-              {/* NAME */}
-              <div>
-
-                <label className="mb-2 block text-xs font-semibold">
-                  Full name
-                </label>
-
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  value={form.name}
-                  onChange={(e) =>
-                    setForm({
-                      ...form,
-                      name: e.target.value,
-                    })
+              {/* Name */}
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field
+                  label="First name"
+                  value={form.firstName}
+                  onChange={(value) =>
+                    updateField("firstName", value)
                   }
-                  className="h-14 w-full rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.02] px-5 text-sm outline-none transition placeholder:text-[#03045E]/25 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
+                  placeholder="Sristi"
+                  required
                 />
 
-              </div>
-
-
-              {/* EMAIL */}
-              <div>
-
-                <label className="mb-2 block text-xs font-semibold">
-                  Email address
-                </label>
-
-                <input
-                  type="email"
-                  placeholder="you@example.com"
-                  value={form.email}
-                  onChange={(e) =>
-                    setForm({
-                      ...form,
-                      email: e.target.value,
-                    })
+                <Field
+                  label="Last name"
+                  value={form.lastName}
+                  onChange={(value) =>
+                    updateField("lastName", value)
                   }
-                  className="h-14 w-full rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.02] px-5 text-sm outline-none transition placeholder:text-[#03045E]/25 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
+                  placeholder="Gupta"
+                  required
                 />
-
               </div>
 
+              {/* Email */}
+              <Field
+                label="Email address"
+                type="email"
+                value={form.email}
+                onChange={(value) =>
+                  updateField("email", value)
+                }
+                placeholder="you@example.com"
+                required
+              />
 
-              {/* PASSWORD */}
-              <div>
+              {/* Phone */}
+              <Field
+                label="Phone number"
+                type="tel"
+                value={form.phone}
+                onChange={(value) =>
+                  updateField("phone", value)
+                }
+                placeholder="+91 98765 43210"
+                required
+              />
 
-                <div className="mb-2 flex items-center justify-between">
+              {/* Password */}
+              <PasswordField
+                label="Password"
+                value={form.password}
+                show={showPassword}
+                onToggle={() =>
+                  setShowPassword((current) => !current)
+                }
+                onChange={(value) =>
+                  updateField("password", value)
+                }
+                placeholder="Minimum 8 characters"
+              />
 
-                  <label className="text-xs font-semibold">
-                    Password
-                  </label>
+              {/* Confirm Password */}
+              <PasswordField
+                label="Confirm password"
+                value={form.confirmPassword}
+                show={showConfirmPassword}
+                onToggle={() =>
+                  setShowConfirmPassword(
+                    (current) => !current,
+                  )
+                }
+                onChange={(value) =>
+                  updateField(
+                    "confirmPassword",
+                    value,
+                  )
+                }
+                placeholder="Re-enter your password"
+              />
 
-                  <span className="text-[10px] text-[#03045E]/30">
-                    Minimum 8 characters
-                  </span>
+              {/* Password requirements */}
+              <div className="rounded-2xl border border-black/7 bg-white p-4">
+                <p className="text-xs font-bold text-[#44403C]">
+                  Password requirements
+                </p>
 
-                </div>
-
-                <div className="relative">
-
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Create a password"
-                    value={form.password}
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        password: e.target.value,
-                      })
-                    }
-                    className="h-14 w-full rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.02] px-5 pr-16 text-sm outline-none transition placeholder:text-[#03045E]/25 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
+                <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                  <Requirement
+                    checked={form.password.length >= 8}
+                    text="At least 8 characters"
                   />
 
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setShowPassword(!showPassword)
-                    }
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-medium text-[#03045E]/40 hover:text-[#03045E]"
-                  >
-                    {showPassword ? "Hide" : "Show"}
-                  </button>
+                  <Requirement
+                    checked={/[A-Z]/.test(form.password)}
+                    text="One uppercase letter"
+                  />
 
+                  <Requirement
+                    checked={/[0-9]/.test(form.password)}
+                    text="One number"
+                  />
+
+                  <Requirement
+                    checked={/[^A-Za-z0-9]/.test(form.password)}
+                    text="One special character"
+                  />
                 </div>
-
               </div>
 
-
-              {/* TERMS */}
-              <div className="flex items-start gap-3 pt-1">
-
+              {/* Terms */}
+              <label className="flex items-start gap-3 text-xs leading-5 text-[#71717A]">
                 <input
                   type="checkbox"
                   required
-                  className="mt-1 h-4 w-4 accent-[#03045E]"
+                  className="mt-0.5 h-4 w-4 accent-[#D9A441]"
                 />
 
-                <p className="text-xs leading-5 text-[#03045E]/40">
-                  I agree to Vistara's{" "}
+                <span>
+                  I agree to Vistara&apos;s{" "}
                   <Link
                     href="/terms"
-                    className="font-medium text-[#03045E] underline"
+                    className="font-semibold text-[#8A651B] hover:underline"
                   >
                     Terms
                   </Link>{" "}
                   and{" "}
                   <Link
                     href="/privacy"
-                    className="font-medium text-[#03045E] underline"
+                    className="font-semibold text-[#8A651B] hover:underline"
                   >
                     Privacy Policy
                   </Link>
                   .
-                </p>
+                </span>
+              </label>
 
-              </div>
-
-
-              {/* SUBMIT */}
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
-                className="group flex h-14 w-full items-center justify-center gap-3 rounded-2xl bg-[#03045E] text-sm font-semibold text-white shadow-[0_12px_30px_rgba(3,4,94,0.18)] transition hover:-translate-y-0.5 hover:bg-[#0D21A1] disabled:cursor-not-allowed disabled:opacity-60"
+                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3.5 text-sm font-bold text-[#18181B] shadow-[0_12px_30px_rgba(217,164,65,0.20)] transition hover:bg-[#E7C46D] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading ? "Creating account..." : "Create account"}
+                {loading
+                  ? "Creating account..."
+                  : "Create host account"}
 
                 {!loading && (
-                  <span className="transition-transform group-hover:translate-x-1">
-                    →
-                  </span>
+                  <ArrowRight
+                    size={17}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
                 )}
               </button>
-
             </form>
 
-
-            {/* LOGIN */}
-            <p className="mt-8 text-center text-sm text-[#03045E]/45">
-
+            {/* Login */}
+            <div className="mt-7 text-center text-sm text-[#71717A]">
               Already have an account?{" "}
-
               <Link
                 href="/login"
-                className="font-semibold text-[#03045E] hover:text-[#0D21A1]"
+                className="font-bold text-[#8A651B] hover:underline"
               >
-                Log in
+                Sign in
               </Link>
-
-            </p>
-
-
-            {/* HOST */}
-            <div className="mt-8 rounded-2xl border border-[#03045E]/8 bg-[#03045E]/[0.025] p-4">
-
-              <p className="text-xs font-semibold">
-                Want to host your property?
-              </p>
-
-              <p className="mt-1 text-[11px] leading-5 text-[#03045E]/40">
-                You can create your traveller account first and become
-                a host whenever you're ready.
-              </p>
-
             </div>
 
+            {/* Security */}
+            <div className="mt-8 flex items-center justify-center gap-2 text-[11px] text-[#A8A29E]">
+              <ShieldCheck size={14} />
+              Your information is securely protected.
+            </div>
           </div>
-
         </section>
-
       </div>
     </main>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Field                                                                       */
+/* -------------------------------------------------------------------------- */
+
+function Field({
+  label,
+  type = "text",
+  value,
+  onChange,
+  placeholder,
+  required = false,
+}: {
+  label: string;
+  type?: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  required?: boolean;
+}) {
+  return (
+    <div>
+      <label className="mb-2 block text-xs font-bold text-[#44403C]">
+        {label}
+        {required && (
+          <span className="ml-1 text-[#9A711E]">*</span>
+        )}
+      </label>
+
+      <input
+        type={type}
+        value={value}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        placeholder={placeholder}
+        required={required}
+        className="h-12 w-full rounded-xl border border-black/9 bg-white px-4 text-sm text-[#18181B] outline-none transition placeholder:text-[#A8A29E] focus:border-[#D9A441]/60 focus:ring-4 focus:ring-[#D9A441]/10"
+      />
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Password Field                                                              */
+/* -------------------------------------------------------------------------- */
+
+function PasswordField({
+  label,
+  value,
+  show,
+  onToggle,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  show: boolean;
+  onToggle: () => void;
+  onChange: (value: string) => void;
+  placeholder: string;
+}) {
+  return (
+    <div>
+      <label className="mb-2 block text-xs font-bold text-[#44403C]">
+        {label}
+        <span className="ml-1 text-[#9A711E]">*</span>
+      </label>
+
+      <div className="relative">
+        <input
+          type={show ? "text" : "password"}
+          value={value}
+          onChange={(event) =>
+            onChange(event.target.value)
+          }
+          placeholder={placeholder}
+          required
+          className="h-12 w-full rounded-xl border border-black/9 bg-white px-4 pr-12 text-sm text-[#18181B] outline-none transition placeholder:text-[#A8A29E] focus:border-[#D9A441]/60 focus:ring-4 focus:ring-[#D9A441]/10"
+        />
+
+        <button
+          type="button"
+          onClick={onToggle}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#78716C] transition hover:text-[#18181B]"
+          aria-label={
+            show ? "Hide password" : "Show password"
+          }
+        >
+          {show ? (
+            <EyeOff size={18} />
+          ) : (
+            <Eye size={18} />
+          )}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Requirement                                                                */
+/* -------------------------------------------------------------------------- */
+
+function Requirement({
+  checked,
+  text,
+}: {
+  checked: boolean;
+  text: string;
+}) {
+  return (
+    <div className="flex items-center gap-2 text-xs text-[#71717A]">
+      <span
+        className={`flex h-4 w-4 items-center justify-center rounded-full ${
+          checked
+            ? "bg-[#D9A441] text-[#18181B]"
+            : "bg-[#F1F0EB] text-transparent"
+        }`}
+      >
+        <Check size={10} strokeWidth={3} />
+      </span>
+
+      {text}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Feature                                                                     */
+/* -------------------------------------------------------------------------- */
+
+function Feature({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
+  return (
+    <div className="flex gap-3">
+      <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#D9A441] text-[#18181B]">
+        <Check size={14} strokeWidth={3} />
+      </div>
+
+      <div>
+        <p className="text-sm font-bold">
+          {title}
+        </p>
+
+        <p className="mt-0.5 text-xs text-white/55">
+          {description}
+        </p>
+      </div>
+    </div>
   );
 }

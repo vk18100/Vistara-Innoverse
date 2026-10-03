@@ -10,7 +10,7 @@ const activities = [
     category: "Food",
     duration: "2–3 hours",
     price: 499,
-    icon: "🍜",
+    image: "/images/food.jpg",
     description:
       "Explore local flavours, hidden food spots and authentic regional dishes.",
   },
@@ -21,7 +21,7 @@ const activities = [
     category: "Culture",
     duration: "2 hours",
     price: 399,
-    icon: "🏛️",
+    image: "/images/patna.jpg",
     description:
       "Discover historical places and stories that shaped the local area.",
   },
@@ -32,7 +32,7 @@ const activities = [
     category: "Nature",
     duration: "2 hours",
     price: 299,
-    icon: "🌅",
+    image: "/images/ganga.jpg",
     description:
       "Enjoy a peaceful evening experience along the riverside.",
   },
@@ -43,7 +43,7 @@ const activities = [
     category: "Shopping",
     duration: "2–3 hours",
     price: 349,
-    icon: "🛍️",
+    image: "/images/market.jpg",
     description:
       "Explore local markets, handmade products and regional shopping spots.",
   },
@@ -54,7 +54,7 @@ const activities = [
     category: "Cafe",
     duration: "3 hours",
     price: 599,
-    icon: "☕",
+    image: "/images/coffee.jpg",
     description:
       "Visit selected local cafes and discover the city's coffee culture.",
   },
@@ -65,7 +65,7 @@ const activities = [
     category: "Experience",
     duration: "2 hours",
     price: 449,
-    icon: "📸",
+    image: "/images/patna.jpg",
     description:
       "Capture interesting locations, local life and hidden visual gems.",
   },
@@ -83,43 +83,112 @@ const categories = [
 
 export default function ExperiencesPage() {
   return (
-    <main className="min-h-screen bg-white text-[#03045e]">
-      {/* Hero */}
-      <section className="bg-[#03045e] px-6 py-20 text-white">
-        <div className="mx-auto max-w-7xl">
-          <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-blue-200">
-            Vistara Experiences
+    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+      <section className="border-b border-[#E5DED6] bg-[#FAF8F3]">
+        <div className="mx-auto max-w-7xl px-6 py-20 md:px-10 md:py-28">
+
+          <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-[#B76545]">
+            VISTARA EXPERIENCES
           </p>
 
-          <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-            Discover experiences beyond your stay.
+          <h1
+            className="
+              max-w-4xl
+              font-serif
+              text-5xl
+              font-semibold
+              leading-[1.02]
+              tracking-[-0.035em]
+              text-[#2C2420]
+              md:text-7xl
+            "
+          >
+            Experiences worth
+            <br />
+            <span className="text-[#B76545]">
+              remembering.
+            </span>
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-7 text-blue-100 md:text-lg">
-            Explore food, culture, nature, shopping and local experiences
-            around the place you are staying.
+          <p
+            className="
+              mt-7
+              max-w-2xl
+              text-base
+              leading-8
+              text-[#756D67]
+              md:text-lg
+            "
+          >
+            Discover local food, culture, hidden places and meaningful
+            experiences that make your journey feel truly personal.
           </p>
 
-          <Link
-            href="/explore"
-            className="mt-8 inline-flex rounded-full bg-white px-7 py-3 font-semibold text-[#03045e] transition hover:bg-blue-50"
-          >
-            Explore destinations
-          </Link>
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="border-b border-gray-200 bg-white px-6 py-5">
-        <div className="mx-auto flex max-w-7xl gap-3 overflow-x-auto">
+
+      {/* =====================================================
+          CATEGORY NAVIGATION
+      ===================================================== */}
+      <section
+        className="
+          sticky
+          top-0
+          z-20
+          border-b
+          border-[#E5DED6]
+          bg-[#FAF8F3]/95
+          backdrop-blur-md
+        "
+      >
+        <div
+          className="
+            mx-auto
+            flex
+            max-w-7xl
+            gap-3
+            overflow-x-auto
+            px-6
+            py-5
+            md:px-10
+          "
+        >
           {categories.map((category, index) => (
             <button
               key={category}
-              className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-medium transition ${
-                index === 0
-                  ? "bg-[#03045e] text-white"
-                  : "border border-gray-200 text-gray-700 hover:border-[#0D21A1] hover:text-[#03045e]"
-              }`}
+              type="button"
+              className={`
+                whitespace-nowrap
+                rounded-full
+                px-5
+                py-2.5
+                text-sm
+                font-semibold
+                transition-all
+                duration-200
+                ${
+                  index === 0
+                    ? `
+                      bg-[#B76545]
+                      text-white
+                      shadow-sm
+                      hover:bg-[#965039]
+                    `
+                    : `
+                      border
+                      border-[#E5DED6]
+                      bg-white
+                      text-[#2C2420]
+                      hover:border-[#B76545]
+                      hover:text-[#B76545]
+                    `
+                }
+              `}
             >
               {category}
             </button>
@@ -127,108 +196,393 @@ export default function ExperiencesPage() {
         </div>
       </section>
 
-      {/* Activities */}
-      <section className="px-6 py-14">
+
+      {/* =====================================================
+          EXPERIENCES
+      ===================================================== */}
+      <section className="px-6 py-16 md:px-10 md:py-20">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8">
-            <p className="text-sm font-semibold uppercase tracking-widest text-[#0D21A1]">
-              Local activities
-            </p>
 
-            <h2 className="mt-2 text-3xl font-bold">
-              Things to do around you
-            </h2>
+          {/* SECTION HEADER */}
+          <div
+            className="
+              mb-10
+              flex
+              flex-col
+              justify-between
+              gap-5
+              md:flex-row
+              md:items-end
+            "
+          >
+            <div>
 
-            <p className="mt-2 text-gray-600">
-              Choose an activity and make your local journey more memorable.
-            </p>
+              <p
+                className="
+                  text-xs
+                  font-bold
+                  uppercase
+                  tracking-[0.25em]
+                  text-[#B76545]
+                "
+              >
+                LOCAL ACTIVITIES
+              </p>
+
+              <h2
+                className="
+                  mt-3
+                  font-serif
+                  text-4xl
+                  font-semibold
+                  tracking-tight
+                  text-[#2C2420]
+                  md:text-5xl
+                "
+              >
+                Things to do around you.
+              </h2>
+
+              <p
+                className="
+                  mt-4
+                  max-w-xl
+                  text-[#756D67]
+                "
+              >
+                Choose an activity and make your local journey more memorable.
+              </p>
+
+            </div>
+
+            <span
+              className="
+                text-sm
+                font-semibold
+                text-[#68705A]
+              "
+            >
+              6 experiences
+            </span>
+
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+          {/* =================================================
+              EXPERIENCE CARDS
+          ================================================= */}
+          <div
+            className="
+              grid
+              gap-7
+              sm:grid-cols-2
+              lg:grid-cols-3
+            "
+          >
             {activities.map((activity) => (
               <article
                 key={activity.id}
-                className="group overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="
+                  group
+                  overflow-hidden
+                  rounded-[28px]
+                  border
+                  border-[#E5DED6]
+                  bg-white
+                  shadow-[0_8px_30px_rgba(44,36,32,0.06)]
+                  transition-all
+                  duration-300
+                  hover:-translate-y-1
+                  hover:shadow-[0_18px_45px_rgba(44,36,32,0.12)]
+                "
               >
-                {/* Visual */}
-                <div className="flex h-52 items-center justify-center bg-gradient-to-br from-[#03045e] to-[#0D21A1]">
-                  <span className="text-7xl transition group-hover:scale-110">
-                    {activity.icon}
+
+                {/* =========================================
+                    EXISTING IMAGE
+                ========================================= */}
+                <div
+                  className="
+                    relative
+                    h-60
+                    overflow-hidden
+                    bg-[#E8DED0]
+                  "
+                >
+                  <img
+                    src={activity.image}
+                    alt={activity.title}
+                    loading="lazy"
+                    className="
+                      h-full
+                      w-full
+                      object-cover
+                      transition-transform
+                      duration-500
+                      group-hover:scale-105
+                    "
+                  />
+
+                  {/* IMAGE OVERLAY */}
+                  <div
+                    className="
+                      pointer-events-none
+                      absolute
+                      inset-0
+                      bg-gradient-to-t
+                      from-black/25
+                      via-transparent
+                      to-transparent
+                    "
+                  />
+
+                  {/* CATEGORY */}
+                  <span
+                    className="
+                      absolute
+                      left-4
+                      top-4
+                      rounded-full
+                      bg-[#FAF8F3]/95
+                      px-3.5
+                      py-1.5
+                      text-xs
+                      font-bold
+                      text-[#B76545]
+                      shadow-sm
+                    "
+                  >
+                    {activity.category}
+                  </span>
+
+                  {/* DURATION */}
+                  <span
+                    className="
+                      absolute
+                      bottom-4
+                      right-4
+                      rounded-full
+                      bg-[#2C2420]/85
+                      px-3
+                      py-1.5
+                      text-xs
+                      font-semibold
+                      text-white
+                      backdrop-blur-sm
+                    "
+                  >
+                    {activity.duration}
                   </span>
                 </div>
 
-                {/* Content */}
+
+                {/* =========================================
+                    CARD CONTENT
+                ========================================= */}
                 <div className="p-6">
-                  <div className="mb-3 flex items-center justify-between gap-3">
-                    <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-[#0D21A1]">
-                      {activity.category}
-                    </span>
 
-                    <span className="text-sm text-gray-500">
-                      {activity.duration}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-[#03045e]">
+                  {/* TITLE */}
+                  <h3
+                    className="
+                      font-serif
+                      text-2xl
+                      font-semibold
+                      leading-tight
+                      text-[#2C2420]
+                      transition-colors
+                      duration-200
+                      group-hover:text-[#B76545]
+                    "
+                  >
                     {activity.title}
                   </h3>
 
-                  <p className="mt-2 text-sm font-medium text-gray-500">
+
+                  {/* LOCATION */}
+                  <p
+                    className="
+                      mt-3
+                      text-sm
+                      font-medium
+                      text-[#68705A]
+                    "
+                  >
                     📍 {activity.location}
                   </p>
 
-                  <p className="mt-4 text-sm leading-6 text-gray-600">
+
+                  {/* DESCRIPTION */}
+                  <p
+                    className="
+                      mt-4
+                      text-sm
+                      leading-6
+                      text-[#756D67]
+                    "
+                  >
                     {activity.description}
                   </p>
 
-                  <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-5">
+
+                  {/* DIVIDER + PRICE + BUTTON */}
+                  <div
+                    className="
+                      mt-6
+                      flex
+                      items-end
+                      justify-between
+                      border-t
+                      border-[#E5DED6]
+                      pt-5
+                    "
+                  >
+
                     <div>
-                      <p className="text-xs text-gray-500">Starting from</p>
-                      <p className="text-xl font-bold text-[#03045e]">
-                        ₹{activity.price}
+                      <p
+                        className="
+                          text-xs
+                          font-medium
+                          text-[#756D67]
+                        "
+                      >
+                        Starting from
+                      </p>
+
+                      <p
+                        className="
+                          mt-1
+                          text-2xl
+                          font-bold
+                          text-[#2C2420]
+                        "
+                      >
+                        ₹{activity.price.toLocaleString("en-IN")}
                       </p>
                     </div>
 
+
                     <Link
                       href={`/experiences/${activity.id}`}
-                      className="rounded-full bg-[#03045e] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+                      className="
+                        rounded-full
+                        bg-[#B76545]
+                        px-6
+                        py-3
+                        text-sm
+                        font-bold
+                        text-white
+                        transition-all
+                        duration-200
+                        hover:bg-[#965039]
+                        hover:shadow-md
+                        active:scale-95
+                      "
                     >
                       View
                     </Link>
+
                   </div>
+
                 </div>
               </article>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* Local Plan CTA */}
-      <section className="px-6 pb-16">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-3xl bg-[#03045e] p-8 text-white md:p-12">
-          <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-widest text-blue-200">
-              Vistara Local Plan
+
+      {/* =====================================================
+          LOCAL PLAN CTA
+      ===================================================== */}
+      <section className="px-6 pb-20 md:px-10">
+
+        <div
+          className="
+            mx-auto
+            max-w-7xl
+            overflow-hidden
+            rounded-[32px]
+            bg-[#2C2420]
+            px-8
+            py-12
+            text-white
+            md:px-14
+            md:py-14
+          "
+        >
+
+          <div className="max-w-3xl">
+
+            <p
+              className="
+                text-xs
+                font-bold
+                uppercase
+                tracking-[0.25em]
+                text-[#B8945A]
+              "
+            >
+              VISTARA LOCAL PLAN
             </p>
 
-            <h2 className="mt-3 text-3xl font-bold md:text-4xl">
-              Unlock the complete local experience.
+
+            <h2
+              className="
+                mt-4
+                font-serif
+                text-4xl
+                font-semibold
+                leading-tight
+                md:text-5xl
+              "
+            >
+              Unlock the complete
+              <br />
+              local experience.
             </h2>
 
-            <p className="mt-4 leading-7 text-blue-100">
-              Discover selected places, exact locations, routes and local
-              experiences around your stay.
+
+            <p
+              className="
+                mt-5
+                max-w-2xl
+                text-base
+                leading-7
+                text-[#E8DED0]
+              "
+            >
+              Discover selected places, exact locations, local routes,
+              food spots and experiences around your stay.
             </p>
+
 
             <Link
               href="/explore"
-              className="mt-7 inline-flex rounded-full bg-white px-6 py-3 font-semibold text-[#03045e] hover:bg-blue-50"
+              className="
+                mt-8
+                inline-flex
+                rounded-full
+                bg-[#B76545]
+                px-7
+                py-3.5
+                text-sm
+                font-bold
+                text-white
+                transition-all
+                duration-200
+                hover:bg-[#965039]
+                hover:shadow-lg
+              "
             >
-              Explore Local Plan
+              Explore Local Plan →
             </Link>
+
           </div>
+
         </div>
+
       </section>
+
     </main>
   );
 }

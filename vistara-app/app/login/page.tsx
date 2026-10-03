@@ -7,7 +7,12 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Eye, EyeOff } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  ArrowRight,
+  ShieldCheck,
+} from "lucide-react";
 
 import Navbar from "@/components/navbar";
 
@@ -53,9 +58,7 @@ export default function Login() {
         const result = await response.json();
 
         if (!response.ok || !result.success) {
-          throw new Error(
-            result.message || "Login failed"
-          );
+          throw new Error(result.message || "Login failed");
         }
 
         const role = result.user?.role;
@@ -85,189 +88,351 @@ export default function Login() {
   );
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#FAF9F6] text-[#171717]">
       <Navbar />
 
-      <section className="flex min-h-[calc(100vh-80px)] items-center justify-center px-6 py-12">
-        <div className="w-full max-w-md">
+      {/* PAGE */}
+      <section className="px-4 py-10 sm:px-6 sm:py-14 lg:px-10 lg:py-20">
+        <div className="mx-auto grid w-full max-w-6xl overflow-hidden rounded-[32px] border border-[#E7E2D8] bg-white shadow-[0_20px_70px_rgba(23,23,23,0.08)] lg:grid-cols-[0.9fr_1.1fr]">
 
-          {/* HEADER */}
-          <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#023E8A]">
-              Welcome back
-            </p>
+          {/* LEFT — BRAND PANEL */}
+          <div className="relative hidden min-h-[650px] overflow-hidden bg-[#171717] p-10 text-white lg:flex lg:flex-col lg:justify-between xl:p-14">
 
-            <h1 className="mt-3 text-4xl font-bold text-[#03045E]">
-              Sign in to Vistara
-            </h1>
+            {/* Decorative shapes */}
+            <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full border border-white/10" />
+            <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full border border-[#D9A441]/20" />
 
-            <p className="mt-3 text-sm leading-6 text-gray-500">
-              Continue exploring stays and places worth experiencing.
-            </p>
-          </div>
+            <div className="relative z-10">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-lg font-bold text-[#171717]">
+                V
+              </div>
 
-          {/* FORM */}
-          <form
-            onSubmit={handleSubmit}
-            className="mt-8 space-y-5"
-          >
+              <p className="mt-8 text-xs font-semibold uppercase tracking-[0.3em] text-[#D9A441]">
+                WELCOME BACK
+              </p>
 
-            {/* EMAIL */}
-            <div>
-              <label
-                htmlFor="email"
-                className="text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
+              <h2 className="mt-5 max-w-md font-serif text-5xl font-semibold leading-[1.05]">
+                Your next journey starts here.
+              </h2>
 
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-
-                  if (error) {
-                    setError("");
-                  }
-                }}
-                placeholder="you@example.com"
-                autoComplete="email"
-                autoCapitalize="none"
-                spellCheck={false}
-                required
-                className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-[#03045E] outline-none transition placeholder:text-gray-400 focus:border-[#03045E] focus:ring-2 focus:ring-[#03045E]/10"
-              />
+              <p className="mt-6 max-w-sm text-sm leading-7 text-white/60">
+                Sign in to continue discovering unique stays,
+                local experiences and places worth remembering.
+              </p>
             </div>
 
-            {/* PASSWORD */}
-            <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="text-sm font-medium text-gray-700"
-                >
-                  Password
-                </label>
+            <div className="relative z-10 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#D9A441]/10 text-[#D9A441]">
+                  <ShieldCheck size={19} />
+                </div>
 
+                <div>
+                  <p className="text-sm font-semibold">
+                    Your journey, your way.
+                  </p>
+
+                  <p className="mt-1 text-xs text-white/50">
+                    Secure access to your Vistara account.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT — LOGIN */}
+          <div className="flex items-center justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14 xl:px-20">
+            <div className="w-full max-w-md">
+
+              {/* MOBILE BRAND */}
+              <div className="mb-8 lg:hidden">
                 <Link
-                  href="/forgot-password"
-                  className="text-xs font-medium text-[#03045E] hover:underline"
+                  href="/"
+                  className="font-serif text-3xl font-semibold tracking-tight text-[#171717]"
                 >
-                  Forgot password?
+                  Vistara
                 </Link>
               </div>
 
-              <div className="relative mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type={
-                    showPassword
-                      ? "text"
-                      : "password"
-                  }
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
+              {/* HEADER */}
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#A47B2C]">
+                  Welcome back
+                </p>
 
-                    if (error) {
-                      setError("");
-                    }
-                  }}
-                  placeholder="Enter your password"
-                  autoComplete="current-password"
-                  required
-                  className="w-full rounded-xl border border-gray-200 px-4 py-3 pr-12 text-sm text-[#03045E] outline-none transition placeholder:text-gray-400 focus:border-[#03045E] focus:ring-2 focus:ring-[#03045E]/10"
-                />
+                <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#171717] sm:text-5xl">
+                  Sign in
+                </h1>
 
+                <p className="mt-4 max-w-sm text-sm leading-6 text-[#737373]">
+                  Continue exploring stays, places and experiences
+                  worth experiencing.
+                </p>
+              </div>
+
+              {/* FORM */}
+              <form
+                onSubmit={handleSubmit}
+                className="mt-9 space-y-5"
+              >
+                {/* EMAIL */}
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="text-sm font-semibold text-[#262626]"
+                  >
+                    Email address
+                  </label>
+
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+
+                      if (error) {
+                        setError("");
+                      }
+                    }}
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    required
+                    className="
+                      mt-2.5
+                      w-full
+                      rounded-2xl
+                      border
+                      border-[#DDD9D0]
+                      bg-[#FCFBF8]
+                      px-4
+                      py-3.5
+                      text-sm
+                      text-[#171717]
+                      outline-none
+                      transition
+                      placeholder:text-[#A3A3A3]
+                      focus:border-[#171717]
+                      focus:bg-white
+                      focus:ring-4
+                      focus:ring-[#171717]/5
+                    "
+                  />
+                </div>
+
+                {/* PASSWORD */}
+                <div>
+                  <div className="flex items-center justify-between">
+                    <label
+                      htmlFor="password"
+                      className="text-sm font-semibold text-[#262626]"
+                    >
+                      Password
+                    </label>
+
+                    <Link
+                      href="/forgot-password"
+                      className="text-xs font-semibold text-[#525252] transition hover:text-[#A47B2C]"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+
+                  <div className="relative mt-2.5">
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      value={password}
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+
+                        if (error) {
+                          setError("");
+                        }
+                      }}
+                      placeholder="Enter your password"
+                      autoComplete="current-password"
+                      required
+                      className="
+                        w-full
+                        rounded-2xl
+                        border
+                        border-[#DDD9D0]
+                        bg-[#FCFBF8]
+                        px-4
+                        py-3.5
+                        pr-12
+                        text-sm
+                        text-[#171717]
+                        outline-none
+                        transition
+                        placeholder:text-[#A3A3A3]
+                        focus:border-[#171717]
+                        focus:bg-white
+                        focus:ring-4
+                        focus:ring-[#171717]/5
+                      "
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setShowPassword((previous) => !previous)
+                      }
+                      aria-label={
+                        showPassword
+                          ? "Hide password"
+                          : "Show password"
+                      }
+                      className="
+                        absolute
+                        right-2
+                        top-1/2
+                        -translate-y-1/2
+                        rounded-xl
+                        p-2
+                        text-[#8A8A8A]
+                        transition
+                        hover:bg-[#F2F0EB]
+                        hover:text-[#171717]
+                      "
+                    >
+                      {showPassword ? (
+                        <EyeOff size={18} />
+                      ) : (
+                        <Eye size={18} />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* ERROR */}
+                {error && (
+                  <div
+                    role="alert"
+                    aria-live="polite"
+                    className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600"
+                  >
+                    {error}
+                  </div>
+                )}
+
+                {/* SUBMIT */}
                 <button
-                  type="button"
-                  onClick={() =>
-                    setShowPassword(
-                      (previous) => !previous
-                    )
-                  }
-                  aria-label={
-                    showPassword
-                      ? "Hide password"
-                      : "Show password"
-                  }
-                  className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg p-2 text-gray-400 transition hover:bg-gray-50 hover:text-[#03045E]"
+                  type="submit"
+                  disabled={loading}
+                  className="
+                    group
+                    flex
+                    w-full
+                    items-center
+                    justify-center
+                    gap-2
+                    rounded-2xl
+                    bg-[#171717]
+                    px-4
+                    py-3.5
+                    text-sm
+                    font-semibold
+                    text-white
+                    transition
+                    hover:bg-[#2A2A2A]
+                    hover:shadow-[0_10px_30px_rgba(23,23,23,0.18)]
+                    disabled:cursor-not-allowed
+                    disabled:opacity-60
+                  "
                 >
-                  {showPassword ? (
-                    <EyeOff
-                      size={18}
-                      strokeWidth={1.8}
-                    />
+                  {loading ? (
+                    "Signing in..."
                   ) : (
-                    <Eye
-                      size={18}
-                      strokeWidth={1.8}
-                    />
+                    <>
+                      Sign in
+                      <ArrowRight
+                        size={17}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
+                    </>
                   )}
                 </button>
-              </div>
-            </div>
+              </form>
 
-            {/* ERROR */}
-            {error && (
-              <div
-                role="alert"
-                aria-live="polite"
-                className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600"
+              {/* DIVIDER */}
+              <div className="my-7 flex items-center gap-4">
+                <div className="h-px flex-1 bg-[#E5E2DC]" />
+
+                <span className="text-[11px] font-medium uppercase tracking-wider text-[#A3A3A3]">
+                  or
+                </span>
+
+                <div className="h-px flex-1 bg-[#E5E2DC]" />
+              </div>
+
+              {/* GOOGLE */}
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.href = "/api/auth/google";
+                }}
+                className="
+                  flex
+                  w-full
+                  items-center
+                  justify-center
+                  gap-3
+                  rounded-2xl
+                  border
+                  border-[#DDD9D0]
+                  bg-white
+                  px-4
+                  py-3.5
+                  text-sm
+                  font-semibold
+                  text-[#333333]
+                  transition
+                  hover:border-[#171717]
+                  hover:bg-[#FAF9F6]
+                "
               >
-                {error}
-              </div>
-            )}
+                {/* Google mark */}
+                <span className="text-base font-bold">G</span>
+                Continue with Google
+              </button>
 
-            {/* SUBMIT */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-xl bg-[#03045E] px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-[#023E8A] disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {loading
-                ? "Signing in..."
-                : "Sign In"}
-            </button>
-          </form>
+              {/* REGISTER */}
+              <p className="mt-7 text-center text-sm text-[#737373]">
+                Don't have an account?{" "}
+                <Link
+                  href="/register"
+                  className="font-bold text-[#171717] underline decoration-[#D9A441] decoration-2 underline-offset-4 transition hover:text-[#A47B2C]"
+                >
+                  Create account
+                </Link>
+              </p>
 
-          {/* DIVIDER */}
-          <div className="my-7 flex items-center gap-4">
-            <div className="h-px flex-1 bg-gray-200" />
-
-            <span className="text-xs text-gray-400">
-              OR
-            </span>
-
-            <div className="h-px flex-1 bg-gray-200" />
+              {/* FOOT NOTE */}
+              <p className="mt-8 text-center text-[11px] leading-5 text-[#A3A3A3]">
+                By continuing, you agree to Vistara's{" "}
+                <Link
+                  href="/terms"
+                  className="underline hover:text-[#171717]"
+                >
+                  Terms
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/privacy"
+                  className="underline hover:text-[#171717]"
+                >
+                  Privacy Policy
+                </Link>
+                .
+              </p>
+            </div>
           </div>
-
-          {/* GOOGLE */}
-          <button
-            type="button"
-            onClick={() => {
-              window.location.href =
-                "/api/auth/google";
-            }}
-            className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-          >
-            Continue with Google
-          </button>
-
-          {/* REGISTER */}
-          <p className="mt-7 text-center text-sm text-gray-500">
-            Don't have an account?{" "}
-            <Link
-              href="/register"
-              className="font-semibold text-[#03045E] hover:underline"
-            >
-              Create account
-            </Link>
-          </p>
         </div>
       </section>
     </main>

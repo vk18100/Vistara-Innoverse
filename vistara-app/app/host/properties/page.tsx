@@ -1,1085 +1,1023 @@
 "use client";
 
-import Image from "next/image";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
+import {
+  CheckCircle2,
+  Edit3,
+  Eye,
+  Home,
+  MapPin,
+  MoreHorizontal,
+  Plus,
+  Search,
+  ShieldCheck,
+  Star,
+  Trash2,
+  XCircle,
+} from "lucide-react";
 import Navbar from "@/components/navbar";
-import { useEffect, useMemo, useState } from "react";
 
 type PropertyStatus =
-  | "ACTIVE"
-  | "DRAFT"
+  | "PUBLISHED"
   | "PENDING"
-  | "REJECTED"
-  | "INACTIVE";
+  | "DRAFT"
+  | "REJECTED";
 
 type Property = {
-  id: string;
+  id: string | number;
   name: string;
   location: string;
-  type: string;
-  guests: number;
-  price: number;
-  rating?: number | null;
-  reviews?: number | null;
-  status: PropertyStatus;
-  image?: string | null;
-  updatedAt?: string;
+  type?: string;
+  image?: string;
+  price?: number;
+  rating?: number;
+  reviews?: number;
+  status?: PropertyStatus | string;
+  verified?: boolean;
+  bookings?: number;
 };
 
-type Filter = "ALL" | PropertyStatus;
+type PropertiesResponse = {
+  success?: boolean;
+  data?: Property[];
+  message?: string;
+};
 
-function formatCurrency(value: number) {
+/*
+|--------------------------------------------------------------------------
+| Demo properties
+|--------------------------------------------------------------------------
+| These are shown only when the API has no live properties.
+*/
+
+const DEMO_PROPERTIES: Property[] = [
+  {
+    id: "demo-1",
+    name: "Dubai Skyline Residence",
+    location: "Dubai Marina, Dubai",
+    type: "Luxury Apartment",
+    image:
+      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1400&q=90",
+    price: 18500,
+    rating: 4.9,
+    reviews: 48,
+    status: "PUBLISHED",
+    verified: true,
+    bookings: 26,
+  },
+  {
+    id: "demo-2",
+    name: "Vistara Beach House",
+    location: "Candolim, Goa",
+    type: "Beach House",
+    image:
+      "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1400&q=90",
+    price: 9200,
+    rating: 4.8,
+    reviews: 36,
+    status: "PUBLISHED",
+    verified: true,
+    bookings: 19,
+  },
+  {
+    id: "demo-3",
+    name: "The Heritage House",
+    location: "Jaipur, Rajasthan",
+    type: "Heritage Stay",
+    image:
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=90",
+    price: 7200,
+    rating: 4.7,
+    reviews: 29,
+    status: "PENDING",
+    verified: false,
+    bookings: 8,
+  },
+  {
+    id: "demo-4",
+    name: "Green Valley Farm Stay",
+    location: "Manali, Himachal Pradesh",
+    type: "Farm Stay",
+    image:
+      "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1400&q=90",
+    price: 4800,
+    rating: 4.9,
+    reviews: 21,
+    status: "DRAFT",
+    verified: false,
+    bookings: 0,
+  },
+];
+
+function formatMoney(value?: number) {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
     maximumFractionDigits: 0,
-  }).format(value);
+  }).format(Number(value || 0));
 }
 
-function getStatusStyle(status: PropertyStatus) {
-  switch (status) {
-    case "ACTIVE":
-      return "bg-emerald-50 text-emerald-700";
+function normalizeStatus(status?: string): PropertyStatus {
+  const value = String(status || "").toUpperCase();
 
-    case "DRAFT":
-      return "bg-amber-50 text-amber-700";
+  if (value === "PUBLISHED") return "PUBLISHED";
+  if (value === "PENDING") return "PENDING";
+  if (value === "REJECTED") return "REJECTED";
 
-    case "PENDING":
-      return "bg-blue-50 text-blue-700";
-
-    case "REJECTED":
-      return "bg-red-50 text-red-700";
-
-    default:
-      return "bg-slate-100 text-slate-600";
-  }
+  return "DRAFT";
 }
 
-function getStatusLabel(status: PropertyStatus) {
-  switch (status) {
-    case "ACTIVE":
-      return "Active";
+/*
+|--------------------------------------------------------------------------
+| IMPORTANT ROUTES
+|--------------------------------------------------------------------------
+|
+| Your folder structure is:
+|
+| app/
+|   host/
+|     property/
+|       new/
+|         page.tsx
+|         [id]/
+|           edit/
+|             page.tsx
+|
+| Therefore:
+|
+| Add    -> /host/property/new
+| Edit   -> /host/property/new/[id]/edit
+|
+*/
 
-    case "DRAFT":
-      return "Draft";
-
-    case "PENDING":
-      return "Pending";
-
-    case "REJECTED":
-      return "Rejected";
-
-    default:
-      return "Inactive";
-  }
+function getEditRoute(id: string | number) {
+  return `/host/property/new/${encodeURIComponent(String(id))}/edit`;
 }
 
-export default function PropertiesPage() {
+function getAddRoute() {
+  return "/host/property/new";
+}
+
+function getViewRoute(id: string | number) {
+  return `/properties/${encodeURIComponent(String(id))}`;
+}
+
+export default function HostPropertiesPage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [demoMode, setDemoMode] = useState(false);
 
-  const [filter, setFilter] = useState<Filter>("ALL");
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("updated");
 
-  const [actionId, setActionId] = useState<string | null>(null);
-  const [menuId, setMenuId] = useState<string | null>(null);
+  const [filter, setFilter] = useState<
+    "ALL" | PropertyStatus
+  >("ALL");
 
-  /* ------------------------------------------------ */
-  /* LOAD PROPERTIES */
-  /* ------------------------------------------------ */
+  const [openMenu, setOpenMenu] = useState<string | number | null>(
+    null,
+  );
 
-  async function loadProperties() {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await fetch("/api/host/properties", {
-        method: "GET",
-        credentials: "include",
-        cache: "no-store",
-      });
-
-      const result = await response.json();
-
-      console.log("HOST PROPERTIES API:", result);
-
-      if (!response.ok) {
-        throw new Error(
-          result?.message ||
-            "Unable to load your properties."
-        );
-      }
-
-      let items: Property[] = [];
-
-      if (Array.isArray(result)) {
-        items = result;
-      } else if (Array.isArray(result?.properties)) {
-        items = result.properties;
-      } else if (Array.isArray(result?.data)) {
-        items = result.data;
-      } else if (
-        Array.isArray(result?.data?.properties)
-      ) {
-        items = result.data.properties;
-      }
-
-      /*
-       * Extra safety:
-       * Even if API returns something unexpected,
-       * properties will ALWAYS remain an array.
-       */
-      if (!Array.isArray(items)) {
-        items = [];
-      }
-
-      console.log(
-        "HOST PROPERTIES NORMALIZED:",
-        items
-      );
-
-      setProperties(items);
-    } catch (err) {
-      console.error(
-        "Properties loading error:",
-        err
-      );
-
-      setProperties([]);
-
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Unable to load properties."
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
+  /*
+  |--------------------------------------------------------------------------
+  | Load properties
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
+    let cancelled = false;
+
+    async function loadProperties() {
+      try {
+        const response = await fetch(
+          "/api/host/properties",
+          {
+            method: "GET",
+            cache: "no-store",
+            credentials: "include",
+            headers: {
+              Accept: "application/json",
+            },
+          },
+        );
+
+        const raw = await response.text();
+
+        let result: PropertiesResponse = {};
+
+        try {
+          result = raw ? JSON.parse(raw) : {};
+        } catch {
+          throw new Error(
+            "The properties API returned invalid data.",
+          );
+        }
+
+        if (!response.ok || result.success === false) {
+          throw new Error(
+            result.message ||
+              "Unable to load properties.",
+          );
+        }
+
+        const liveProperties = Array.isArray(result.data)
+          ? result.data
+          : [];
+
+        if (cancelled) return;
+
+        if (liveProperties.length > 0) {
+          setProperties(liveProperties);
+          setDemoMode(false);
+        } else {
+          setProperties(DEMO_PROPERTIES);
+          setDemoMode(true);
+        }
+      } catch (error) {
+        console.error(
+          "HOST_PROPERTIES_ERROR:",
+          error,
+        );
+
+        if (cancelled) return;
+
+        setProperties(DEMO_PROPERTIES);
+        setDemoMode(true);
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
     loadProperties();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  /* ------------------------------------------------ */
-  /* FILTER + SEARCH + SORT */
-  /* ------------------------------------------------ */
+  /*
+  |--------------------------------------------------------------------------
+  | Filtering
+  |--------------------------------------------------------------------------
+  */
 
   const filteredProperties = useMemo(() => {
-    let result = Array.isArray(properties)
-      ? [...properties]
-      : [];
-
-    if (filter !== "ALL") {
-      result = result.filter(
-        (property) => property.status === filter
-      );
-    }
-
     const query = search.trim().toLowerCase();
 
-    if (query) {
-      result = result.filter((property) =>
-        [
-          property.name,
-          property.location,
-          property.type,
-          property.status,
-        ]
-          .filter(Boolean)
-          .some((value) =>
-            String(value)
-              .toLowerCase()
-              .includes(query)
-          )
-      );
-    }
+    return properties.filter((property) => {
+      const searchableValues = [
+        property.name,
+        property.location,
+        property.type,
+      ]
+        .filter(Boolean)
+        .map((value) =>
+          String(value).toLowerCase(),
+        );
 
-    if (sort === "rating") {
-      result.sort(
-        (a, b) =>
-          (b.rating ?? 0) - (a.rating ?? 0)
-      );
-    }
+      const matchesSearch =
+        !query ||
+        searchableValues.some((value) =>
+          value.includes(query),
+        );
 
-    if (sort === "low-price") {
-      result.sort(
-        (a, b) => a.price - b.price
-      );
-    }
+      const matchesFilter =
+        filter === "ALL" ||
+        normalizeStatus(property.status) === filter;
 
-    if (sort === "high-price") {
-      result.sort(
-        (a, b) => b.price - a.price
-      );
-    }
+      return matchesSearch && matchesFilter;
+    });
+  }, [properties, search, filter]);
 
-    if (sort === "updated") {
-      result.sort(
-        (a, b) =>
-          new Date(
-            b.updatedAt ?? 0
-          ).getTime() -
-          new Date(
-            a.updatedAt ?? 0
-          ).getTime()
-      );
-    }
-
-    return result;
-  }, [
-    properties,
-    filter,
-    search,
-    sort,
-  ]);
-
-  /* ------------------------------------------------ */
-  /* COUNTS */
-  /* ------------------------------------------------ */
+  /*
+  |--------------------------------------------------------------------------
+  | Counts
+  |--------------------------------------------------------------------------
+  */
 
   const counts = useMemo(() => {
-    const safeProperties = Array.isArray(
-      properties
-    )
-      ? properties
-      : [];
-
     return {
-      ALL: safeProperties.length,
+      all: properties.length,
 
-      ACTIVE: safeProperties.filter(
+      published: properties.filter(
         (property) =>
-          property.status === "ACTIVE"
+          normalizeStatus(property.status) ===
+          "PUBLISHED",
       ).length,
 
-      DRAFT: safeProperties.filter(
+      pending: properties.filter(
         (property) =>
-          property.status === "DRAFT"
+          normalizeStatus(property.status) ===
+          "PENDING",
       ).length,
 
-      PENDING: safeProperties.filter(
+      drafts: properties.filter(
         (property) =>
-          property.status === "PENDING"
-      ).length,
-
-      REJECTED: safeProperties.filter(
-        (property) =>
-          property.status === "REJECTED"
+          normalizeStatus(property.status) ===
+          "DRAFT",
       ).length,
     };
   }, [properties]);
 
-  /* ------------------------------------------------ */
-  /* TOGGLE PROPERTY */
-  /* ------------------------------------------------ */
-
-  async function toggleProperty(
-    property: Property
-  ) {
-    try {
-      setActionId(property.id);
-      setMenuId(null);
-
-      const nextStatus =
-        property.status === "ACTIVE"
-          ? "INACTIVE"
-          : "ACTIVE";
-
-      const response = await fetch(
-        `/api/host/properties/${property.id}`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify({
-            status: nextStatus,
-          }),
-        }
-      );
-
-      const result = await response.json();
-
-      console.log(
-        "PROPERTY UPDATE API:",
-        result
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          result?.message ||
-            "Unable to update property status."
-        );
-      }
-
-      const updated =
-        result?.property ??
-        result?.data ??
-        result;
-
-      setProperties((current) => {
-        const safeCurrent =
-          Array.isArray(current)
-            ? current
-            : [];
-
-        return safeCurrent.map((item) =>
-          item.id === property.id
-            ? {
-                ...item,
-                ...(updated || {}),
-                status:
-                  updated?.status ??
-                  nextStatus,
-              }
-            : item
-        );
-      });
-    } catch (err) {
-      console.error(
-        "PROPERTY UPDATE ERROR:",
-        err
-      );
-
-      alert(
-        err instanceof Error
-          ? err.message
-          : "Unable to update property."
-      );
-    } finally {
-      setActionId(null);
-    }
-  }
-
-  /* ------------------------------------------------ */
-  /* DELETE PROPERTY */
-  /* ------------------------------------------------ */
+  /*
+  |--------------------------------------------------------------------------
+  | Delete property
+  |--------------------------------------------------------------------------
+  */
 
   async function deleteProperty(
-    property: Property
+    id: string | number,
   ) {
     const confirmed = window.confirm(
-      `Delete "${property.name}"? This action cannot be undone.`
+      "Delete this property?\n\nThis action cannot be undone.",
     );
 
-    if (!confirmed) {
-      return;
-    }
+    if (!confirmed) return;
 
     try {
-      setActionId(property.id);
-      setMenuId(null);
-
       const response = await fetch(
-        `/api/host/properties/${property.id}`,
+        `/api/host/properties/${encodeURIComponent(
+          String(id),
+        )}`,
         {
           method: "DELETE",
           credentials: "include",
-        }
-      );
-
-      const result = await response
-        .json()
-        .catch(() => null);
-
-      console.log(
-        "PROPERTY DELETE API:",
-        result
+          headers: {
+            Accept: "application/json",
+          },
+        },
       );
 
       if (!response.ok) {
         throw new Error(
-          result?.message ||
-            "Unable to delete property."
+          "Unable to delete property.",
         );
       }
 
-      setProperties((current) => {
-        const safeCurrent =
-          Array.isArray(current)
-            ? current
-            : [];
-
-        return safeCurrent.filter(
-          (item) =>
-            item.id !== property.id
-        );
-      });
-    } catch (err) {
+      setProperties((current) =>
+        current.filter(
+          (property) => property.id !== id,
+        ),
+      );
+    } catch (error) {
       console.error(
-        "PROPERTY DELETE ERROR:",
-        err
+        "DELETE_PROPERTY_ERROR:",
+        error,
       );
 
-      alert(
-        err instanceof Error
-          ? err.message
-          : "Unable to delete property."
+      window.alert(
+        "Unable to delete this property right now.",
       );
     } finally {
-      setActionId(null);
+      setOpenMenu(null);
     }
   }
 
-  /* ------------------------------------------------ */
-  /* LOADING */
-  /* ------------------------------------------------ */
-
-  if (loading) {
-    return <PropertiesSkeleton />;
-  }
-
-  /* ------------------------------------------------ */
-  /* PAGE */
-  /* ------------------------------------------------ */
-
   return (
     <main
-      className="min-h-screen bg-[#FAFAF8] text-[#03045E]"
-      onClick={() => setMenuId(null)}
+      className="min-h-screen bg-[#FAF8F3] text-[#18181B]"
+      onClick={() => {
+        if (openMenu !== null) {
+          setOpenMenu(null);
+        }
+      }}
     >
       <Navbar />
 
-      {/* HEADER */}
-      <section className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
+      {/* ================================================================ */}
+      {/* HEADER                                                           */}
+      {/* ================================================================ */}
 
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-
+      <section className="border-b border-black/[0.07] bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10 lg:py-11">
+          <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <Link
-                href="/host"
-                className="text-sm font-medium text-[#64748B] transition hover:text-[#03045E]"
-              >
-                ← Host dashboard
-              </Link>
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#D9A441]/25 bg-[#FFF8E8] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A651B]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#D9A441]" />
+                Host workspace
+              </div>
 
-              <p className="mt-7 text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-                YOUR LISTINGS
-              </p>
-
-              <h1 className="mt-3 font-serif text-4xl font-semibold md:text-5xl">
+              <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
                 Your properties
               </h1>
 
-              <p className="mt-3 max-w-xl text-sm leading-6 text-[#64748B]">
-                Manage your stays, update your
-                listings and keep your property
-                information up to date.
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#71717A] sm:text-base">
+                Manage your stays, verification,
+                visibility and listing details from
+                one place.
               </p>
             </div>
 
+            {/* FIXED ADD PROPERTY ROUTE */}
             <Link
-              href="/host/property/new"
-              className="w-fit rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+              href={getAddRoute()}
+              onClick={(event) =>
+                event.stopPropagation()
+              }
+              className="inline-flex w-fit items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-sm font-bold text-[#18181B] shadow-[0_10px_28px_rgba(217,164,65,0.20)] transition hover:bg-[#E7C46D] active:scale-[0.98]"
             >
-              + Add property
+              <Plus size={18} />
+              Add property
+              <span className="ml-1">→</span>
             </Link>
-
           </div>
         </div>
       </section>
 
-      {/* CONTENT */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-
-        {/* ERROR */}
-        {error && (
-          <div className="mb-6 flex flex-col gap-4 rounded-2xl border border-red-100 bg-red-50 p-5 sm:flex-row sm:items-center sm:justify-between">
-
-            <div>
-              <p className="text-sm font-semibold text-red-800">
-                Could not load properties
-              </p>
-
-              <p className="mt-1 text-xs text-red-700">
-                {error}
-              </p>
-            </div>
-
-            <button
-              onClick={loadProperties}
-              className="rounded-xl bg-white px-4 py-2 text-xs font-semibold text-red-700 shadow-sm"
-            >
-              Try again
-            </button>
-
-          </div>
-        )}
-
-        {/* SEARCH + FILTER */}
-        <div className="rounded-2xl border border-[#03045E]/10 bg-white p-4 shadow-sm">
-
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-
-            <div className="flex flex-wrap gap-2">
-
-              <FilterButton
-                active={filter === "ALL"}
-                label={`All · ${counts.ALL}`}
-                onClick={() =>
-                  setFilter("ALL")
-                }
-              />
-
-              <FilterButton
-                active={filter === "ACTIVE"}
-                label={`Active · ${counts.ACTIVE}`}
-                onClick={() =>
-                  setFilter("ACTIVE")
-                }
-              />
-
-              <FilterButton
-                active={filter === "DRAFT"}
-                label={`Draft · ${counts.DRAFT}`}
-                onClick={() =>
-                  setFilter("DRAFT")
-                }
-              />
-
-              {counts.PENDING > 0 && (
-                <FilterButton
-                  active={
-                    filter === "PENDING"
-                  }
-                  label={`Pending · ${counts.PENDING}`}
-                  onClick={() =>
-                    setFilter("PENDING")
-                  }
-                />
-              )}
-
-              {counts.REJECTED > 0 && (
-                <FilterButton
-                  active={
-                    filter === "REJECTED"
-                  }
-                  label={`Rejected · ${counts.REJECTED}`}
-                  onClick={() =>
-                    setFilter("REJECTED")
-                  }
-                />
-              )}
-
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-
-              <input
-                value={search}
-                onChange={(event) =>
-                  setSearch(
-                    event.target.value
-                  )
-                }
-                placeholder="Search properties..."
-                className="w-full rounded-xl border border-[#03045E]/10 bg-white px-4 py-2.5 text-sm outline-none placeholder:text-[#94A3B8] focus:border-[#0D21A1] sm:w-64"
-              />
-
-              <select
-                value={sort}
-                onChange={(event) =>
-                  setSort(
-                    event.target.value
-                  )
-                }
-                className="rounded-xl border border-[#03045E]/10 bg-white px-4 py-2.5 text-sm text-[#64748B] outline-none focus:border-[#03045E]"
-              >
-                <option value="updated">
-                  Recently updated
-                </option>
-
-                <option value="rating">
-                  Highest rated
-                </option>
-
-                <option value="low-price">
-                  Lowest price
-                </option>
-
-                <option value="high-price">
-                  Highest price
-                </option>
-              </select>
-
-            </div>
-          </div>
-        </div>
-
-        {/* RESULT COUNT */}
-        <div className="mt-7 flex items-center justify-between">
-
-          <p className="text-sm text-[#64748B]">
-            {filteredProperties.length}{" "}
-            {filteredProperties.length === 1
-              ? "property"
-              : "properties"}
-          </p>
-
-          {(search ||
-            filter !== "ALL") && (
-            <button
-              onClick={() => {
-                setSearch("");
-                setFilter("ALL");
-              }}
-              className="text-xs font-semibold text-[#0D21A1] hover:underline"
-            >
-              Clear filters
-            </button>
-          )}
-
-        </div>
-
-        {/* EMPTY / PROPERTY LIST */}
-        {filteredProperties.length === 0 ? (
-          <EmptyProperties
-            hasProperties={
-              properties.length > 0
-            }
-            search={search}
-            onClear={() => {
-              setSearch("");
-              setFilter("ALL");
-            }}
-          />
-        ) : (
-          <div className="mt-4 space-y-5">
-
-            {filteredProperties.map(
-              (property, index) => {
-                const status =
-                  getStatusLabel(
-                    property.status
-                  );
-
-                const isWorking =
-                  actionId ===
-                  property.id;
-
-                return (
-                  <article
-                    key={property.id}
-                    className="overflow-visible rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_12px_40px_rgba(3,4,94,0.04)]"
-                  >
-
-                    <div className="grid md:grid-cols-[260px_1fr]">
-
-                      {/* IMAGE */}
-                      <div className="relative h-60 overflow-hidden rounded-t-[28px] bg-[#EEF2FF] md:h-full md:rounded-l-[28px] md:rounded-tr-none">
-
-                        {property.image ? (
-                          <Image
-                            src={
-                              property.image
-                            }
-                            alt={
-                              property.name
-                            }
-                            fill
-                            priority={
-                              index === 0
-                            }
-                            sizes="(max-width: 767px) 100vw, 260px"
-                            className="object-cover transition duration-500 hover:scale-105"
-                          />
-                        ) : (
-                          <div className="flex h-full items-center justify-center text-sm text-[#64748B]">
-                            No image
-                          </div>
-                        )}
-
-                        <span
-                          className={`absolute left-4 top-4 rounded-full px-3 py-1.5 text-xs font-bold ${getStatusStyle(
-                            property.status
-                          )}`}
-                        >
-                          {status}
-                        </span>
-
-                      </div>
-
-                      {/* DETAILS */}
-                      <div className="p-6 md:p-7">
-
-                        <div className="flex flex-col gap-5 lg:flex-row lg:justify-between">
-
-                          <div>
-
-                            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#0D21A1]">
-                              {
-                                property.type
-                              }
-                            </p>
-
-                            <h2 className="mt-2 font-serif text-2xl font-semibold">
-                              {
-                                property.name
-                              }
-                            </h2>
-
-                            <p className="mt-2 text-sm text-[#64748B]">
-                              {
-                                property.location
-                              }
-                            </p>
-
-                            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-[#64748B]">
-
-                              <span>
-                                {
-                                  property.guests
-                                }{" "}
-                                {property.guests ===
-                                1
-                                  ? "guest"
-                                  : "guests"}
-                              </span>
-
-                              {property.rating !=
-                                null && (
-                                <span>
-                                  ★{" "}
-                                  {Number(
-                                    property.rating
-                                  ).toFixed(
-                                    1
-                                  )}
-                                </span>
-                              )}
-
-                              {property.reviews !=
-                                null && (
-                                <span>
-                                  {
-                                    property.reviews
-                                  }{" "}
-                                  {property.reviews ===
-                                  1
-                                    ? "review"
-                                    : "reviews"}
-                                </span>
-                              )}
-
-                            </div>
-                          </div>
-
-                          <div className="lg:text-right">
-
-                            <p className="text-xs text-[#94A3B8]">
-                              Starting from
-                            </p>
-
-                            <p className="mt-1 text-xl font-semibold">
-                              {formatCurrency(
-                                Number(
-                                  property.price ||
-                                    0
-                                )
-                              )}
-
-                              <span className="ml-1 text-xs font-normal text-[#64748B]">
-                                / night
-                              </span>
-                            </p>
-
-                          </div>
-
-                        </div>
-
-                        {/* ACTIONS */}
-                        <div className="relative mt-7 flex flex-col gap-3 border-t border-[#03045E]/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
-
-                          <div className="flex flex-wrap gap-2">
-
-                            <Link
-                              href={`/host/property/${property.id}`}
-                              className="rounded-xl bg-[#03045E] px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-[#0D21A1]"
-                            >
-                              Manage listing
-                            </Link>
-
-                            <Link
-                              href={`/host/property/${property.id}/edit`}
-                              className="rounded-xl border border-[#03045E]/15 px-5 py-2.5 text-xs font-semibold text-[#03045E] transition hover:bg-[#F7F3EA]"
-                            >
-                              Edit
-                            </Link>
-
-                          </div>
-
-                          {/* MORE */}
-                          <div
-                            className="relative"
-                            onClick={(event) =>
-                              event.stopPropagation()
-                            }
-                          >
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                setMenuId(
-                                  menuId ===
-                                    property.id
-                                    ? null
-                                    : property.id
-                                )
-                              }
-                              className="rounded-xl px-3 py-2 text-xs font-medium text-[#64748B] transition hover:bg-[#F7F3EA] hover:text-[#03045E]"
-                            >
-                              More options
-                            </button>
-
-                            {menuId ===
-                              property.id && (
-                              <div className="absolute right-0 z-20 mt-2 w-48 overflow-hidden rounded-2xl border border-[#03045E]/10 bg-white p-1.5 shadow-[0_18px_50px_rgba(3,4,94,0.14)]">
-
-                                {property.status ===
-                                  "ACTIVE" && (
-                                  <button
-                                    type="button"
-                                    disabled={
-                                      isWorking
-                                    }
-                                    onClick={() =>
-                                      toggleProperty(
-                                        property
-                                      )
-                                    }
-                                    className="w-full rounded-xl px-3 py-2.5 text-left text-xs font-medium hover:bg-[#F7F3EA] disabled:opacity-50"
-                                  >
-                                    {isWorking
-                                      ? "Updating..."
-                                      : "Unpublish listing"}
-                                  </button>
-                                )}
-
-                                {property.status !==
-                                  "ACTIVE" &&
-                                  property.status !==
-                                    "REJECTED" && (
-                                    <button
-                                      type="button"
-                                      disabled={
-                                        isWorking
-                                      }
-                                      onClick={() =>
-                                        toggleProperty(
-                                          property
-                                        )
-                                      }
-                                      className="w-full rounded-xl px-3 py-2.5 text-left text-xs font-medium hover:bg-[#F7F3EA] disabled:opacity-50"
-                                    >
-                                      {isWorking
-                                        ? "Updating..."
-                                        : "Publish listing"}
-                                    </button>
-                                  )}
-
-                                <Link
-                                  href={`/host/property/${property.id}/edit`}
-                                  className="block rounded-xl px-3 py-2.5 text-xs font-medium hover:bg-[#F7F3EA]"
-                                >
-                                  Edit property
-                                </Link>
-
-                                <button
-                                  type="button"
-                                  disabled={
-                                    isWorking
-                                  }
-                                  onClick={() =>
-                                    deleteProperty(
-                                      property
-                                    )
-                                  }
-                                  className="w-full rounded-xl px-3 py-2.5 text-left text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-50"
-                                >
-                                  Delete property
-                                </button>
-
-                              </div>
-                            )}
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                );
-              }
-            )}
-
-          </div>
-        )}
-
-        {/* ADD PROPERTY CTA */}
-        <div className="mt-8 overflow-hidden rounded-[30px] bg-gradient-to-br from-[#03045E] via-[#071A75] to-[#0D21A1] p-8 text-white md:p-10">
-
-          <div className="flex flex-col gap-7 md:flex-row md:items-center md:justify-between">
-
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/60">
-                GROW WITH VISTARA
-              </p>
-
-              <h2 className="mt-3 font-serif text-3xl font-semibold">
-                Have another place to share?
-              </h2>
-
-              <p className="mt-3 max-w-xl text-sm leading-6 text-white/70">
-                Add another property and
-                introduce travellers to a
-                place worth remembering.
-              </p>
-            </div>
+      {/* ================================================================ */}
+      {/* MAIN                                                             */}
+      {/* ================================================================ */}
+
+      <section className="mx-auto max-w-7xl px-5 py-7 sm:px-8 lg:px-10 lg:py-10">
+        {/* Demo notice */}
+        {demoMode && (
+          <div className="mb-6 flex flex-col gap-2 rounded-2xl border border-[#D9A441]/25 bg-[#FFF8E8] px-4 py-3 text-sm text-[#765817] sm:flex-row sm:items-center sm:justify-between">
+            <span>
+              Sample properties are displayed because
+              no live property data is available yet.
+            </span>
 
             <Link
-              href="/host/property/new"
-              className="w-fit rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#F7F3EA]"
+              href={getAddRoute()}
+              className="font-bold underline underline-offset-4"
             >
               Add a property
             </Link>
+          </div>
+        )}
 
+        {/* ============================================================ */}
+        {/* STATS                                                        */}
+        {/* ============================================================ */}
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <PropertyStat
+            label="All properties"
+            value={counts.all}
+            icon={<Home size={19} />}
+            active={filter === "ALL"}
+            onClick={() => setFilter("ALL")}
+          />
+
+          <PropertyStat
+            label="Published"
+            value={counts.published}
+            icon={<CheckCircle2 size={19} />}
+            active={filter === "PUBLISHED"}
+            onClick={() =>
+              setFilter("PUBLISHED")
+            }
+          />
+
+          <PropertyStat
+            label="Verification pending"
+            value={counts.pending}
+            icon={<ShieldCheck size={19} />}
+            active={filter === "PENDING"}
+            onClick={() =>
+              setFilter("PENDING")
+            }
+          />
+
+          <PropertyStat
+            label="Drafts"
+            value={counts.drafts}
+            icon={<Edit3 size={19} />}
+            active={filter === "DRAFT"}
+            onClick={() => setFilter("DRAFT")}
+          />
+        </div>
+
+        {/* ============================================================ */}
+        {/* TOOLBAR                                                      */}
+        {/* ============================================================ */}
+
+        <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <label className="relative block w-full lg:max-w-md">
+            <Search
+              size={17}
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#A8A29E]"
+            />
+
+            <input
+              value={search}
+              onChange={(event) =>
+                setSearch(event.target.value)
+              }
+              placeholder="Search properties, locations or types"
+              className="h-12 w-full rounded-xl border border-black/[0.08] bg-white pl-10 pr-4 text-sm outline-none transition placeholder:text-[#A8A29E] focus:border-[#D9A441]/60 focus:ring-4 focus:ring-[#D9A441]/10"
+            />
+
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-[#A8A29E] hover:text-[#18181B]"
+              >
+                Clear
+              </button>
+            )}
+          </label>
+
+          <div className="flex flex-wrap gap-2">
+            {(
+              [
+                ["ALL", "All"],
+                ["PUBLISHED", "Published"],
+                ["PENDING", "Pending"],
+                ["DRAFT", "Drafts"],
+              ] as const
+            ).map(([value, label]) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() =>
+                  setFilter(value)
+                }
+                className={`rounded-xl px-4 py-2.5 text-xs font-bold transition ${
+                  filter === value
+                    ? "bg-[#18181B] text-white shadow-sm"
+                    : "border border-black/[0.08] bg-white text-[#57534E] hover:border-[#D9A441]/40 hover:bg-[#FFF8E8]"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
           </div>
         </div>
 
+        {/* ============================================================ */}
+        {/* PROPERTY LIST                                                */}
+        {/* ============================================================ */}
+
+        <div className="mt-7">
+          {loading ? (
+            <PropertiesSkeleton />
+          ) : filteredProperties.length === 0 ? (
+            <EmptyProperties
+              search={search}
+              onClear={() => setSearch("")}
+            />
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+              {filteredProperties.map(
+                (property) => (
+                  <PropertyCard
+                    key={property.id}
+                    property={property}
+                    menuOpen={
+                      openMenu === property.id
+                    }
+                    onMenu={() =>
+                      setOpenMenu(
+                        openMenu === property.id
+                          ? null
+                          : property.id,
+                      )
+                    }
+                    onDelete={() =>
+                      deleteProperty(
+                        property.id,
+                      )
+                    }
+                  />
+                ),
+              )}
+            </div>
+          )}
+        </div>
       </section>
     </main>
   );
 }
 
-/* ------------------------------------------------ */
-/* FILTER BUTTON */
-/* ------------------------------------------------ */
+/* ========================================================================= */
+/* PROPERTY STAT                                                            */
+/* ========================================================================= */
 
-function FilterButton({
-  active,
+function PropertyStat({
   label,
+  value,
+  icon,
+  active,
   onClick,
 }: {
-  active: boolean;
   label: string;
+  value: number;
+  icon: ReactNode;
+  active: boolean;
   onClick: () => void;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full px-5 py-2 text-xs font-semibold transition ${
+      className={`rounded-[24px] border p-5 text-left transition hover:-translate-y-0.5 ${
         active
-          ? "bg-[#03045E] text-white"
-          : "border border-[#03045E]/10 text-[#64748B] hover:border-[#03045E] hover:text-[#03045E]"
+          ? "border-[#D9A441]/35 bg-[#FFFDF8] shadow-[0_12px_38px_rgba(217,164,65,0.10)]"
+          : "border-black/[0.08] bg-white hover:border-[#D9A441]/25"
       }`}
     >
-      {label}
+      <div className="flex items-center justify-between">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FFF8E8] text-[#9A711E]">
+          {icon}
+        </div>
+
+        {active && (
+          <span className="h-2 w-2 rounded-full bg-[#D9A441]" />
+        )}
+      </div>
+
+      <p className="mt-5 text-xs font-semibold text-[#71717A]">
+        {label}
+      </p>
+
+      <p className="mt-1 font-serif text-3xl font-semibold">
+        {value}
+      </p>
     </button>
   );
 }
 
-/* ------------------------------------------------ */
-/* EMPTY STATE */
-/* ------------------------------------------------ */
+/* ========================================================================= */
+/* PROPERTY CARD                                                            */
+/* ========================================================================= */
 
-function EmptyProperties({
-  hasProperties,
-  search,
-  onClear,
+function PropertyCard({
+  property,
+  menuOpen,
+  onMenu,
+  onDelete,
 }: {
-  hasProperties: boolean;
-  search: string;
-  onClear: () => void;
+  property: Property;
+  menuOpen: boolean;
+  onMenu: () => void;
+  onDelete: () => void;
 }) {
-  return (
-    <div className="mt-6 rounded-[28px] border border-[#03045E]/10 bg-white p-10 text-center">
+  const status = normalizeStatus(
+    property.status,
+  );
 
-      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#EEF2FF] text-xl text-[#03045E]">
-        {hasProperties ? "⌕" : "+"}
+  /*
+  |--------------------------------------------------------------------------
+  | Fixed routes
+  |--------------------------------------------------------------------------
+  */
+
+  const editRoute = getEditRoute(
+    property.id,
+  );
+
+  const viewRoute = getViewRoute(
+    property.id,
+  );
+
+  return (
+    <article className="group overflow-visible rounded-[26px] border border-black/[0.08] bg-white shadow-[0_12px_42px_rgba(24,24,27,0.045)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_55px_rgba(24,24,27,0.09)]">
+      {/* ================================================================ */}
+      {/* IMAGE                                                           */}
+      {/* ================================================================ */}
+
+      <div className="relative aspect-[16/10] overflow-hidden rounded-t-[26px] bg-[#F1F0EB]">
+        <PropertyImage
+          src={property.image}
+          alt={property.name}
+        />
+
+        {/* Top controls */}
+        <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between p-4">
+          <StatusBadge status={status} />
+
+          <div
+            className="relative"
+            onClick={(event) =>
+              event.stopPropagation()
+            }
+          >
+            <button
+              type="button"
+              onClick={onMenu}
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/70 bg-white/90 text-[#292524] shadow-sm backdrop-blur transition hover:bg-white active:scale-95"
+              aria-label="Property actions"
+              aria-expanded={menuOpen}
+            >
+              <MoreHorizontal size={18} />
+            </button>
+
+            {menuOpen && (
+              <div className="absolute right-0 top-11 z-50 w-48 overflow-hidden rounded-2xl border border-black/[0.08] bg-white p-1.5 shadow-[0_18px_50px_rgba(24,24,27,0.15)]">
+                <Link
+                  href={editRoute}
+                  onClick={() =>
+                    onMenu()
+                  }
+                  className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-semibold text-[#44403C] transition hover:bg-[#FAF8F3]"
+                >
+                  <Edit3 size={14} />
+                  Edit property
+                </Link>
+
+                <Link
+                  href={viewRoute}
+                  onClick={() =>
+                    onMenu()
+                  }
+                  className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-semibold text-[#44403C] transition hover:bg-[#FAF8F3]"
+                >
+                  <Eye size={14} />
+                  View listing
+                </Link>
+
+                <div className="my-1 border-t border-black/[0.06]" />
+
+                <button
+                  type="button"
+                  onClick={onDelete}
+                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-xs font-semibold text-[#9B4439] transition hover:bg-[#FFF1EF]"
+                >
+                  <Trash2 size={14} />
+                  Delete
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Verification */}
+        {property.verified && (
+          <div className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/95 px-3 py-1.5 text-[10px] font-bold text-[#4E693E] shadow-sm backdrop-blur">
+            <ShieldCheck size={13} />
+            Verified
+          </div>
+        )}
       </div>
 
-      <h2 className="mt-5 font-serif text-2xl font-semibold">
-        {hasProperties
-          ? "No properties found"
-          : "Add your first property"}
-      </h2>
+      {/* ================================================================ */}
+      {/* CONTENT                                                         */}
+      {/* ================================================================ */}
 
-      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#64748B]">
-        {hasProperties
-          ? `Nothing matches ${
-              search
-                ? `"${search}"`
-                : "the selected filter"
-            }.`
-          : "Create your first Vistara listing and start receiving bookings."}
-      </p>
+      <div className="p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#9A711E]">
+              {property.type || "Stay"}
+            </p>
 
-      {hasProperties ? (
-        <button
-          type="button"
-          onClick={onClear}
-          className="mt-5 rounded-xl bg-[#03045E] px-5 py-3 text-sm font-semibold text-white hover:bg-[#0D21A1]"
-        >
-          Clear filters
-        </button>
-      ) : (
-        <Link
-          href="/host/property/new"
-          className="mt-5 inline-flex rounded-xl bg-[#03045E] px-5 py-3 text-sm font-semibold text-white hover:bg-[#0D21A1]"
-        >
-          Add property
-        </Link>
-      )}
+            <h2
+              title={property.name}
+              className="mt-1 truncate font-serif text-xl font-semibold"
+            >
+              {property.name}
+            </h2>
 
+            <p
+              title={property.location}
+              className="mt-2 flex items-center gap-1.5 truncate text-xs text-[#78716C]"
+            >
+              <MapPin
+                size={13}
+                className="shrink-0 text-[#9A711E]"
+              />
+
+              {property.location}
+            </p>
+          </div>
+
+          {typeof property.rating ===
+            "number" && (
+            <div className="flex shrink-0 items-center gap-1 rounded-lg bg-[#FAF8F3] px-2 py-1.5 text-xs font-bold">
+              <Star
+                size={13}
+                fill="#D9A441"
+                className="text-[#D9A441]"
+              />
+
+              {property.rating.toFixed(1)}
+            </div>
+          )}
+        </div>
+
+        {/* Price */}
+        <div className="mt-5 flex items-end justify-between border-t border-black/[0.06] pt-4">
+          <div>
+            <span className="font-serif text-lg font-semibold">
+              {formatMoney(property.price)}
+            </span>
+
+            <span className="ml-1 text-[11px] text-[#A8A29E]">
+              / night
+            </span>
+          </div>
+
+          <span className="text-[11px] text-[#A8A29E]">
+            {property.reviews ?? 0} reviews
+          </span>
+        </div>
+
+        {/* ============================================================ */}
+        {/* ACTIONS                                                       */}
+        {/* ============================================================ */}
+
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          {/* FIXED EDIT BUTTON */}
+          <Link
+            href={editRoute}
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-black/[0.08] px-3 py-2.5 text-xs font-bold text-[#44403C] transition hover:border-[#D9A441]/40 hover:bg-[#FFF8E8] active:scale-[0.98]"
+          >
+            <Edit3 size={14} />
+            Edit
+          </Link>
+
+          <Link
+            href={viewRoute}
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#18181B] px-3 py-2.5 text-xs font-bold text-white transition hover:bg-[#292524] active:scale-[0.98]"
+          >
+            <Eye size={14} />
+            View
+          </Link>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+/* ========================================================================= */
+/* PROPERTY IMAGE                                                           */
+/* ========================================================================= */
+
+function PropertyImage({
+  src,
+  alt,
+}: {
+  src?: string;
+  alt: string;
+}) {
+  const [failed, setFailed] =
+    useState(false);
+
+  if (!src || failed) {
+    return <ImageFallback />;
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
+/* ========================================================================= */
+/* STATUS BADGE                                                             */
+/* ========================================================================= */
+
+function StatusBadge({
+  status,
+}: {
+  status: PropertyStatus;
+}) {
+  if (status === "PUBLISHED") {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3F8EE] px-3 py-1.5 text-[10px] font-bold text-[#4E693E] shadow-sm">
+        <CheckCircle2 size={13} />
+        Published
+      </span>
+    );
+  }
+
+  if (status === "PENDING") {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF8E8] px-3 py-1.5 text-[10px] font-bold text-[#8A651B] shadow-sm">
+        <ShieldCheck size={13} />
+        Verification pending
+      </span>
+    );
+  }
+
+  if (status === "REJECTED") {
+    return (
+      <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF1EF] px-3 py-1.5 text-[10px] font-bold text-[#9B4439] shadow-sm">
+        <XCircle size={13} />
+        Needs changes
+      </span>
+    );
+  }
+
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-bold text-[#57534E] shadow-sm">
+      <Edit3 size={13} />
+      Draft
+    </span>
+  );
+}
+
+/* ========================================================================= */
+/* IMAGE FALLBACK                                                           */
+/* ========================================================================= */
+
+function ImageFallback() {
+  return (
+    <div className="flex h-full w-full flex-col items-center justify-center bg-[#F1F0EB] text-[#A8A29E]">
+      <Home
+        size={36}
+        strokeWidth={1.5}
+      />
+
+      <span className="mt-2 text-xs">
+        Property image unavailable
+      </span>
     </div>
   );
 }
 
-/* ------------------------------------------------ */
-/* LOADING */
-/* ------------------------------------------------ */
+/* ========================================================================= */
+/* LOADING                                                                  */
+/* ========================================================================= */
 
 function PropertiesSkeleton() {
   return (
-    <main className="min-h-screen bg-[#FAFAF8]">
+    <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      {[1, 2, 3, 4, 5, 6].map(
+        (item) => (
+          <div
+            key={item}
+            className="overflow-hidden rounded-[26px] border border-black/[0.08] bg-white"
+          >
+            <div className="aspect-[16/10] animate-pulse bg-[#F1F0EB]" />
 
-      <Navbar />
+            <div className="p-5">
+              <div className="h-3 w-20 animate-pulse rounded bg-[#F1F0EB]" />
 
-      <section className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
+              <div className="mt-3 h-6 w-40 animate-pulse rounded bg-[#F1F0EB]" />
 
-          <div className="h-4 w-28 animate-pulse rounded bg-slate-200" />
+              <div className="mt-3 h-3 w-32 animate-pulse rounded bg-[#F5F4EF]" />
 
-          <div className="mt-7 h-12 w-80 animate-pulse rounded bg-slate-200" />
+              <div className="mt-6 h-8 animate-pulse rounded bg-[#F5F4EF]" />
 
-          <div className="mt-4 h-4 w-[500px] max-w-full animate-pulse rounded bg-slate-100" />
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <div className="h-10 animate-pulse rounded-xl bg-[#F1F0EB]" />
 
-        </div>
-      </section>
+                <div className="h-10 animate-pulse rounded-xl bg-[#F1F0EB]" />
+              </div>
+            </div>
+          </div>
+        ),
+      )}
+    </div>
+  );
+}
 
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
+/* ========================================================================= */
+/* EMPTY STATE                                                              */
+/* ========================================================================= */
 
-        <div className="h-20 animate-pulse rounded-2xl bg-white" />
+function EmptyProperties({
+  search,
+  onClear,
+}: {
+  search: string;
+  onClear: () => void;
+}) {
+  return (
+    <div className="rounded-[28px] border border-dashed border-black/15 bg-white px-6 py-16 text-center">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#FFF8E8] text-[#9A711E]">
+        <Home size={28} />
+      </div>
 
-        <div className="mt-7 space-y-5">
+      <h2 className="mt-5 font-serif text-2xl font-semibold">
+        {search
+          ? "No matching properties"
+          : "No properties yet"}
+      </h2>
 
-          {[1, 2, 3].map(
-            (item) => (
-              <div
-                key={item}
-                className="h-64 animate-pulse rounded-[28px] bg-white"
-              />
-            )
-          )}
+      <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#78716C]">
+        {search
+          ? "Try a different property name, location or property type."
+          : "Add your first property and start building your Vistara hosting profile."}
+      </p>
 
-        </div>
-      </section>
-    </main>
+      {search ? (
+        <button
+          type="button"
+          onClick={onClear}
+          className="mt-6 inline-flex items-center gap-2 rounded-xl border border-black/[0.08] bg-white px-5 py-3 text-sm font-bold text-[#18181B] transition hover:bg-[#FAF8F3]"
+        >
+          Clear search
+        </button>
+      ) : (
+        <Link
+          href="/host/property/new"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-sm font-bold text-[#18181B] transition hover:bg-[#E7C46D]"
+        >
+          <Plus size={17} />
+          Add your first property
+        </Link>
+      )}
+    </div>
   );
 }

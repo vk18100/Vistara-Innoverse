@@ -1,18 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import Navbar from "@/components/navbar";
+import { useMemo, useState } from "react";
 import {
-  ArrowRight,
-  Globe2,
-  Languages,
+  Search,
   MapPin,
   Star,
+  ArrowRight,
+  CheckCircle2,
+  Heart,
+  Globe2,
+  Users,
 } from "lucide-react";
 
 type Guide = {
-  id: string;
+  id: string | number;
   name: string;
   location: string;
   bio: string;
@@ -22,455 +24,559 @@ type Guide = {
   reviews: number;
   experience: string;
   pricePerHour: number;
-  image: string;
   verified: boolean;
+  image: string;
 };
 
+const guides: Guide[] = [
+  {
+    id: "rajiv",
+    name: "Rajiv Kumar",
+    location: "Patna, Bihar",
+    bio: "Local guide helping travellers discover Patna's heritage, food and hidden local spots.",
+    languages: ["Hindi", "English"],
+    specialties: ["Heritage", "Food", "Local Life"],
+    rating: 4.9,
+    reviews: 124,
+    experience: "8 years",
+    pricePerHour: 699,
+    verified: true,
+    image: "/images/profile.jpg",
+  },
+  {
+    id: "amit",
+    name: "Amit Singh",
+    location: "Patna, Bihar",
+    bio: "Explore historical places, riverside locations and authentic local experiences with Amit.",
+    languages: ["Hindi", "English"],
+    specialties: ["History", "Culture", "Photography"],
+    rating: 4.8,
+    reviews: 96,
+    experience: "6 years",
+    pricePerHour: 599,
+    verified: true,
+    image: "/images/profile.jpg",
+  },
+  {
+    id: "neha",
+    name: "Neha Sharma",
+    location: "Patna, Bihar",
+    bio: "Discover Patna through local food, markets, culture and stories known mostly by locals.",
+    languages: ["Hindi", "English"],
+    specialties: ["Food", "Shopping", "Culture"],
+    rating: 4.9,
+    reviews: 87,
+    experience: "5 years",
+    pricePerHour: 649,
+    verified: true,
+    image: "/images/profile.jpg",
+  },
+  {
+    id: "vikas",
+    name: "Vikas Kumar",
+    location: "Rajgir, Bihar",
+    bio: "A local expert for Rajgir, Nalanda and nearby historical and natural destinations.",
+    languages: ["Hindi", "English"],
+    specialties: ["Nature", "History", "Adventure"],
+    rating: 4.7,
+    reviews: 71,
+    experience: "7 years",
+    pricePerHour: 599,
+    verified: true,
+    image: "/images/profile.jpg",
+  },
+  {
+    id: "priya",
+    name: "Priya Kumari",
+    location: "Gaya, Bihar",
+    bio: "Experience Gaya and Bodh Gaya through local culture, temples, food and peaceful places.",
+    languages: ["Hindi", "English"],
+    specialties: ["Culture", "Spiritual", "Food"],
+    rating: 4.8,
+    reviews: 63,
+    experience: "4 years",
+    pricePerHour: 549,
+    verified: true,
+    image: "/images/profile.jpg",
+  },
+  {
+    id: "sanjay",
+    name: "Sanjay Verma",
+    location: "Nalanda, Bihar",
+    bio: "Local history enthusiast helping travellers understand the stories behind Nalanda.",
+    languages: ["Hindi", "English"],
+    specialties: ["History", "Heritage", "Education"],
+    rating: 4.8,
+    reviews: 58,
+    experience: "9 years",
+    pricePerHour: 699,
+    verified: true,
+    image: "/images/profile.jpg",
+  },
+];
+
+const categories = [
+  "All",
+  "Heritage",
+  "Food",
+  "Culture",
+  "Nature",
+  "Adventure",
+];
+
 export default function GuidesPage() {
-  const [guides, setGuides] = useState<Guide[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
+  const [liked, setLiked] = useState<string | number | null>(null);
 
-  useEffect(() => {
-    async function loadGuides() {
-      try {
-        setLoading(true);
-        setError("");
+  const filteredGuides = useMemo(() => {
+    const query = search.toLowerCase().trim();
 
-        const response = await fetch("/api/guides", {
-          method: "GET",
-          cache: "no-store",
-        });
-
-        const result = await response.json();
-
-        console.log("GUIDES API:", result);
-
-        if (!response.ok) {
-          throw new Error(
-            result?.message || "Unable to load guides"
-          );
-        }
-
-        const apiGuides = Array.isArray(
-          result?.data?.guides
-        )
-          ? result.data.guides
-          : [];
-
-        const formattedGuides: Guide[] =
-          apiGuides.map((guide: any) => ({
-            id: guide.id,
-
-            name:
-              guide.user?.name ||
-              "Local Guide",
-
-            location:
-              guide.city ||
-              "Unknown location",
-
-            bio:
-              guide.bio ||
-              "Local Vistara guide ready to help you explore the destination.",
-
-            languages: Array.isArray(
-              guide.languages
-            )
-              ? guide.languages
-              : [],
-
-            specialties: Array.isArray(
-              guide.specialties
-            )
-              ? guide.specialties
-              : [],
-
-            rating: Number(
-              guide.rating ?? 0
-            ),
-
-            reviews: Number(
-              guide.reviewCount ?? 0
-            ),
-
-            experience:
-              guide.experienceYears != null
-                ? `${guide.experienceYears} ${
-                    Number(guide.experienceYears) === 1
-                      ? "year"
-                      : "years"
-                  }`
-                : "Experienced",
-
-            pricePerHour: Number(
-              guide.hourlyRate ?? 0
-            ),
-
-            image:
-              guide.user?.profile?.avatar ||
-              "/images/default-guide.jpg",
-
-            /*
-             * Your current API does not return
-             * a verified field.
-             * Therefore we keep it false until
-             * the backend provides verification data.
-             */
-            verified: Boolean(
-              guide.verified ?? false
-            ),
-          }));
-
-        setGuides(formattedGuides);
-      } catch (error) {
-        console.error(
-          "GUIDES_LOADING_ERROR:",
-          error
+    return guides.filter((guide) => {
+      const matchesSearch =
+        !query ||
+        guide.name.toLowerCase().includes(query) ||
+        guide.location.toLowerCase().includes(query) ||
+        guide.bio.toLowerCase().includes(query) ||
+        guide.specialties.some((item) =>
+          item.toLowerCase().includes(query)
         );
 
-        setGuides([]);
-
-        setError(
-          error instanceof Error
-            ? error.message
-            : "Unable to load guides."
+      const matchesCategory =
+        category === "All" ||
+        guide.specialties.some(
+          (item) =>
+            item.toLowerCase() === category.toLowerCase()
         );
-      } finally {
-        setLoading(false);
-      }
-    }
 
-    loadGuides();
-  }, []);
+      return matchesSearch && matchesCategory;
+    });
+  }, [search, category]);
 
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
-      <Navbar />
+    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
 
-      {/* ================================================== */}
-      {/* HERO */}
-      {/* ================================================== */}
+      {/* =====================================================
+          HERO
+      ===================================================== */}
 
-      <section className="bg-[#03045E] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/60">
-            LOCAL EXPERTS
-          </p>
+      <section className="border-b border-[#E5DED6] bg-[#FAF8F3]">
 
-          <h1 className="mt-4 max-w-3xl font-serif text-4xl font-semibold tracking-tight md:text-6xl">
-            Meet the people who know the place.
-          </h1>
+        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:px-10 lg:py-28">
 
-          <p className="mt-5 max-w-2xl text-sm leading-7 text-white/70 md:text-base">
-            Discover Vistara guides who can help you
-            experience a destination beyond the usual
-            tourist path.
-          </p>
+          <div className="max-w-4xl">
+
+            <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-[#B76545]">
+              VISTARA LOCAL GUIDES
+            </p>
+
+            <h1 className="font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-[#2C2420] sm:text-6xl lg:text-7xl">
+              Meet the people
+              <br />
+              who know the place.
+            </h1>
+
+            <p className="mt-7 max-w-2xl text-base leading-8 text-[#756D67] sm:text-lg">
+              Discover destinations through people who actually live
+              there. Find local guides for food, culture, heritage,
+              nature and experiences beyond the usual tourist path.
+            </p>
+
+          </div>
+
         </div>
       </section>
 
-      {/* ================================================== */}
-      {/* CONTENT */}
-      {/* ================================================== */}
 
-      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-10 lg:py-16">
-        {/* HEADER */}
+      {/* =====================================================
+          SEARCH + FILTER
+      ===================================================== */}
 
-        <div className="mb-8">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-            EXPLORE GUIDES
-          </p>
+      <section className="sticky top-0 z-30 border-b border-[#E5DED6] bg-[#FAF8F3]/95 backdrop-blur">
 
-          <h2 className="mt-2 font-serif text-3xl font-semibold md:text-4xl">
-            Local guides
-          </h2>
+        <div className="mx-auto max-w-7xl px-5 py-4 sm:px-8 lg:px-10">
 
-          <p className="mt-2 text-sm text-gray-500">
-            Choose a local expert for your next journey.
-          </p>
-        </div>
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
 
-        {/* ================================================== */}
-        {/* LOADING */}
-        {/* ================================================== */}
+            {/* SEARCH */}
 
-        {loading && (
-          <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3].map((item) => (
-              <div
-                key={item}
-                className="overflow-hidden rounded-[26px] border border-[#03045E]/10 bg-white"
-              >
-                <div className="h-72 animate-pulse bg-[#F5F7FF]" />
+            <div className="relative flex-1">
 
-                <div className="space-y-4 p-6">
-                  <div className="h-5 w-2/3 animate-pulse rounded bg-[#F5F7FF]" />
+              <Search
+                size={19}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#756D67]"
+              />
 
-                  <div className="h-4 w-1/2 animate-pulse rounded bg-[#F5F7FF]" />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search guides, destinations or experiences"
+                className="h-12 w-full rounded-2xl border border-[#D8CEC4] bg-white pl-11 pr-4 text-sm text-[#2C2420] outline-none transition placeholder:text-[#A49A93] focus:border-[#B76545] focus:ring-4 focus:ring-[#B76545]/10"
+              />
 
-                  <div className="h-12 animate-pulse rounded bg-[#F5F7FF]" />
+            </div>
 
-                  <div className="h-4 w-3/4 animate-pulse rounded bg-[#F5F7FF]" />
-                </div>
-              </div>
-            ))}
+
+            {/* CATEGORIES */}
+
+            <div className="flex gap-2 overflow-x-auto pb-1 lg:max-w-[620px]">
+
+              {categories.map((item) => (
+
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setCategory(item)}
+                  className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold transition ${
+                    category === item
+                      ? "bg-[#B76545] text-white shadow-sm"
+                      : "border border-[#D8CEC4] bg-white text-[#756D67] hover:border-[#B76545] hover:text-[#B76545]"
+                  }`}
+                >
+                  {item}
+                </button>
+
+              ))}
+
+            </div>
+
           </div>
-        )}
 
-        {/* ================================================== */}
-        {/* ERROR */}
-        {/* ================================================== */}
+        </div>
+      </section>
 
-        {!loading && error && (
-          <div className="rounded-[24px] border border-red-100 bg-red-50 p-6">
-            <p className="text-sm font-semibold text-red-800">
-              Could not load guides
+
+      {/* =====================================================
+          GUIDES
+      ===================================================== */}
+
+      <section className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10 lg:py-20">
+
+        {/* SECTION HEADER */}
+
+        <div className="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+
+          <div>
+
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#B76545]">
+              {filteredGuides.length} LOCAL GUIDES
             </p>
 
-            <p className="mt-1 text-sm text-red-700">
-              {error}
+            <h2 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#2C2420] sm:text-5xl">
+              Find your local expert
+            </h2>
+
+            <p className="mt-3 text-[#756D67]">
+              Choose someone who knows the destination beyond the map.
+            </p>
+
+          </div>
+
+          <div className="flex items-center gap-2 text-sm text-[#756D67]">
+
+            <Users size={17} />
+
+            <span>
+              {filteredGuides.length} guides available
+            </span>
+
+          </div>
+
+        </div>
+
+
+        {/* EMPTY STATE */}
+
+        {filteredGuides.length === 0 && (
+
+          <div className="rounded-[28px] border border-[#E5DED6] bg-white px-6 py-20 text-center">
+
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#F3E7DE]">
+              <Search className="text-[#B76545]" />
+            </div>
+
+            <h3 className="mt-5 font-serif text-2xl font-semibold text-[#2C2420]">
+              No guides found
+            </h3>
+
+            <p className="mt-2 text-sm text-[#756D67]">
+              Try another destination, guide name or experience.
             </p>
 
             <button
-              onClick={() => window.location.reload()}
-              className="mt-4 rounded-xl bg-white px-4 py-2 text-xs font-semibold text-red-700 shadow-sm transition hover:bg-red-100"
+              type="button"
+              onClick={() => {
+                setSearch("");
+                setCategory("All");
+              }}
+              className="mt-6 rounded-xl bg-[#B76545] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#965039]"
             >
-              Try again
+              Clear search
             </button>
+
           </div>
+
         )}
 
-        {/* ================================================== */}
-        {/* EMPTY */}
-        {/* ================================================== */}
 
-        {!loading &&
-          !error &&
-          guides.length === 0 && (
-            <div className="rounded-[28px] border border-[#03045E]/10 bg-[#F5F7FF] px-6 py-16 text-center">
-              <Globe2 className="mx-auto h-10 w-10 text-[#0D21A1]" />
+        {/* GUIDE CARDS */}
 
-              <h3 className="mt-4 font-serif text-2xl font-semibold">
-                No guides available
-              </h3>
+        <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
 
-              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-500">
-                New local experts will appear here
-                soon. Check back when more guides
-                join Vistara.
-              </p>
-            </div>
-          )}
+          {filteredGuides.map((guide) => (
 
-        {/* ================================================== */}
-        {/* GUIDES */}
-        {/* ================================================== */}
+            <article
+              key={guide.id}
+              className="group overflow-hidden rounded-[28px] border border-[#E5DED6] bg-white transition duration-300 hover:-translate-y-1 hover:border-[#D8CEC4] hover:shadow-[0_20px_50px_rgba(44,36,32,0.10)]"
+            >
 
-        {!loading &&
-          !error &&
-          guides.length > 0 && (
-            <div className="grid gap-7 md:grid-cols-2 lg:grid-cols-3">
-              {guides.map((guide) => (
-                <article
-                  key={guide.id}
-                  className="group overflow-hidden rounded-[26px] border border-[#03045E]/10 bg-white shadow-[0_12px_45px_rgba(3,4,94,0.05)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_55px_rgba(3,4,94,0.1)]"
-                >
-                  {/* ================================================== */}
-                  {/* IMAGE */}
-                  {/* ================================================== */}
+              {/* IMAGE */}
 
-                  <div className="relative h-72 overflow-hidden bg-[#F5F7FF]">
-                    <img
-                      src={guide.image}
-                      alt={guide.name}
-                      className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                      onError={(event) => {
-                        event.currentTarget.src =
-                          "/images/default-guide.jpg";
-                      }}
+              <div className="relative h-72 overflow-hidden bg-[#E8DED0]">
+
+                <img
+                  src={guide.image}
+                  alt={`${guide.name} profile`}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+
+                {/* OVERLAY */}
+
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/35 to-transparent" />
+
+
+                {/* VERIFIED */}
+
+                {guide.verified && (
+
+                  <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#2C2420] shadow-sm">
+
+                    <CheckCircle2
+                      size={14}
+                      className="text-[#68705A]"
                     />
 
-                    {/* VERIFIED */}
+                    Verified
 
-                    {guide.verified && (
-                      <span className="absolute left-4 top-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-[#03045E] shadow-sm">
-                        ✓ Verified
-                      </span>
-                    )}
-
-                    {/* RATING */}
-
-                    <div className="absolute bottom-4 right-4 flex items-center gap-1 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-[#03045E] shadow-sm">
-                      <Star
-                        size={13}
-                        className="fill-[#0D21A1] text-[#0D21A1]"
-                      />
-
-                      {guide.rating > 0
-                        ? guide.rating.toFixed(1)
-                        : "New"}
-                    </div>
                   </div>
 
-                  {/* ================================================== */}
-                  {/* DETAILS */}
-                  {/* ================================================== */}
+                )}
 
-                  <div className="p-6">
-                    {/* NAME + LOCATION */}
 
-                    <div>
-                      <h3 className="font-serif text-2xl font-semibold">
-                        {guide.name}
-                      </h3>
+                {/* WISHLIST */}
 
-                      <p className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-                        <MapPin size={15} />
+                <button
+                  type="button"
+                  aria-label={`Save ${guide.name}`}
+                  onClick={() =>
+                    setLiked(
+                      liked === guide.id
+                        ? null
+                        : guide.id
+                    )
+                  }
+                  className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[#2C2420] shadow-sm transition hover:scale-105"
+                >
 
-                        {guide.location}
-                      </p>
+                  <Heart
+                    size={19}
+                    className={
+                      liked === guide.id
+                        ? "fill-[#B76545] text-[#B76545]"
+                        : ""
+                    }
+                  />
+
+                </button>
+
+
+                {/* RATING */}
+
+                <div className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-[#2C2420] shadow-sm">
+
+                  <Star
+                    size={13}
+                    className="fill-[#B8945A] text-[#B8945A]"
+                  />
+
+                  {guide.rating.toFixed(1)}
+
+                </div>
+
+              </div>
+
+
+              {/* CONTENT */}
+
+              <div className="p-6">
+
+                {/* NAME */}
+
+                <div className="flex items-start justify-between gap-3">
+
+                  <div>
+
+                    <h3 className="font-serif text-2xl font-semibold text-[#2C2420]">
+                      {guide.name}
+                    </h3>
+
+                    <div className="mt-2 flex items-center gap-1.5 text-sm text-[#756D67]">
+
+                      <MapPin size={15} />
+
+                      {guide.location}
+
                     </div>
 
-                    {/* BIO */}
+                  </div>
 
-                    <p className="mt-4 line-clamp-2 text-sm leading-6 text-gray-500">
-                      {guide.bio}
+                </div>
+
+
+                {/* BIO */}
+
+                <p className="mt-5 line-clamp-2 text-sm leading-6 text-[#756D67]">
+                  {guide.bio}
+                </p>
+
+
+                {/* SPECIALTIES */}
+
+                <div className="mt-5 flex flex-wrap gap-2">
+
+                  {guide.specialties
+                    .slice(0, 3)
+                    .map((specialty) => (
+
+                      <span
+                        key={specialty}
+                        className="rounded-full bg-[#F3E7DE] px-3 py-1.5 text-xs font-semibold text-[#6B493B]"
+                      >
+                        {specialty}
+                      </span>
+
+                    ))}
+
+                </div>
+
+
+                {/* LANGUAGES */}
+
+                <div className="mt-5 flex items-center gap-2 text-sm text-[#756D67]">
+
+                  <Globe2 size={15} />
+
+                  <span>
+                    {guide.languages.join(" · ")}
+                  </span>
+
+                </div>
+
+
+                {/* DIVIDER */}
+
+                <div className="my-5 h-px bg-[#E5DED6]" />
+
+
+                {/* BOTTOM */}
+
+                <div className="flex items-center justify-between">
+
+                  <div>
+
+                    <p className="text-xs text-[#A49A93]">
+                      From
                     </p>
 
-                    {/* ================================================== */}
-                    {/* EXPERIENCE */}
-                    {/* ================================================== */}
+                    <p className="mt-1 text-lg font-bold text-[#2C2420]">
 
-                    <div className="mt-4 flex items-center justify-between text-xs text-gray-500">
-                      <span>
-                        Experience
+                      ₹{guide.pricePerHour.toLocaleString("en-IN")}
+
+                      <span className="ml-1 text-xs font-normal text-[#756D67]">
+                        / hour
                       </span>
 
-                      <span className="font-semibold text-[#03045E]">
-                        {guide.experience}
-                      </span>
-                    </div>
+                    </p>
 
-                    {/* ================================================== */}
-                    {/* LANGUAGES */}
-                    {/* ================================================== */}
-
-                    {guide.languages.length > 0 && (
-                      <div className="mt-5 flex items-start gap-2">
-                        <Languages
-                          size={16}
-                          className="mt-0.5 shrink-0 text-[#0D21A1]"
-                        />
-
-                        <p className="text-xs font-medium leading-5 text-gray-500">
-                          {guide.languages.join(" · ")}
-                        </p>
-                      </div>
-                    )}
-
-                    {/* ================================================== */}
-                    {/* SPECIALTIES */}
-                    {/* ================================================== */}
-
-                    {guide.specialties.length > 0 && (
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {guide.specialties
-                          .slice(0, 3)
-                          .map((specialty) => (
-                            <span
-                              key={specialty}
-                              className="rounded-full bg-[#F5F7FF] px-3 py-1.5 text-xs font-medium text-[#03045E]"
-                            >
-                              {specialty}
-                            </span>
-                          ))}
-                      </div>
-                    )}
-
-                    {/* ================================================== */}
-                    {/* FOOTER */}
-                    {/* ================================================== */}
-
-                    <div className="mt-6 flex items-center justify-between border-t border-[#03045E]/10 pt-5">
-                      {/* PRICE */}
-
-                      <div>
-                        <p className="text-xs text-gray-400">
-                          From
-                        </p>
-
-                        <p className="mt-0.5 font-semibold">
-                          {guide.pricePerHour > 0
-                            ? `₹${guide.pricePerHour.toLocaleString(
-                                "en-IN"
-                              )}`
-                            : "Price on request"}
-
-                          {guide.pricePerHour > 0 && (
-                            <span className="text-xs font-normal text-gray-400">
-                              {" "}
-                              / hour
-                            </span>
-                          )}
-                        </p>
-
-                        {guide.reviews > 0 && (
-                          <p className="mt-1 text-[11px] text-gray-400">
-                            {guide.reviews}{" "}
-                            {guide.reviews === 1
-                              ? "review"
-                              : "reviews"}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* VIEW GUIDE */}
-
-                      <Link
-                        href={`/guides/${guide.id}`}
-                        className="inline-flex items-center gap-2 rounded-xl bg-[#03045E] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-                      >
-                        View Guide
-
-                        <ArrowRight size={15} />
-                      </Link>
-                    </div>
                   </div>
-                </article>
-              ))}
-            </div>
-          )}
 
-        {/* ================================================== */}
-        {/* CTA */}
-        {/* ================================================== */}
 
-        <div className="mt-16 rounded-[30px] bg-[#F5F7FF] p-8 md:p-12">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-            TRAVEL DIFFERENTLY
-          </p>
+                  <Link
+                    href={`/guides/${guide.id}`}
+                    className="flex items-center gap-2 rounded-xl bg-[#B76545] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#965039]"
+                  >
 
-          <h2 className="mt-3 max-w-2xl font-serif text-3xl font-semibold md:text-4xl">
-            See a destination through local eyes.
-          </h2>
+                    View Guide
 
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-gray-500">
-            From hidden streets to stories only locals
-            know, choose a guide who can make your
-            Vistara journey more personal.
-          </p>
+                    <ArrowRight size={16} />
 
-          <Link
-            href="/explore"
-            className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#03045E] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-          >
-            Explore Destinations
+                  </Link>
 
-            <ArrowRight size={16} />
-          </Link>
+                </div>
+
+
+                {/* REVIEWS */}
+
+                <p className="mt-4 text-xs text-[#A49A93]">
+                  {guide.reviews} traveller reviews · {guide.experience} experience
+                </p>
+
+              </div>
+
+            </article>
+
+          ))}
+
         </div>
+
       </section>
+
+
+      {/* =====================================================
+          CTA
+      ===================================================== */}
+
+      <section className="mx-auto max-w-7xl px-5 pb-20 sm:px-8 lg:px-10">
+
+        <div className="overflow-hidden rounded-[2rem] bg-[#E8DED0]">
+
+          <div className="grid items-center gap-10 px-7 py-12 sm:px-12 lg:grid-cols-[1fr_auto] lg:px-16 lg:py-16">
+
+            <div>
+
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#68705A]">
+                TRAVEL DIFFERENTLY
+              </p>
+
+              <h2 className="mt-4 max-w-2xl font-serif text-4xl font-semibold leading-tight text-[#2C2420] sm:text-5xl">
+                See a destination through local eyes.
+              </h2>
+
+              <p className="mt-5 max-w-2xl text-base leading-7 text-[#756D67]">
+                From hidden streets to local food and stories that
+                never make it onto a tourist map, find experiences
+                shaped by people who know the place.
+              </p>
+
+            </div>
+
+
+            <Link
+              href="/explore"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#B76545] px-7 py-4 text-sm font-bold text-white transition hover:bg-[#965039]"
+            >
+              Explore destinations
+              <ArrowRight size={18} />
+            </Link>
+
+          </div>
+
+        </div>
+
+      </section>
+
     </main>
   );
 }

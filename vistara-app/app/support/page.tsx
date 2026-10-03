@@ -1,224 +1,279 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import Navbar from "@/components/navbar";
+import {
+  Search,
+  ChevronDown,
+  MessageCircle,
+  Mail,
+  ArrowRight,
+  ShieldCheck,
+} from "lucide-react";
 
-const topics = [
-  {
-    icon: "✦",
-    title: "Bookings",
-    description: "Manage, modify or cancel a reservation.",
-    href: "/bookings",
-  },
-  {
-    icon: "₹",
-    title: "Payments",
-    description: "Payment, refund and transaction related help.",
-    href: "/payments",
-  },
-  {
-    icon: "⌂",
-    title: "Stays",
-    description: "Questions about your property or stay.",
-    href: "/bookings",
-  },
-  {
-    icon: "◇",
-    title: "Experiences",
-    description: "Get help with activities and experiences.",
-    href: "/explore",
-  },
-];
+import Navbar from "@/components/navbar";
+import Footer from "@/app/footer/page";
 
 const faqs = [
   {
-    question: "How can I modify my booking?",
+    question: "How can I manage my booking?",
     answer:
-      "Open your booking from My Bookings and select Manage booking to view the available options.",
+      "Open your Bookings page to view your reservation, dates, guests, payment details and available booking options.",
   },
   {
-    question: "How can I cancel a booking?",
+    question: "Can I cancel my booking?",
     answer:
-      "Open the relevant booking and select Cancel booking. Available cancellation options depend on the reservation.",
+      "Cancellation depends on the booking's applicable cancellation terms. Open your booking details to see whether cancellation is available.",
   },
   {
-    question: "Where can I see my payments?",
+    question: "Where can I see my payment details?",
     answer:
-      "You can view your payment history and individual transaction details from the Payments section.",
+      "You can review your payment and transaction information from your Payments section.",
   },
   {
-    question: "How do I contact my host?",
+    question: "I have an issue with my stay. What should I do?",
     answer:
-      "Open your booking details and use the Contact host option to reach the host.",
+      "Open your booking details first. If you still need assistance, contact Vistara Support and include your booking ID.",
   },
   {
-    question: "Where can I find my saved places?",
+    question: "How does property verification work?",
     answer:
-      "Your saved stays, villas, restaurants and experiences are available in Wishlist.",
+      "Hosts submit the required property and identity information for review. Verification information helps guests understand which checks have been completed.",
+  },
+  {
+    question: "How can I contact Vistara Support?",
+    answer:
+      "Use the Contact Support button below. For booking-related questions, keep your booking ID ready so our team can assist you more efficiently.",
   },
 ];
 
 export default function SupportPage() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [search, setSearch] = useState("");
+
+  const filteredFaqs = faqs.filter((faq) => {
+    const query = search.toLowerCase().trim();
+
+    if (!query) return true;
+
+    return (
+      faq.question.toLowerCase().includes(query) ||
+      faq.answer.toLowerCase().includes(query)
+    );
+  });
+
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
+    <main className="min-h-screen bg-[#F8F6F2] text-[#29231F]">
       <Navbar />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden border-b border-[#03045E]/10 bg-[#F7F3EA]">
-        <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#C6A15B]/10 blur-3xl" />
-        <div className="absolute -bottom-32 left-10 h-72 w-72 rounded-full bg-[#0D21A1]/10 blur-3xl" />
-
-        <div className="relative mx-auto max-w-7xl px-6 py-16 lg:px-10 lg:py-20">
-          <Link
-            href="/settings"
-            className="text-sm font-medium text-[#64748B] transition hover:text-[#03045E]"
-          >
-            ← Settings
-          </Link>
-
-          <div className="mx-auto mt-10 max-w-3xl text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#C6A15B]">
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+      <section className="border-b border-[#DED8CF] bg-[#F3EEE6]">
+        <div className="mx-auto max-w-6xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B8834D]">
               VISTARA SUPPORT
             </p>
 
-            <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-6xl">
+            <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-[#29231F] md:text-6xl">
               How can we help?
             </h1>
 
-            <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-[#64748B]">
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-[#6F665F]">
               Find answers about your bookings, payments, stays and
-              experiences.
+              account. If you still need help, our support team is here
+              for you.
             </p>
 
             {/* SEARCH */}
-            <div className="mx-auto mt-9 flex max-w-2xl items-center rounded-2xl border border-[#03045E]/10 bg-white p-2 shadow-[0_15px_50px_rgba(3,4,94,0.08)]">
-              <span className="px-4 text-lg text-[#94A3B8]">
-                ⌕
-              </span>
+            <div className="mx-auto mt-9 max-w-2xl">
+              <div className="flex items-center gap-3 rounded-2xl border border-[#D8D0C6] bg-white px-5 py-4 shadow-[0_8px_30px_rgba(41,35,31,0.05)]">
+                <Search
+                  size={20}
+                  className="shrink-0 text-[#81776E]"
+                />
 
-              <input
-                type="text"
-                placeholder="Search for help..."
-                className="min-w-0 flex-1 bg-transparent px-2 py-3 text-sm outline-none placeholder:text-[#94A3B8]"
-              />
-
-              <button className="rounded-xl bg-[#03045E] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]">
-                Search
-              </button>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder="Search help and answers..."
+                  className="w-full bg-transparent text-sm text-[#29231F] outline-none placeholder:text-[#9A9189]"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TOPICS */}
-      <section className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-        <div className="mb-8">
-          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#C6A15B]">
-            HELP CENTER
-          </p>
-
-          <h2 className="mt-2 font-serif text-3xl font-semibold">
-            What do you need help with?
-          </h2>
-        </div>
-
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {topics.map((topic) => (
-            <Link
-              key={topic.title}
-              href={topic.href}
-              className="group rounded-[26px] border border-[#03045E]/10 bg-white p-6 shadow-[0_10px_35px_rgba(3,4,94,0.04)] transition duration-300 hover:-translate-y-1 hover:border-[#03045E]/20 hover:shadow-[0_18px_45px_rgba(3,4,94,0.08)]"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EEF2FF] text-lg font-semibold text-[#03045E] transition group-hover:bg-[#03045E] group-hover:text-white">
-                {topic.icon}
-              </div>
-
-              <h3 className="mt-5 text-lg font-semibold">
-                {topic.title}
-              </h3>
-
-              <p className="mt-2 text-sm leading-6 text-[#64748B]">
-                {topic.description}
-              </p>
-
-              <p className="mt-5 text-sm font-semibold text-[#0D21A1]">
-                View help →
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="border-y border-[#03045E]/10 bg-[#FAFAF8]">
-        <div className="mx-auto max-w-5xl px-6 py-14 lg:px-10">
+      {/* =====================================================
+          FAQ
+      ===================================================== */}
+      <section className="bg-white">
+        <div className="mx-auto max-w-4xl px-6 py-16 lg:px-10 lg:py-20">
           <div className="text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#C6A15B]">
-              COMMON QUESTIONS
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#B8834D]">
+              HELP CENTER
             </p>
 
-            <h2 className="mt-2 font-serif text-3xl font-semibold">
+            <h2 className="mt-3 font-serif text-3xl font-semibold text-[#29231F] md:text-4xl">
               Frequently asked questions
             </h2>
+
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-[#766D65]">
+              Quick answers to common questions about your Vistara
+              experience.
+            </p>
           </div>
 
-          <div className="mt-9 space-y-3">
-            {faqs.map((faq) => (
-              <details
-                key={faq.question}
-                className="group rounded-2xl border border-[#03045E]/10 bg-white"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 p-5 text-sm font-semibold">
-                  {faq.question}
+          <div className="mt-10 overflow-hidden rounded-[26px] border border-[#DED8CF] bg-[#FCFBF9]">
+            {filteredFaqs.length > 0 ? (
+              filteredFaqs.map((faq, index) => {
+                const isOpen = openFaq === index;
 
-                  <span className="text-xl font-normal text-[#64748B] transition group-open:rotate-45">
-                    +
-                  </span>
-                </summary>
+                return (
+                  <div
+                    key={faq.question}
+                    className="border-b border-[#E5DFD7] last:border-b-0"
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenFaq(isOpen ? null : index)
+                      }
+                      className="flex w-full items-center justify-between gap-6 px-6 py-6 text-left transition hover:bg-[#F8F5F0] md:px-7"
+                    >
+                      <span className="text-sm font-semibold text-[#29231F] md:text-base">
+                        {faq.question}
+                      </span>
 
-                <div className="px-5 pb-5">
-                  <p className="max-w-3xl text-sm leading-6 text-[#64748B]">
-                    {faq.answer}
-                  </p>
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F1ECE4]">
+                        <ChevronDown
+                          size={17}
+                          className={`text-[#665D55] transition-transform duration-300 ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </span>
+                    </button>
+
+                    {isOpen && (
+                      <div className="px-6 pb-6 md:px-7">
+                        <p className="max-w-3xl text-sm leading-7 text-[#766D65]">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <div className="px-6 py-14 text-center">
+                <p className="text-sm text-[#766D65]">
+                  No answers found for your search.
+                </p>
+
+                <button
+                  type="button"
+                  onClick={() => setSearch("")}
+                  className="mt-4 text-sm font-semibold text-[#29231F] underline underline-offset-4"
+                >
+                  Clear search
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          CONTACT SUPPORT
+      ===================================================== */}
+      <section className="border-t border-[#DED8CF] bg-[#F8F6F2]">
+        <div className="mx-auto max-w-6xl px-6 py-16 lg:px-10 lg:py-20">
+          <div className="overflow-hidden rounded-[32px] bg-[#29231F]">
+            <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
+              {/* LEFT */}
+              <div className="p-8 md:p-10 lg:p-12">
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#D4A15F]">
+                  CONTACT SUPPORT
+                </p>
+
+                <h2 className="mt-4 max-w-xl font-serif text-3xl font-semibold text-white md:text-4xl">
+                  Didn&apos;t find what you were looking for?
+                </h2>
+
+                <p className="mt-5 max-w-xl text-sm leading-7 text-[#C9C0B8]">
+                  Tell us what you need help with. Our support team can
+                  assist you with bookings, payments, stays and other
+                  Vistara-related questions.
+                </p>
+
+                <Link
+                  href="/support/contact"
+                  className="mt-8 inline-flex items-center gap-3 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-[#29231F] transition hover:bg-[#F3EEE6]"
+                >
+                  <MessageCircle size={18} />
+                  Contact support
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+
+              {/* RIGHT */}
+              <div className="border-t border-white/10 bg-[#342D28] p-8 lg:border-l lg:border-t-0 lg:p-10">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#D4A15F]">
+                  BEFORE YOU CONTACT US
+                </p>
+
+                <div className="mt-7 space-y-6">
+                  <div className="flex gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10">
+                      <Mail
+                        size={19}
+                        className="text-[#D4A15F]"
+                      />
+                    </div>
+
+                    <div>
+                      <h3 className="text-sm font-semibold text-white">
+                        Keep your details ready
+                      </h3>
+
+                      <p className="mt-1 text-sm leading-6 text-[#BDB3AA]">
+                        For booking questions, include your booking ID
+                        and reservation details.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/10">
+                      <ShieldCheck
+                        size={19}
+                        className="text-[#D4A15F]"
+                      />
+                    </div>
+
+                    <div>
+                      <h3 className="text-sm font-semibold text-white">
+                        Keep your account secure
+                      </h3>
+
+                      <p className="mt-1 text-sm leading-6 text-[#BDB3AA]">
+                        Never share your password or verification codes
+                        with anyone.
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACT */}
-      <section className="mx-auto max-w-5xl px-6 py-14 lg:px-10">
-        <div className="overflow-hidden rounded-[32px] bg-gradient-to-br from-[#03045E] via-[#071A75] to-[#0D21A1] p-8 text-white md:p-12">
-          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-            <div className="max-w-xl">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#C6A15B]">
-                STILL NEED HELP?
-              </p>
-
-              <h2 className="mt-3 font-serif text-3xl font-semibold md:text-4xl">
-                Talk to the Vistara team.
-              </h2>
-
-              <p className="mt-3 text-sm leading-6 text-white/70">
-                If you cannot find the answer, our support team can
-                help you with your trip.
-              </p>
+              </div>
             </div>
-
-            <button className="w-fit shrink-0 rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-[#03045E] transition hover:bg-[#F7F3EA]">
-              Contact support
-            </button>
           </div>
         </div>
       </section>
 
-      {/* SMALL FOOTER */}
-      <div className="border-t border-[#03045E]/10 bg-white px-6 py-7 text-center">
-        <p className="text-xs text-[#94A3B8]">
-          Vistara Support · Here to make every journey easier.
-        </p>
-      </div>
+      <Footer />
     </main>
   );
 }

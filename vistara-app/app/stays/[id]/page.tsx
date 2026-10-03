@@ -1,535 +1,527 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
-import { notFound } from "next/navigation";
+import { useState } from "react";
+import type { ElementType, ReactNode } from "react";
+
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  CheckCircle2,
+  FileCheck2,
+  Home,
+  IdCard,
+  Info,
+  ShieldCheck,
+  Upload,
+} from "lucide-react";
 
 import Navbar from "@/components/navbar";
-import Footer from "@/app/footer/page";
-import { prisma } from "@/lib/prisma";
 
-/*
-|--------------------------------------------------------------------------
-| PAGE CACHE
-|--------------------------------------------------------------------------
-| Revalidate the stay page every 60 seconds.
-| This avoids hitting the database on every repeated page request.
-|--------------------------------------------------------------------------
-*/
-
-export const revalidate = 60;
-
-/*
-|--------------------------------------------------------------------------
-| VISTARA LOCAL IMAGES
-|--------------------------------------------------------------------------
-*/
-
-const localImages = [
-  "/images/pag1 (7).jpg",
-  "/images/pag1 (8).jpg",
-  "/images/pag1 (9).jpg",
-  "/images/pag1 (10).jpg",
-  "/images/pag1 (11).jpg",
-  "/images/pag1 (12).jpg",
-  "/images/pag1 (13).jpg",
-  "/images/pag1 (14).jpg",
-  "/images/pag1 (15).jpg",
-  "/images/pag1 (16).jpg",
-  "/images/pag1 (17).jpg",
-  "/images/pag1 (18).jpg",
-  "/images/pag1 (19).jpg",
-  "/images/pag1 (20).jpg",
-  "/images/pag1 (21).jpg",
-  "/images/pag1 (22).jpg",
-  "/images/pag1 (23).jpg",
-];
-
-/*
-|--------------------------------------------------------------------------
-| IMAGE GROUP SETTINGS
-|--------------------------------------------------------------------------
-*/
-
-const imagesPerProperty = 5;
-
-/*
-|--------------------------------------------------------------------------
-| TYPES
-|--------------------------------------------------------------------------
-*/
-
-type StayPageProps = {
-  params: Promise<{
-    id: string;
-  }>;
+type VerificationItem = {
+  id: string;
+  number: string;
+  title: string;
+  description: string;
+  requirement: string;
+  icon: ElementType;
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET IMAGE GROUP
-|--------------------------------------------------------------------------
-|
-| We intentionally do NOT query all properties just to calculate an image
-| position. The property ID gives us a stable image group.
-|
-| This keeps the stay detail page to one main database request.
-|--------------------------------------------------------------------------
-*/
+const verificationItems: VerificationItem[] = [
+  {
+    id: "identity",
+    number: "01",
+    title: "Identity Verification",
+    description:
+      "Verify your identity with a valid government-issued identity document.",
+    requirement: "Government-issued ID",
+    icon: IdCard,
+  },
+  {
+    id: "ownership",
+    number: "02",
+    title: "Property Ownership",
+    description:
+      "Upload a document that establishes your right to list and host this property.",
+    requirement: "Ownership document",
+    icon: Home,
+  },
+  {
+    id: "certificate",
+    number: "03",
+    title: "Property Certificate",
+    description:
+      "Provide the relevant property or registration certificate for review.",
+    requirement: "Property certificate",
+    icon: FileCheck2,
+  },
+];
 
-function getGalleryImages(propertyId: number) {
-  const totalGroups = Math.ceil(
-    localImages.length / imagesPerProperty
+export default function VerificationPage() {
+  const [completed, setCompleted] = useState<string[]>([]);
+
+  const completedCount = completed.length;
+  const totalCount = verificationItems.length;
+
+  const progress = Math.round(
+    (completedCount / totalCount) * 100
   );
 
-  const groupIndex =
-    Math.abs(propertyId) % totalGroups;
+  const readyToSubmit = completedCount === totalCount;
 
-  const start = groupIndex * imagesPerProperty;
+  const handleUpload = (id: string) => {
+    setCompleted((current) => {
+      if (current.includes(id)) {
+        return current.filter((item) => item !== id);
+      }
 
-  let images = localImages.slice(
-    start,
-    start + imagesPerProperty
-  );
-
-  /*
-  |--------------------------------------------------------------------------
-  | SAFETY
-  |--------------------------------------------------------------------------
-  */
-
-  if (images.length === 0) {
-    images = [localImages[0]];
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | If the final group has fewer than 5 images,
-  | fill from the beginning.
-  |--------------------------------------------------------------------------
-  */
-
-  if (images.length < imagesPerProperty) {
-    const remaining = imagesPerProperty - images.length;
-
-    images = [
-      ...images,
-      ...localImages.slice(0, remaining),
-    ];
-  }
-
-  return images;
-}
-
-/*
-|--------------------------------------------------------------------------
-| STAY PAGE
-|--------------------------------------------------------------------------
-*/
-
-export default async function StayPage({
-  params,
-}: StayPageProps) {
-  /*
-  |--------------------------------------------------------------------------
-  | GET ID
-  |--------------------------------------------------------------------------
-  */
-
-  const { id } = await params;
-
-  const propertyId = Number(id);
-
-  /*
-  |--------------------------------------------------------------------------
-  | INVALID ID
-  |--------------------------------------------------------------------------
-  */
-
-  if (!Number.isInteger(propertyId) || propertyId <= 0) {
-    notFound();
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | GET CURRENT PROPERTY
-  |--------------------------------------------------------------------------
-  |
-  | IMPORTANT:
-  | Only the fields required by this page are selected.
-  |
-  | This reduces database payload and rendering work.
-  |--------------------------------------------------------------------------
-  */
-
-  const property = await prisma.property.findUnique({
-    where: {
-      id: propertyId,
-    },
-
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      city: true,
-      country: true,
-      status: true,
-      rating: true,
-      pricePerNight: true,
-      guests: true,
-      bedrooms: true,
-      bathrooms: true,
-
-      amenities: {
-        select: {
-          propertyId: true,
-          amenityId: true,
-
-          amenity: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
-    },
-  });
-
-  /*
-  |--------------------------------------------------------------------------
-  | PROPERTY NOT FOUND / NOT VERIFIED
-  |--------------------------------------------------------------------------
-  */
-
-  if (!property || property.status !== "VERIFIED") {
-    notFound();
-  }
-
-  /*
-  |--------------------------------------------------------------------------
-  | BUILD LOCAL IMAGE GALLERY
-  |--------------------------------------------------------------------------
-  */
-
-  const galleryImages = getGalleryImages(property.id);
-
-  const mainImage = galleryImages[0];
-
-  /*
-  |--------------------------------------------------------------------------
-  | RENDER
-  |--------------------------------------------------------------------------
-  */
+      return [...current, id];
+    });
+  };
 
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
-      {/* =========================================================
-          NAVBAR
-      ========================================================= */}
-
+    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
       <Navbar />
 
-      {/* =========================================================
-          BACK
-      ========================================================= */}
+      {/* HEADER */}
+      <section className="border-b border-[#E7DFD7] bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-7 lg:px-10">
+          <Link
+            href="/host/property/new"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[#756D67] transition hover:text-[#B76545]"
+          >
+            <ArrowLeft size={16} />
+            Back to property
+          </Link>
 
-      <section className="mx-auto max-w-7xl px-6 pt-8 lg:px-10">
-        <Link
-          href="/stays"
-          className="text-sm font-medium text-[#64748B] transition-colors hover:text-[#03045E]"
-        >
-          ← Back to stays
-        </Link>
-      </section>
+          <div className="mt-8 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#B8945A]">
+                HOST DASHBOARD
+              </p>
 
-      {/* =========================================================
-          PROPERTY HEADER
-      ========================================================= */}
+              <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
+                Verify your property
+              </h1>
 
-      <section className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="rounded-full bg-[#03045E] px-3 py-1.5 text-xs font-semibold text-white">
-                Verified
-              </span>
-
-              <span className="text-sm text-[#64748B]">
-                {property.city}, {property.country}
-              </span>
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#756D67]">
+                Complete the verification steps below before
+                submitting your property for review.
+              </p>
             </div>
 
-            <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-              {property.title}
-            </h1>
-
-            <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-[#64748B]">
-              <span>
-                ★{" "}
-                {Number(property.rating ?? 0).toFixed(1)}
-              </span>
-
-              <span>•</span>
-
-              <span>
-                {galleryImages.length} photos
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =========================================================
-          IMAGE GALLERY
-      ========================================================= */}
-
-      <section className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="grid grid-cols-1 gap-3 overflow-hidden rounded-[28px] md:h-[520px] md:grid-cols-2">
-          {/* =====================================================
-              MAIN IMAGE
-          ===================================================== */}
-
-          <div className="relative h-[360px] overflow-hidden bg-[#EEF2F7] md:h-[520px]">
-            <Image
-              src={mainImage}
-              alt={property.title}
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover transition-transform duration-500 hover:scale-[1.02]"
-            />
-          </div>
-
-          {/* =====================================================
-              OTHER IMAGES
-          ===================================================== */}
-
-          <div className="hidden grid-cols-2 gap-3 md:grid">
-            {galleryImages.slice(1, 5).map((image, index) => (
-              <div
-                key={`${image}-${index}`}
-                className="relative h-[254px] overflow-hidden bg-[#EEF2F7]"
-              >
-                <Image
-                  src={image}
-                  alt={`${property.title} ${index + 2}`}
-                  fill
-                  sizes="25vw"
-                  className="object-cover transition-transform duration-500 hover:scale-[1.04]"
-                />
+            <div className="flex w-fit items-center gap-3 rounded-2xl border border-[#E7DFD7] bg-[#FAF8F3] px-4 py-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F0E8DE] text-[#B76545]">
+                <ShieldCheck size={19} />
               </div>
-            ))}
+
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#A19891]">
+                  LISTING STATUS
+                </p>
+
+                <p className="mt-0.5 text-sm font-semibold">
+                  {readyToSubmit
+                    ? "Ready for review"
+                    : "Verification required"}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* =======================================================
-            MOBILE IMAGE STRIP
-        ======================================================= */}
+      {/* MAIN */}
+      <section className="mx-auto max-w-7xl px-5 py-9 sm:px-7 lg:px-10">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
 
-        <div className="mt-3 grid grid-cols-2 gap-3 md:hidden">
-          {galleryImages.slice(1).map((image, index) => (
-            <div
-              key={`${image}-mobile-${index}`}
-              className="relative h-40 overflow-hidden rounded-2xl bg-[#EEF2F7]"
-            >
-              <Image
-                src={image}
-                alt={`${property.title} ${index + 2}`}
-                fill
-                sizes="50vw"
-                className="object-cover"
+          {/* LEFT CONTENT */}
+          <div className="space-y-6">
+
+            {/* HERO */}
+            <section className="relative overflow-hidden rounded-[30px] bg-[#302722] p-7 text-white sm:p-9">
+              <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#B76545]/20 blur-3xl" />
+
+              <div className="relative">
+                <div className="flex flex-col gap-7 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="max-w-xl">
+                    <div className="flex items-center gap-2">
+                      <ShieldCheck
+                        size={17}
+                        className="text-[#D1A866]"
+                      />
+
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#D1A866]">
+                        Vistara verification
+                      </span>
+                    </div>
+
+                    <h2 className="mt-5 font-serif text-3xl font-semibold leading-tight sm:text-4xl">
+                      Build trust before your first guest arrives.
+                    </h2>
+
+                    <p className="mt-4 text-sm leading-6 text-white/65">
+                      Complete these important checks so your
+                      property information can be reviewed before
+                      going live.
+                    </p>
+                  </div>
+
+                  <div className="shrink-0 rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-white/45">
+                      PROGRESS
+                    </p>
+
+                    <p className="mt-1 text-2xl font-semibold">
+                      {completedCount}/{totalCount}
+                    </p>
+
+                    <p className="text-xs text-white/45">
+                      completed
+                    </p>
+                  </div>
+                </div>
+
+                {/* PROGRESS */}
+                <div className="mt-9">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-white/50">
+                      Verification progress
+                    </span>
+
+                    <span className="font-semibold">
+                      {progress}%
+                    </span>
+                  </div>
+
+                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/10">
+                    <div
+                      className="h-full rounded-full bg-[#D1A866] transition-all duration-500"
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* STATS */}
+            <div className="grid gap-4 sm:grid-cols-3">
+              <StatCard
+                icon={<CheckCircle2 size={18} />}
+                label="Completed"
+                value={`${completedCount} / 3`}
+              />
+
+              <StatCard
+                icon={<FileCheck2 size={18} />}
+                label="Remaining"
+                value={`${totalCount - completedCount}`}
+              />
+
+              <StatCard
+                icon={<ShieldCheck size={18} />}
+                label="Status"
+                value={readyToSubmit ? "Ready" : "Pending"}
               />
             </div>
-          ))}
+
+            {/* CHECKLIST */}
+            <section className="rounded-[30px] border border-[#E7DFD7] bg-white p-6 sm:p-8">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B8945A]">
+                    REQUIRED INFORMATION
+                  </p>
+
+                  <h2 className="mt-2 font-serif text-2xl font-semibold sm:text-3xl">
+                    Verification checklist
+                  </h2>
+                </div>
+
+                <p className="text-xs text-[#948981]">
+                  {readyToSubmit
+                    ? "Everything is complete"
+                    : `${totalCount - completedCount} step${
+                        totalCount - completedCount === 1
+                          ? ""
+                          : "s"
+                      } remaining`}
+                </p>
+              </div>
+
+              <div className="mt-7 space-y-4">
+                {verificationItems.map((item) => {
+                  const Icon = item.icon;
+                  const isCompleted = completed.includes(item.id);
+
+                  return (
+                    <div
+                      key={item.id}
+                      className={`rounded-[22px] border p-5 transition ${
+                        isCompleted
+                          ? "border-[#D8E0D2] bg-[#F7F9F4]"
+                          : "border-[#E7DFD7] bg-white hover:border-[#CDBBAE]"
+                      }`}
+                    >
+                      <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+
+                        {/* ICON */}
+                        <div
+                          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${
+                            isCompleted
+                              ? "bg-[#68705A] text-white"
+                              : "bg-[#F3EEE8] text-[#B76545]"
+                          }`}
+                        >
+                          {isCompleted ? (
+                            <Check size={20} />
+                          ) : (
+                            <Icon size={20} />
+                          )}
+                        </div>
+
+                        {/* CONTENT */}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-[10px] font-bold tracking-[0.12em] text-[#B8945A]">
+                              {item.number}
+                            </span>
+
+                            <h3 className="text-base font-semibold text-[#342B26]">
+                              {item.title}
+                            </h3>
+
+                            {isCompleted && (
+                              <span className="rounded-full bg-[#EAF0E6] px-2.5 py-1 text-[10px] font-bold text-[#68705A]">
+                                Completed
+                              </span>
+                            )}
+                          </div>
+
+                          <p className="mt-2 text-sm leading-6 text-[#756D67]">
+                            {item.description}
+                          </p>
+
+                          <p className="mt-2 text-xs text-[#A19891]">
+                            {item.requirement}
+                          </p>
+                        </div>
+
+                        {/* UPLOAD */}
+                        <button
+                          type="button"
+                          onClick={() => handleUpload(item.id)}
+                          className={`inline-flex shrink-0 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition ${
+                            isCompleted
+                              ? "border border-[#D7DFD1] bg-white text-[#68705A] hover:border-[#B76545]"
+                              : "bg-[#B76545] text-white hover:bg-[#965039]"
+                          }`}
+                        >
+                          {isCompleted ? (
+                            <>
+                              <Check size={15} />
+                              Completed
+                            </>
+                          ) : (
+                            <>
+                              <Upload size={15} />
+                              Upload
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* INFORMATION */}
+            <section className="rounded-[28px] border border-[#E7DFD7] bg-[#F3EFEA] p-6 sm:p-7">
+              <div className="flex gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-[#B76545] shadow-sm">
+                  <Info size={18} />
+                </div>
+
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B8945A]">
+                    WHY VERIFICATION MATTERS
+                  </p>
+
+                  <h2 className="mt-2 font-serif text-xl font-semibold">
+                    A clearer experience for travelers
+                  </h2>
+
+                  <p className="mt-2 text-sm leading-6 text-[#756D67]">
+                    Verification helps provide clearer property
+                    information and gives hosts a structured way
+                    to prepare their listing before review.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          {/* RIGHT SIDEBAR */}
+          <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
+
+            {/* READINESS */}
+            <div className="rounded-[28px] border border-[#E7DFD7] bg-white p-6">
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F3EEE8] text-[#B76545]">
+                  <ShieldCheck size={18} />
+                </div>
+
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#B8945A]">
+                    PROPERTY
+                  </p>
+
+                  <h3 className="mt-1 text-base font-semibold">
+                    Listing readiness
+                  </h3>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-[#756D67]">
+                    Verification
+                  </span>
+
+                  <span className="font-semibold">
+                    {progress}%
+                  </span>
+                </div>
+
+                <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#EEE8E1]">
+                  <div
+                    className="h-full rounded-full bg-[#B76545] transition-all duration-500"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 border-t border-[#EEE7E1] pt-5">
+                <div className="flex items-center gap-2 text-sm">
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      readyToSubmit
+                        ? "bg-[#68705A]"
+                        : "bg-[#B8945A]"
+                    }`}
+                  />
+
+                  <span className="text-[#5F554E]">
+                    {readyToSubmit
+                      ? "Ready to submit"
+                      : "Verification in progress"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* HELP */}
+            <div className="rounded-[28px] bg-[#302722] p-6 text-white">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#D1A866]">
+                NEED HELP?
+              </p>
+
+              <h3 className="mt-3 font-serif text-2xl font-semibold">
+                Not sure what to upload?
+              </h3>
+
+              <p className="mt-3 text-sm leading-6 text-white/60">
+                Review the requirements for each step before
+                submitting your property.
+              </p>
+
+              <Link
+                href="/support"
+                className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-[#D1A866]"
+              >
+                Get support
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+
+            {/* SUBMIT */}
+            <div className="rounded-[28px] border border-[#E2D7CC] bg-[#F7F3ED] p-6">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B8945A]">
+                FINAL STEP
+              </p>
+
+              <h3 className="mt-2 font-serif text-2xl font-semibold">
+                Submit for review
+              </h3>
+
+              <p className="mt-2 text-sm leading-6 text-[#756D67]">
+                Complete all required verification steps before
+                sending your property for review.
+              </p>
+
+              <button
+                type="button"
+                disabled={!readyToSubmit}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-[#B76545] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#965039] disabled:cursor-not-allowed disabled:bg-[#D5C9BF]"
+              >
+                Submit for Verification
+                <ArrowRight size={15} />
+              </button>
+
+              {!readyToSubmit && (
+                <p className="mt-3 text-center text-[11px] leading-5 text-[#9B9088]">
+                  Complete all three steps to continue.
+                </p>
+              )}
+            </div>
+
+            {/* BACK */}
+            <Link
+              href="/host/property/new"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-[#DCD2CA] bg-white px-5 py-3 text-sm font-semibold text-[#5F554E] transition hover:border-[#B76545] hover:text-[#B76545]"
+            >
+              <ArrowLeft size={15} />
+              Back to property
+            </Link>
+          </aside>
         </div>
       </section>
+    </main>
+  );
+}
 
-      {/* =========================================================
-          MAIN CONTENT
-      ========================================================= */}
+/* ============================================================
+   STAT CARD
+============================================================ */
 
-      <section className="mx-auto grid max-w-7xl gap-12 px-6 py-12 lg:grid-cols-[1fr_380px] lg:px-10">
-        {/* =======================================================
-            LEFT CONTENT
-        ======================================================= */}
+function StatCard({
+  icon,
+  label,
+  value,
+}: {
+  icon: ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-[22px] border border-[#E7DFD7] bg-white p-5">
+      <div className="flex items-center gap-3">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F3EEE8] text-[#B76545]">
+          {icon}
+        </div>
 
         <div>
-          {/* =====================================================
-              ABOUT
-          ===================================================== */}
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#A19891]">
+            {label}
+          </p>
 
-          <div className="border-b border-[#E2E8F0] pb-8">
-            <h2 className="font-serif text-3xl font-semibold">
-              About this stay
-            </h2>
-
-            <p className="mt-5 max-w-3xl text-[15px] leading-7 text-[#64748B]">
-              {property.description ||
-                "A comfortable stay designed to help you experience the destination in a meaningful way."}
-            </p>
-
-            <div className="mt-7 flex flex-wrap gap-3 text-sm text-[#475569]">
-              <span className="rounded-full bg-[#F1F4FA] px-4 py-2">
-                {property.guests} guests
-              </span>
-
-              <span className="rounded-full bg-[#F1F4FA] px-4 py-2">
-                {property.bedrooms} bedrooms
-              </span>
-
-              <span className="rounded-full bg-[#F1F4FA] px-4 py-2">
-                {property.bathrooms} bathrooms
-              </span>
-            </div>
-          </div>
-
-          {/* =====================================================
-              AMENITIES
-          ===================================================== */}
-
-          <div className="border-b border-[#E2E8F0] py-8">
-            <h2 className="font-serif text-3xl font-semibold">
-              What this place offers
-            </h2>
-
-            {property.amenities.length > 0 ? (
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {property.amenities.map((item) => (
-                  <div
-                    key={`${item.propertyId}-${item.amenityId}`}
-                    className="rounded-2xl border border-[#E2E8F0] px-4 py-4 text-sm text-[#475569]"
-                  >
-                    {item.amenity.name}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="mt-5 text-sm text-[#64748B]">
-                No amenities listed.
-              </p>
-            )}
-          </div>
-
-          {/* =====================================================
-              LOCATION
-          ===================================================== */}
-
-          <div className="py-8">
-            <h2 className="font-serif text-3xl font-semibold">
-              Location
-            </h2>
-
-            <p className="mt-4 text-sm text-[#64748B]">
-              {property.city}, {property.country}
-            </p>
-
-            <div className="mt-5 h-48 rounded-[24px] bg-[#EEF4FF]">
-              <div className="flex h-full items-center justify-center">
-                <span className="text-sm font-medium text-[#0D21A1]">
-                  {property.city}
-                </span>
-              </div>
-            </div>
-          </div>
+          <p className="mt-1 text-sm font-semibold text-[#40362F]">
+            {value}
+          </p>
         </div>
-
-        {/* =======================================================
-            BOOKING CARD
-        ======================================================= */}
-
-        <aside className="lg:sticky lg:top-6 lg:h-fit">
-          <div className="rounded-[28px] border border-[#E2E8F0] bg-white p-6 shadow-[0_15px_50px_rgba(3,4,94,0.08)]">
-            {/* =================================================
-                PRICE
-            ================================================= */}
-
-            <div className="flex items-end justify-between gap-4">
-              <div>
-                <span className="text-2xl font-bold text-[#03045E]">
-                  ₹
-                  {Number(
-                    property.pricePerNight
-                  ).toLocaleString("en-IN")}
-                </span>
-
-                <span className="ml-1 text-sm text-[#64748B]">
-                  / night
-                </span>
-              </div>
-
-              <div className="text-sm font-semibold text-[#03045E]">
-                ★{" "}
-                {Number(
-                  property.rating ?? 0
-                ).toFixed(1)}
-              </div>
-            </div>
-
-            {/* =================================================
-                DATE / GUEST BOX
-            ================================================= */}
-
-            <div className="mt-6 overflow-hidden rounded-2xl border border-[#E2E8F0]">
-              <div className="grid grid-cols-2">
-                {/* CHECK IN */}
-
-                <div className="border-r border-[#E2E8F0] p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#64748B]">
-                    Check-in
-                  </p>
-
-                  <p className="mt-2 text-sm font-medium">
-                    Add date
-                  </p>
-                </div>
-
-                {/* CHECK OUT */}
-
-                <div className="p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#64748B]">
-                    Check-out
-                  </p>
-
-                  <p className="mt-2 text-sm font-medium">
-                    Add date
-                  </p>
-                </div>
-              </div>
-
-              {/* GUESTS */}
-
-              <div className="border-t border-[#E2E8F0] p-4">
-                <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#64748B]">
-                  Guests
-                </p>
-
-                <p className="mt-2 text-sm font-medium">
-                  Add guests
-                </p>
-              </div>
-            </div>
-
-            {/* =================================================
-                RESERVE
-            ================================================= */}
-
-            <Link
-              href={`/booking/${property.id}`}
-              className="mt-5 flex w-full items-center justify-center rounded-2xl bg-[#03045E] px-6 py-4 text-sm font-semibold text-white transition-colors hover:bg-[#0D21A1]"
-            >
-              Reserve
-            </Link>
-
-            <p className="mt-4 text-center text-xs text-[#94A3B8]">
-              You will not be charged yet
-            </p>
-          </div>
-        </aside>
-      </section>
-
-      {/* =========================================================
-          FOOTER
-      ========================================================= */}
-
-      <Footer />
-    </main>
+      </div>
+    </div>
   );
 }

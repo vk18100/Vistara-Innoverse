@@ -15,28 +15,36 @@ type ProfileData = {
   country: string;
 };
 
+const emptyForm: ProfileData = {
+  name: "",
+  phone: "",
+  firstName: "",
+  lastName: "",
+  bio: "",
+  city: "",
+  country: "",
+};
+
 export default function EditProfile() {
   const router = useRouter();
 
-  const [form, setForm] = useState<ProfileData>({
-    name: "",
-    phone: "",
-    firstName: "",
-    lastName: "",
-    bio: "",
-    city: "",
-    country: "",
-  });
-
+  const [form, setForm] = useState<ProfileData>(emptyForm);
   const [email, setEmail] = useState("");
+
+  // Page no longer gets replaced by a full-screen spinner.
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    let mounted = true;
+
     async function loadProfile() {
       try {
+        setLoading(true);
+        setError("");
+
         const response = await fetch("/api/profile", {
           credentials: "include",
           cache: "no-store",
@@ -45,13 +53,18 @@ export default function EditProfile() {
         const result = await response.json();
 
         if (!response.ok || !result.success) {
-          throw new Error("Unable to load your profile.");
+          throw new Error(
+            result.message || "Unable to load your profile."
+          );
         }
 
-        setEmail(result.user.email);
+        if (!mounted) return;
+
+        setEmail(result.user?.email ?? "");
+
         setForm({
-          name: result.user.name ?? "",
-          phone: result.user.phone ?? "",
+          name: result.user?.name ?? "",
+          phone: result.user?.phone ?? "",
           firstName: result.profile?.firstName ?? "",
           lastName: result.profile?.lastName ?? "",
           bio: result.profile?.bio ?? "",
@@ -59,30 +72,49 @@ export default function EditProfile() {
           country: result.profile?.country ?? "",
         });
       } catch (err) {
+        if (!mounted) return;
+
         setError(
           err instanceof Error
             ? err.message
             : "Unable to load your profile."
         );
       } finally {
-        setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     }
 
     loadProfile();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   function updateField<K extends keyof ProfileData>(
     key: K,
     value: ProfileData[K]
   ) {
-    setForm((prev) => ({ ...prev, [key]: value }));
+    setForm((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+
+    setSaved(false);
+    setError("");
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
     e.preventDefault();
 
+    if (saving) return;
+
     setSaving(true);
+    setSaved(false);
     setError("");
 
     try {
@@ -111,8 +143,35 @@ export default function EditProfile() {
         );
       }
 
+      // Keep the screen updated immediately.
+      if (result.user) {
+        setEmail(result.user.email ?? email);
+
+        setForm((prev) => ({
+          ...prev,
+          name: result.user.name ?? prev.name,
+          phone: result.user.phone ?? prev.phone,
+        }));
+      }
+
+      if (result.profile) {
+        setForm((prev) => ({
+          ...prev,
+          firstName:
+            result.profile.firstName ?? prev.firstName,
+          lastName:
+            result.profile.lastName ?? prev.lastName,
+          bio: result.profile.bio ?? prev.bio,
+          city: result.profile.city ?? prev.city,
+          country: result.profile.country ?? prev.country,
+        }));
+      }
+
       setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+
+      window.setTimeout(() => {
+        setSaved(false);
+      }, 3000);
     } catch (err) {
       setError(
         err instanceof Error
@@ -125,78 +184,99 @@ export default function EditProfile() {
   }
 
   const initials =
-    `${form.firstName?.charAt(0) ?? ""}${form.lastName?.charAt(0) ?? ""}`.toUpperCase() ||
+    `${form.firstName?.charAt(0) ?? ""}${form.lastName?.charAt(0) ?? ""}`
+      .toUpperCase() ||
     form.name?.charAt(0)?.toUpperCase() ||
     "V";
 
-  if (loading) {
-    return (
-      <main className="min-h-screen bg-[#FAFAF8] flex items-center justify-center">
-        <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-[#E5E7EB] border-t-[#03045E]" />
-      </main>
-    );
-  }
+  const displayName =
+    `${form.firstName} ${form.lastName}`.trim() ||
+    form.name ||
+    "Your profile";
 
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#03045E]">
+    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
       <Navbar />
 
       {/* HEADER */}
-      <section className="border-b border-[#03045E]/10 bg-[#F7F3EA]">
-        <div className="mx-auto max-w-6xl px-6 py-12 lg:px-10">
+      <section className="border-b border-[#E5DED6] bg-[#FAF8F3]">
+        <div className="mx-auto max-w-6xl px-5 py-8 sm:px-6 lg:px-10 lg:py-12">
           <Link
             href="/profile"
-            className="text-sm font-medium text-[#64748B] transition hover:text-[#03045E]"
+            className="inline-flex items-center text-sm font-medium text-[#756D67] transition hover:text-[#B76545]"
           >
             ← Back to profile
           </Link>
 
-          <div className="mt-8">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#C6A15B]">
-              PROFILE
-            </p>
+          <div className="mt-7 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B76545]">
+                PROFILE SETTINGS
+              </p>
 
-            <h1 className="mt-3 font-serif text-4xl font-semibold md:text-5xl">
-              Edit your profile
-            </h1>
+              <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
+                Edit your profile
+              </h1>
 
-            <p className="mt-3 max-w-xl text-sm leading-6 text-[#64748B]">
-              Update your personal details.
-            </p>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-[#756D67] sm:text-base">
+                Keep your personal details up to date for a smoother
+                Vistara journey.
+              </p>
+            </div>
+
+            {/* LIVE NAME */}
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#2C2420] font-serif font-semibold text-white">
+                {initials}
+              </div>
+
+              <div className="min-w-0">
+                <p className="max-w-[180px] truncate text-sm font-semibold">
+                  {loading ? "Loading..." : displayName}
+                </p>
+
+                <p className="max-w-[200px] truncate text-xs text-[#756D67]">
+                  {email || "Your email"}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* FORM */}
-      <section className="mx-auto max-w-4xl px-6 py-10 lg:px-10">
-        <form onSubmit={handleSubmit} className="space-y-6">
-
-          {/* PHOTO */}
-          <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-7 shadow-[0_15px_45px_rgba(3,4,94,0.05)] md:p-9">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-              PROFILE PHOTO
+      <section className="mx-auto max-w-4xl px-5 py-8 sm:px-6 lg:px-10 lg:py-12">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6"
+        >
+          {/* PROFILE PHOTO */}
+          <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_40px_rgba(44,36,32,0.05)] sm:p-8">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
+              PROFILE
             </p>
 
             <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center">
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#03045E] to-[#0D21A1] font-serif text-3xl font-semibold text-white shadow-lg">
+              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-[#2C2420] font-serif text-3xl font-semibold text-white shadow-md">
                 {initials}
               </div>
 
               <div>
-                <h2 className="text-lg font-semibold">
-                  Profile picture
+                <h2 className="font-serif text-2xl font-semibold">
+                  {loading ? "Your profile" : displayName}
                 </h2>
 
-                <p className="mt-1 text-sm text-[#64748B]">
-                  Photo upload isn't available yet — coming soon.
+                <p className="mt-2 text-sm leading-6 text-[#756D67]">
+                  Your profile information appears throughout your
+                  Vistara account.
                 </p>
               </div>
             </div>
           </div>
 
           {/* PERSONAL DETAILS */}
-          <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-7 shadow-[0_15px_45px_rgba(3,4,94,0.05)] md:p-9">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
+          <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_40px_rgba(44,36,32,0.05)] sm:p-8">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
               PERSONAL DETAILS
             </p>
 
@@ -204,18 +284,27 @@ export default function EditProfile() {
               Tell us about yourself
             </h2>
 
-            <div className="mt-7 grid gap-5 md:grid-cols-2">
+            <p className="mt-2 text-sm text-[#756D67]">
+              Changes you make here will be reflected in your profile.
+            </p>
 
+            <div className="mt-7 grid gap-5 md:grid-cols-2">
               <Input
                 label="First name"
                 value={form.firstName}
-                onChange={(v) => updateField("firstName", v)}
+                onChange={(value) =>
+                  updateField("firstName", value)
+                }
+                loading={loading}
               />
 
               <Input
                 label="Last name"
                 value={form.lastName}
-                onChange={(v) => updateField("lastName", v)}
+                onChange={(value) =>
+                  updateField("lastName", value)
+                }
+                loading={loading}
               />
 
               <Input
@@ -224,29 +313,57 @@ export default function EditProfile() {
                 value={email}
                 onChange={() => {}}
                 disabled
+                loading={loading}
               />
 
               <Input
                 label="Phone"
                 type="tel"
                 value={form.phone}
-                onChange={(v) => updateField("phone", v)}
+                onChange={(value) =>
+                  updateField("phone", value)
+                }
+                loading={loading}
               />
 
               <Input
                 label="City"
                 value={form.city}
-                onChange={(v) => updateField("city", v)}
+                onChange={(value) =>
+                  updateField("city", value)
+                }
+                loading={loading}
               />
 
               <Input
                 label="Country"
                 value={form.country}
-                onChange={(v) => updateField("country", v)}
+                onChange={(value) =>
+                  updateField("country", value)
+                }
+                loading={loading}
               />
-
             </div>
 
+            {/* NAME */}
+            <div className="mt-5">
+              <label className="text-sm font-semibold">
+                Display name
+              </label>
+
+              <input
+                type="text"
+                value={form.name}
+                onChange={(e) =>
+                  updateField("name", e.target.value)
+                }
+                disabled={loading}
+                placeholder="How should we display your name?"
+                className="mt-2 w-full rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] px-4 py-3.5 text-sm outline-none transition placeholder:text-[#756D67]/60 focus:border-[#B76545] focus:bg-white focus:ring-4 focus:ring-[#B76545]/10 disabled:cursor-wait disabled:opacity-60"
+              />
+            </div>
+
+            {/* BIO */}
             <div className="mt-5">
               <label className="text-sm font-semibold">
                 About you
@@ -255,58 +372,80 @@ export default function EditProfile() {
               <textarea
                 rows={5}
                 value={form.bio}
-                onChange={(e) => updateField("bio", e.target.value)}
-                className="mt-2 w-full resize-none rounded-2xl border border-[#E2E8F0] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#03045E] focus:bg-white focus:ring-4 focus:ring-[#03045E]/5"
+                disabled={loading}
+                onChange={(e) =>
+                  updateField("bio", e.target.value)
+                }
+                placeholder="Tell us a little about yourself and how you like to travel..."
+                className="mt-2 w-full resize-none rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] px-4 py-3.5 text-sm leading-6 outline-none transition placeholder:text-[#756D67]/60 focus:border-[#B76545] focus:bg-white focus:ring-4 focus:ring-[#B76545]/10 disabled:cursor-wait disabled:opacity-60"
               />
+
+              <div className="mt-2 flex justify-end">
+                <span className="text-xs text-[#756D67]">
+                  {form.bio.length}/500
+                </span>
+              </div>
             </div>
           </div>
 
+          {/* ERROR */}
           {error && (
-            <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+            <div className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3.5 text-sm text-red-600">
               {error}
-            </p>
+            </div>
           )}
 
           {/* ACTIONS */}
-          <div className="flex flex-col gap-3 rounded-2xl border border-[#03045E]/10 bg-white p-4 shadow-[0_10px_35px_rgba(3,4,94,0.08)] sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              {saved ? (
-                <p className="text-sm font-semibold text-emerald-700">
-                  ✓ Profile updated successfully
-                </p>
-              ) : (
-                <p className="text-xs text-[#94A3B8]">
-                  Changes will be saved to your account.
-                </p>
-              )}
-            </div>
+          <div className="sticky bottom-3 z-20 rounded-2xl border border-[#E5DED6] bg-white/95 p-3 shadow-[0_12px_40px_rgba(44,36,32,0.12)] backdrop-blur sm:p-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-h-[38px]">
+                {saved ? (
+                  <div>
+                    <p className="text-sm font-semibold text-[#68705A]">
+                      ✓ Profile updated successfully
+                    </p>
 
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={() => router.push("/profile")}
-                className="rounded-xl border border-[#E2E8F0] px-6 py-3 text-sm font-semibold text-[#64748B] transition hover:border-[#03045E] hover:text-[#03045E]"
-              >
-                Cancel
-              </button>
+                    <p className="mt-0.5 text-xs text-[#756D67]">
+                      Your latest information is now visible.
+                    </p>
+                  </div>
+                ) : loading ? (
+                  <p className="text-xs text-[#756D67]">
+                    Loading your profile...
+                  </p>
+                ) : (
+                  <p className="text-xs text-[#756D67]">
+                    Your changes will be saved to your account.
+                  </p>
+                )}
+              </div>
 
-              <button
-                type="submit"
-                disabled={saving}
-                className="rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {saving ? "Saving..." : "Save changes"}
-              </button>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => router.push("/profile")}
+                  className="flex-1 rounded-xl border border-[#E5DED6] px-5 py-3 text-sm font-semibold text-[#756D67] transition hover:border-[#2C2420] hover:text-[#2C2420] sm:flex-none"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={saving || loading}
+                  className="flex-1 rounded-xl bg-[#B76545] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#965039] disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none"
+                >
+                  {saving ? "Saving..." : "Save changes"}
+                </button>
+              </div>
             </div>
           </div>
-
         </form>
       </section>
     </main>
   );
 }
 
-/* INPUT */
+/* ================= INPUT ================= */
 
 function Input({
   label,
@@ -314,26 +453,31 @@ function Input({
   onChange,
   type = "text",
   disabled = false,
+  loading = false,
 }: {
   label: string;
   value: string;
   onChange: (value: string) => void;
   type?: string;
   disabled?: boolean;
+  loading?: boolean;
 }) {
   return (
     <div>
-      <label className="text-sm font-semibold">
+      <label className="text-sm font-semibold text-[#2C2420]">
         {label}
       </label>
 
-      <input
-        type={type}
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange(e.target.value)}
-        className="mt-2 w-full rounded-2xl border border-[#E2E8F0] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#03045E] focus:bg-white focus:ring-4 focus:ring-[#03045E]/5 disabled:cursor-not-allowed disabled:opacity-60"
-      />
+      <div className="relative">
+        <input
+          type={type}
+          value={value}
+          disabled={disabled || loading}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={loading ? "Loading..." : `Enter ${label.toLowerCase()}`}
+          className="mt-2 w-full rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] px-4 py-3.5 text-sm text-[#2C2420] outline-none transition placeholder:text-[#756D67]/50 focus:border-[#B76545] focus:bg-white focus:ring-4 focus:ring-[#B76545]/10 disabled:cursor-not-allowed disabled:opacity-60"
+        />
+      </div>
     </div>
   );
 }

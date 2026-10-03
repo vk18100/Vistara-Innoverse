@@ -1,530 +1,792 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BedDouble,
+  Check,
+  DoorOpen,
+  Info,
+  Minus,
+  Plus,
+  Sofa,
+  Users,
+} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
-const initialValues = {
-  guests: 2,
+type RoomState = {
+  bedrooms: number;
+  beds: number;
+  bathrooms: number;
+  livingRooms: number;
+  privateRooms: number;
+  sharedRooms: number;
+};
+
+const DEFAULT_ROOMS: RoomState = {
   bedrooms: 1,
   beds: 1,
   bathrooms: 1,
-  livingRoom: 1,
-  size: "",
+  livingRooms: 0,
+  privateRooms: 1,
+  sharedRooms: 0,
 };
 
-export default function PropertyRoomsPage() {
-  const [values, setValues] = useState(initialValues);
+export default function RoomsPage() {
+  const params = useParams();
+  const router = useRouter();
 
-  const updateValue = (key: keyof typeof values, amount: number) => {
-    if (key === "size") return;
+  const id = String(params.id);
 
-    setValues((prev) => ({
-      ...prev,
-      [key]: Math.max(0, (prev[key] as number) + amount),
-    }));
-  };
+  const storageKey =
+    `vistara-property-${id}-rooms`;
 
-  const handleContinue = () => {
-    if (!values.size) {
-      alert("Please enter the property size.");
-      return;
+  const [rooms, setRooms] =
+    useState<RoomState>(DEFAULT_ROOMS);
+
+  const [loaded, setLoaded] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  /* ---------------------------------------------------------------------- */
+  /* LOAD SAVED DATA                                                        */
+  /* ---------------------------------------------------------------------- */
+
+  useEffect(() => {
+    try {
+      const stored =
+        localStorage.getItem(storageKey);
+
+      if (stored) {
+        const parsed = JSON.parse(stored);
+
+        setRooms({
+          bedrooms:
+            typeof parsed.bedrooms === "number"
+              ? parsed.bedrooms
+              : DEFAULT_ROOMS.bedrooms,
+
+          beds:
+            typeof parsed.beds === "number"
+              ? parsed.beds
+              : DEFAULT_ROOMS.beds,
+
+          bathrooms:
+            typeof parsed.bathrooms === "number"
+              ? parsed.bathrooms
+              : DEFAULT_ROOMS.bathrooms,
+
+          livingRooms:
+            typeof parsed.livingRooms === "number"
+              ? parsed.livingRooms
+              : DEFAULT_ROOMS.livingRooms,
+
+          privateRooms:
+            typeof parsed.privateRooms === "number"
+              ? parsed.privateRooms
+              : DEFAULT_ROOMS.privateRooms,
+
+          sharedRooms:
+            typeof parsed.sharedRooms === "number"
+              ? parsed.sharedRooms
+              : DEFAULT_ROOMS.sharedRooms,
+        });
+      }
+    } catch {
+      setRooms(DEFAULT_ROOMS);
+    } finally {
+      setLoaded(true);
     }
+  }, [storageKey]);
 
-    console.log(values);
-  };
+  /* ---------------------------------------------------------------------- */
+  /* UPDATE                                                                 */
+  /* ---------------------------------------------------------------------- */
 
-  const steps = [
-    "Basic",
-    "Location",
-    "Rooms",
-    "Amenities",
-    "Photos",
-    "Pricing",
-    "Availability",
-    "Rules",
-    "Guests",
-    "Preview",
-  ];
+  function updateRoom(
+    field: keyof RoomState,
+    value: number,
+  ) {
+    setSaved(false);
+
+    setRooms((current) => ({
+      ...current,
+      [field]: Math.max(0, value),
+    }));
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* VALIDATION                                                             */
+  /* ---------------------------------------------------------------------- */
+
+  const valid = useMemo(() => {
+    return (
+      rooms.bedrooms >= 1 &&
+      rooms.beds >= rooms.bedrooms &&
+      rooms.bathrooms >= 1 &&
+      rooms.privateRooms >= 1
+    );
+  }, [rooms]);
+
+  /* ---------------------------------------------------------------------- */
+  /* SAVE                                                                   */
+  /* ---------------------------------------------------------------------- */
+
+  function saveRooms() {
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(rooms),
+      );
+
+      setSaved(true);
+    } catch {
+      setSaved(false);
+    }
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* CONTINUE                                                               */
+  /* ---------------------------------------------------------------------- */
+
+  function handleContinue() {
+    if (!valid) return;
+
+    setSaving(true);
+
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(rooms),
+      );
+    } finally {
+      setTimeout(() => {
+        router.push(
+          `/host/property/new/${id}/rules`,
+        );
+      }, 300);
+    }
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* LOADING                                                                */
+  /* ---------------------------------------------------------------------- */
+
+  if (!loaded) {
+    return (
+      <main className="min-h-screen bg-[#FAF8F3]">
+        <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+          <div className="animate-pulse">
+            <div className="h-5 w-28 rounded bg-[#E7E0D4]" />
+
+            <div className="mt-12 h-10 w-80 rounded bg-[#E7E0D4]" />
+
+            <div className="mt-4 h-4 w-[450px] max-w-full rounded bg-[#E7E0D4]" />
+
+            <div className="mt-10 h-80 rounded-[28px] bg-[#E7E0D4]" />
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
+    <main className="min-h-screen bg-[#FAF8F3] text-[#18181B]">
+      {/* ================================================================== */}
+      {/* HEADER                                                             */}
+      {/* ================================================================== */}
 
-      {/* Header */}
-      <header className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between px-6 lg:px-10">
+      <header className="sticky top-0 z-40 border-b border-black/[0.07] bg-[#FAF8F3]/95 backdrop-blur-xl">
+        <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link
+            href={`/host/property/new/${id}/pricing`}
+            className="inline-flex items-center gap-2 text-xs font-bold text-[#57534E] transition hover:text-[#9A711E]"
+          >
+            <ArrowLeft size={16} />
 
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#03045E]">
-              <span className="font-bold text-white">V</span>
+            <span className="hidden sm:inline">
+              Back to pricing
+            </span>
+
+            <span className="sm:hidden">
+              Back
+            </span>
+          </Link>
+
+          <div className="hidden items-center gap-2 sm:flex">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#18181B] text-xs font-bold text-white">
+              V
             </div>
 
-            <div>
-              <p className="text-sm font-semibold tracking-tight">
-                VISTARA
-              </p>
-
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[#03045E]/40">
-                Host Studio
-              </p>
-            </div>
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#78716C]">
+              Property setup
+            </span>
           </div>
 
-          <button className="rounded-full border border-[#03045E]/10 px-4 py-2 text-sm text-[#03045E]/60 transition hover:bg-[#03045E]/5">
-            Exit
-          </button>
-
+          <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#A8A29E]">
+            07 / 08
+          </span>
         </div>
       </header>
 
+      {/* ================================================================== */}
+      {/* PROGRESS                                                            */}
+      {/* ================================================================== */}
 
-      {/* Main */}
-      <div className="mx-auto max-w-[1500px] px-6 py-10 lg:px-10 lg:py-14">
-
-        {/* Heading */}
-        <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-
-          <div>
-
-            <div className="mb-4 flex items-center gap-3">
-              <span className="h-2 w-2 rounded-full bg-[#0D21A1]" />
-
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#0D21A1]">
-                Create your listing
-              </span>
-            </div>
-
-            <h1 className="text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-              Tell us about the
-              <span className="block text-[#0D21A1]">
-                space itself.
-              </span>
-            </h1>
-
-            <p className="mt-5 max-w-xl text-sm leading-7 text-[#03045E]/50 sm:text-base">
-              Help guests understand how much space your property offers
-              and how many people it can comfortably accommodate.
-            </p>
-
+      <div className="border-b border-black/[0.06] bg-white">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-1.5">
+            <div className="w-[86%] bg-[#D9A441]" />
+            <div className="flex-1 bg-[#EEE9E0]" />
           </div>
-
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#03045E]/35">
-              Current step
-            </p>
-
-            <p className="mt-1 text-3xl font-semibold">
-              03<span className="text-[#03045E]/20">/10</span>
-            </p>
-          </div>
-
         </div>
-
-
-        {/* Progress */}
-        <div className="mb-12 overflow-x-auto pb-2">
-
-          <div className="flex min-w-[900px] items-center">
-
-            {steps.map((step, index) => {
-
-              const active = index === 2;
-              const completed = index < 2;
-
-              return (
-                <div
-                  key={step}
-                  className="flex flex-1 items-center"
-                >
-
-                  <div className="flex items-center gap-3">
-
-                    <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
-                        active
-                          ? "bg-[#03045E] text-white shadow-[0_8px_25px_rgba(3,4,94,0.22)]"
-                          : completed
-                            ? "bg-[#0D21A1] text-white"
-                            : "border border-[#03045E]/10 text-[#03045E]/30"
-                      }`}
-                    >
-                      {completed
-                        ? "✓"
-                        : String(index + 1).padStart(2, "0")}
-                    </div>
-
-                    <span
-                      className={`hidden text-xs font-medium xl:block ${
-                        active
-                          ? "text-[#03045E]"
-                          : completed
-                            ? "text-[#0D21A1]"
-                            : "text-[#03045E]/30"
-                      }`}
-                    >
-                      {step}
-                    </span>
-
-                  </div>
-
-                  {index !== 9 && (
-                    <div
-                      className={`mx-3 h-px flex-1 ${
-                        index < 2
-                          ? "bg-[#0D21A1]/40"
-                          : "bg-[#03045E]/10"
-                      }`}
-                    />
-                  )}
-
-                </div>
-              );
-            })}
-
-          </div>
-
-        </div>
-
-
-        {/* Content */}
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_390px]">
-
-          {/* Main Card */}
-          <section className="overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_20px_70px_rgba(3,4,94,0.08)]">
-
-            <div className="border-b border-[#03045E]/8 px-7 py-8 sm:px-10">
-
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#0D21A1]">
-                Step 03
-              </p>
-
-              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                Rooms & guests
-              </h2>
-
-              <p className="mt-3 max-w-xl text-sm leading-6 text-[#03045E]/50">
-                Set the capacity and sleeping arrangements of your property.
-              </p>
-
-            </div>
-
-
-            <div className="px-7 py-8 sm:px-10 sm:py-10">
-
-              {/* Guests */}
-              <Counter
-                label="Maximum guests"
-                description="How many guests can comfortably stay?"
-                value={values.guests}
-                onDecrease={() => updateValue("guests", -1)}
-                onIncrease={() => updateValue("guests", 1)}
-              />
-
-              <Divider />
-
-              {/* Bedrooms */}
-              <Counter
-                label="Bedrooms"
-                description="Private sleeping rooms available to guests."
-                value={values.bedrooms}
-                onDecrease={() => updateValue("bedrooms", -1)}
-                onIncrease={() => updateValue("bedrooms", 1)}
-              />
-
-              <Divider />
-
-              {/* Beds */}
-              <Counter
-                label="Beds"
-                description="Include all beds available in the property."
-                value={values.beds}
-                onDecrease={() => updateValue("beds", -1)}
-                onIncrease={() => updateValue("beds", 1)}
-              />
-
-              <Divider />
-
-              {/* Bathrooms */}
-              <Counter
-                label="Bathrooms"
-                description="Total bathrooms guests can use."
-                value={values.bathrooms}
-                onDecrease={() => updateValue("bathrooms", -1)}
-                onIncrease={() => updateValue("bathrooms", 1)}
-              />
-
-              <Divider />
-
-              {/* Living Room */}
-              <Counter
-                label="Living rooms"
-                description="Shared living or lounge spaces."
-                value={values.livingRoom}
-                onDecrease={() => updateValue("livingRoom", -1)}
-                onIncrease={() => updateValue("livingRoom", 1)}
-              />
-
-              <Divider />
-
-              {/* Property Size */}
-              <div className="pt-2">
-
-                <label className="mb-3 block text-sm font-semibold">
-                  Property size
-                </label>
-
-                <div className="flex max-w-md items-center gap-3">
-
-                  <input
-                    type="number"
-                    min="0"
-                    value={values.size}
-                    onChange={(e) =>
-                      setValues((prev) => ({
-                        ...prev,
-                        size: e.target.value,
-                      }))
-                    }
-                    placeholder="1200"
-                    className="h-14 w-full rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.025] px-5 text-sm outline-none transition placeholder:text-[#03045E]/25 hover:border-[#0D21A1]/20 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                  />
-
-                  <div className="flex h-14 shrink-0 items-center rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.025] px-5 text-sm font-medium">
-                    sq ft
-                  </div>
-
-                </div>
-
-                <p className="mt-2 text-xs text-[#03045E]/35">
-                  Approximate usable property area.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            {/* Footer */}
-            <div className="flex flex-col-reverse gap-4 border-t border-[#03045E]/8 bg-[#03045E]/[0.015] px-7 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-
-              <button
-                type="button"
-                className="text-sm font-medium text-[#03045E]/45 transition hover:text-[#03045E]"
-              >
-                ← Back
-              </button>
-
-              <button
-                type="button"
-                onClick={handleContinue}
-                className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-[#03045E] px-7 py-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(3,4,94,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#0D21A1]"
-              >
-                Continue
-
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-              </button>
-
-            </div>
-
-          </section>
-
-
-          {/* Side Panel */}
-          <aside>
-
-            <div className="relative min-h-[560px] overflow-hidden rounded-[28px] bg-[#03045E] p-8 text-white shadow-[0_25px_70px_rgba(3,4,94,0.18)] sm:p-10">
-
-              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#0D21A1]/50 blur-3xl" />
-
-              <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[#0D21A1]/30 blur-3xl" />
-
-              <div className="relative z-10 flex h-full flex-col">
-
-                <div className="flex items-center justify-between">
-
-                  <span className="text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
-                    Vistara
-                  </span>
-
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] uppercase tracking-[0.16em] text-white/50">
-                    Space
-                  </span>
-
-                </div>
-
-
-                <div className="mt-20">
-
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10">
-                    <span className="text-lg">⌂</span>
-                  </div>
-
-                  <h3 className="max-w-xs text-3xl font-semibold leading-tight tracking-[-0.03em]">
-                    Give guests a clear sense of your space.
-                  </h3>
-
-                  <p className="mt-5 max-w-sm text-sm leading-7 text-white/55">
-                    Accurate capacity and room information helps guests
-                    choose a stay that feels right for them.
-                  </p>
-
-                </div>
-
-
-                {/* Visual Stats */}
-                <div className="mt-10 grid grid-cols-2 gap-3">
-
-                  <Stat
-                    value={values.guests}
-                    label="Guests"
-                  />
-
-                  <Stat
-                    value={values.bedrooms}
-                    label="Bedrooms"
-                  />
-
-                </div>
-
-
-                <div className="mt-auto pt-10">
-
-                  <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/35">
-                    Space essentials
-                  </p>
-
-                  <div className="space-y-4">
-
-                    <Feature text="Guest capacity" />
-
-                    <Feature text="Sleeping arrangements" />
-
-                    <Feature text="Property dimensions" />
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </aside>
-
-        </div>
-
       </div>
+
+      {/* ================================================================== */}
+      {/* CONTENT                                                             */}
+      {/* ================================================================== */}
+
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
+        {/* INTRO */}
+
+        <section className="max-w-2xl">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FFF4D8] text-[#9A711E]">
+            <BedDouble size={21} />
+          </div>
+
+          <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.22em] text-[#9A711E]">
+            Rooms & sleeping
+          </p>
+
+          <h1 className="mt-2 font-serif text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+            Tell guests about the space
+          </h1>
+
+          <p className="mt-4 max-w-xl text-sm leading-7 text-[#78716C]">
+            Add the rooms, beds and bathrooms available
+            at your property. This information helps guests
+            understand exactly what they are booking.
+          </p>
+        </section>
+
+        {/* ================================================================== */}
+        {/* PROPERTY SUMMARY                                                   */}
+        {/* ================================================================== */}
+
+        <section className="mt-10 grid gap-3 sm:grid-cols-3">
+          <SummaryCard
+            icon={<DoorOpen size={18} />}
+            value={rooms.bedrooms}
+            label={
+              rooms.bedrooms === 1
+                ? "Bedroom"
+                : "Bedrooms"
+            }
+          />
+
+          <SummaryCard
+            icon={<BedDouble size={18} />}
+            value={rooms.beds}
+            label={
+              rooms.beds === 1
+                ? "Bed"
+                : "Beds"
+            }
+          />
+
+          <SummaryCard
+            icon={<Users size={18} />}
+            value={rooms.bathrooms}
+            label={
+              rooms.bathrooms === 1
+                ? "Bathroom"
+                : "Bathrooms"
+            }
+          />
+        </section>
+
+        {/* ================================================================== */}
+        {/* MAIN ROOM SETTINGS                                                 */}
+        {/* ================================================================== */}
+
+        <section className="mt-5 overflow-hidden rounded-[28px] border border-[#E4DDD1] bg-white shadow-[0_15px_45px_rgba(24,24,27,0.04)]">
+          <div className="border-b border-black/[0.07] p-5 sm:p-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A711E]">
+              Sleeping arrangements
+            </p>
+
+            <h2 className="mt-2 font-serif text-2xl font-semibold">
+              Rooms and beds
+            </h2>
+          </div>
+
+          <div className="divide-y divide-black/[0.07]">
+            <RoomCounter
+              icon={<DoorOpen size={18} />}
+              title="Bedrooms"
+              description="Private sleeping rooms"
+              value={rooms.bedrooms}
+              min={1}
+              max={20}
+              suffix={
+                rooms.bedrooms === 1
+                  ? "room"
+                  : "rooms"
+              }
+              onDecrease={() =>
+                updateRoom(
+                  "bedrooms",
+                  rooms.bedrooms - 1,
+                )
+              }
+              onIncrease={() =>
+                updateRoom(
+                  "bedrooms",
+                  rooms.bedrooms + 1,
+                )
+              }
+            />
+
+            <RoomCounter
+              icon={<BedDouble size={18} />}
+              title="Beds"
+              description="Total individual beds"
+              value={rooms.beds}
+              min={1}
+              max={40}
+              suffix={
+                rooms.beds === 1
+                  ? "bed"
+                  : "beds"
+              }
+              onDecrease={() =>
+                updateRoom(
+                  "beds",
+                  rooms.beds - 1,
+                )
+              }
+              onIncrease={() =>
+                updateRoom(
+                  "beds",
+                  rooms.beds + 1,
+                )
+              }
+            />
+
+            <RoomCounter
+              icon={<Users size={18} />}
+              title="Bathrooms"
+              description="Bathrooms available to guests"
+              value={rooms.bathrooms}
+              min={1}
+              max={15}
+              suffix={
+                rooms.bathrooms === 1
+                  ? "bathroom"
+                  : "bathrooms"
+              }
+              onDecrease={() =>
+                updateRoom(
+                  "bathrooms",
+                  rooms.bathrooms - 1,
+                )
+              }
+              onIncrease={() =>
+                updateRoom(
+                  "bathrooms",
+                  rooms.bathrooms + 1,
+                )
+              }
+            />
+          </div>
+        </section>
+
+        {/* ================================================================== */}
+        {/* COMMON SPACES                                                       */}
+        {/* ================================================================== */}
+
+        <section className="mt-5 overflow-hidden rounded-[28px] border border-[#E4DDD1] bg-white shadow-[0_15px_45px_rgba(24,24,27,0.04)]">
+          <div className="border-b border-black/[0.07] p-5 sm:p-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A711E]">
+              Additional spaces
+            </p>
+
+            <h2 className="mt-2 font-serif text-2xl font-semibold">
+              Shared and living areas
+            </h2>
+          </div>
+
+          <div className="divide-y divide-black/[0.07]">
+            <RoomCounter
+              icon={<Sofa size={18} />}
+              title="Living rooms"
+              description="Separate living or lounge areas"
+              value={rooms.livingRooms}
+              min={0}
+              max={10}
+              suffix={
+                rooms.livingRooms === 1
+                  ? "room"
+                  : "rooms"
+              }
+              onDecrease={() =>
+                updateRoom(
+                  "livingRooms",
+                  rooms.livingRooms - 1,
+                )
+              }
+              onIncrease={() =>
+                updateRoom(
+                  "livingRooms",
+                  rooms.livingRooms + 1,
+                )
+              }
+            />
+
+            <RoomCounter
+              icon={<DoorOpen size={18} />}
+              title="Private rooms"
+              description="Rooms exclusively accessible to guests"
+              value={rooms.privateRooms}
+              min={1}
+              max={20}
+              suffix={
+                rooms.privateRooms === 1
+                  ? "room"
+                  : "rooms"
+              }
+              onDecrease={() =>
+                updateRoom(
+                  "privateRooms",
+                  rooms.privateRooms - 1,
+                )
+              }
+              onIncrease={() =>
+                updateRoom(
+                  "privateRooms",
+                  rooms.privateRooms + 1,
+                )
+              }
+            />
+
+            <RoomCounter
+              icon={<Users size={18} />}
+              title="Shared rooms"
+              description="Spaces shared with other guests"
+              value={rooms.sharedRooms}
+              min={0}
+              max={20}
+              suffix={
+                rooms.sharedRooms === 1
+                  ? "room"
+                  : "rooms"
+              }
+              onDecrease={() =>
+                updateRoom(
+                  "sharedRooms",
+                  rooms.sharedRooms - 1,
+                )
+              }
+              onIncrease={() =>
+                updateRoom(
+                  "sharedRooms",
+                  rooms.sharedRooms + 1,
+                )
+              }
+            />
+          </div>
+        </section>
+
+        {/* ================================================================== */}
+        {/* VALIDATION                                                         */}
+        {/* ================================================================== */}
+
+        {rooms.beds < rooms.bedrooms && (
+          <section className="mt-5 rounded-2xl border border-[#D9A441] bg-[#FFF9EA] p-4">
+            <p className="text-xs font-bold text-[#7C5D17]">
+              Add at least one bed for each bedroom.
+            </p>
+
+            <p className="mt-1 text-[10px] leading-5 text-[#8B7750]">
+              You currently have {rooms.bedrooms}{" "}
+              {rooms.bedrooms === 1
+                ? "bedroom"
+                : "bedrooms"}{" "}
+              but only {rooms.beds}{" "}
+              {rooms.beds === 1
+                ? "bed"
+                : "beds"}.
+            </p>
+          </section>
+        )}
+
+        {/* ================================================================== */}
+        {/* GUEST-FACING PREVIEW                                               */}
+        {/* ================================================================== */}
+
+        <section className="mt-5 rounded-[28px] border border-[#E4DDD1] bg-[#F7F3EB] p-5 sm:p-6">
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A711E]">
+            Guest preview
+          </p>
+
+          <h2 className="mt-2 font-serif text-2xl font-semibold">
+            What guests will see
+          </h2>
+
+          <div className="mt-5 flex flex-wrap gap-2">
+            <PreviewPill
+              icon={<DoorOpen size={14} />}
+              text={`${rooms.bedrooms} ${
+                rooms.bedrooms === 1
+                  ? "bedroom"
+                  : "bedrooms"
+              }`}
+            />
+
+            <PreviewPill
+              icon={<BedDouble size={14} />}
+              text={`${rooms.beds} ${
+                rooms.beds === 1
+                  ? "bed"
+                  : "beds"
+              }`}
+            />
+
+            <PreviewPill
+              icon={<Users size={14} />}
+              text={`${rooms.bathrooms} ${
+                rooms.bathrooms === 1
+                  ? "bathroom"
+                  : "bathrooms"
+              }`}
+            />
+
+            {rooms.livingRooms > 0 && (
+              <PreviewPill
+                icon={<Sofa size={14} />}
+                text={`${rooms.livingRooms} living ${
+                  rooms.livingRooms === 1
+                    ? "room"
+                    : "rooms"
+                }`}
+              />
+            )}
+          </div>
+        </section>
+
+        {/* ================================================================== */}
+        {/* INFO                                                               */}
+        {/* ================================================================== */}
+
+        <section className="mt-5 flex gap-3 rounded-2xl border border-[#E7DCC4] bg-[#FFF9EA] p-4 sm:p-5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-[#9A711E]">
+            <Info size={17} />
+          </div>
+
+          <div>
+            <p className="text-xs font-bold text-[#51472F]">
+              Keep your listing accurate
+            </p>
+
+            <p className="mt-1 text-[11px] leading-5 text-[#7C7052]">
+              The room and bed information should match
+              what guests will actually find when they
+              arrive at the property.
+            </p>
+          </div>
+        </section>
+
+        {/* ================================================================== */}
+        {/* SAVED                                                              */}
+        {/* ================================================================== */}
+
+        <div className="mt-5 flex min-h-5 justify-center">
+          {saved && (
+            <p className="flex items-center gap-1.5 text-[10px] font-bold text-[#68705A]">
+              <Check size={13} />
+              Room details saved
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* ================================================================== */}
+      {/* FOOTER                                                             */}
+      {/* ================================================================== */}
+
+      <footer className="sticky bottom-0 z-30 border-t border-black/[0.07] bg-[#FAF8F3]/95 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <Link
+            href={`/host/property/new/${id}/pricing`}
+            className="inline-flex items-center gap-2 rounded-xl px-3 py-3 text-xs font-bold text-[#57534E] transition hover:bg-white"
+          >
+            <ArrowLeft size={15} />
+
+            <span className="hidden sm:inline">
+              Back
+            </span>
+          </Link>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={saveRooms}
+              className="hidden rounded-xl border border-[#D8D1C5] bg-white px-5 py-3 text-xs font-bold text-[#403C37] transition hover:border-[#D9A441] sm:inline-flex"
+            >
+              Save
+            </button>
+
+            <button
+              type="button"
+              onClick={handleContinue}
+              disabled={
+                saving || !valid
+              }
+              className="inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-xs font-bold text-[#18181B] shadow-[0_8px_20px_rgba(217,164,65,0.18)] transition hover:bg-[#E7C46D] disabled:cursor-not-allowed disabled:opacity-50 sm:px-6"
+            >
+              {saving
+                ? "Saving..."
+                : "Continue"}
+
+              {!saving && (
+                <ArrowRight size={15} />
+              )}
+            </button>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
 
+/* ========================================================================== */
+/* ROOM COUNTER                                                               */
+/* ========================================================================== */
 
-/* Counter */
-
-function Counter({
-  label,
+function RoomCounter({
+  icon,
+  title,
   description,
   value,
+  min,
+  max,
+  suffix,
   onDecrease,
   onIncrease,
 }: {
-  label: string;
+  icon: React.ReactNode;
+  title: string;
   description: string;
   value: number;
+  min: number;
+  max: number;
+  suffix: string;
   onDecrease: () => void;
   onIncrease: () => void;
 }) {
   return (
-    <div className="flex flex-col gap-5 py-2 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex items-center gap-4 px-5 py-5 sm:px-6">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F7F3EB] text-[#9A711E]">
+        {icon}
+      </div>
 
-      <div>
-        <h3 className="text-sm font-semibold">
-          {label}
+      <div className="min-w-0 flex-1">
+        <h3 className="text-sm font-bold">
+          {title}
         </h3>
 
-        <p className="mt-1 text-xs leading-5 text-[#03045E]/40">
+        <p className="mt-1 text-[11px] leading-5 text-[#A8A29E]">
           {description}
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
-
+      <div className="flex shrink-0 items-center gap-3">
         <button
           type="button"
           onClick={onDecrease}
-          disabled={value <= 0}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-[#03045E]/10 text-lg text-[#03045E]/60 transition hover:border-[#0D21A1]/30 hover:bg-[#0D21A1]/5 disabled:cursor-not-allowed disabled:opacity-30"
+          disabled={value <= min}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D8D1C5] bg-white text-[#57534E] transition hover:border-[#D9A441] disabled:cursor-not-allowed disabled:opacity-30"
         >
-          −
+          <Minus size={15} />
         </button>
 
-        <span className="flex w-10 justify-center text-base font-semibold">
-          {value}
-        </span>
+        <div className="w-16 text-center">
+          <span className="block text-sm font-bold">
+            {value}
+          </span>
+
+          <span className="text-[9px] text-[#A8A29E]">
+            {suffix}
+          </span>
+        </div>
 
         <button
           type="button"
           onClick={onIncrease}
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-[#03045E] text-lg text-white transition hover:bg-[#0D21A1]"
+          disabled={value >= max}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-[#D8D1C5] bg-white text-[#57534E] transition hover:border-[#D9A441] disabled:cursor-not-allowed disabled:opacity-30"
         >
-          +
+          <Plus size={15} />
         </button>
-
       </div>
-
     </div>
   );
 }
 
+/* ========================================================================== */
+/* SUMMARY CARD                                                               */
+/* ========================================================================== */
 
-/* Divider */
-
-function Divider() {
-  return (
-    <div className="my-7 h-px bg-[#03045E]/7" />
-  );
-}
-
-
-/* Stat */
-
-function Stat({
+function SummaryCard({
+  icon,
   value,
   label,
 }: {
+  icon: React.ReactNode;
   value: number;
   label: string;
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
-      <p className="text-2xl font-semibold">
-        {value}
-      </p>
+    <div className="rounded-2xl border border-[#E4DDD1] bg-white p-4">
+      <div className="flex items-center gap-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FFF4D8] text-[#9A711E]">
+          {icon}
+        </div>
 
-      <p className="mt-1 text-[10px] uppercase tracking-[0.15em] text-white/40">
-        {label}
-      </p>
+        <div>
+          <p className="font-serif text-xl font-semibold">
+            {value}
+          </p>
+
+          <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#A8A29E]">
+            {label}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
 
+/* ========================================================================== */
+/* PREVIEW PILL                                                               */
+/* ========================================================================== */
 
-/* Feature */
-
-function Feature({ text }: { text: string }) {
+function PreviewPill({
+  icon,
+  text,
+}: {
+  icon: React.ReactNode;
+  text: string;
+}) {
   return (
-    <div className="flex items-center gap-3">
-
-      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10">
-        <span className="text-[10px] text-white">
-          ✓
-        </span>
-      </div>
-
-      <span className="text-sm text-white/65">
-        {text}
+    <span className="inline-flex items-center gap-2 rounded-full border border-[#DDD5C8] bg-white px-3 py-2 text-[10px] font-bold text-[#57534E]">
+      <span className="text-[#9A711E]">
+        {icon}
       </span>
 
-    </div>
+      {text}
+    </span>
   );
 }

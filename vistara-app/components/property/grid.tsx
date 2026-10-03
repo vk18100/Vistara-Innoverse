@@ -1,7 +1,7 @@
 "use client";
 
 import PropertyCard from "./propertycard";
-import { Property } from "@/types/property";
+import type { Property } from "@/types/property";
 
 interface PropertyGridProps {
   properties: Property[];
@@ -10,28 +10,54 @@ interface PropertyGridProps {
 export default function PropertyGrid({
   properties,
 }: PropertyGridProps) {
-  if (!properties.length) {
+  if (properties.length === 0) {
     return (
-      <div className="rounded-2xl border border-[#03045E]/10 bg-white p-12 text-center">
-        <h3 className="text-xl font-bold text-[#03045E]">
-          No stays found
-        </h3>
+      <div className="flex min-h-[320px] items-center justify-center rounded-[28px] border border-stone-200 bg-[#FAF9F6] px-6 py-12 text-center">
+        <div className="max-w-md">
+          <div
+            aria-hidden="true"
+            className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#F1E9DC] text-2xl text-[#9A7653]"
+          >
+            ✦
+          </div>
 
-        <p className="mt-2 text-sm text-gray-500">
-          Try changing your search or filters.
-        </p>
+          <h3 className="mt-5 text-xl font-semibold tracking-tight text-[#292524]">
+            No stays found
+          </h3>
+
+          <p className="mt-2 text-sm leading-6 text-[#78716C]">
+            We couldn't find stays matching your current search. Try another
+            destination or adjust your filters.
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {properties.map((property) => (
-        <PropertyCard
-          key={property.id}
-          property={property}
-        />
-      ))}
-    </div>
+    <section
+      aria-label="Available stays"
+      className="w-full"
+    >
+      <div
+        className="
+          grid
+          grid-cols-1
+          gap-x-5
+          gap-y-10
+          sm:grid-cols-2
+          lg:grid-cols-3
+          xl:grid-cols-4
+          2xl:gap-x-6
+        "
+      >
+        {properties.map((property) => (
+          <PropertyCard
+            key={property.id}
+            property={property}
+          />
+        ))}
+      </div>
+    </section>
   );
 }

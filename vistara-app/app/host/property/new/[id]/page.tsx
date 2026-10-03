@@ -1,313 +1,656 @@
-import Image from "next/image";
-import Link from "next/link";
-import Navbar from "@/components/navbar";
+"use client";
 
-const property = {
-  id: "1",
-  name: "The Heritage Courtyard",
-  location: "Patna, Bihar",
-  type: "Entire villa",
-  status: "Active",
-  guests: "6 guests",
-  bedrooms: "3 bedrooms",
-  beds: "4 beds",
-  bathrooms: "2 bathrooms",
-  price: "₹4,500",
-  rating: "4.8",
-  reviews: "24 reviews",
-  image: "/images/pag1 (1).jpg",
-  description:
-    "A peaceful heritage-inspired stay in Patna, designed for travellers looking for comfort, privacy and a memorable local experience.",
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  BedDouble,
+  CalendarDays,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Edit3,
+  ExternalLink,
+  House,
+  MapPin,
+  ShieldCheck,
+  Star,
+  Users,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+
+type Property = {
+  id: string;
+  name: string;
+  type: string;
+  description: string;
+  location: string;
+  city: string;
+  state: string;
+  country: string;
+  guests: number;
+  bedrooms: number;
+  beds: number;
+  bathrooms: number;
+  price: number;
+  cleaningFee: number;
+  rating: number;
+  reviews: number;
+  verified: boolean;
+  status: "Published" | "Draft" | "Pending";
+  images: string[];
+  amenities: string[];
 };
 
-const features = [
-  "Entire place",
-  "6 guests",
-  "3 bedrooms",
-  "4 beds",
-  "2 bathrooms",
-];
+const demoProperty: Property = {
+  id: "vistara-001",
+  name: "The Heritage Villa",
+  type: "Villa",
+  description:
+    "A peaceful private villa designed for comfortable family stays and memorable travel experiences. Enjoy spacious rooms, a relaxing atmosphere and convenient access to the city.",
+  location: "Boring Road",
+  city: "Patna",
+  state: "Bihar",
+  country: "India",
+  guests: 6,
+  bedrooms: 3,
+  beds: 4,
+  bathrooms: 3,
+  price: 4500,
+  cleaningFee: 500,
+  rating: 4.8,
+  reviews: 24,
+  verified: true,
+  status: "Published",
+  images: [
+    "/images/house.jpg",
+    "/images/beachhouse.jpg",
+    "/images/big.jpg",
+    "/images/dubai.jpg",
+  ],
+  amenities: [
+    "Wi-Fi",
+    "Air conditioning",
+    "Kitchen",
+    "Parking",
+    "TV",
+    "Hot water",
+    "Workspace",
+    "Garden",
+  ],
+};
 
-const bookings = [
-  {
-    guest: "Aarav Sharma",
-    dates: "18 Oct – 21 Oct",
-    amount: "₹13,500",
-    status: "Confirmed",
-  },
-  {
-    guest: "Riya Mehta",
-    dates: "24 Oct – 27 Oct",
-    amount: "₹11,400",
-    status: "Confirmed",
-  },
-];
+export default function PropertyDetailPage() {
+  const params = useParams();
+  const router = useRouter();
 
-export default function HostPropertyPage() {
+  const propertyId = params.id as string;
+
+  const [property, setProperty] =
+    useState<Property | null>(null);
+
+  const [loading, setLoading] = useState(true);
+  const [activeImage, setActiveImage] = useState(0);
+
+  useEffect(() => {
+    let mounted = true;
+
+    async function loadProperty() {
+      try {
+        setLoading(true);
+
+        /*
+         * Production API:
+         *
+         * const response = await fetch(
+         *   `/api/host/properties/${propertyId}`,
+         *   {
+         *     cache: "no-store",
+         *   }
+         * );
+         *
+         * if (!response.ok) {
+         *   if (response.status === 404) {
+         *     setProperty(null);
+         *     return;
+         *   }
+         *
+         *   throw new Error(
+         *     "Failed to load property"
+         *   );
+         * }
+         *
+         * const data = await response.json();
+         * setProperty(data.property);
+         */
+
+        await new Promise((resolve) =>
+          setTimeout(resolve, 450),
+        );
+
+        if (!mounted) return;
+
+        setProperty({
+          ...demoProperty,
+          id: propertyId,
+        });
+      } catch {
+        if (mounted) {
+          setProperty(null);
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadProperty();
+
+    return () => {
+      mounted = false;
+    };
+  }, [propertyId]);
+
+  function previousImage() {
+    if (!property) return;
+
+    setActiveImage((current) =>
+      current === 0
+        ? property.images.length - 1
+        : current - 1,
+    );
+  }
+
+  function nextImage() {
+    if (!property) return;
+
+    setActiveImage((current) =>
+      current === property.images.length - 1
+        ? 0
+        : current + 1,
+    );
+  }
+
+  if (loading) {
+    return <PropertySkeleton />;
+  }
+
+  if (!property) {
+    return <PropertyNotFound />;
+  }
+
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#03045E]">
-      <Navbar />
-
+    <main className="min-h-screen bg-[#FAF8F3] text-[#18181B]">
       {/* HEADER */}
-      <section className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-8 lg:px-10">
+      <header className="sticky top-0 z-30 border-b border-black/8 bg-[#FAF8F3]/95 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 sm:px-8">
           <Link
             href="/host/properties"
-            className="text-sm font-medium text-[#64748B] transition hover:text-[#03045E]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#57534E] transition hover:text-[#18181B]"
           >
-            ← Back to properties
+            <ArrowLeft size={17} />
+            <span className="hidden sm:inline">
+              Back to properties
+            </span>
+            <span className="sm:hidden">Back</span>
           </Link>
 
-          <div className="mt-7 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#C6A15B]">
-                PROPERTY MANAGEMENT
-              </p>
+          <div className="flex items-center gap-2">
+            <Link
+              href={`/host/property/${propertyId}/edit`}
+              className="inline-flex items-center gap-2 rounded-xl border border-black/8 bg-white px-4 py-2.5 text-sm font-bold transition hover:bg-[#F5F2EB]"
+            >
+              <Edit3 size={15} />
+              <span className="hidden sm:inline">
+                Edit property
+              </span>
+              <span className="sm:hidden">Edit</span>
+            </Link>
 
-              <h1 className="mt-3 font-serif text-4xl font-semibold md:text-5xl">
-                {property.name}
-              </h1>
-
-              <p className="mt-3 text-sm text-[#64748B]">
-                {property.location} · {property.type}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href={`/host/property/${property.id}/edit`}
-                className="rounded-xl border border-[#03045E]/15 px-5 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#F7F3EA]"
-              >
-                Edit listing
-              </Link>
-
-              <Link
-                href="/host/properties"
-                className="rounded-xl bg-[#03045E] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-              >
-                All properties
-              </Link>
-            </div>
+            <Link
+              href={`/host/calendar?propertyId=${propertyId}`}
+              className="hidden items-center gap-2 rounded-xl bg-[#D9A441] px-4 py-2.5 text-sm font-bold text-[#18181B] transition hover:bg-[#E7C46D] sm:inline-flex"
+            >
+              <CalendarDays size={15} />
+              Calendar
+            </Link>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* CONTENT */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        <div className="grid gap-7 lg:grid-cols-[1.45fr_0.75fr]">
+      <div className="mx-auto max-w-7xl px-5 py-7 sm:px-8 lg:py-10">
+        {/* BREADCRUMB */}
+        <div className="mb-6 flex items-center gap-2 text-xs text-[#78716C]">
+          <Link
+            href="/host"
+            className="hover:text-[#18181B]"
+          >
+            Host
+          </Link>
 
-          {/* LEFT */}
-          <div className="space-y-7">
+          <ChevronRight size={13} />
 
-            {/* IMAGE */}
-            <div className="relative h-[380px] overflow-hidden rounded-[30px] bg-white shadow-[0_12px_40px_rgba(3,4,94,0.06)] md:h-[500px]">
-              <Image
-                src={property.image}
-                alt={property.name}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 65vw"
-                className="object-cover"
-              />
+          <Link
+            href="/host/properties"
+            className="hover:text-[#18181B]"
+          >
+            Properties
+          </Link>
 
-              <div className="absolute left-5 top-5">
-                <span className="rounded-full bg-white px-4 py-2 text-xs font-bold text-emerald-700 shadow-sm">
-                  {property.status}
+          <ChevronRight size={13} />
+
+          <span className="font-semibold text-[#44403C]">
+            {property.name}
+          </span>
+        </div>
+
+        {/* TITLE */}
+        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="rounded-full bg-[#F3F8EE] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#4E693E]">
+                {property.status}
+              </span>
+
+              {property.verified && (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF8E8] px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#8C6719]">
+                  <ShieldCheck size={12} />
+                  Verified
                 </span>
-              </div>
+              )}
             </div>
 
-            {/* PROPERTY INFO */}
-            <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-7 shadow-[0_12px_40px_rgba(3,4,94,0.04)]">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                    LISTING DETAILS
-                  </p>
+            <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+              {property.name}
+            </h1>
 
-                  <h2 className="mt-2 font-serif text-2xl font-semibold">
-                    {property.name}
-                  </h2>
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[#78716C]">
+              <span className="inline-flex items-center gap-1.5">
+                <MapPin size={15} />
+                {property.location}, {property.city}
+              </span>
 
-                  <p className="mt-2 text-sm text-[#64748B]">
-                    {property.location}
-                  </p>
-                </div>
+              <span className="hidden h-1 w-1 rounded-full bg-[#A8A29E] sm:block" />
 
-                <div className="sm:text-right">
-                  <p className="text-xs text-[#94A3B8]">
-                    Guest rating
-                  </p>
-
-                  <p className="mt-1 text-lg font-semibold">
-                    ★ {property.rating}
-                  </p>
-
-                  <p className="text-xs text-[#64748B]">
-                    {property.reviews}
-                  </p>
-                </div>
-              </div>
-
-              <p className="mt-6 text-sm leading-7 text-[#64748B]">
-                {property.description}
-              </p>
-
-              {/* FEATURES */}
-              <div className="mt-7 grid gap-3 border-t border-[#03045E]/10 pt-6 sm:grid-cols-2 lg:grid-cols-3">
-                {features.map((feature) => (
-                  <div
-                    key={feature}
-                    className="rounded-xl bg-[#FAFAF8] px-4 py-3 text-sm font-medium"
-                  >
-                    {feature}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* UPCOMING BOOKINGS */}
-            <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-7 shadow-[0_12px_40px_rgba(3,4,94,0.04)]">
-              <div className="flex items-end justify-between">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                    BOOKINGS
-                  </p>
-
-                  <h2 className="mt-2 font-serif text-2xl font-semibold">
-                    Upcoming stays
-                  </h2>
-                </div>
-
-                <Link
-                  href="/host/bookings"
-                  className="text-sm font-semibold text-[#0D21A1] hover:underline"
-                >
-                  View all
-                </Link>
-              </div>
-
-              <div className="mt-6 space-y-3">
-                {bookings.map((booking) => (
-                  <div
-                    key={booking.guest}
-                    className="flex flex-col gap-4 rounded-2xl border border-[#03045E]/10 p-4 sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div>
-                      <p className="text-sm font-semibold">
-                        {booking.guest}
-                      </p>
-
-                      <p className="mt-1 text-xs text-[#64748B]">
-                        {booking.dates}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                      <span className="text-sm font-semibold">
-                        {booking.amount}
-                      </span>
-
-                      <span className="rounded-full bg-[#ECFDF5] px-3 py-1 text-xs font-semibold text-emerald-700">
-                        {booking.status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <span className="inline-flex items-center gap-1.5">
+                <Star
+                  size={15}
+                  fill="currentColor"
+                />
+                {property.rating} · {property.reviews} reviews
+              </span>
             </div>
           </div>
 
-          {/* RIGHT */}
-          <aside className="space-y-6">
+          <div className="flex items-end gap-1">
+            <span className="font-serif text-2xl font-semibold">
+              ₹{property.price.toLocaleString("en-IN")}
+            </span>
 
-            {/* PRICE */}
-            <div className="rounded-[30px] bg-[#03045E] p-7 text-white shadow-[0_18px_55px_rgba(3,4,94,0.14)]">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                NIGHTLY PRICE
+            <span className="pb-1 text-sm text-[#78716C]">
+              / night
+            </span>
+          </div>
+        </div>
+
+        {/* IMAGE GALLERY */}
+        <section className="mt-8 overflow-hidden rounded-[28px] border border-black/8 bg-white">
+          <div className="grid min-h-[360px] md:grid-cols-[1.55fr_1fr]">
+            {/* MAIN IMAGE */}
+            <div className="relative min-h-[320px] overflow-hidden bg-[#ECE9E1] md:min-h-[480px]">
+              <img
+                src={property.images[activeImage]}
+                alt={`${property.name} image ${activeImage + 1}`}
+                className="h-full w-full object-cover"
+              />
+
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-5 pt-20">
+                <span className="rounded-full bg-black/35 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur">
+                  {activeImage + 1} /{" "}
+                  {property.images.length}
+                </span>
+              </div>
+
+              {property.images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={previousImage}
+                    aria-label="Previous image"
+                    className="absolute left-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur transition hover:bg-white"
+                  >
+                    <ChevronLeft size={19} />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={nextImage}
+                    aria-label="Next image"
+                    className="absolute right-4 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-sm backdrop-blur transition hover:bg-white"
+                  >
+                    <ChevronRight size={19} />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* THUMBNAILS */}
+            <div className="grid grid-cols-2 gap-2 bg-[#F2EFE7] p-2">
+              {property.images.slice(0, 4).map(
+                (image, index) => (
+                  <button
+                    key={`${image}-${index}`}
+                    type="button"
+                    onClick={() =>
+                      setActiveImage(index)
+                    }
+                    className={`relative overflow-hidden rounded-2xl ${
+                      activeImage === index
+                        ? "ring-2 ring-[#D9A441] ring-offset-2"
+                        : ""
+                    }`}
+                  >
+                    <img
+                      src={image}
+                      alt={`${property.name} thumbnail ${
+                        index + 1
+                      }`}
+                      className="h-full min-h-[130px] w-full object-cover transition duration-300 hover:scale-105"
+                    />
+                  </button>
+                ),
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* MAIN GRID */}
+        <div className="mt-8 grid gap-7 lg:grid-cols-[1fr_340px]">
+          {/* LEFT */}
+          <div className="space-y-7">
+            {/* OVERVIEW */}
+            <section className="rounded-[26px] border border-black/8 bg-white p-6 sm:p-8">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A711E]">
+                    Overview
+                  </p>
+
+                  <h2 className="mt-2 font-serif text-2xl font-semibold">
+                    Property details
+                  </h2>
+                </div>
+
+                <div className="hidden h-10 w-10 items-center justify-center rounded-xl bg-[#FFF8E8] text-[#9A711E] sm:flex">
+                  <House size={19} />
+                </div>
+              </div>
+
+              <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                <InfoBox
+                  icon={<Users size={17} />}
+                  label="Guests"
+                  value={`${property.guests}`}
+                />
+
+                <InfoBox
+                  icon={<BedDouble size={17} />}
+                  label="Bedrooms"
+                  value={`${property.bedrooms}`}
+                />
+
+                <InfoBox
+                  icon={<BedDouble size={17} />}
+                  label="Beds"
+                  value={`${property.beds}`}
+                />
+
+                <InfoBox
+                  icon={<House size={17} />}
+                  label="Bathrooms"
+                  value={`${property.bathrooms}`}
+                />
+              </div>
+
+              <div className="mt-7 border-t border-black/7 pt-7">
+                <h3 className="text-sm font-bold">
+                  About this property
+                </h3>
+
+                <p className="mt-3 max-w-3xl text-sm leading-7 text-[#68625D]">
+                  {property.description}
+                </p>
+              </div>
+            </section>
+
+            {/* LOCATION */}
+            <section className="rounded-[26px] border border-black/8 bg-white p-6 sm:p-8">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A711E]">
+                Location
               </p>
 
-              <p className="mt-3 font-serif text-3xl font-semibold">
-                {property.price}
+              <h2 className="mt-2 font-serif text-2xl font-semibold">
+                Where your property is
+              </h2>
+
+              <div className="mt-6 flex items-start gap-4 rounded-2xl bg-[#FAF8F3] p-5">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#FFF8E8] text-[#9A711E]">
+                  <MapPin size={19} />
+                </div>
+
+                <div>
+                  <p className="font-semibold">
+                    {property.location}
+                  </p>
+
+                  <p className="mt-1 text-sm text-[#78716C]">
+                    {property.city}, {property.state},{" "}
+                    {property.country}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* AMENITIES */}
+            <section className="rounded-[26px] border border-black/8 bg-white p-6 sm:p-8">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A711E]">
+                Amenities
               </p>
 
-              <p className="mt-1 text-sm text-white/60">
-                per night
+              <h2 className="mt-2 font-serif text-2xl font-semibold">
+                What this property offers
+              </h2>
+
+              <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {property.amenities.map((amenity) => (
+                  <div
+                    key={amenity}
+                    className="flex items-center gap-3 rounded-xl border border-black/7 px-4 py-3"
+                  >
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[#F3F8EE] text-[#4E693E]">
+                      <Check size={14} />
+                    </span>
+
+                    <span className="text-sm font-medium">
+                      {amenity}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* RIGHT SIDEBAR */}
+          <aside className="h-fit space-y-5 lg:sticky lg:top-24">
+            {/* PRICE CARD */}
+            <section className="rounded-[26px] border border-black/8 bg-white p-6 shadow-[0_12px_40px_rgba(24,24,27,0.05)]">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#9A711E]">
+                Current pricing
               </p>
+
+              <div className="mt-3 flex items-end gap-1">
+                <span className="font-serif text-3xl font-semibold">
+                  ₹
+                  {property.price.toLocaleString(
+                    "en-IN",
+                  )}
+                </span>
+
+                <span className="pb-1 text-sm text-[#78716C]">
+                  / night
+                </span>
+              </div>
+
+              <div className="my-5 border-t border-black/7" />
+
+              <div className="space-y-3 text-sm">
+                <PriceRow
+                  label="Nightly rate"
+                  value={`₹${property.price.toLocaleString(
+                    "en-IN",
+                  )}`}
+                />
+
+                <PriceRow
+                  label="Cleaning fee"
+                  value={`₹${property.cleaningFee.toLocaleString(
+                    "en-IN",
+                  )}`}
+                />
+              </div>
 
               <Link
-                href={`/host/property/${property.id}/edit`}
-                className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#F7F3EA]"
+                href={`/host/calendar?propertyId=${propertyId}`}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-[#D9A441] px-4 py-3 text-sm font-bold text-[#18181B] transition hover:bg-[#E7C46D]"
               >
-                Update pricing
+                <CalendarDays size={16} />
+                Manage calendar
               </Link>
-            </div>
+            </section>
 
-            {/* PERFORMANCE */}
-            <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-7 shadow-[0_12px_40px_rgba(3,4,94,0.04)]">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                PERFORMANCE
-              </p>
+            {/* VERIFICATION */}
+            <section className="rounded-[26px] border border-black/8 bg-white p-6">
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F3F8EE] text-[#4E693E]">
+                  <ShieldCheck size={19} />
+                </div>
 
-              <div className="mt-5 space-y-5">
-                <Performance
-                  label="Rating"
-                  value="4.8 / 5"
-                />
+                <div>
+                  <p className="text-sm font-bold">
+                    Verified property
+                  </p>
 
-                <Performance
-                  label="Reviews"
-                  value="24"
-                />
-
-                <Performance
-                  label="Upcoming bookings"
-                  value="2"
-                />
-
-                <Performance
-                  label="Listing status"
-                  value="Active"
-                />
+                  <p className="mt-1 text-xs leading-5 text-[#78716C]">
+                    Your property has completed the current
+                    verification requirements.
+                  </p>
+                </div>
               </div>
-            </div>
 
-            {/* MANAGEMENT */}
-            <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-7 shadow-[0_12px_40px_rgba(3,4,94,0.04)]">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                MANAGEMENT
+              <Link
+                href="/host/verification"
+                className="mt-5 flex items-center justify-between border-t border-black/7 pt-4 text-xs font-bold text-[#57534E]"
+              >
+                View verification
+                <ChevronRight size={15} />
+              </Link>
+            </section>
+
+            {/* ACTIONS */}
+            <section className="rounded-[26px] border border-black/8 bg-white p-6">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#A8A29E]">
+                Manage
               </p>
 
-              <div className="mt-5 space-y-2">
-                <ManageLink
-                  href={`/host/property/${property.id}/edit`}
-                  title="Edit listing"
+              <div className="mt-3 divide-y divide-black/7">
+                <ActionLink
+                  href={`/host/property/${propertyId}/edit`}
+                  icon={<Edit3 size={16} />}
+                  label="Edit property"
                 />
 
-                <ManageLink
-                  href="/host/bookings"
-                  title="Manage bookings"
+                <ActionLink
+                  href={`/host/bookings?propertyId=${propertyId}`}
+                  icon={<CalendarDays size={16} />}
+                  label="View bookings"
                 />
 
-                <ManageLink
-                  href="/host/verification"
-                  title="View verification"
+                <ActionLink
+                  href={`/host/calendar?propertyId=${propertyId}`}
+                  icon={<CalendarDays size={16} />}
+                  label="Open calendar"
                 />
 
-                <ManageLink
+                <ActionLink
                   href="/host/properties"
-                  title="Back to all properties"
+                  icon={<House size={16} />}
+                  label="All properties"
                 />
               </div>
-            </div>
+            </section>
+
+            {/* PREVIEW */}
+            <Link
+              href={`/property/${propertyId}`}
+              className="group flex items-center justify-between rounded-[22px] border border-black/8 bg-[#18181B] px-5 py-4 text-white transition hover:bg-[#292524]"
+            >
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#D9A441]">
+                  Guest view
+                </p>
+
+                <p className="mt-1 text-sm font-semibold">
+                  Preview listing
+                </p>
+              </div>
+
+              <ExternalLink
+                size={17}
+                className="transition group-hover:translate-x-0.5"
+              />
+            </Link>
           </aside>
         </div>
-      </section>
+      </div>
     </main>
   );
 }
 
-function Performance({
+/* -------------------------------------------------------------------------- */
+/* INFO BOX                                                                    */
+/* -------------------------------------------------------------------------- */
+
+function InfoBox({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-2xl bg-[#FAF8F3] p-4">
+      <div className="text-[#9A711E]">
+        {icon}
+      </div>
+
+      <p className="mt-3 text-lg font-bold">{value}</p>
+
+      <p className="mt-0.5 text-xs text-[#78716C]">
+        {label}
+      </p>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* PRICE ROW                                                                   */
+/* -------------------------------------------------------------------------- */
+
+function PriceRow({
   label,
   value,
 }: {
@@ -315,35 +658,109 @@ function Performance({
   value: string;
 }) {
   return (
-    <div className="flex items-center justify-between border-b border-[#03045E]/10 pb-4 last:border-0 last:pb-0">
-      <span className="text-sm text-[#64748B]">
-        {label}
-      </span>
+    <div className="flex items-center justify-between gap-4">
+      <span className="text-[#78716C]">{label}</span>
 
-      <span className="text-sm font-semibold">
-        {value}
-      </span>
+      <span className="font-semibold">{value}</span>
     </div>
   );
 }
 
-function ManageLink({
+/* -------------------------------------------------------------------------- */
+/* ACTION LINK                                                                 */
+/* -------------------------------------------------------------------------- */
+
+function ActionLink({
   href,
-  title,
+  icon,
+  label,
 }: {
   href: string;
-  title: string;
+  icon: React.ReactNode;
+  label: string;
 }) {
   return (
     <Link
       href={href}
-      className="group flex items-center justify-between rounded-xl p-3 text-sm font-medium transition hover:bg-[#F7F3EA]"
+      className="flex items-center justify-between py-3.5 text-sm font-semibold text-[#57534E] transition hover:text-[#18181B]"
     >
-      <span>{title}</span>
+      <span className="flex items-center gap-3">
+        <span className="text-[#9A711E]">
+          {icon}
+        </span>
 
-      <span className="text-[#94A3B8] transition group-hover:translate-x-1">
-        →
+        {label}
       </span>
+
+      <ChevronRight size={15} />
     </Link>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* NOT FOUND                                                                   */
+/* -------------------------------------------------------------------------- */
+
+function PropertyNotFound() {
+  return (
+    <main className="flex min-h-screen items-center justify-center bg-[#FAF8F3] px-5">
+      <div className="w-full max-w-md rounded-[28px] border border-black/8 bg-white p-8 text-center">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#FFF8E8] text-[#9A711E]">
+          <House size={23} />
+        </div>
+
+        <h1 className="mt-5 font-serif text-2xl font-semibold">
+          Property not found
+        </h1>
+
+        <p className="mt-2 text-sm leading-6 text-[#78716C]">
+          This property may have been removed or you may
+          not have permission to view it.
+        </p>
+
+        <Link
+          href="/host/properties"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#18181B] px-5 py-3 text-sm font-bold text-white"
+        >
+          <ArrowLeft size={15} />
+          Back to properties
+        </Link>
+      </div>
+    </main>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* LOADING SKELETON                                                            */
+/* -------------------------------------------------------------------------- */
+
+function PropertySkeleton() {
+  return (
+    <main className="min-h-screen bg-[#FAF8F3]">
+      <header className="border-b border-black/8 bg-white">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
+          <div className="h-5 w-32 animate-pulse rounded bg-[#E7E3D9]" />
+          <div className="h-10 w-32 animate-pulse rounded-xl bg-[#E7E3D9]" />
+        </div>
+      </header>
+
+      <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8">
+        <div className="h-4 w-40 animate-pulse rounded bg-[#E7E3D9]" />
+
+        <div className="mt-5 h-12 w-80 animate-pulse rounded bg-[#E7E3D9]" />
+
+        <div className="mt-8 h-[480px] animate-pulse rounded-[28px] bg-white" />
+
+        <div className="mt-8 grid gap-7 lg:grid-cols-[1fr_340px]">
+          <div className="space-y-6">
+            <div className="h-64 animate-pulse rounded-[26px] bg-white" />
+            <div className="h-52 animate-pulse rounded-[26px] bg-white" />
+            <div className="h-64 animate-pulse rounded-[26px] bg-white" />
+          </div>
+
+          <div className="h-[520px] animate-pulse rounded-[26px] bg-white" />
+        </div>
+      </div>
+    </main>
   );
 }

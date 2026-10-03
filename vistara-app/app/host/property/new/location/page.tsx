@@ -1,477 +1,698 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Globe2,
+  Home,
+  Info,
+  MapPin,
+  Navigation,
+  Search,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
-export default function PropertyLocationPage() {
-  const [country, setCountry] = useState("India");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [locality, setLocality] = useState("");
-  const [address, setAddress] = useState("");
-  const [pin, setPin] = useState("");
+type LocationState = {
+  country: string;
+  state: string;
+  city: string;
+  locality: string;
+  address: string;
+  landmark: string;
+  pincode: string;
+};
 
-  const handleContinue = () => {
-    if (!state || !city || !locality || !address || !pin) {
-      alert("Please complete all location details.");
+const DEFAULT_LOCATION: LocationState = {
+  country: "India",
+  state: "",
+  city: "",
+  locality: "",
+  address: "",
+  landmark: "",
+  pincode: "",
+};
+
+export default function LocationPage() {
+  const params = useParams();
+  const router = useRouter();
+
+  const id = String(params.id);
+  const storageKey = `vistara-property-${id}-location`;
+
+  const [location, setLocation] =
+    useState<LocationState>(DEFAULT_LOCATION);
+
+  const [loaded, setLoaded] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof LocationState, string>>
+  >({});
+
+  /* ---------------------------------------------------------------------- */
+  /* LOAD                                                                    */
+  /* ---------------------------------------------------------------------- */
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(storageKey);
+
+      if (stored) {
+        const parsed = JSON.parse(stored);
+
+        setLocation({
+          country:
+            parsed.country || DEFAULT_LOCATION.country,
+          state: parsed.state || "",
+          city: parsed.city || "",
+          locality: parsed.locality || "",
+          address: parsed.address || "",
+          landmark: parsed.landmark || "",
+          pincode: parsed.pincode || "",
+        });
+      }
+    } catch {
+      setLocation(DEFAULT_LOCATION);
+    } finally {
+      setLoaded(true);
+    }
+  }, [storageKey]);
+
+  /* ---------------------------------------------------------------------- */
+  /* UPDATE                                                                  */
+  /* ---------------------------------------------------------------------- */
+
+  function updateField(
+    field: keyof LocationState,
+    value: string,
+  ) {
+    setLocation((current) => ({
+      ...current,
+      [field]: value,
+    }));
+
+    setSaved(false);
+
+    if (errors[field]) {
+      setErrors((current) => ({
+        ...current,
+        [field]: "",
+      }));
+    }
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* VALIDATION                                                              */
+  /* ---------------------------------------------------------------------- */
+
+  function validate() {
+    const nextErrors: Partial<
+      Record<keyof LocationState, string>
+    > = {};
+
+    if (!location.country.trim()) {
+      nextErrors.country = "Country is required";
+    }
+
+    if (!location.state.trim()) {
+      nextErrors.state = "State is required";
+    }
+
+    if (!location.city.trim()) {
+      nextErrors.city = "City is required";
+    }
+
+    if (!location.locality.trim()) {
+      nextErrors.locality =
+        "Locality or area is required";
+    }
+
+    if (!location.address.trim()) {
+      nextErrors.address =
+        "Property address is required";
+    }
+
+    if (!location.pincode.trim()) {
+      nextErrors.pincode =
+        "PIN code is required";
+    } else if (!/^\d{6}$/.test(location.pincode)) {
+      nextErrors.pincode =
+        "Enter a valid 6-digit PIN code";
+    }
+
+    setErrors(nextErrors);
+
+    return Object.keys(nextErrors).length === 0;
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* SAVE                                                                    */
+  /* ---------------------------------------------------------------------- */
+
+  function saveLocation() {
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(location),
+      );
+
+      setSaved(true);
+    } catch {
+      setSaved(false);
+    }
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* CONTINUE                                                                */
+  /* ---------------------------------------------------------------------- */
+
+  function handleContinue() {
+    if (!validate()) {
+      window.scrollTo({
+        top: 250,
+        behavior: "smooth",
+      });
+
       return;
     }
 
-    console.log({
-      country,
-      state,
-      city,
-      locality,
-      address,
-      pin,
-    });
-  };
+    setSaving(true);
+
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify(location),
+      );
+    } finally {
+      setTimeout(() => {
+        router.push(
+          `/host/property/new/${id}/pricing`,
+        );
+      }, 300);
+    }
+  }
+
+  /* ---------------------------------------------------------------------- */
+  /* LOADING                                                                 */
+  /* ---------------------------------------------------------------------- */
+
+  if (!loaded) {
+    return (
+      <main className="min-h-screen bg-[#FAF8F3]">
+        <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+          <div className="animate-pulse">
+            <div className="h-5 w-28 rounded bg-[#E7E0D4]" />
+            <div className="mt-12 h-10 w-80 rounded bg-[#E7E0D4]" />
+            <div className="mt-4 h-4 w-[450px] max-w-full rounded bg-[#E7E0D4]" />
+            <div className="mt-10 h-96 rounded-[28px] bg-[#E7E0D4]" />
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
+    <main className="min-h-screen bg-[#FAF8F3] text-[#18181B]">
+      {/* ================================================================== */}
+      {/* HEADER                                                             */}
+      {/* ================================================================== */}
 
-      {/* Header */}
-      <header className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between px-6 lg:px-10">
+      <header className="sticky top-0 z-40 border-b border-black/[0.07] bg-[#FAF8F3]/95 backdrop-blur-xl">
+        <div className="mx-auto flex h-[68px] max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link
+            href={`/host/property/new/${id}/guests`}
+            className="inline-flex items-center gap-2 text-xs font-bold text-[#57534E] transition hover:text-[#9A711E]"
+          >
+            <ArrowLeft size={16} />
 
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#03045E]">
-              <span className="font-bold text-white">V</span>
+            <span className="hidden sm:inline">
+              Back to guests
+            </span>
+
+            <span className="sm:hidden">
+              Back
+            </span>
+          </Link>
+
+          <div className="hidden items-center gap-2 sm:flex">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#18181B] text-xs font-bold text-white">
+              V
             </div>
 
-            <div>
-              <p className="text-sm font-semibold">VISTARA</p>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[#03045E]/40">
-                Host Studio
-              </p>
-            </div>
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#78716C]">
+              Property setup
+            </span>
           </div>
 
-          <button className="rounded-full border border-[#03045E]/10 px-4 py-2 text-sm text-[#03045E]/60 transition hover:bg-[#03045E]/5">
-            Exit
-          </button>
+          <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#A8A29E]">
+            05 / 07
+          </span>
         </div>
       </header>
 
-      {/* Main */}
-      <div className="mx-auto max-w-[1500px] px-6 py-10 lg:px-10 lg:py-14">
+      {/* ================================================================== */}
+      {/* PROGRESS                                                            */}
+      {/* ================================================================== */}
 
-        {/* Heading */}
-        <div className="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
-
-          <div>
-            <div className="mb-4 flex items-center gap-3">
-              <span className="h-2 w-2 rounded-full bg-[#0D21A1]" />
-
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#0D21A1]">
-                Create your listing
-              </span>
-            </div>
-
-            <h1 className="text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-              Where is your
-              <span className="block text-[#0D21A1]">
-                property located?
-              </span>
-            </h1>
-
-            <p className="mt-5 max-w-xl text-sm leading-7 text-[#03045E]/50 sm:text-base">
-              Help travellers find your property by providing an accurate
-              location and address.
-            </p>
+      <div className="border-b border-black/[0.06] bg-white">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-1.5">
+            <div className="w-[71%] bg-[#D9A441]" />
+            <div className="flex-1 bg-[#EEE9E0]" />
           </div>
-
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#03045E]/35">
-              Current step
-            </p>
-
-            <p className="mt-1 text-3xl font-semibold">
-              02<span className="text-[#03045E]/20">/10</span>
-            </p>
-          </div>
-
-        </div>
-
-        {/* Progress */}
-        <div className="mb-12 overflow-x-auto pb-2">
-          <div className="flex min-w-[900px] items-center">
-
-            {[
-              "Basic",
-              "Location",
-              "Rooms",
-              "Amenities",
-              "Photos",
-              "Pricing",
-              "Availability",
-              "Rules",
-              "Guests",
-              "Preview",
-            ].map((step, index) => {
-
-              const active = index === 1;
-              const completed = index === 0;
-
-              return (
-                <div
-                  key={step}
-                  className="flex flex-1 items-center"
-                >
-
-                  <div className="flex items-center gap-3">
-
-                    <div
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
-                        active
-                          ? "bg-[#03045E] text-white shadow-[0_8px_25px_rgba(3,4,94,0.22)]"
-                          : completed
-                            ? "bg-[#0D21A1] text-white"
-                            : "border border-[#03045E]/10 text-[#03045E]/30"
-                      }`}
-                    >
-                      {completed ? "✓" : String(index + 1).padStart(2, "0")}
-                    </div>
-
-                    <span
-                      className={`hidden text-xs font-medium xl:block ${
-                        active
-                          ? "text-[#03045E]"
-                          : completed
-                            ? "text-[#0D21A1]"
-                            : "text-[#03045E]/30"
-                      }`}
-                    >
-                      {step}
-                    </span>
-
-                  </div>
-
-                  {index !== 9 && (
-                    <div
-                      className={`mx-3 h-px flex-1 ${
-                        index < 1
-                          ? "bg-[#0D21A1]/40"
-                          : "bg-[#03045E]/10"
-                      }`}
-                    />
-                  )}
-
-                </div>
-              );
-            })}
-
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_390px]">
-
-          {/* Form */}
-          <section className="overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_20px_70px_rgba(3,4,94,0.08)]">
-
-            <div className="border-b border-[#03045E]/8 px-7 py-8 sm:px-10">
-
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#0D21A1]">
-                Step 02
-              </p>
-
-              <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">
-                Property location
-              </h2>
-
-              <p className="mt-3 text-sm leading-6 text-[#03045E]/50">
-                Enter the location where guests will stay.
-              </p>
-
-            </div>
-
-            <div className="px-7 py-8 sm:px-10 sm:py-10">
-
-              {/* Country + State */}
-              <div className="grid gap-6 sm:grid-cols-2">
-
-                <Field
-                  label="Country"
-                  value={country}
-                  onChange={setCountry}
-                  options={["India", "Nepal", "Bhutan", "Sri Lanka"]}
-                />
-
-                <Field
-                  label="State / Region"
-                  value={state}
-                  onChange={setState}
-                  placeholder="e.g. Bihar"
-                />
-
-              </div>
-
-              {/* City + Locality */}
-              <div className="mt-7 grid gap-6 sm:grid-cols-2">
-
-                <Field
-                  label="City"
-                  value={city}
-                  onChange={setCity}
-                  placeholder="e.g. Patna"
-                />
-
-                <Field
-                  label="Locality"
-                  value={locality}
-                  onChange={setLocality}
-                  placeholder="e.g. Boring Road"
-                />
-
-              </div>
-
-              {/* Address */}
-              <div className="mt-7">
-
-                <label className="mb-3 block text-sm font-semibold">
-                  Full address
-                </label>
-
-                <textarea
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  rows={4}
-                  placeholder="Enter the complete property address..."
-                  className="w-full resize-none rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.025] px-5 py-4 text-sm leading-7 outline-none transition placeholder:text-[#03045E]/25 hover:border-[#0D21A1]/20 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                />
-
-              </div>
-
-              {/* PIN */}
-              <div className="mt-7 max-w-sm">
-
-                <label className="mb-3 block text-sm font-semibold">
-                  PIN code
-                </label>
-
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={6}
-                  value={pin}
-                  onChange={(e) =>
-                    setPin(e.target.value.replace(/\D/g, ""))
-                  }
-                  placeholder="800001"
-                  className="h-14 w-full rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.025] px-5 text-sm outline-none transition placeholder:text-[#03045E]/25 hover:border-[#0D21A1]/20 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                />
-
-              </div>
-
-              {/* Map Preview */}
-              <div className="mt-8 overflow-hidden rounded-[24px] border border-[#03045E]/10">
-
-                <div className="relative h-[280px] bg-[#03045E]/[0.035]">
-
-                  {/* Grid */}
-                  <div
-                    className="absolute inset-0 opacity-30"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(rgba(3,4,94,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(3,4,94,.08) 1px, transparent 1px)",
-                      backgroundSize: "32px 32px",
-                    }}
-                  />
-
-                  {/* Decorative roads */}
-                  <div className="absolute left-[12%] top-[58%] h-px w-[80%] rotate-[-12deg] bg-[#0D21A1]/20" />
-                  <div className="absolute left-[35%] top-[15%] h-[80%] w-px rotate-[18deg] bg-[#0D21A1]/15" />
-
-                  {/* Location pin */}
-                  <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-
-                    <div className="absolute -inset-5 animate-pulse rounded-full bg-[#0D21A1]/10" />
-
-                    <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-[#03045E] shadow-[0_12px_30px_rgba(3,4,94,0.3)]">
-                      <span className="text-lg text-white">⌖</span>
-                    </div>
-
-                  </div>
-
-                  {/* Map label */}
-                  <div className="absolute bottom-5 left-5 rounded-xl border border-white/70 bg-white/90 px-4 py-3 shadow-lg backdrop-blur">
-                    <p className="text-xs font-semibold">
-                      Property location
-                    </p>
-
-                    <p className="mt-1 text-[11px] text-[#03045E]/45">
-                      Map location will be confirmed later
-                    </p>
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* Footer */}
-            <div className="flex flex-col-reverse gap-4 border-t border-[#03045E]/8 bg-[#03045E]/[0.015] px-7 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-
-              <button
-                type="button"
-                className="text-sm font-medium text-[#03045E]/45 transition hover:text-[#03045E]"
-              >
-                ← Back
-              </button>
-
-              <button
-                type="button"
-                onClick={handleContinue}
-                className="group inline-flex items-center justify-center gap-3 rounded-2xl bg-[#03045E] px-7 py-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(3,4,94,0.2)] transition duration-300 hover:-translate-y-0.5 hover:bg-[#0D21A1]"
-              >
-                Continue
-
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-              </button>
-
-            </div>
-
-          </section>
-
-          {/* Side Panel */}
-          <aside>
-
-            <div className="relative min-h-[560px] overflow-hidden rounded-[28px] bg-[#03045E] p-8 text-white shadow-[0_25px_70px_rgba(3,4,94,0.18)] sm:p-10">
-
-              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#0D21A1]/50 blur-3xl" />
-
-              <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[#0D21A1]/30 blur-3xl" />
-
-              <div className="relative z-10 flex h-full flex-col">
-
-                <div className="flex items-center justify-between">
-
-                  <span className="text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
-                    Vistara
-                  </span>
-
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] uppercase tracking-[0.16em] text-white/50">
-                    Location
-                  </span>
-
-                </div>
-
-                <div className="mt-20">
-
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/10">
-                    <span className="text-xl">⌖</span>
-                  </div>
-
-                  <h3 className="max-w-xs text-3xl font-semibold leading-tight tracking-[-0.03em]">
-                    Help travellers know where their journey begins.
-                  </h3>
-
-                  <p className="mt-5 max-w-sm text-sm leading-7 text-white/55">
-                    Accurate location information creates confidence
-                    before a guest ever arrives.
-                  </p>
-
-                </div>
-
-                <div className="mt-auto pt-16">
-
-                  <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/35">
-                    Location essentials
-                  </p>
-
-                  <div className="space-y-4">
-
-                    <Feature text="Accurate city and locality" />
-
-                    <Feature text="Complete property address" />
-
-                    <Feature text="Verified map location" />
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </aside>
-
         </div>
       </div>
+
+      {/* ================================================================== */}
+      {/* CONTENT                                                             */}
+      {/* ================================================================== */}
+
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
+        {/* INTRO */}
+
+        <section className="max-w-2xl">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#FFF4D8] text-[#9A711E]">
+            <MapPin size={21} />
+          </div>
+
+          <p className="mt-6 text-[10px] font-bold uppercase tracking-[0.22em] text-[#9A711E]">
+            Property location
+          </p>
+
+          <h1 className="mt-2 font-serif text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+            Where is your place?
+          </h1>
+
+          <p className="mt-4 max-w-xl text-sm leading-7 text-[#78716C]">
+            Add the location of your property so guests
+            can understand the area before booking.
+          </p>
+        </section>
+
+        {/* ================================================================== */}
+        {/* LOCATION FORM                                                      */}
+        {/* ================================================================== */}
+
+        <section className="mt-10 rounded-[28px] border border-[#E4DDD1] bg-white p-5 shadow-[0_15px_45px_rgba(24,24,27,0.04)] sm:p-7">
+          {/* SECTION HEADER */}
+
+          <div className="flex items-start gap-4 border-b border-black/[0.07] pb-6">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F7F3EB] text-[#9A711E]">
+              <Globe2 size={18} />
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold">
+                Address details
+              </h2>
+
+              <p className="mt-1 text-[11px] leading-5 text-[#A8A29E]">
+                Guests will use this information to
+                understand where your property is located.
+              </p>
+            </div>
+          </div>
+
+          {/* COUNTRY / STATE */}
+
+          <div className="mt-7 grid gap-5 sm:grid-cols-2">
+            <Field
+              label="Country"
+              required
+              error={errors.country}
+            >
+              <div className="relative">
+                <Globe2
+                  size={15}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A8A29E]"
+                />
+
+                <input
+                  value={location.country}
+                  onChange={(e) =>
+                    updateField(
+                      "country",
+                      e.target.value,
+                    )
+                  }
+                  placeholder="India"
+                  className={inputClass(
+                    !!errors.country,
+                    true,
+                  )}
+                />
+              </div>
+            </Field>
+
+            <Field
+              label="State / Union Territory"
+              required
+              error={errors.state}
+            >
+              <input
+                value={location.state}
+                onChange={(e) =>
+                  updateField(
+                    "state",
+                    e.target.value,
+                  )
+                }
+                placeholder="Bihar"
+                className={inputClass(
+                  !!errors.state,
+                )}
+              />
+            </Field>
+          </div>
+
+          {/* CITY / LOCALITY */}
+
+          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            <Field
+              label="City"
+              required
+              error={errors.city}
+            >
+              <input
+                value={location.city}
+                onChange={(e) =>
+                  updateField(
+                    "city",
+                    e.target.value,
+                  )
+                }
+                placeholder="Patna"
+                className={inputClass(
+                  !!errors.city,
+                )}
+              />
+            </Field>
+
+            <Field
+              label="Locality / Area"
+              required
+              error={errors.locality}
+            >
+              <input
+                value={location.locality}
+                onChange={(e) =>
+                  updateField(
+                    "locality",
+                    e.target.value,
+                  )
+                }
+                placeholder="Boring Road"
+                className={inputClass(
+                  !!errors.locality,
+                )}
+              />
+            </Field>
+          </div>
+
+          {/* ADDRESS */}
+
+          <div className="mt-5">
+            <Field
+              label="Property address"
+              required
+              error={errors.address}
+            >
+              <textarea
+                value={location.address}
+                onChange={(e) =>
+                  updateField(
+                    "address",
+                    e.target.value,
+                  )
+                }
+                rows={4}
+                placeholder="Enter the complete property address"
+                className={`${inputClass(
+                  !!errors.address,
+                )} min-h-[120px] resize-none py-3.5`}
+              />
+            </Field>
+          </div>
+
+          {/* LANDMARK / PIN */}
+
+          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            <Field
+              label="Nearby landmark"
+              optional
+            >
+              <div className="relative">
+                <Navigation
+                  size={15}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-[#A8A29E]"
+                />
+
+                <input
+                  value={location.landmark}
+                  onChange={(e) =>
+                    updateField(
+                      "landmark",
+                      e.target.value,
+                    )
+                  }
+                  placeholder="Near a known landmark"
+                  className={inputClass(
+                    false,
+                    true,
+                  )}
+                />
+              </div>
+            </Field>
+
+            <Field
+              label="PIN code"
+              required
+              error={errors.pincode}
+            >
+              <input
+                inputMode="numeric"
+                maxLength={6}
+                value={location.pincode}
+                onChange={(e) =>
+                  updateField(
+                    "pincode",
+                    e.target.value.replace(
+                      /\D/g,
+                      "",
+                    ),
+                  )
+                }
+                placeholder="800001"
+                className={inputClass(
+                  !!errors.pincode,
+                )}
+              />
+            </Field>
+          </div>
+        </section>
+
+        {/* ================================================================== */}
+        {/* MAP PREVIEW                                                        */}
+        {/* ================================================================== */}
+
+        <section className="mt-5 overflow-hidden rounded-[28px] border border-[#E4DDD1] bg-white shadow-[0_15px_45px_rgba(24,24,27,0.04)]">
+          <div className="border-b border-black/[0.07] p-5 sm:p-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9A711E]">
+              Location preview
+            </p>
+
+            <h2 className="mt-2 font-serif text-2xl font-semibold">
+              Your property area
+            </h2>
+          </div>
+
+          <div className="relative min-h-[300px] overflow-hidden bg-[#ECE7DE] sm:min-h-[360px]">
+            {/* MAP-LIKE BACKGROUND */}
+
+            <div className="absolute inset-0 opacity-70">
+              <div className="absolute left-[12%] top-[15%] h-px w-[80%] rotate-[14deg] bg-[#C9C0B0]" />
+
+              <div className="absolute left-[5%] top-[55%] h-px w-[90%] -rotate-[8deg] bg-[#C9C0B0]" />
+
+              <div className="absolute left-[28%] top-0 h-[120%] w-px rotate-[12deg] bg-[#D2CABB]" />
+
+              <div className="absolute right-[20%] top-0 h-[120%] w-px -rotate-[20deg] bg-[#D2CABB]" />
+
+              <div className="absolute left-[15%] top-[30%] h-28 w-28 rounded-full bg-[#D9A441]/10 blur-2xl" />
+
+              <div className="absolute bottom-[15%] right-[15%] h-40 w-40 rounded-full bg-[#A89B7A]/10 blur-3xl" />
+            </div>
+
+            {/* MAP CARD */}
+
+            <div className="absolute inset-0 flex items-center justify-center p-6">
+              <div className="rounded-[22px] border border-black/[0.08] bg-white/95 p-5 text-center shadow-xl backdrop-blur">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#18181B] text-[#D9A441]">
+                  <MapPin size={20} />
+                </div>
+
+                <p className="mt-4 font-serif text-lg font-semibold">
+                  {location.city ||
+                    "Your city"}
+                  {location.state
+                    ? `, ${location.state}`
+                    : ""}
+                </p>
+
+                <p className="mt-1 max-w-xs text-[10px] leading-5 text-[#A8A29E]">
+                  The exact address is kept private
+                  until a booking is confirmed.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ================================================================== */}
+        {/* PRIVACY NOTICE                                                     */}
+        {/* ================================================================== */}
+
+        <section className="mt-5 flex gap-3 rounded-2xl border border-[#E7DCC4] bg-[#FFF9EA] p-4 sm:p-5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white text-[#9A711E]">
+            <Info size={17} />
+          </div>
+
+          <div>
+            <p className="text-xs font-bold text-[#51472F]">
+              Your privacy matters
+            </p>
+
+            <p className="mt-1 text-[11px] leading-5 text-[#7C7052]">
+              Your general location can be shown to
+              guests while the precise address can remain
+              protected until a reservation is confirmed.
+            </p>
+          </div>
+        </section>
+
+        {/* ================================================================== */}
+        {/* SAVED                                                              */}
+        {/* ================================================================== */}
+
+        <div className="mt-5 flex min-h-5 justify-center">
+          {saved && (
+            <p className="flex items-center gap-1.5 text-[10px] font-bold text-[#68705A]">
+              <Check size={13} />
+              Location saved
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* ================================================================== */}
+      {/* FOOTER                                                             */}
+      {/* ================================================================== */}
+
+      <footer className="sticky bottom-0 z-30 border-t border-black/[0.07] bg-[#FAF8F3]/95 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+          <Link
+            href={`/host/property/new/${id}/guests`}
+            className="inline-flex items-center gap-2 rounded-xl px-3 py-3 text-xs font-bold text-[#57534E] transition hover:bg-white"
+          >
+            <ArrowLeft size={15} />
+
+            <span className="hidden sm:inline">
+              Back
+            </span>
+          </Link>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={saveLocation}
+              className="hidden rounded-xl border border-[#D8D1C5] bg-white px-5 py-3 text-xs font-bold text-[#403C37] transition hover:border-[#D9A441] sm:inline-flex"
+            >
+              Save
+            </button>
+
+            <button
+              type="button"
+              onClick={handleContinue}
+              disabled={saving}
+              className="inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-xs font-bold text-[#18181B] shadow-[0_8px_20px_rgba(217,164,65,0.18)] transition hover:bg-[#E7C46D] disabled:cursor-not-allowed disabled:opacity-60 sm:px-6"
+            >
+              {saving ? "Saving..." : "Continue"}
+
+              {!saving && (
+                <ArrowRight size={15} />
+              )}
+            </button>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
 
-
-/* Field */
+/* ========================================================================== */
+/* FIELD                                                                      */
+/* ========================================================================== */
 
 function Field({
   label,
-  value,
-  onChange,
-  placeholder,
-  options,
+  children,
+  required = false,
+  optional = false,
+  error,
 }: {
   label: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  options?: string[];
+  children: React.ReactNode;
+  required?: boolean;
+  optional?: boolean;
+  error?: string;
 }) {
   return (
     <div>
+      <div className="mb-2 flex items-center justify-between">
+        <label className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#57534E]">
+          {label}
+        </label>
 
-      <label className="mb-3 block text-sm font-semibold">
-        {label}
-      </label>
+        {required && (
+          <span className="text-[9px] font-semibold text-[#9A711E]">
+            Required
+          </span>
+        )}
 
-      {options ? (
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="h-14 w-full appearance-none rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.025] px-5 text-sm outline-none transition hover:border-[#0D21A1]/20 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-        >
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
-      ) : (
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={placeholder}
-          className="h-14 w-full rounded-2xl border border-[#03045E]/10 bg-[#03045E]/[0.025] px-5 text-sm outline-none transition placeholder:text-[#03045E]/25 hover:border-[#0D21A1]/20 focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-        />
+        {optional && (
+          <span className="text-[9px] font-semibold text-[#A8A29E]">
+            Optional
+          </span>
+        )}
+      </div>
+
+      {children}
+
+      {error && (
+        <p className="mt-1.5 text-[10px] font-semibold text-[#9A711E]">
+          {error}
+        </p>
       )}
-
     </div>
   );
 }
 
+/* ========================================================================== */
+/* INPUT CLASS                                                                */
+/* ========================================================================== */
 
-/* Feature */
-
-function Feature({ text }: { text: string }) {
-  return (
-    <div className="flex items-center gap-3">
-
-      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/10">
-        <span className="text-[10px] text-white">
-          ✓
-        </span>
-      </div>
-
-      <span className="text-sm text-white/65">
-        {text}
-      </span>
-
-    </div>
-  );
+function inputClass(
+  hasError = false,
+  withIcon = false,
+) {
+  return [
+    "w-full rounded-xl border bg-[#FCFBF8] px-4 py-3.5 text-sm text-[#292524] outline-none transition placeholder:text-[#B4AEA5]",
+    withIcon ? "pl-11" : "",
+    hasError
+      ? "border-[#B88A2B] focus:border-[#9A711E]"
+      : "border-[#DED8CE] focus:border-[#D9A441] focus:ring-2 focus:ring-[#D9A441]/10",
+  ].join(" ");
 }

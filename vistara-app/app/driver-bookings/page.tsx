@@ -3,40 +3,73 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
-  ArrowLeft,
+  ArrowRight,
   CalendarDays,
   Car,
+  CheckCircle2,
   Clock3,
   MapPin,
   Users,
+  XCircle,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
+
+type BookingStatus =
+  | "pending"
+  | "confirmed"
+  | "completed"
+  | "cancelled";
 
 type Booking = {
   id: string;
   driverId: string;
+  driverName: string;
+  driverImage?: string;
   bookingType: string;
   pickup: string;
-  destination: string | null;
+  destination?: string | null;
   date: string;
   time: string;
   passengers: number;
-  notes: string;
   price: number;
-  status: "pending" | "confirmed" | "completed" | "cancelled";
-  createdAt: string;
+  status: BookingStatus;
 };
 
-const statusStyles = {
-  pending: "bg-[#FFF7E6] text-[#9A6700]",
-  confirmed: "bg-[#EEF0FF] text-[#03045E]",
-  completed: "bg-[#ECFDF5] text-[#047857]",
-  cancelled: "bg-[#FEF2F2] text-[#B91C1C]",
+const driverImage = "/images/driver-profile.jpg";
+
+const statusConfig: Record<
+  BookingStatus,
+  {
+    label: string;
+    className: string;
+    icon: React.ReactNode;
+  }
+> = {
+  pending: {
+    label: "Pending",
+    className: "bg-amber-50 text-amber-700 border-amber-100",
+    icon: <Clock3 size={13} />,
+  },
+  confirmed: {
+    label: "Confirmed",
+    className: "bg-emerald-50 text-emerald-700 border-emerald-100",
+    icon: <CheckCircle2 size={13} />,
+  },
+  completed: {
+    label: "Completed",
+    className: "bg-stone-100 text-stone-600 border-stone-200",
+    icon: <CheckCircle2 size={13} />,
+  },
+  cancelled: {
+    label: "Cancelled",
+    className: "bg-red-50 text-red-600 border-red-100",
+    icon: <XCircle size={13} />,
+  },
 };
 
 const bookingLabels: Record<string, string> = {
   route: "Route Driver",
-  per_hour: "Per Hour",
+  per_hour: "Hourly",
   whole_trip: "Whole Trip",
   religious: "Religious Trip",
 };
@@ -44,26 +77,42 @@ const bookingLabels: Record<string, string> = {
 export default function DriverBookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] =
+    useState<"all" | BookingStatus>("all");
 
   useEffect(() => {
-    async function loadBookings() {
-      try {
-        const response = await fetch("/api/driver-bookings");
-        const result = await response.json();
-
-        if (result.success) {
-          setBookings(result.data || []);
-        }
-      } catch (error) {
-        console.error("Bookings error:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
     loadBookings();
   }, []);
+
+  async function loadBookings() {
+    try {
+      const response = await fetch("/api/driver-bookings");
+
+      if (!response.ok) {
+        throw new Error("Failed to load bookings");
+      }
+
+      const result = await response.json();
+
+      if (result.success) {
+        const formatted = (result.data || []).map(
+          (booking: Booking) => ({
+            ...booking,
+            driverImage: booking.driverImage || driverImage,
+          })
+        );
+
+        setBookings(formatted);
+      } else {
+        setBookings([]);
+      }
+    } catch (error) {
+      console.error("Bookings error:", error);
+      setBookings([]);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const filteredBookings =
     activeTab === "all"
@@ -72,98 +121,111 @@ export default function DriverBookingsPage() {
           (booking) => booking.status === activeTab
         );
 
+  const tabs: {
+    value: "all" | BookingStatus;
+    label: string;
+  }[] = [
+    { value: "all", label: "All" },
+    { value: "pending", label: "Pending" },
+    { value: "confirmed", label: "Confirmed" },
+    { value: "completed", label: "Completed" },
+    { value: "cancelled", label: "Cancelled" },
+  ];
+
   return (
-    <main className="min-h-screen bg-[#FAFBFF] text-[#03045E]">
+    <main className="min-h-screen bg-[#FAFAF8] text-[#292524]">
       <Navbar />
 
-      {/* HEADER */}
-      <section className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
+      {/* HERO */}
+      <section className="border-b border-[#E7E2D8] bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-10 lg:py-14">
           <Link
-            href="/driver"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#64748B] hover:text-[#03045E]"
+            href="/drivers"
+            className="inline-flex items-center gap-2 text-sm text-[#78716C] transition hover:text-[#292524]"
           >
-            <ArrowLeft size={17} />
+            <ArrowRight
+              size={16}
+              className="rotate-180"
+            />
             Drivers
           </Link>
 
-          <div className="mt-8">
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
+          <div className="mt-7">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#8B6F3D]">
               YOUR JOURNEYS
             </p>
 
-            <h1 className="mt-3 font-serif text-4xl font-semibold">
-              Driver Bookings
+            <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
+              Driver bookings
             </h1>
 
-            <p className="mt-3 max-w-xl text-sm leading-6 text-[#64748B]">
-              Manage your driver requests, upcoming journeys
-              and completed trips in one place.
+            <p className="mt-3 max-w-xl text-sm leading-6 text-[#78716C]">
+              Keep track of your upcoming rides, active requests
+              and completed journeys.
             </p>
           </div>
         </div>
       </section>
 
       {/* CONTENT */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        {/* TABS */}
-        <div className="mb-8 flex gap-2 overflow-x-auto pb-1">
-          {[
-            ["all", "All"],
-            ["pending", "Pending"],
-            ["confirmed", "Confirmed"],
-            ["completed", "Completed"],
-            ["cancelled", "Cancelled"],
-          ].map(([value, label]) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => setActiveTab(value)}
-              className={`whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-medium transition ${
-                activeTab === value
-                  ? "bg-[#03045E] text-white"
-                  : "border border-[#03045E]/10 bg-white text-[#64748B] hover:border-[#03045E]/30 hover:text-[#03045E]"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
+      <section className="mx-auto max-w-7xl px-5 py-8 sm:px-6 lg:px-10 lg:py-10">
+
+        {/* FILTERS */}
+        <div className="mb-7 flex gap-2 overflow-x-auto pb-2">
+          {tabs.map((tab) => {
+            const active = activeTab === tab.value;
+
+            return (
+              <button
+                key={tab.value}
+                type="button"
+                onClick={() => setActiveTab(tab.value)}
+                className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition ${
+                  active
+                    ? "bg-[#292524] text-white"
+                    : "border border-[#E7E2D8] bg-white text-[#78716C] hover:border-[#C6A15B] hover:text-[#292524]"
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
         </div>
 
         {/* LOADING */}
         {loading && (
-          <div className="flex min-h-[300px] items-center justify-center">
-            <div className="text-center">
-              <div className="mx-auto h-9 w-9 animate-spin rounded-full border-4 border-[#03045E]/15 border-t-[#03045E]" />
-
-              <p className="mt-4 text-sm text-[#64748B]">
-                Loading your bookings...
-              </p>
-            </div>
+          <div className="space-y-4">
+            {[1, 2, 3].map((item) => (
+              <div
+                key={item}
+                className="h-52 animate-pulse rounded-3xl bg-white ring-1 ring-[#E7E2D8]"
+              />
+            ))}
           </div>
         )}
 
         {/* EMPTY */}
         {!loading && filteredBookings.length === 0 && (
-          <div className="rounded-[30px] border border-[#03045E]/10 bg-white px-6 py-16 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#EEF0FF] text-[#03045E]">
-              <Car size={28} />
+          <div className="rounded-3xl border border-[#E7E2D8] bg-white px-6 py-16 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#F7F3EA] text-[#8B6F3D]">
+              <Car size={24} />
             </div>
 
-            <h2 className="mt-6 font-serif text-2xl font-semibold">
-              No driver bookings yet
+            <h2 className="mt-5 font-serif text-2xl font-semibold">
+              No bookings here
             </h2>
 
-            <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#64748B]">
-              Find a local driver and book one for your route,
-              hourly journey, whole trip or pilgrimage.
+            <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#78716C]">
+              Choose a driver and plan your next journey with
+              Vistara.
             </p>
 
             <Link
-              href="/driver"
-              className="mt-7 inline-flex rounded-xl bg-[#03045E] px-6 py-3.5 text-sm font-semibold text-white hover:bg-[#0D21A1]"
+              href="/drivers"
+              className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#292524] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#44403C]"
             >
-              Find a Driver
+              Find a driver
+              <ArrowRight size={16} />
             </Link>
           </div>
         )}
@@ -189,108 +251,138 @@ function BookingCard({
 }: {
   booking: Booking;
 }) {
+  const status = statusConfig[booking.status];
+
   return (
-    <article className="rounded-[26px] border border-[#03045E]/10 bg-white p-5 shadow-[0_10px_40px_rgba(3,4,94,0.04)] md:p-6">
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-        {/* LEFT */}
-        <div className="flex-1">
-          {/* TOP */}
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-full bg-[#EEF0FF] px-3 py-1.5 text-xs font-semibold text-[#03045E]">
-              {bookingLabels[booking.bookingType] ||
-                "Driver Service"}
-            </span>
+    <article className="overflow-hidden rounded-3xl border border-[#E7E2D8] bg-white transition hover:shadow-[0_14px_45px_rgba(41,37,36,0.08)]">
 
-            <span
-              className={`rounded-full px-3 py-1.5 text-xs font-semibold capitalize ${
-                statusStyles[booking.status]
-              }`}
-            >
-              {booking.status}
-            </span>
-          </div>
+      <div className="p-5 sm:p-6">
 
-          {/* ROUTE */}
-          <div className="mt-5">
-            <div className="flex items-start gap-3">
-              <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F0F2FF]">
-                <MapPin size={16} />
-              </div>
+        {/* TOP */}
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
 
-              <div>
-                <p className="text-xs text-[#94A3B8]">
-                  PICKUP
-                </p>
+          <div className="flex items-center gap-4">
 
-                <p className="mt-1 text-sm font-semibold">
-                  {booking.pickup}
-                </p>
-              </div>
+            {/* SAME DRIVER IMAGE */}
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-2xl bg-[#F7F3EA]">
+              <img
+                src={booking.driverImage || driverImage}
+                alt={booking.driverName || "Driver"}
+                className="h-full w-full object-cover"
+              />
             </div>
 
-            {booking.destination && (
-              <>
-                <div className="ml-[15px] h-6 border-l border-dashed border-[#CBD5E1]" />
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="font-semibold text-[#292524]">
+                  {booking.driverName || "Vistara Driver"}
+                </h2>
 
-                <div className="flex items-start gap-3">
-                  <div className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F0F2FF]">
-                    <MapPin size={16} />
-                  </div>
+                <span
+                  className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${status.className}`}
+                >
+                  {status.icon}
+                  {status.label}
+                </span>
+              </div>
 
-                  <div>
-                    <p className="text-xs text-[#94A3B8]">
-                      DESTINATION
-                    </p>
-
-                    <p className="mt-1 text-sm font-semibold">
-                      {booking.destination}
-                    </p>
-                  </div>
-                </div>
-              </>
-            )}
+              <p className="mt-1 text-xs text-[#A8A29E]">
+                {bookingLabels[booking.bookingType] ||
+                  "Driver Service"}
+              </p>
+            </div>
           </div>
 
-          {/* META */}
-          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 border-t border-[#03045E]/10 pt-5">
-            <Meta
-              icon={<CalendarDays size={16} />}
-              value={booking.date}
-            />
+          {/* PRICE */}
+          <div className="sm:text-right">
+            <p className="text-[11px] uppercase tracking-wider text-[#A8A29E]">
+              Estimated fare
+            </p>
 
-            <Meta
-              icon={<Clock3 size={16} />}
-              value={booking.time}
-            />
-
-            <Meta
-              icon={<Users size={16} />}
-              value={`${booking.passengers} passenger${
-                booking.passengers > 1 ? "s" : ""
-              }`}
-            />
+            <p className="mt-1 text-xl font-semibold text-[#292524]">
+              ₹{booking.price.toLocaleString("en-IN")}
+            </p>
           </div>
         </div>
 
-        {/* RIGHT */}
-        <div className="border-t border-[#03045E]/10 pt-5 lg:min-w-[210px] lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
-          <p className="text-xs text-[#94A3B8]">
-            ESTIMATED FARE
-          </p>
+        {/* ROUTE */}
+        <div className="mt-6 rounded-2xl bg-[#FAFAF8] p-4">
 
-          <p className="mt-1 text-2xl font-semibold">
-            ₹{booking.price.toLocaleString("en-IN")}
-          </p>
+          <div className="flex gap-3">
+            <div className="flex flex-col items-center pt-1">
+              <span className="h-2.5 w-2.5 rounded-full border-2 border-[#8B6F3D] bg-white" />
 
-          <p className="mt-1 text-xs text-[#94A3B8]">
-            Booking ID: {booking.id}
+              {booking.destination && (
+                <span className="my-1 h-7 border-l border-dashed border-[#D6D3D1]" />
+              )}
+
+              {booking.destination && (
+                <span className="h-2.5 w-2.5 rounded-full bg-[#292524]" />
+              )}
+            </div>
+
+            <div className="min-w-0 flex-1 space-y-4">
+
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A8A29E]">
+                  Pickup
+                </p>
+
+                <p className="mt-1 truncate text-sm font-medium text-[#292524]">
+                  {booking.pickup}
+                </p>
+              </div>
+
+              {booking.destination && (
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-[#A8A29E]">
+                    Destination
+                  </p>
+
+                  <p className="mt-1 truncate text-sm font-medium text-[#292524]">
+                    {booking.destination}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* META */}
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
+
+          <BookingMeta
+            icon={<CalendarDays size={15} />}
+            label="Date"
+            value={booking.date}
+          />
+
+          <BookingMeta
+            icon={<Clock3 size={15} />}
+            label="Time"
+            value={booking.time}
+          />
+
+          <BookingMeta
+            icon={<Users size={15} />}
+            label="Passengers"
+            value={`${booking.passengers}`}
+          />
+        </div>
+
+        {/* FOOTER */}
+        <div className="mt-5 flex flex-col gap-3 border-t border-[#E7E2D8] pt-5 sm:flex-row sm:items-center sm:justify-between">
+
+          <p className="text-xs text-[#A8A29E]">
+            Booking ID · {booking.id}
           </p>
 
           <Link
             href={`/driver-bookings/${booking.id}`}
-            className="mt-5 flex w-full items-center justify-center rounded-xl border border-[#03045E]/15 px-4 py-3 text-sm font-semibold transition hover:border-[#03045E] hover:bg-[#F7F9FF]"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#D6D3D1] px-4 py-2.5 text-sm font-semibold text-[#292524] transition hover:border-[#8B6F3D] hover:bg-[#F7F3EA]"
           >
-            View Booking
+            View booking
+            <ArrowRight size={15} />
           </Link>
         </div>
       </div>
@@ -298,17 +390,27 @@ function BookingCard({
   );
 }
 
-function Meta({
+function BookingMeta({
   icon,
+  label,
   value,
 }: {
   icon: React.ReactNode;
+  label: string;
   value: string;
 }) {
   return (
-    <div className="flex items-center gap-2 text-sm text-[#64748B]">
-      <span className="text-[#0D21A1]">{icon}</span>
-      {value}
+    <div className="rounded-xl border border-[#E7E2D8] bg-white px-3 py-3">
+      <div className="flex items-center gap-1.5 text-[#8B6F3D]">
+        {icon}
+        <span className="text-[10px] font-semibold uppercase tracking-wide text-[#A8A29E]">
+          {label}
+        </span>
+      </div>
+
+      <p className="mt-1 text-sm font-medium text-[#292524]">
+        {value}
+      </p>
     </div>
   );
 }

@@ -2,255 +2,223 @@
 
 import Link from "next/link";
 import Navbar from "@/components/navbar";
+import {
+  User,
+  Heart,
+  CalendarDays,
+  ShieldCheck,
+  Lock,
+  Bell,
+  ChevronRight,
+  Settings,
+} from "lucide-react";
 
-export default function AccountSettings() {
+const accountSections = [
+  {
+    title: "Personal information",
+    description: "Manage your name, email, phone and profile details.",
+    href: "/settings/profile",
+    icon: User,
+  },
+  {
+    title: "Trips & bookings",
+    description: "View your upcoming and completed Vistara journeys.",
+    href: "/bookings",
+    icon: CalendarDays,
+  },
+  {
+    title: "Saved places",
+    description: "Your wishlist and places you want to remember.",
+    href: "/wishlist",
+    icon: Heart,
+  },
+  {
+    title: "Security",
+    description: "Manage your password, login and account protection.",
+    href: "/settings/security",
+    icon: Lock,
+  },
+  {
+    title: "Privacy",
+    description: "Review how your information is handled on Vistara.",
+    href: "/settings/privacy",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Notifications",
+    description: "Choose what updates and travel notifications you receive.",
+    href: "/settings/preferences",
+    icon: Bell,
+  },
+];
+
+export default function SettingsPage() {
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
+    <main className="min-h-screen bg-[#F8F7F3] text-[#1C1C1C]">
       <Navbar />
 
-      {/* HEADER */}
-      <section className="border-b border-[#03045E]/10 bg-[#F7F3EA]">
-        <div className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-          <Link
-            href="/settings"
-            className="text-sm font-medium text-[#64748B] transition hover:text-[#03045E]"
-          >
-            ← Settings
-          </Link>
+      {/* Page */}
+      <section className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
 
-          <div className="mt-9">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#C6A15B]">
-              ACCOUNT
-            </p>
+        {/* Header */}
+        <div className="mb-8 sm:mb-12">
+          <div className="mb-5 flex items-center gap-2 text-sm text-[#77756E]">
+            <Link
+              href="/profile"
+              className="transition hover:text-[#1C1C1C]"
+            >
+              Profile
+            </Link>
 
-            <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#03045E] md:text-5xl">
-              Account & personal details
-            </h1>
+            <span>/</span>
 
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#64748B]">
-              Manage the information connected to your Vistara account.
-            </p>
+            <span className="text-[#1C1C1C]">Account</span>
+          </div>
+
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#B08D57]">
+                Your Vistara
+              </p>
+
+              <h1 className="font-serif text-4xl leading-tight tracking-tight text-[#1C1C1C] sm:text-5xl lg:text-6xl">
+                Account
+              </h1>
+
+              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#6B6B65] sm:text-base">
+                Everything you need to manage your profile, journeys,
+                saved places and account preferences.
+              </p>
+            </div>
+
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#E5E2DA] bg-white">
+              <Settings
+                size={19}
+                strokeWidth={1.6}
+                className="text-[#1C1C1C]"
+              />
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* CONTENT */}
-      <section className="mx-auto max-w-5xl px-6 py-12 lg:px-10">
-        <div className="space-y-6">
+        {/* Account overview */}
+        <div className="mb-8 overflow-hidden rounded-3xl border border-[#E5E2DA] bg-white">
+          <div className="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:p-7">
 
-          {/* CONTACT INFORMATION */}
-          <div className="rounded-[28px] border border-[#03045E]/10 bg-white p-7 shadow-[0_15px_50px_rgba(3,4,94,0.06)] md:p-9">
-            <div className="mb-8">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                CONTACT INFORMATION
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#F1EEE6] font-serif text-xl text-[#1C1C1C]">
+              V
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <p className="text-xs uppercase tracking-[0.18em] text-[#B08D57]">
+                Vistara account
               </p>
 
-              <h2 className="mt-2 font-serif text-2xl font-semibold text-[#03045E]">
-                Your contact details
+              <h2 className="mt-1 truncate font-serif text-2xl text-[#1C1C1C]">
+                Your travel space
               </h2>
 
-              <p className="mt-2 text-sm text-[#64748B]">
-                These details are used for your account and important
-                Vistara updates.
+              <p className="mt-1 text-sm text-[#77756E]">
+                Manage your information and travel preferences.
               </p>
             </div>
 
-            <div className="space-y-5">
-
-              {/* EMAIL */}
-              <div className="flex flex-col gap-4 rounded-2xl border border-[#E5E7EB] bg-[#FAFAF8] p-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">
-                    EMAIL ADDRESS
-                  </p>
-
-                  <p className="mt-2 text-sm font-semibold text-[#03045E]">
-                    sristigupta@example.com
-                  </p>
-
-                  <p className="mt-1 text-xs text-emerald-600">
-                    ✓ Verified
-                  </p>
-                </div>
-
-                <button className="w-fit rounded-xl border border-[#03045E] px-5 py-2.5 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white">
-                  Change email
-                </button>
-              </div>
-
-              {/* PHONE */}
-              <div className="flex flex-col gap-4 rounded-2xl border border-[#E5E7EB] bg-[#FAFAF8] p-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-[#94A3B8]">
-                    PHONE NUMBER
-                  </p>
-
-                  <p className="mt-2 text-sm font-semibold text-[#03045E]">
-                    +91 XXXXX XXXXX
-                  </p>
-
-                  <p className="mt-1 text-xs text-[#94A3B8]">
-                    Add a phone number for easier booking communication.
-                  </p>
-                </div>
-
-                <button className="w-fit rounded-xl border border-[#03045E] px-5 py-2.5 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white">
-                  Add phone
-                </button>
-              </div>
-            </div>
+            <Link
+              href="/settings/profile"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#D9D5CC] px-5 py-3 text-sm font-medium text-[#1C1C1C] transition hover:bg-[#F8F7F3]"
+            >
+              Edit profile
+              <ChevronRight size={16} />
+            </Link>
           </div>
+        </div>
 
-          {/* PERSONAL DETAILS */}
-          <div className="rounded-[28px] border border-[#03045E]/10 bg-white p-7 shadow-[0_15px_50px_rgba(3,4,94,0.06)] md:p-9">
-            <div className="mb-8">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                PERSONAL DETAILS
-              </p>
-
-              <h2 className="mt-2 font-serif text-2xl font-semibold text-[#03045E]">
-                Basic information
-              </h2>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-
-              <div>
-                <label className="text-sm font-semibold text-[#03045E]">
-                  Legal first name
-                </label>
-
-                <input
-                  type="text"
-                  defaultValue="Sristi"
-                  className="mt-2 w-full rounded-xl border border-[#DDE2E8] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold text-[#03045E]">
-                  Legal last name
-                </label>
-
-                <input
-                  type="text"
-                  defaultValue="Gupta"
-                  className="mt-2 w-full rounded-xl border border-[#DDE2E8] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold text-[#03045E]">
-                  Date of birth
-                </label>
-
-                <input
-                  type="date"
-                  className="mt-2 w-full rounded-xl border border-[#DDE2E8] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold text-[#03045E]">
-                  Country / Region
-                </label>
-
-                <select
-                  defaultValue="India"
-                  className="mt-2 w-full rounded-xl border border-[#DDE2E8] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                >
-                  <option>India</option>
-                  <option>United States</option>
-                  <option>United Kingdom</option>
-                  <option>Australia</option>
-                  <option>Other</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold text-[#03045E]">
-                  City
-                </label>
-
-                <input
-                  type="text"
-                  placeholder="Your city"
-                  className="mt-2 w-full rounded-xl border border-[#DDE2E8] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-semibold text-[#03045E]">
-                  Preferred language
-                </label>
-
-                <select
-                  defaultValue="English"
-                  className="mt-2 w-full rounded-xl border border-[#DDE2E8] bg-[#FAFAF8] px-4 py-3.5 text-sm outline-none transition focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                >
-                  <option>English</option>
-                  <option>Hindi</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="mt-8 flex justify-end border-t border-[#03045E]/10 pt-6">
-              <button className="rounded-xl bg-[#03045E] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]">
-                Save changes
-              </button>
-            </div>
-          </div>
-
-          {/* ACCOUNT STATUS */}
-          <div className="rounded-[28px] border border-[#C6A15B]/25 bg-gradient-to-br from-[#F7F3EA] to-white p-7 md:p-9">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-              ACCOUNT STATUS
+        {/* Sections */}
+        <div>
+          <div className="mb-5">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#B08D57]">
+              Manage
             </p>
 
-            <div className="mt-5 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <h2 className="text-xl font-semibold text-[#03045E]">
-                  Your account is active
-                </h2>
-
-                <p className="mt-1 text-sm text-[#64748B]">
-                  Member since September 2026
-                </p>
-              </div>
-
-              <div className="rounded-full bg-[#ECFDF5] px-4 py-2 text-xs font-bold text-emerald-700">
-                ACTIVE
-              </div>
-            </div>
+            <h2 className="mt-2 font-serif text-2xl text-[#1C1C1C] sm:text-3xl">
+              Your account
+            </h2>
           </div>
 
-          {/* DANGER ZONE */}
-          <div className="rounded-[28px] border border-red-100 bg-[#FFF9F7] p-7 md:p-9">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-red-400">
-              ACCOUNT ACTIONS
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {accountSections.map((section) => {
+              const Icon = section.icon;
+
+              return (
+                <Link
+                  key={section.title}
+                  href={section.href}
+                  className="group rounded-3xl border border-[#E5E2DA] bg-white p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#D2C8B6] hover:shadow-[0_10px_35px_rgba(40,35,25,0.06)] sm:p-6"
+                >
+                  <div className="flex items-start gap-4">
+
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#F1EEE6] text-[#1C1C1C] transition group-hover:bg-[#EDE7DA]">
+                      <Icon
+                        size={19}
+                        strokeWidth={1.6}
+                      />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <h3 className="text-base font-semibold text-[#1C1C1C] sm:text-lg">
+                            {section.title}
+                          </h3>
+
+                          <p className="mt-1.5 max-w-md text-sm leading-6 text-[#77756E]">
+                            {section.description}
+                          </p>
+                        </div>
+
+                        <ChevronRight
+                          size={18}
+                          className="mt-1 shrink-0 text-[#AAA69C] transition-transform group-hover:translate-x-1"
+                        />
+                      </div>
+                    </div>
+
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Travel note */}
+        <div className="mt-10 rounded-3xl border border-[#E5E2DA] bg-[#F1EEE6] p-6 sm:p-8">
+          <div className="max-w-3xl">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#B08D57]">
+              Your journey
             </p>
 
-            <h2 className="mt-3 text-xl font-semibold text-[#03045E]">
-              Manage your account
+            <h2 className="mt-2 font-serif text-2xl leading-tight text-[#1C1C1C] sm:text-3xl">
+              Your account follows your journey.
             </h2>
 
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[#64748B]">
-              You can deactivate your account temporarily or permanently
-              delete your Vistara account.
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#6B6B65]">
+              From finding a stay and discovering places to saving
+              experiences and planning your next trip, your Vistara
+              account keeps everything together.
             </p>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <button className="rounded-xl border border-[#CBD5E1] bg-white px-5 py-3 text-sm font-semibold text-[#475569] transition hover:border-[#03045E]">
-                Deactivate account
-              </button>
-
-              <button className="rounded-xl border border-red-200 px-5 py-3 text-sm font-semibold text-red-500 transition hover:bg-red-50">
-                Delete account
-              </button>
-            </div>
+            <Link
+              href="/trips"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#1C1C1C] transition hover:text-[#B08D57]"
+            >
+              View your trips
+              <ChevronRight size={16} />
+            </Link>
           </div>
-
         </div>
+
+        {/* Footer spacing */}
+        <div className="h-8 sm:h-12" />
       </section>
     </main>
   );

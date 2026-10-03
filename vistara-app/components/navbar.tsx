@@ -1,414 +1,795 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import type { ReactNode } from "react";
-import BecomeHostButton from "@/components/BecomeHostButton";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import {
-  Car,
-  Compass,
-  Heart,
-  HelpCircle,
-  Home,
-  Map,
-  Menu,
+  Search,
   MoreHorizontal,
-  Settings,
   User,
+  Settings,
+  Map,
+  Compass,
+  Car,
+  Home,
+  Heart,
+  CalendarDays,
+  LogOut,
   X,
+  Menu,
 } from "lucide-react";
 
-const navLinks = [
+/* =========================================================
+   MAIN NAVIGATION
+========================================================= */
+
+const mainNavigation = [
+  {
+    href: "/",
+    label: "Home",
+  },
   {
     href: "/stays",
     label: "Stays",
   },
   {
-    href: "/explore",
-    label: "Explore",
-  },
-  {
     href: "/trips",
     label: "Trips",
   },
+  {
+    href: "/experiences",
+    label: "Experiences",
+  },
 ];
 
+/* =========================================================
+   EXPLORE / MORE MENU
+========================================================= */
+
+const menuItems = [
+  {
+    href: "/settings",
+    title: "Settings",
+    icon: Settings,
+  },
+  {
+    href: "/wishlist",
+    title: "Wishlist",
+    icon: Heart,
+  },
+  {
+    href: "/bookings",
+    title: "Bookings",
+    icon: CalendarDays,
+  },
+  {
+    href: "/guides",
+    title: "Local Guide",
+    icon: Map,
+  },
+  {
+    href: "/local-plans",
+    title: "Local Plans",
+    icon: Compass,
+  },
+  {
+    href: "/drivers",
+    title: "Drivers",
+    icon: Car,
+  },
+  {
+    href: "/host/register",
+    title: "Host",
+    icon: Home,
+  },
+];
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const menuRef = useRef<HTMLDivElement>(null);
+  /* =======================================================
+     ESCAPE KEY
+  ======================================================= */
 
-  /* ---------------------------------
-     CLOSE ACCOUNT MENU ON OUTSIDE CLICK
-  ---------------------------------- */
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(event.target as Node)
-      ) {
-        setOpen(false);
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        setSearchOpen(false);
+        setMobileOpen(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
     };
   }, []);
 
-  /* ---------------------------------
-     PREVENT BODY SCROLL WHEN MOBILE
-     MENU IS OPEN
-  ---------------------------------- */
-  useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+  /* =======================================================
+     SEARCH
+  ======================================================= */
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const query = searchQuery.trim();
+
+    setMenuOpen(false);
+    setSearchOpen(false);
+    setMobileOpen(false);
+
+    if (!query) {
+      router.push("/stays");
+      return;
     }
 
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileOpen]);
-
-  /* ---------------------------------
-     CLOSE MOBILE MENU
-  ---------------------------------- */
-  const closeMobile = () => {
-    setMobileOpen(false);
+    router.push(`/stays?search=${encodeURIComponent(query)}`);
   };
 
-  /* ---------------------------------
-     CLOSE BOTH MENUS
-  ---------------------------------- */
-  const closeMenus = () => {
-    setOpen(false);
+  /* =======================================================
+     LOGOUT
+  ======================================================= */
+
+  const handleLogout = () => {
+    setMenuOpen(false);
+    setMobileOpen(false);
+
+    router.push("/login");
+  };
+
+  /* =======================================================
+     CLOSE ALL
+  ======================================================= */
+
+  const closeAllMenus = () => {
+    setMenuOpen(false);
+    setSearchOpen(false);
     setMobileOpen(false);
   };
 
   return (
-    <nav className="relative z-50 bg-[#03045E] text-white">
-      {/* =================================
-          MAIN NAVBAR
-      ================================== */}
-      <div className="mx-auto flex h-20 max-w-[1500px] items-center justify-between px-5 sm:px-8 lg:h-[96px] lg:px-12">
+    <header className="sticky top-0 z-50 border-b border-[#E5E1D8] bg-white/95 backdrop-blur-xl">
+      <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
 
-        {/* =================================
+        {/* =================================================
             LOGO
-        ================================== */}
+        ================================================= */}
+
         <Link
           href="/"
-          onClick={closeMenus}
-          className="flex items-center gap-3"
-          aria-label="Vistara Home"
+          onClick={closeAllMenus}
+          aria-label="Vistara home"
+          className="
+            shrink-0
+            font-serif
+            text-[27px]
+            font-semibold
+            tracking-tight
+            text-[#171717]
+            transition-opacity
+            hover:opacity-70
+          "
         >
-          <div className="flex h-12 w-12 items-center justify-center lg:h-14 lg:w-14">
-            <img
-              src="/images/logo.png"
-              alt="Vistara"
-              className="h-11 w-11 object-contain lg:h-13 lg:w-13"
-            />
-          </div>
-
-          <span className="font-serif text-3xl font-semibold tracking-tight lg:text-4xl">
-            Vistara
-          </span>
+          Vistara
         </Link>
 
-        {/* =================================
+        {/* =================================================
             DESKTOP NAVIGATION
-        ================================== */}
-        <div className="hidden items-center gap-7 md:flex lg:gap-9">
+        ================================================= */}
 
-          {/* MAIN LINKS */}
-          <div className="flex items-center gap-7 lg:gap-9">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-white/85 transition hover:text-white lg:text-base"
+        <nav
+          aria-label="Main navigation"
+          className="hidden items-center gap-8 lg:flex"
+        >
+          {mainNavigation.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="
+                text-sm
+                font-medium
+                text-[#404040]
+                transition-colors
+                duration-200
+                hover:text-[#171717]
+              "
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* =================================================
+            RIGHT SIDE
+        ================================================= */}
+
+        <div className="flex items-center gap-1.5">
+
+          {/* =================================================
+              SEARCH
+          ================================================= */}
+
+          {searchOpen ? (
+            <form
+              onSubmit={handleSearch}
+              className="
+                hidden
+                items-center
+                rounded-full
+                border
+                border-[#D6D1C7]
+                bg-[#F8F6F1]
+                px-3
+                py-1.5
+                shadow-sm
+                sm:flex
+              "
+            >
+              <Search
+                size={17}
+                className="mr-2 text-[#404040]"
+              />
+
+              <input
+                autoFocus
+                value={searchQuery}
+                onChange={(event) =>
+                  setSearchQuery(event.target.value)
+                }
+                placeholder="Search Vistara..."
+                aria-label="Search Vistara"
+                className="
+                  w-[180px]
+                  bg-transparent
+                  text-sm
+                  text-[#171717]
+                  outline-none
+                  placeholder:text-[#A3A09A]
+                "
+              />
+
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchOpen(false);
+                  setSearchQuery("");
+                }}
+                aria-label="Close search"
+                className="
+                  ml-2
+                  rounded-full
+                  p-1
+                  text-[#737373]
+                  transition
+                  hover:bg-[#EAE6DE]
+                  hover:text-[#171717]
+                "
               >
-                {link.label}
-              </Link>
-            ))}
+                <X size={16} />
+              </button>
+            </form>
+          ) : (
+            <button
+              type="button"
+              aria-label="Search Vistara"
+              onClick={() => {
+                setSearchOpen(true);
+                setMenuOpen(false);
+              }}
+              className="
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-full
+                text-[#404040]
+                transition-all
+                hover:bg-[#F7F4EE]
+                hover:text-[#171717]
+              "
+            >
+              <Search
+                size={20}
+                strokeWidth={1.8}
+              />
+            </button>
+          )}
 
-            {/* BECOME A HOST */}
-            <BecomeHostButton />
-          </div>
+          {/* =================================================
+              SIGN IN
+          ================================================= */}
 
-          {/* DIVIDER */}
-          <div className="h-8 w-px bg-white/20" />
-
-          {/* =================================
-              LOGIN
-              IMPORTANT:
-              /signin -> /login
-          ================================== */}
           <Link
             href="/login"
-            className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-white/90 lg:px-7 lg:py-3.5"
+            className="
+              hidden
+              rounded-full
+              px-4
+              py-2
+              text-sm
+              font-semibold
+              text-[#171717]
+              transition
+              hover:bg-[#F7F4EE]
+              sm:inline-flex
+            "
           >
-            Sign In
+            Sign in
           </Link>
 
-          {/* =================================
-              ACCOUNT / MORE MENU
-          ================================== */}
-          <div ref={menuRef} className="relative">
+          {/* =================================================
+              PROFILE
+          ================================================= */}
+
+          <Link
+            href="/profile"
+            aria-label="Open profile"
+            className="
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-[#E5E1D8]
+              bg-white
+              text-[#404040]
+              transition-all
+              hover:border-[#C6A15B]
+              hover:bg-[#F7F4EE]
+              hover:text-[#171717]
+            "
+          >
+            <User
+              size={18}
+              strokeWidth={1.8}
+            />
+          </Link>
+
+          {/* =================================================
+              MORE MENU
+          ================================================= */}
+
+          <div className="relative hidden sm:block">
 
             <button
               type="button"
-              onClick={() => setOpen((value) => !value)}
-              aria-label="Open account menu"
-              aria-expanded={open}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 transition hover:bg-white/10"
+              aria-label="Open more options"
+              aria-expanded={menuOpen}
+              onClick={() => {
+                setMenuOpen((current) => !current);
+                setSearchOpen(false);
+              }}
+              className={`
+                flex
+                h-10
+                w-10
+                items-center
+                justify-center
+                rounded-full
+                transition-all
+                ${
+                  menuOpen
+                    ? "bg-[#171717] text-white"
+                    : "text-[#404040] hover:bg-[#F7F4EE] hover:text-[#171717]"
+                }
+              `}
             >
-              {open ? <X size={22} /> : <MoreHorizontal size={24} />}
+              <MoreHorizontal
+                size={21}
+                strokeWidth={2}
+              />
             </button>
 
-            {open && (
-              <div className="absolute right-0 top-14 w-72 overflow-hidden rounded-2xl border border-gray-100 bg-white p-2 shadow-[0_20px_60px_rgba(3,4,94,0.2)]">
+            {/* =================================================
+                DROPDOWN
+            ================================================= */}
 
-                {/* WISHLIST */}
-                <MenuItem
-                  href="/wishlist"
-                  icon={<Heart size={18} />}
-                  title="Wishlist"
-                  description="Your saved places"
-                  onClick={() => setOpen(false)}
+            {menuOpen && (
+              <>
+                {/* Outside click */}
+                <button
+                  type="button"
+                  aria-label="Close menu"
+                  onClick={() => setMenuOpen(false)}
+                  className="
+                    fixed
+                    inset-0
+                    z-40
+                    h-full
+                    w-full
+                    cursor-default
+                  "
                 />
 
-                {/* LOCAL PLANS */}
-                <MenuItem
-                  href="/local-plans"
-                  icon={<Map size={18} />}
-                  title="Local Plans"
-                  description="Your purchased plans"
-                  onClick={() => setOpen(false)}
-                />
+                <div
+                  role="menu"
+                  className="
+                    absolute
+                    right-0
+                    top-12
+                    z-50
+                    w-[270px]
+                    overflow-hidden
+                    rounded-[22px]
+                    border
+                    border-[#E5E1D8]
+                    bg-white
+                    p-2
+                    shadow-[0_20px_60px_rgba(23,23,23,0.14)]
+                  "
+                >
 
-                {/* GUIDES */}
-                <MenuItem
-                  href="/guides"
-                  icon={<Compass size={18} />}
-                  title="Guides"
-                  description="Find local guides"
-                  onClick={() => setOpen(false)}
-                />
+                  {/* MENU HEADER */}
 
-                {/* DRIVERS */}
-                <MenuItem
-                  href="/drivers"
-                  icon={<Car size={18} />}
-                  title="Drivers"
-                  description="Book local drivers"
-                  onClick={() => setOpen(false)}
-                />
+                  <div className="px-3 pb-2 pt-3">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A3A09A]">
+                      VISTARA
+                    </p>
 
-                {/* DIVIDER */}
-                <div className="my-2 h-px bg-gray-100" />
+                    <p className="mt-1 text-sm font-semibold text-[#171717]">
+                      Explore more
+                    </p>
+                  </div>
 
-                {/* PROFILE */}
-                <MenuItem
-                  href="/profile"
-                  icon={<User size={18} />}
-                  title="Profile"
-                  description="View your profile"
-                  onClick={() => setOpen(false)}
-                />
+                  <div className="my-2 h-px bg-[#E5E1D8]" />
 
-                {/* SETTINGS */}
-                <MenuItem
-                  href="/settings"
-                  icon={<Settings size={18} />}
-                  title="Settings"
-                  description="Manage your account"
-                  onClick={() => setOpen(false)}
-                />
+                  {/* MENU LINKS */}
 
-                {/* HELP */}
-                <MenuItem
-                  href="/settings/help"
-                  icon={<HelpCircle size={18} />}
-                  title="Help & Support"
-                  description="Get help from Vistara"
-                  onClick={() => setOpen(false)}
-                />
-              </div>
+                  {menuItems.map((item) => {
+                    const Icon = item.icon;
+
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        role="menuitem"
+                        onClick={() => setMenuOpen(false)}
+                        className="
+                          flex
+                          items-center
+                          gap-3
+                          rounded-xl
+                          px-3
+                          py-2.5
+                          text-sm
+                          font-medium
+                          text-[#404040]
+                          transition
+                          hover:bg-[#F7F4EE]
+                          hover:text-[#171717]
+                        "
+                      >
+                        <span
+                          className="
+                            flex
+                            h-8
+                            w-8
+                            shrink-0
+                            items-center
+                            justify-center
+                            rounded-lg
+                            bg-[#F1EFEA]
+                          "
+                        >
+                          <Icon size={16} />
+                        </span>
+
+                        <span>{item.title}</span>
+                      </Link>
+                    );
+                  })}
+
+                  <div className="my-2 h-px bg-[#E5E1D8]" />
+
+                  {/* LOGOUT */}
+
+                  <button
+                    type="button"
+                    role="menuitem"
+                    onClick={handleLogout}
+                    className="
+                      flex
+                      w-full
+                      items-center
+                      gap-3
+                      rounded-xl
+                      px-3
+                      py-2.5
+                      text-left
+                      text-sm
+                      font-medium
+                      text-[#737373]
+                      transition
+                      hover:bg-[#F7F4EE]
+                      hover:text-[#171717]
+                    "
+                  >
+                    <span
+                      className="
+                        flex
+                        h-8
+                        w-8
+                        shrink-0
+                        items-center
+                        justify-center
+                        rounded-lg
+                        bg-[#F1EFEA]
+                      "
+                    >
+                      <LogOut size={16} />
+                    </span>
+
+                    <span>Log out</span>
+                  </button>
+                </div>
+              </>
             )}
           </div>
-        </div>
 
-        {/* =================================
-            MOBILE MENU BUTTON
-        ================================== */}
-        <button
-          type="button"
-          onClick={() => setMobileOpen((value) => !value)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 md:hidden"
-        >
-          {mobileOpen ? <X size={23} /> : <Menu size={23} />}
-        </button>
+          {/* =================================================
+              MOBILE MENU BUTTON
+          ================================================= */}
+
+          <button
+            type="button"
+            aria-label={
+              mobileOpen
+                ? "Close navigation"
+                : "Open navigation"
+            }
+            aria-expanded={mobileOpen}
+            onClick={() => {
+              setMobileOpen((current) => !current);
+              setSearchOpen(false);
+              setMenuOpen(false);
+            }}
+            className="
+              flex
+              h-10
+              w-10
+              items-center
+              justify-center
+              rounded-full
+              text-[#404040]
+              transition
+              hover:bg-[#F7F4EE]
+              hover:text-[#171717]
+              sm:hidden
+            "
+          >
+            {mobileOpen ? (
+              <X size={21} />
+            ) : (
+              <Menu size={21} />
+            )}
+          </button>
+        </div>
       </div>
 
-      {/* =================================
+      {/* =====================================================
           MOBILE NAVIGATION
-      ================================== */}
+      ===================================================== */}
+
       {mobileOpen && (
-        <div className="border-t border-white/10 bg-[#03045E] px-5 pb-6 pt-4 md:hidden">
+        <div
+          className="
+            border-t
+            border-[#E5E1D8]
+            bg-white
+            px-4
+            pb-6
+            pt-4
+            shadow-[0_15px_40px_rgba(23,23,23,0.08)]
+            sm:hidden
+          "
+        >
 
-          {/* MAIN LINKS */}
-          <div className="space-y-1">
+          {/* MOBILE SEARCH */}
 
-            {navLinks.map((link) => (
+          <form
+            onSubmit={handleSearch}
+            className="
+              mb-4
+              flex
+              items-center
+              rounded-2xl
+              border
+              border-[#E5E1D8]
+              bg-[#F8F6F1]
+              px-4
+              py-3
+            "
+          >
+            <Search
+              size={18}
+              className="mr-3 shrink-0 text-[#404040]"
+            />
+
+            <input
+              value={searchQuery}
+              onChange={(event) =>
+                setSearchQuery(event.target.value)
+              }
+              placeholder="Search Vistara..."
+              aria-label="Search Vistara"
+              className="
+                min-w-0
+                flex-1
+                bg-transparent
+                text-sm
+                text-[#171717]
+                outline-none
+                placeholder:text-[#A3A09A]
+              "
+            />
+          </form>
+
+          {/* MOBILE MAIN NAV */}
+
+          <nav className="space-y-1">
+            {mainNavigation.map((item) => (
               <Link
-                key={link.href}
-                href={link.href}
-                onClick={closeMobile}
-                className="block rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
+                key={item.href}
+                href={item.href}
+                onClick={() => setMobileOpen(false)}
+                className="
+                  block
+                  rounded-xl
+                  px-4
+                  py-3
+                  text-sm
+                  font-medium
+                  text-[#404040]
+                  transition
+                  hover:bg-[#F7F4EE]
+                  hover:text-[#171717]
+                "
               >
-                {link.label}
+                {item.label}
               </Link>
             ))}
+          </nav>
 
-            {/* BECOME A HOST */}
-            <Link
-              href="/host"
-              onClick={closeMobile}
-              className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
-            >
-              <Home size={18} />
-              <span>Become a Host</span>
-            </Link>
+          <div className="my-3 h-px bg-[#E5E1D8]" />
 
-            {/* WISHLIST */}
-            <Link
-              href="/wishlist"
-              onClick={closeMobile}
-              className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
-            >
-              <Heart size={18} />
-              <span>Wishlist</span>
-            </Link>
+          {/* MOBILE ACCOUNT LINKS */}
 
-            {/* LOCAL PLANS */}
-            <Link
-              href="/local-plans"
-              onClick={closeMobile}
-              className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
-            >
-              <Map size={18} />
-              <span>Local Plans</span>
-            </Link>
+          <div className="space-y-1">
 
-            {/* GUIDES */}
-            <Link
-              href="/guides"
-              onClick={closeMobile}
-              className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
-            >
-              <Compass size={18} />
-              <span>Guides</span>
-            </Link>
+            {menuItems.map((item) => {
+              const Icon = item.icon;
 
-            {/* DRIVERS */}
-            <Link
-              href="/drivers"
-              onClick={closeMobile}
-              className="flex items-center gap-3 rounded-xl px-4 py-3.5 text-base font-medium text-white/90 transition hover:bg-white/10"
-            >
-              <Car size={18} />
-              <span>Drivers</span>
-            </Link>
-          </div>
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="
+                    flex
+                    items-center
+                    gap-3
+                    rounded-xl
+                    px-4
+                    py-3
+                    text-sm
+                    font-medium
+                    text-[#404040]
+                    transition
+                    hover:bg-[#F7F4EE]
+                    hover:text-[#171717]
+                  "
+                >
+                  <span
+                    className="
+                      flex
+                      h-8
+                      w-8
+                      items-center
+                      justify-center
+                      rounded-lg
+                      bg-[#F1EFEA]
+                    "
+                  >
+                    <Icon size={16} />
+                  </span>
 
-          {/* DIVIDER */}
-          <div className="my-4 h-px bg-white/10" />
+                  {item.title}
+                </Link>
+              );
+            })}
 
-          {/* =================================
-              MOBILE LOGIN
-              IMPORTANT:
-              /signin -> /login
-          ================================== */}
-          <Link
-            href="/login"
-            onClick={closeMobile}
-            className="block rounded-full bg-white px-5 py-3.5 text-center text-sm font-semibold text-[#03045E] transition hover:bg-white/90"
-          >
-            Sign In
-          </Link>
-
-          {/* PROFILE / SETTINGS */}
-          <div className="mt-3 grid grid-cols-2 gap-2">
+            {/* MOBILE SIGN IN */}
 
             <Link
-              href="/profile"
-              onClick={closeMobile}
-              className="rounded-xl border border-white/10 px-4 py-3 text-center text-sm text-white/80 transition hover:bg-white/10"
+              href="/login"
+              onClick={() => setMobileOpen(false)}
+              className="
+                flex
+                items-center
+                gap-3
+                rounded-xl
+                px-4
+                py-3
+                text-sm
+                font-semibold
+                text-[#171717]
+                transition
+                hover:bg-[#F7F4EE]
+              "
             >
-              Profile
+              <span
+                className="
+                  flex
+                  h-8
+                  w-8
+                  items-center
+                  justify-center
+                  rounded-lg
+                  bg-[#F1EFEA]
+                "
+              >
+                <User size={16} />
+              </span>
+
+              Sign in
             </Link>
 
-            <Link
-              href="/settings"
-              onClick={closeMobile}
-              className="rounded-xl border border-white/10 px-4 py-3 text-center text-sm text-white/80 transition hover:bg-white/10"
+            {/* MOBILE LOGOUT */}
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="
+                flex
+                w-full
+                items-center
+                gap-3
+                rounded-xl
+                px-4
+                py-3
+                text-left
+                text-sm
+                font-medium
+                text-[#737373]
+                transition
+                hover:bg-[#F7F4EE]
+                hover:text-[#171717]
+              "
             >
-              Settings
-            </Link>
+              <span
+                className="
+                  flex
+                  h-8
+                  w-8
+                  items-center
+                  justify-center
+                  rounded-lg
+                  bg-[#F1EFEA]
+                "
+              >
+                <LogOut size={16} />
+              </span>
+
+              Log out
+            </button>
           </div>
         </div>
       )}
-    </nav>
-  );
-}
-
-/* =================================
-   MENU ITEM COMPONENT
-================================== */
-
-type MenuItemProps = {
-  href: string;
-  icon: ReactNode;
-  title: string;
-  description: string;
-  onClick: () => void;
-};
-
-function MenuItem({
-  href,
-  icon,
-  title,
-  description,
-  onClick,
-}: MenuItemProps) {
-  return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className="flex items-center gap-3 rounded-xl px-3 py-3 transition hover:bg-[#F5F7FF]"
-    >
-      {/* ICON */}
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#EEF0FF] text-[#03045E]">
-        {icon}
-      </div>
-
-      {/* TEXT */}
-      <div>
-        <p className="text-sm font-semibold text-[#03045E]">
-          {title}
-        </p>
-
-        <p className="mt-0.5 text-xs text-gray-500">
-          {description}
-        </p>
-      </div>
-    </Link>
+    </header>
   );
 }

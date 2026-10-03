@@ -1,495 +1,363 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowLeft,
-  CalendarDays,
+  ArrowRight,
   Car,
   CheckCircle2,
-  Clock3,
   MapPin,
+  ShieldCheck,
+  Star,
   Users,
 } from "lucide-react";
 import Navbar from "@/components/navbar";
 
-export default function DriverBookingPage() {
-  const params = useParams();
-  const searchParams = useSearchParams();
+type Vehicle = {
+  id: number;
+  make: string | null;
+  model: string | null;
+  type: string;
+  capacity: number;
+};
 
-  const driverId = params.id as string;
+type Driver = {
+  id: number;
+  name: string;
+  rating: number;
+  totalTrips: number;
+  isVerified: boolean;
+  vehicles: Vehicle[];
+};
 
-  const bookingType =
-    searchParams.get("type") || "route";
+export default function DriverDetailsPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const [driver, setDriver] = useState<Driver | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const initialPrice =
-    Number(searchParams.get("price")) || 0;
+  useEffect(() => {
+    async function loadDriver() {
+      try {
+        const response = await fetch("/api/drivers");
+        const result = await response.json();
 
-  const [pickup, setPickup] = useState("");
-  const [destination, setDestination] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [passengers, setPassengers] = useState(1);
-  const [notes, setNotes] = useState("");
+        if (result.success) {
+          const found = result.data.find(
+            (item: Driver) => String(item.id) === params.id
+          );
 
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  const serviceLabels: Record<string, string> = {
-    route: "Route Driver",
-    per_hour: "Per Hour Driver",
-    whole_trip: "Whole Trip",
-    religious: "Religious / Pilgrimage",
-  };
-
-  async function handleBooking() {
-    if (!pickup || !date || !time) {
-      alert("Please fill pickup, date and time.");
-      return;
-    }
-
-    if (
-      bookingType === "route" ||
-      bookingType === "religious"
-    ) {
-      if (!destination) {
-        alert("Please enter your destination.");
-        return;
+          setDriver(found || null);
+        }
+      } catch (error) {
+        console.error("Driver loading error:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
-    try {
-      setSubmitting(true);
+    loadDriver();
+  }, [params.id]);
 
-      const response = await fetch("/api/driver-bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          driverId,
-          bookingType,
-          pickup,
-          destination,
-          date,
-          time,
-          passengers,
-          notes,
-          price: initialPrice,
-        }),
-      });
-
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(
-          result.message || "Booking failed"
-        );
-      }
-
-      setSuccess(true);
-    } catch (error) {
-      console.error("Booking error:", error);
-      alert("Unable to create booking. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  if (success) {
+  if (loading) {
     return (
-      <>
+      <main className="min-h-screen bg-[#FAF8F4]">
         <Navbar />
 
-        <main className="flex min-h-[75vh] items-center justify-center px-6">
-          <div className="w-full max-w-xl rounded-[30px] border border-[#03045E]/10 bg-white p-8 text-center shadow-[0_20px_60px_rgba(3,4,94,0.08)] md:p-12">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#EEF0FF] text-[#03045E]">
-              <CheckCircle2 size={34} />
-            </div>
-
-            <p className="mt-7 text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-              BOOKING REQUESTED
-            </p>
-
-            <h1 className="mt-3 font-serif text-3xl font-semibold">
-              Your driver booking is on its way.
-            </h1>
-
-            <p className="mt-4 text-sm leading-6 text-[#64748B]">
-              Your booking request has been submitted. You can
-              view its status from your driver bookings.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/driver-bookings"
-                className="flex-1 rounded-xl bg-[#03045E] px-5 py-3.5 text-sm font-semibold text-white"
-              >
-                View My Bookings
-              </Link>
-
-              <Link
-                href="/driver"
-                className="flex-1 rounded-xl border border-[#03045E]/15 px-5 py-3.5 text-sm font-semibold"
-              >
-                Find Another Driver
-              </Link>
-            </div>
-          </div>
-        </main>
-      </>
+        <div className="mx-auto max-w-6xl px-5 py-16">
+          <div className="h-[520px] animate-pulse rounded-[32px] bg-[#F0ECE5]" />
+        </div>
+      </main>
     );
   }
 
+  if (!driver) {
+    return (
+      <main className="min-h-screen bg-[#FAF8F4]">
+        <Navbar />
+
+        <div className="flex min-h-[70vh] items-center justify-center px-5">
+          <div className="text-center">
+            <p className="text-sm font-medium text-[#A66A4C]">
+              DRIVER
+            </p>
+
+            <h1 className="mt-3 font-serif text-3xl font-semibold text-[#292524]">
+              Driver not found
+            </h1>
+
+            <Link
+              href="/drivers"
+              className="mt-6 inline-flex rounded-full bg-[#292524] px-6 py-3 text-sm font-semibold text-white"
+            >
+              Back to drivers
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  const vehicle = driver.vehicles?.[0];
+
   return (
-    <main className="min-h-screen bg-[#FAFBFF] text-[#03045E]">
+    <main className="min-h-screen bg-[#FAF8F4] text-[#292524]">
       <Navbar />
 
-      {/* BACK */}
-      <div className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-5 lg:px-10">
-          <Link
-            href={`/driver/${driverId}`}
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#64748B] hover:text-[#03045E]"
-          >
-            <ArrowLeft size={17} />
-            Back to driver
-          </Link>
-        </div>
-      </div>
+      {/* PAGE */}
+      <section className="mx-auto max-w-6xl px-5 py-8 sm:py-10 lg:px-8">
 
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
-          {/* FORM */}
-          <div>
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-                DRIVER BOOKING
-              </p>
+        {/* BACK */}
+        <Link
+          href="/drivers"
+          className="inline-flex items-center gap-2 text-sm font-medium text-[#78716C] transition hover:text-[#292524]"
+        >
+          <ArrowLeft size={17} />
+          All drivers
+        </Link>
 
-              <h1 className="mt-3 font-serif text-4xl font-semibold">
-                Plan your journey
-              </h1>
+        {/* MAIN PROFILE */}
+        <div className="mt-6 overflow-hidden rounded-[32px] border border-[#E7E2D8] bg-white shadow-[0_20px_70px_rgba(41,37,36,0.08)]">
 
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-[#64748B]">
-                Enter your journey details and send a booking
-                request to the driver.
-              </p>
-            </div>
+          {/* TOP */}
+          <div className="grid lg:grid-cols-[0.85fr_1.15fr]">
 
-            {/* BOOKING TYPE */}
-            <div className="mt-8 rounded-[25px] border border-[#03045E]/10 bg-white p-6">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EEF0FF]">
-                  <Car size={19} />
-                </div>
-
-                <div>
-                  <p className="text-xs text-[#64748B]">
-                    Booking type
-                  </p>
-
-                  <h2 className="mt-0.5 font-semibold">
-                    {serviceLabels[bookingType] ||
-                      "Driver Service"}
-                  </h2>
-                </div>
-              </div>
-            </div>
-
-            {/* LOCATION */}
-            <div className="mt-5 rounded-[25px] border border-[#03045E]/10 bg-white p-6">
-              <div className="flex items-center gap-2">
-                <MapPin size={19} />
-
-                <h2 className="font-serif text-xl font-semibold">
-                  Journey details
-                </h2>
-              </div>
-
-              <div className="mt-6 grid gap-5 md:grid-cols-2">
-                <div>
-                  <label className="text-sm font-semibold">
-                    Pickup location
-                  </label>
-
-                  <input
-                    value={pickup}
-                    onChange={(e) =>
-                      setPickup(e.target.value)
-                    }
-                    placeholder="Hotel, airport, home..."
-                    className="mt-2 w-full rounded-xl border border-[#03045E]/15 bg-white px-4 py-3.5 text-sm outline-none transition focus:border-[#03045E]"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-semibold">
-                    Destination
-                  </label>
-
-                  <input
-                    value={destination}
-                    onChange={(e) =>
-                      setDestination(e.target.value)
-                    }
-                    placeholder="Where are you going?"
-                    className="mt-2 w-full rounded-xl border border-[#03045E]/15 bg-white px-4 py-3.5 text-sm outline-none transition focus:border-[#03045E]"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* DATE TIME */}
-            <div className="mt-5 rounded-[25px] border border-[#03045E]/10 bg-white p-6">
-              <div className="flex items-center gap-2">
-                <CalendarDays size={19} />
-
-                <h2 className="font-serif text-xl font-semibold">
-                  Date & time
-                </h2>
-              </div>
-
-              <div className="mt-6 grid gap-5 md:grid-cols-2">
-                <div>
-                  <label className="text-sm font-semibold">
-                    Travel date
-                  </label>
-
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) =>
-                      setDate(e.target.value)
-                    }
-                    min={
-                      new Date()
-                        .toISOString()
-                        .split("T")[0]
-                    }
-                    className="mt-2 w-full rounded-xl border border-[#03045E]/15 px-4 py-3.5 text-sm outline-none focus:border-[#03045E]"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-sm font-semibold">
-                    Pickup time
-                  </label>
-
-                  <input
-                    type="time"
-                    value={time}
-                    onChange={(e) =>
-                      setTime(e.target.value)
-                    }
-                    className="mt-2 w-full rounded-xl border border-[#03045E]/15 px-4 py-3.5 text-sm outline-none focus:border-[#03045E]"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* PASSENGERS */}
-            <div className="mt-5 rounded-[25px] border border-[#03045E]/10 bg-white p-6">
-              <div className="flex items-center gap-2">
-                <Users size={19} />
-
-                <h2 className="font-serif text-xl font-semibold">
-                  Passengers
-                </h2>
-              </div>
-
-              <div className="mt-5 flex items-center justify-between rounded-xl bg-[#F7F9FF] p-4">
-                <div>
-                  <p className="text-sm font-semibold">
-                    Number of passengers
-                  </p>
-
-                  <p className="mt-1 text-xs text-[#64748B]">
-                    Includes all travelers
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setPassengers(
-                        Math.max(1, passengers - 1)
-                      )
-                    }
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[#03045E]/15 bg-white font-semibold"
-                  >
-                    −
-                  </button>
-
-                  <span className="w-5 text-center font-semibold">
-                    {passengers}
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setPassengers(
-                        Math.min(10, passengers + 1)
-                      )
-                    }
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-[#03045E] font-semibold text-white"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* NOTES */}
-            <div className="mt-5 rounded-[25px] border border-[#03045E]/10 bg-white p-6">
-              <h2 className="font-serif text-xl font-semibold">
-                Additional requirements
-              </h2>
-
-              <p className="mt-1 text-sm text-[#64748B]">
-                Tell the driver anything important about your
-                journey.
-              </p>
-
-              <textarea
-                value={notes}
-                onChange={(e) =>
-                  setNotes(e.target.value)
-                }
-                rows={5}
-                placeholder="Extra stops, luggage, temple visits, special requirements..."
-                className="mt-5 w-full resize-none rounded-xl border border-[#03045E]/15 px-4 py-3.5 text-sm outline-none focus:border-[#03045E]"
+            {/* IMAGE */}
+            <div className="relative min-h-[380px] overflow-hidden bg-[#EEE9E1] sm:min-h-[460px] lg:min-h-[540px]">
+              <img
+                src="/images/profile.jpg"
+                alt={`${driver.name} profile`}
+                className="absolute inset-0 h-full w-full object-cover"
               />
+
+              {/* soft overlay */}
+              <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/35 to-transparent" />
+
+              {/* VERIFIED */}
+              {driver.isVerified && (
+                <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-semibold text-[#292524] shadow-sm backdrop-blur">
+                  <ShieldCheck
+                    size={15}
+                    className="text-[#A66A4C]"
+                  />
+                  Verified driver
+                </div>
+              )}
+
+              {/* RATING */}
+              <div className="absolute bottom-5 left-5 flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold shadow-sm backdrop-blur">
+                <Star
+                  size={16}
+                  fill="currentColor"
+                  className="text-[#C49A4A]"
+                />
+                {driver.rating.toFixed(1)}
+              </div>
+            </div>
+
+            {/* DETAILS */}
+            <div className="flex flex-col justify-between p-6 sm:p-9 lg:p-12">
+
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A66A4C]">
+                  Vistara driver
+                </p>
+
+                <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#292524] sm:text-5xl">
+                  {driver.name}
+                </h1>
+
+                <p className="mt-4 max-w-lg text-[15px] leading-7 text-[#78716C]">
+                  A verified local driver ready to help you
+                  travel comfortably and confidently around your
+                  destination.
+                </p>
+
+                {/* STATS */}
+                <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <Stat
+                    value={driver.rating.toFixed(1)}
+                    label="Rating"
+                    icon={<Star size={17} />}
+                  />
+
+                  <Stat
+                    value={driver.totalTrips.toString()}
+                    label="Trips"
+                    icon={<MapPin size={17} />}
+                  />
+
+                  <Stat
+                    value={vehicle?.capacity?.toString() || "—"}
+                    label="Seats"
+                    icon={<Users size={17} />}
+                  />
+                </div>
+
+                {/* VEHICLE */}
+                {vehicle && (
+                  <div className="mt-8 rounded-2xl border border-[#E7E2D8] bg-[#FAF8F4] p-5">
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-[#A66A4C] shadow-sm">
+                        <Car size={20} />
+                      </div>
+
+                      <div className="min-w-0">
+                        <p className="text-xs font-medium uppercase tracking-wider text-[#A8A29E]">
+                          Vehicle
+                        </p>
+
+                        <h2 className="mt-1 font-semibold text-[#292524]">
+                          {vehicle.make || vehicle.model
+                            ? `${vehicle.make ?? ""} ${
+                                vehicle.model ?? ""
+                              }`.trim()
+                            : vehicle.type}
+                        </h2>
+
+                        <p className="mt-1 text-sm text-[#78716C]">
+                          {vehicle.type} · {vehicle.capacity} seats
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* TRUST */}
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {driver.isVerified && (
+                    <TrustBadge>
+                      <CheckCircle2 size={15} />
+                      Identity verified
+                    </TrustBadge>
+                  )}
+
+                  <TrustBadge>
+                    <ShieldCheck size={15} />
+                    Vistara verified
+                  </TrustBadge>
+
+                  <TrustBadge>
+                    <MapPin size={15} />
+                    Local driver
+                  </TrustBadge>
+                </div>
+              </div>
+
+              {/* BOOK */}
+              <div className="mt-10 border-t border-[#E7E2D8] pt-7">
+                <Link
+                  href={`/drivers/${driver.id}/book`}
+                  className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-[#292524] px-6 py-4 text-sm font-semibold text-white transition hover:bg-[#44403C] sm:w-auto"
+                >
+                  Book this driver
+
+                  <ArrowRight
+                    size={17}
+                    className="transition-transform group-hover:translate-x-1"
+                  />
+                </Link>
+
+                <p className="mt-3 text-center text-xs text-[#A8A29E] sm:text-left">
+                  Choose your journey details on the next step.
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* SUMMARY */}
-          <aside>
-            <div className="sticky top-6 rounded-[28px] border border-[#03045E]/10 bg-white p-6 shadow-[0_18px_60px_rgba(3,4,94,0.08)]">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#0D21A1]">
-                YOUR BOOKING
-              </p>
+          {/* LOWER INFO */}
+          <div className="border-t border-[#E7E2D8] bg-[#FFFEFC] p-6 sm:p-9 lg:p-12">
 
-              <h2 className="mt-3 font-serif text-2xl font-semibold">
-                Booking summary
-              </h2>
+            <div className="grid gap-8 md:grid-cols-3">
 
-              <div className="mt-6 space-y-4">
-                <SummaryRow
-                  icon={<Car size={17} />}
-                  label="Service"
-                  value={
-                    serviceLabels[bookingType] ||
-                    "Driver"
-                  }
-                />
+              <Feature
+                icon={<ShieldCheck size={20} />}
+                title="Verified"
+                text="Driver information is checked before being listed."
+              />
 
-                <SummaryRow
-                  icon={<MapPin size={17} />}
-                  label="Pickup"
-                  value={pickup || "Not selected"}
-                />
+              <Feature
+                icon={<MapPin size={20} />}
+                title="Local knowledge"
+                text="Travel with someone familiar with local routes and places."
+              />
 
-                <SummaryRow
-                  icon={<MapPin size={17} />}
-                  label="Destination"
-                  value={
-                    destination || "Not selected"
-                  }
-                />
+              <Feature
+                icon={<Car size={20} />}
+                title="Comfortable travel"
+                text="Choose a vehicle based on your journey and group size."
+              />
 
-                <SummaryRow
-                  icon={<CalendarDays size={17} />}
-                  label="Date"
-                  value={date || "Not selected"}
-                />
-
-                <SummaryRow
-                  icon={<Clock3 size={17} />}
-                  label="Time"
-                  value={time || "Not selected"}
-                />
-
-                <SummaryRow
-                  icon={<Users size={17} />}
-                  label="Passengers"
-                  value={`${passengers}`}
-                />
-              </div>
-
-              <div className="my-6 border-t border-[#03045E]/10" />
-
-              <div className="flex items-end justify-between">
-                <div>
-                  <p className="text-xs text-[#64748B]">
-                    Estimated total
-                  </p>
-
-                  <p className="mt-1 text-xs text-[#94A3B8]">
-                    Final fare may vary
-                  </p>
-                </div>
-
-                <p className="text-2xl font-semibold">
-                  ₹{initialPrice.toLocaleString("en-IN")}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                disabled={submitting}
-                onClick={handleBooking}
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-[#03045E] px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#0D21A1] disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {submitting ? (
-                  <>
-                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                    Sending request...
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle2 size={18} />
-                    Request Booking
-                  </>
-                )}
-              </button>
-
-              <p className="mt-4 text-center text-xs leading-5 text-[#94A3B8]">
-                Your booking will be confirmed after the
-                required availability/payment steps.
-              </p>
             </div>
-          </aside>
+          </div>
         </div>
       </section>
     </main>
   );
 }
 
-function SummaryRow({
-  icon,
-  label,
+function Stat({
   value,
+  label,
+  icon,
 }: {
-  icon: React.ReactNode;
-  label: string;
   value: string;
+  label: string;
+  icon: React.ReactNode;
 }) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="mt-0.5 text-[#0D21A1]">
+    <div className="rounded-2xl border border-[#E7E2D8] bg-[#FFFEFC] p-4">
+      <div className="flex items-center gap-2 text-[#A66A4C]">
+        {icon}
+        <span className="text-xs font-medium text-[#78716C]">
+          {label}
+        </span>
+      </div>
+
+      <p className="mt-2 text-xl font-semibold text-[#292524]">
+        {value}
+      </p>
+    </div>
+  );
+}
+
+function TrustBadge({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E7E2D8] bg-white px-3 py-2 text-xs font-medium text-[#57534E]">
+      <span className="text-[#A66A4C]">{children}</span>
+    </span>
+  );
+}
+
+function Feature({
+  icon,
+  title,
+  text,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+}) {
+  return (
+    <div className="flex gap-4">
+      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F3EEE7] text-[#A66A4C]">
         {icon}
       </div>
 
-      <div className="min-w-0 flex-1">
-        <p className="text-xs text-[#94A3B8]">
-          {label}
-        </p>
+      <div>
+        <h3 className="font-semibold text-[#292524]">
+          {title}
+        </h3>
 
-        <p className="mt-0.5 truncate text-sm font-medium">
-          {value}
+        <p className="mt-1.5 text-sm leading-6 text-[#78716C]">
+          {text}
         </p>
       </div>
     </div>

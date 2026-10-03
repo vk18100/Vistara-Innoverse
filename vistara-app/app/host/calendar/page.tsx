@@ -2,354 +2,289 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import {
+  Ban,
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  Clock3,
+  Home,
+  Plus,
+  User,
+} from "lucide-react";
+
 import Navbar from "@/components/navbar";
 
-type DayStatus = "available" | "booked" | "blocked";
-
-type CalendarDay = {
-  date: number;
-  status: DayStatus;
-  guest?: string;
-  property?: string;
-  amount?: string;
+type Booking = {
+  id: string;
+  guest: string;
+  property: string;
+  checkIn: string;
+  checkOut: string;
+  status: "Confirmed" | "Pending";
 };
 
-const properties = [
-  "All Properties",
-  "The Heritage Courtyard",
-  "Ganga Riverside Retreat",
-  "The Quiet House",
+const bookings: Booking[] = [
+  {
+    id: "BK-1024",
+    guest: "Aarav Sharma",
+    property: "The Heritage Villa",
+    checkIn: "2026-10-03",
+    checkOut: "2026-10-05",
+    status: "Confirmed",
+  },
+  {
+    id: "BK-1025",
+    guest: "Riya Mehta",
+    property: "The Heritage Villa",
+    checkIn: "2026-10-09",
+    checkOut: "2026-10-12",
+    status: "Pending",
+  },
+  {
+    id: "BK-1026",
+    guest: "Kabir Singh",
+    property: "Riverside Stay",
+    checkIn: "2026-10-17",
+    checkOut: "2026-10-20",
+    status: "Confirmed",
+  },
 ];
 
-const initialDays: Record<number, CalendarDay> = {
-  2: {
-    date: 2,
-    status: "booked",
-    guest: "Aarav Sharma",
-    property: "The Heritage Courtyard",
-    amount: "₹13,500",
-  },
-  3: {
-    date: 3,
-    status: "booked",
-    guest: "Aarav Sharma",
-    property: "The Heritage Courtyard",
-    amount: "₹13,500",
-  },
-  4: {
-    date: 4,
-    status: "booked",
-    guest: "Aarav Sharma",
-    property: "The Heritage Courtyard",
-    amount: "₹13,500",
-  },
-  8: {
-    date: 8,
-    status: "blocked",
-  },
-  9: {
-    date: 9,
-    status: "blocked",
-  },
-  14: {
-    date: 14,
-    status: "booked",
-    guest: "Riya Mehta",
-    property: "Ganga Riverside Retreat",
-    amount: "₹11,400",
-  },
-  15: {
-    date: 15,
-    status: "booked",
-    guest: "Riya Mehta",
-    property: "Ganga Riverside Retreat",
-    amount: "₹11,400",
-  },
-  16: {
-    date: 16,
-    status: "booked",
-    guest: "Riya Mehta",
-    property: "Ganga Riverside Retreat",
-    amount: "₹11,400",
-  },
-  22: {
-    date: 22,
-    status: "blocked",
-  },
-  23: {
-    date: 23,
-    status: "blocked",
-  },
-};
-
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+const blockedDates = [
+  "2026-10-06",
+  "2026-10-07",
+  "2026-10-22",
 ];
 
-const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+function formatDate(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function formatLongDate(date: Date) {
+  return date.toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function isBetween(
+  date: string,
+  start: string,
+  end: string
+) {
+  return date >= start && date < end;
+}
 
 export default function HostCalendarPage() {
-  const today = new Date();
+  const [currentDate, setCurrentDate] = useState(
+    new Date(2026, 9, 1)
+  );
 
-  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(2026, 9, 3)
+  );
 
-  const [selectedProperty, setSelectedProperty] =
-    useState("All Properties");
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
 
-  const [days, setDays] =
-    useState<Record<number, CalendarDay>>(initialDays);
+  const monthName = currentDate.toLocaleDateString(
+    "en-IN",
+    {
+      month: "long",
+      year: "numeric",
+    }
+  );
 
-  const [selectedDay, setSelectedDay] =
-    useState<CalendarDay | null>(null);
+  const calendarDays = useMemo(() => {
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
 
-  const firstDay = useMemo(() => {
-    const date = new Date(currentYear, currentMonth, 1);
+    const startDay = firstDay.getDay();
+    const totalDays = lastDay.getDate();
 
-    // JS Sunday = 0
-    // Convert so Monday = 0
-    return (date.getDay() + 6) % 7;
-  }, [currentMonth, currentYear]);
+    const days: (Date | null)[] = [];
 
-  const daysInMonth = useMemo(() => {
-    return new Date(
-      currentYear,
-      currentMonth + 1,
-      0
-    ).getDate();
-  }, [currentMonth, currentYear]);
+    for (let i = 0; i < startDay; i++) {
+      days.push(null);
+    }
 
-  const calendarCells = [];
+    for (let day = 1; day <= totalDays; day++) {
+      days.push(new Date(year, month, day));
+    }
 
-  for (let i = 0; i < firstDay; i++) {
-    calendarCells.push(null);
-  }
+    while (days.length % 7 !== 0) {
+      days.push(null);
+    }
 
-  for (let date = 1; date <= daysInMonth; date++) {
-    calendarCells.push(
-      days[date] || {
-        date,
-        status: "available",
-      }
+    return days;
+  }, [year, month]);
+
+  const selectedDateString = formatDate(selectedDate);
+
+  const selectedBookings = bookings.filter((booking) =>
+    isBetween(
+      selectedDateString,
+      booking.checkIn,
+      booking.checkOut
+    )
+  );
+
+  function changeMonth(direction: number) {
+    setCurrentDate(
+      new Date(year, month + direction, 1)
     );
   }
 
-  const bookedCount = Object.values(days).filter(
-    (day) => day.status === "booked"
-  ).length;
+  function goToday() {
+    const today = new Date();
 
-  const blockedCount = Object.values(days).filter(
-    (day) => day.status === "blocked"
-  ).length;
+    setCurrentDate(
+      new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1
+      )
+    );
 
-  const availableCount =
-    daysInMonth - bookedCount - blockedCount;
-
-  function previousMonth() {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear((year) => year - 1);
-    } else {
-      setCurrentMonth((month) => month - 1);
-    }
-
-    setSelectedDay(null);
-  }
-
-  function nextMonth() {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear((year) => year + 1);
-    } else {
-      setCurrentMonth((month) => month + 1);
-    }
-
-    setSelectedDay(null);
-  }
-
-  function goToToday() {
-    setCurrentMonth(today.getMonth());
-    setCurrentYear(today.getFullYear());
-    setSelectedDay(null);
-  }
-
-  function handleDayClick(day: CalendarDay) {
-    setSelectedDay(day);
-  }
-
-  function toggleAvailability() {
-    if (!selectedDay || selectedDay.status === "booked") {
-      return;
-    }
-
-    const newStatus =
-      selectedDay.status === "blocked"
-        ? "available"
-        : "blocked";
-
-    const updatedDay = {
-      ...selectedDay,
-      status: newStatus as DayStatus,
-    };
-
-    setDays((previous) => ({
-      ...previous,
-      [selectedDay.date]: updatedDay,
-    }));
-
-    setSelectedDay(updatedDay);
+    setSelectedDate(today);
   }
 
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#03045E]">
+    <main className="min-h-screen bg-[#FAF9F7] text-[#171717]">
       <Navbar />
 
-      {/* HEADER */}
-      <section className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-          <Link
-            href="/host"
-            className="text-sm font-medium text-[#64748B] transition hover:text-[#03045E]"
-          >
-            ← Host dashboard
-          </Link>
+      {/* ================= HEADER ================= */}
 
-          <div className="mt-7 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <section className="border-b border-[#E7E3DC] bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-10">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#C6A15B]">
-                AVAILABILITY
-              </p>
+              <div className="flex items-center gap-2 text-[#737373]">
+                <CalendarDays size={17} />
 
-              <h1 className="mt-3 font-serif text-4xl font-semibold md:text-5xl">
-                Your calendar
+                <span className="text-xs font-semibold uppercase tracking-[0.18em]">
+                  Host Calendar
+                </span>
+              </div>
+
+              <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
+                Manage your availability
               </h1>
 
-              <p className="mt-3 max-w-xl text-sm leading-6 text-[#64748B]">
-                Manage availability, view reservations and block
-                dates when your properties are unavailable.
+              <p className="mt-2 max-w-xl text-sm leading-6 text-[#737373]">
+                See your bookings, manage availability and
+                keep track of upcoming stays.
               </p>
             </div>
 
-            <select
-              value={selectedProperty}
-              onChange={(event) =>
-                setSelectedProperty(event.target.value)
-              }
-              className="w-full rounded-xl border border-[#03045E]/10 bg-white px-4 py-3 text-sm text-[#03045E] outline-none transition focus:border-[#03045E] md:w-64"
+            <button
+              type="button"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#171717] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#333333]"
             >
-              {properties.map((property) => (
-                <option key={property} value={property}>
-                  {property}
-                </option>
-              ))}
-            </select>
+              <Plus size={17} />
+              Block dates
+            </button>
           </div>
         </div>
       </section>
 
-      {/* CONTENT */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        {/* SUMMARY */}
-        <div className="grid gap-4 sm:grid-cols-3">
-          <SummaryCard
-            label="Available"
-            value={availableCount}
-            description="Open for bookings"
-            dot="bg-emerald-500"
-          />
+      {/* ================= MAIN ================= */}
 
-          <SummaryCard
-            label="Booked"
-            value={bookedCount}
-            description="Reserved nights"
-            dot="bg-[#03045E]"
-          />
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-10">
+        <div className="grid gap-6 lg:grid-cols-[1fr_330px]">
 
-          <SummaryCard
-            label="Blocked"
-            value={blockedCount}
-            description="Unavailable dates"
-            dot="bg-[#C6A15B]"
-          />
-        </div>
+          {/* ================= CALENDAR ================= */}
 
-        {/* MAIN GRID */}
-        <div className="mt-7 grid gap-7 lg:grid-cols-[1fr_330px]">
-          {/* CALENDAR */}
-          <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-5 shadow-[0_12px_40px_rgba(3,4,94,0.04)] md:p-7">
+          <div className="overflow-hidden rounded-[24px] border border-[#E5E1DA] bg-white shadow-[0_10px_35px_rgba(23,23,23,0.04)]">
+
             {/* CALENDAR HEADER */}
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                  MONTH VIEW
-                </p>
 
-                <h2 className="mt-2 font-serif text-2xl font-semibold">
-                  {monthNames[currentMonth]} {currentYear}
+            <div className="flex flex-col gap-4 border-b border-[#EAE7E1] p-5 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-lg font-semibold">
+                  {monthName}
                 </h2>
+
+                <p className="mt-1 text-xs text-[#8A8A8A]">
+                  Manage your property availability
+                </p>
               </div>
 
               <div className="flex items-center gap-2">
                 <button
-                  onClick={goToToday}
-                  className="rounded-xl border border-[#03045E]/10 px-4 py-2.5 text-xs font-semibold text-[#03045E] transition hover:bg-[#F7F3EA]"
+                  type="button"
+                  onClick={goToday}
+                  className="rounded-lg border border-[#DDD8D0] px-3 py-2 text-xs font-semibold transition hover:bg-[#F6F4F0]"
                 >
                   Today
                 </button>
 
                 <button
-                  onClick={previousMonth}
+                  type="button"
+                  onClick={() => changeMonth(-1)}
                   aria-label="Previous month"
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#03045E]/10 text-lg transition hover:bg-[#F7F3EA]"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#DDD8D0] transition hover:bg-[#F6F4F0]"
                 >
-                  ←
+                  <ChevronLeft size={17} />
                 </button>
 
                 <button
-                  onClick={nextMonth}
+                  type="button"
+                  onClick={() => changeMonth(1)}
                   aria-label="Next month"
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#03045E]/10 text-lg transition hover:bg-[#F7F3EA]"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#DDD8D0] transition hover:bg-[#F6F4F0]"
                 >
-                  →
+                  <ChevronRight size={17} />
                 </button>
               </div>
             </div>
 
             {/* LEGEND */}
-            <div className="mt-6 flex flex-wrap gap-5 border-b border-[#03045E]/10 pb-5">
-              <Legend
-                dot="bg-emerald-500"
-                label="Available"
-              />
 
-              <Legend
-                dot="bg-[#03045E]"
-                label="Booked"
-              />
+            <div className="flex flex-wrap gap-x-5 gap-y-2 border-b border-[#EAE7E1] px-5 py-4 text-xs text-[#737373]">
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#171717]" />
+                Booked
+              </div>
 
-              <Legend
-                dot="bg-[#C6A15B]"
-                label="Blocked"
-              />
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#D6C3A5]" />
+                Pending
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#E5E1DA]" />
+                Blocked
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full border border-[#999999]" />
+                Available
+              </div>
             </div>
 
             {/* WEEK DAYS */}
-            <div className="mt-6 grid grid-cols-7">
-              {weekDays.map((day) => (
+
+            <div className="grid grid-cols-7 border-b border-[#EAE7E1]">
+              {[
+                "Sun",
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri",
+                "Sat",
+              ].map((day) => (
                 <div
                   key={day}
-                  className="pb-3 text-center text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]"
+                  className="px-1 py-3 text-center text-[10px] font-semibold uppercase tracking-wider text-[#8A8A8A] sm:text-[11px]"
                 >
                   {day}
                 </div>
@@ -357,75 +292,76 @@ export default function HostCalendarPage() {
             </div>
 
             {/* CALENDAR GRID */}
-            <div className="grid grid-cols-7 overflow-hidden rounded-2xl border-l border-t border-[#03045E]/10">
-              {calendarCells.map((day, index) => {
-                if (!day) {
+
+            <div className="grid grid-cols-7">
+              {calendarDays.map((date, index) => {
+                if (!date) {
                   return (
                     <div
                       key={`empty-${index}`}
-                      className="min-h-[100px] border-b border-r border-[#03045E]/10 bg-[#FAFAF8]/50"
+                      className="min-h-[95px] border-b border-r border-[#EEEAE4] bg-[#FBFAF8] sm:min-h-[115px]"
                     />
                   );
                 }
 
-                const isToday =
-                  day.date === today.getDate() &&
-                  currentMonth === today.getMonth() &&
-                  currentYear === today.getFullYear();
+                const dateString = formatDate(date);
 
-                const isSelected =
-                  selectedDay?.date === day.date;
+                const booking = bookings.find((item) =>
+                  isBetween(
+                    dateString,
+                    item.checkIn,
+                    item.checkOut
+                  )
+                );
+
+                const blocked =
+                  blockedDates.includes(dateString);
+
+                const selected =
+                  selectedDateString === dateString;
 
                 return (
                   <button
-                    key={day.date}
-                    onClick={() => handleDayClick(day)}
-                    className={`relative min-h-[100px] border-b border-r border-[#03045E]/10 p-3 text-left transition hover:bg-[#F8F9FF] ${
-                      isSelected
-                        ? "bg-[#EEF2FF] ring-2 ring-inset ring-[#03045E]"
-                        : "bg-white"
+                    key={dateString}
+                    type="button"
+                    onClick={() => setSelectedDate(date)}
+                    className={`relative min-h-[95px] border-b border-r border-[#EEEAE4] p-1.5 text-left transition sm:min-h-[115px] sm:p-2 ${
+                      selected
+                        ? "bg-[#F3F0EA]"
+                        : "bg-white hover:bg-[#FAF8F4]"
                     }`}
                   >
                     {/* DATE */}
+
                     <div
                       className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-semibold ${
-                        isToday
-                          ? "bg-[#03045E] text-white"
-                          : "text-[#03045E]"
+                        selected
+                          ? "bg-[#171717] text-white"
+                          : "text-[#404040]"
                       }`}
                     >
-                      {day.date}
+                      {date.getDate()}
                     </div>
 
                     {/* STATUS */}
-                    <div className="mt-3">
-                      {day.status === "booked" && (
-                        <div className="rounded-lg bg-[#EEF2FF] px-2 py-1.5">
-                          <p className="truncate text-[10px] font-bold text-[#03045E]">
-                            Booked
-                          </p>
 
-                          {day.guest && (
-                            <p className="mt-0.5 truncate text-[9px] text-[#64748B]">
-                              {day.guest}
-                            </p>
-                          )}
+                    <div className="mt-2 space-y-1">
+                      {booking && (
+                        <div
+                          className={`truncate rounded-md px-1.5 py-1 text-[9px] font-semibold sm:px-2 sm:text-[10px] ${
+                            booking.status === "Confirmed"
+                              ? "bg-[#171717] text-white"
+                              : "bg-[#E9DCC6] text-[#4A3B27]"
+                          }`}
+                        >
+                          {booking.guest}
                         </div>
                       )}
 
-                      {day.status === "blocked" && (
-                        <div className="rounded-lg bg-[#FFF7E6] px-2 py-1.5">
-                          <p className="text-[10px] font-bold text-[#9A6700]">
-                            Blocked
-                          </p>
-                        </div>
-                      )}
-
-                      {day.status === "available" && (
-                        <div className="rounded-lg bg-[#ECFDF5] px-2 py-1.5">
-                          <p className="text-[10px] font-semibold text-emerald-700">
-                            Available
-                          </p>
+                      {blocked && (
+                        <div className="flex items-center gap-1 truncate rounded-md bg-[#ECE9E4] px-1.5 py-1 text-[9px] font-medium text-[#777777] sm:px-2 sm:text-[10px]">
+                          <Ban size={9} />
+                          <span>Blocked</span>
                         </div>
                       )}
                     </div>
@@ -435,201 +371,148 @@ export default function HostCalendarPage() {
             </div>
           </div>
 
-          {/* SIDE PANEL */}
-          <aside className="space-y-6">
-            {/* SELECTED DATE */}
-            <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-7 shadow-[0_12px_40px_rgba(3,4,94,0.04)]">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                SELECTED DATE
-              </p>
+          {/* ================= SELECTED DATE ================= */}
 
-              {selectedDay ? (
-                <>
-                  <h2 className="mt-3 font-serif text-2xl font-semibold">
-                    {monthNames[currentMonth]}{" "}
-                    {selectedDay.date}, {currentYear}
-                  </h2>
+          <aside className="h-fit rounded-[24px] border border-[#E5E1DA] bg-white p-5 shadow-[0_10px_35px_rgba(23,23,23,0.04)] lg:sticky lg:top-24">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#8A8A8A]">
+              Selected date
+            </p>
 
-                  <StatusBadge status={selectedDay.status} />
+            <h2 className="mt-2 font-serif text-2xl font-semibold">
+              {formatLongDate(selectedDate)}
+            </h2>
 
-                  {selectedDay.status === "booked" && (
-                    <div className="mt-5 space-y-4">
-                      <InfoRow
-                        label="Guest"
-                        value={selectedDay.guest || "Guest"}
-                      />
+            <div className="my-5 h-px bg-[#EAE7E1]" />
 
-                      <InfoRow
-                        label="Property"
-                        value={
-                          selectedDay.property || "Your property"
-                        }
-                      />
+            {/* BOOKINGS */}
 
-                      <InfoRow
-                        label="Booking amount"
-                        value={
-                          selectedDay.amount || "₹0"
-                        }
-                      />
+            {selectedBookings.length > 0 ? (
+              <div className="space-y-4">
+                <p className="text-sm font-semibold">
+                  {selectedBookings.length} booking
+                  {selectedBookings.length > 1
+                    ? "s"
+                    : ""}
+                </p>
+
+                {selectedBookings.map((booking) => (
+                  <div
+                    key={booking.id}
+                    className="rounded-2xl border border-[#E7E3DC] bg-[#FCFBF9] p-4"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="truncate font-semibold">
+                          {booking.guest}
+                        </p>
+
+                        <p className="mt-1 text-xs text-[#777777]">
+                          {booking.id}
+                        </p>
+                      </div>
+
+                      <span
+                        className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-semibold ${
+                          booking.status === "Confirmed"
+                            ? "bg-[#171717] text-white"
+                            : "bg-[#E9DCC6] text-[#4A3B27]"
+                        }`}
+                      >
+                        {booking.status}
+                      </span>
                     </div>
-                  )}
 
-                  {selectedDay.status !== "booked" && (
-                    <button
-                      onClick={toggleAvailability}
-                      className={`mt-6 w-full rounded-xl px-5 py-3 text-sm font-semibold transition ${
-                        selectedDay.status === "blocked"
-                          ? "bg-[#03045E] text-white hover:bg-[#0D21A1]"
-                          : "border border-[#03045E]/15 text-[#03045E] hover:bg-[#F7F3EA]"
-                      }`}
+                    <div className="mt-4 space-y-2 text-xs text-[#666666]">
+                      <div className="flex items-center gap-2">
+                        <Home size={14} />
+                        <span className="truncate">
+                          {booking.property}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <Clock3 size={14} />
+                        <span>
+                          {booking.checkIn} →{" "}
+                          {booking.checkOut}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <User size={14} />
+                        Guest booking
+                      </div>
+                    </div>
+
+                    {/* DIRECT BOOKING PAGE */}
+
+                    <Link
+                      href={`/host/bookings?bookingId=${encodeURIComponent(
+                        booking.id
+                      )}`}
+                      className="mt-4 flex w-full items-center justify-center rounded-xl border border-[#171717] px-3 py-2.5 text-xs font-semibold transition hover:bg-[#171717] hover:text-white"
                     >
-                      {selectedDay.status === "blocked"
-                        ? "Make available"
-                        : "Block this date"}
-                    </button>
-                  )}
-                </>
-              ) : (
-                <div className="mt-5 rounded-2xl bg-[#FAFAF8] p-5">
-                  <p className="text-sm leading-6 text-[#64748B]">
-                    Select a date from the calendar to view its
-                    availability and booking details.
-                  </p>
-                </div>
-              )}
-            </div>
+                      View booking
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            ) : blockedDates.includes(
+                selectedDateString
+              ) ? (
+              /* BLOCKED */
 
-            {/* HOST NOTE */}
-            <div className="rounded-[30px] bg-gradient-to-br from-[#03045E] via-[#071A75] to-[#0D21A1] p-7 text-white shadow-[0_18px_55px_rgba(3,4,94,0.14)]">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                HOST TIP
-              </p>
+              <div className="rounded-2xl bg-[#F0ECE6] p-5">
+                <Ban
+                  size={20}
+                  className="text-[#666666]"
+                />
 
-              <h2 className="mt-3 font-serif text-xl font-semibold">
-                Keep your availability updated.
-              </h2>
+                <h3 className="mt-3 font-semibold">
+                  Date is blocked
+                </h3>
 
-              <p className="mt-3 text-sm leading-6 text-white/70">
-                Block dates whenever your property is unavailable
-                to prevent unwanted reservations.
-              </p>
+                <p className="mt-1 text-xs leading-5 text-[#777777]">
+                  This date is currently unavailable
+                  for guests.
+                </p>
 
-              <Link
-                href="/host/properties"
-                className="mt-5 inline-flex text-sm font-semibold text-white underline underline-offset-4"
-              >
-                Manage properties →
-              </Link>
-            </div>
+                <button
+                  type="button"
+                  className="mt-4 w-full rounded-xl bg-[#171717] px-3 py-2.5 text-xs font-semibold text-white transition hover:bg-[#333333]"
+                >
+                  Make available
+                </button>
+              </div>
+            ) : (
+              /* AVAILABLE */
+
+              <div className="rounded-2xl border border-dashed border-[#D8D3CB] p-5 text-center">
+                <CalendarDays
+                  size={24}
+                  className="mx-auto text-[#777777]"
+                />
+
+                <h3 className="mt-3 font-semibold">
+                  Available
+                </h3>
+
+                <p className="mt-1 text-xs leading-5 text-[#888888]">
+                  No booking is scheduled for this
+                  date.
+                </p>
+
+                <button
+                  type="button"
+                  className="mt-4 w-full rounded-xl border border-[#171717] px-3 py-2.5 text-xs font-semibold transition hover:bg-[#171717] hover:text-white"
+                >
+                  Block this date
+                </button>
+              </div>
+            )}
           </aside>
         </div>
       </section>
     </main>
-  );
-}
-
-/* ---------------- SUMMARY CARD ---------------- */
-
-function SummaryCard({
-  label,
-  value,
-  description,
-  dot,
-}: {
-  label: string;
-  value: number;
-  description: string;
-  dot: string;
-}) {
-  return (
-    <div className="rounded-[24px] border border-[#03045E]/10 bg-white p-6 shadow-[0_12px_40px_rgba(3,4,94,0.04)]">
-      <div className="flex items-center gap-2">
-        <span className={`h-2.5 w-2.5 rounded-full ${dot}`} />
-
-        <p className="text-sm font-medium text-[#64748B]">
-          {label}
-        </p>
-      </div>
-
-      <p className="mt-3 font-serif text-3xl font-semibold">
-        {value}
-      </p>
-
-      <p className="mt-1 text-xs text-[#94A3B8]">
-        {description}
-      </p>
-    </div>
-  );
-}
-
-/* ---------------- LEGEND ---------------- */
-
-function Legend({
-  dot,
-  label,
-}: {
-  dot: string;
-  label: string;
-}) {
-  return (
-    <div className="flex items-center gap-2">
-      <span className={`h-2.5 w-2.5 rounded-full ${dot}`} />
-
-      <span className="text-xs font-medium text-[#64748B]">
-        {label}
-      </span>
-    </div>
-  );
-}
-
-/* ---------------- STATUS ---------------- */
-
-function StatusBadge({
-  status,
-}: {
-  status: DayStatus;
-}) {
-  const styles = {
-    available:
-      "bg-[#ECFDF5] text-emerald-700",
-    booked:
-      "bg-[#EEF2FF] text-[#03045E]",
-    blocked:
-      "bg-[#FFF7E6] text-[#9A6700]",
-  };
-
-  const labels = {
-    available: "Available",
-    booked: "Booked",
-    blocked: "Blocked",
-  };
-
-  return (
-    <span
-      className={`mt-4 inline-flex rounded-full px-3 py-1.5 text-xs font-semibold ${styles[status]}`}
-    >
-      {labels[status]}
-    </span>
-  );
-}
-
-/* ---------------- INFO ROW ---------------- */
-
-function InfoRow({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="border-b border-[#03045E]/10 pb-3 last:border-0">
-      <p className="text-xs text-[#94A3B8]">{label}</p>
-
-      <p className="mt-1 text-sm font-semibold text-[#03045E]">
-        {value}
-      </p>
-    </div>
   );
 }

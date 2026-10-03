@@ -3,157 +3,99 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
+import Footer from "@/app/footer/page";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setSubmitted(true);
-  }
+  };
 
   return (
-    <main className="min-h-screen bg-white text-[#03045E]">
+    <main className="min-h-screen bg-[#FAFAF8] text-[#03045E]">
       <Navbar />
 
-      {/* HERO */}
-      <section className="border-b border-[#03045E]/10 bg-[#F7F3EA]">
+      {/* HEADER */}
+      <section className="border-b border-[#E2E8F0] bg-white">
         <div className="mx-auto max-w-7xl px-6 py-16 lg:px-10">
           <Link
-            href="/"
+            href="/support"
             className="text-sm font-medium text-[#64748B] transition hover:text-[#03045E]"
           >
-            ← Back to home
+            ← Back to support
           </Link>
 
           <div className="mt-10 max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#C6A15B]">
-              GET IN TOUCH
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#B77945]">
+              CONTACT VISTARA
             </p>
 
-            <h1 className="mt-4 font-serif text-5xl font-semibold leading-tight text-[#03045E] md:text-6xl">
-              We&apos;re here to help.
+            <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-[#03045E] md:text-6xl">
+              How can we help?
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-[#64748B]">
-              Whether you have a question about a booking, a property,
-              payments, or your Vistara journey, our team is here for you.
+              Have a question about a booking, payment, stay, or your
+              Vistara account? Send us a message and our support team
+              will get back to you.
             </p>
           </div>
         </div>
       </section>
 
-      {/* CONTACT CONTENT */}
+      {/* CONTACT AREA */}
       <section className="mx-auto max-w-7xl px-6 py-14 lg:px-10">
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          {/* LEFT */}
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#C6A15B]">
-              CONTACT VISTARA
-            </p>
-
-            <h2 className="mt-3 font-serif text-3xl font-semibold text-[#03045E]">
-              Let&apos;s talk.
-            </h2>
-
-            <p className="mt-4 max-w-md text-sm leading-7 text-[#64748B]">
-              Have something on your mind? Send us a message and the Vistara
-              team will get back to you.
-            </p>
-
-            <div className="mt-9 space-y-4">
-              {/* EMAIL */}
-              <div className="rounded-2xl border border-[#03045E]/10 bg-[#FAFAF8] p-5">
-                <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#94A3B8]">
-                  EMAIL
-                </p>
-
-                <p className="mt-2 text-sm font-semibold text-[#03045E]">
-                  hello@vistara.travel
-                </p>
-
-                <p className="mt-1 text-xs text-[#64748B]">
-                  We usually respond within 24 hours.
-                </p>
-              </div>
-
-              {/* SUPPORT */}
-              <div className="rounded-2xl border border-[#03045E]/10 bg-[#FAFAF8] p-5">
-                <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#94A3B8]">
-                  SUPPORT
-                </p>
-
-                <p className="mt-2 text-sm font-semibold text-[#03045E]">
-                  Booking &amp; travel assistance
-                </p>
-
-                <p className="mt-1 text-xs leading-5 text-[#64748B]">
-                  Questions about your stay, payment, cancellation or
-                  reservation.
-                </p>
-              </div>
-
-              {/* LOCATION */}
-              <div className="rounded-2xl border border-[#C6A15B]/20 bg-[#F7F3EA] p-5">
-                <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#C6A15B]">
-                  VISTARA
-                </p>
-
-                <p className="mt-2 text-sm font-semibold text-[#03045E]">
-                  Discover India differently.
-                </p>
-
-                <p className="mt-1 text-xs leading-5 text-[#64748B]">
-                  From hidden stays to meaningful local experiences.
-                </p>
-              </div>
-            </div>
-          </div>
+        <div className="grid gap-8 lg:grid-cols-[1.3fr_0.7fr]">
 
           {/* FORM */}
-          <div className="rounded-[30px] border border-[#03045E]/10 bg-white p-6 shadow-[0_15px_50px_rgba(3,4,94,0.07)] md:p-8">
+          <div className="rounded-[28px] border border-[#E2E8F0] bg-white p-7 shadow-[0_15px_50px_rgba(3,4,94,0.04)] md:p-9">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B77945]">
+                SEND A MESSAGE
+              </p>
+
+              <h2 className="mt-3 font-serif text-3xl font-semibold text-[#03045E]">
+                Tell us what you need
+              </h2>
+
+              <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                Please share a few details so we can understand your
+                request and help you faster.
+              </p>
+            </div>
+
             {submitted ? (
-              <div className="flex min-h-[450px] flex-col items-center justify-center text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#ECFDF5] text-2xl text-emerald-700">
+              <div className="mt-8 rounded-2xl border border-[#DDE8DF] bg-[#F4F8F4] p-6">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white text-lg text-[#2F6B45]">
                   ✓
                 </div>
 
-                <p className="mt-6 text-xs font-bold uppercase tracking-[0.25em] text-[#C6A15B]">
-                  MESSAGE SENT
-                </p>
+                <h3 className="mt-5 text-lg font-semibold text-[#03045E]">
+                  Message received
+                </h3>
 
-                <h2 className="mt-3 font-serif text-3xl font-semibold text-[#03045E]">
-                  Thank you for reaching out.
-                </h2>
-
-                <p className="mt-3 max-w-md text-sm leading-6 text-[#64748B]">
-                  Your message has been received. Our team will get back to
-                  you soon.
+                <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                  Thank you for contacting Vistara. Our support team
+                  will review your message and get back to you.
                 </p>
 
                 <button
+                  type="button"
                   onClick={() => setSubmitted(false)}
-                  className="mt-7 rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+                  className="mt-5 text-sm font-semibold text-[#03045E] hover:underline"
                 >
                   Send another message
                 </button>
               </div>
             ) : (
-              <>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                  SEND A MESSAGE
-                </p>
-
-                <h2 className="mt-2 font-serif text-3xl font-semibold text-[#03045E]">
-                  How can we help?
-                </h2>
-
-                <form onSubmit={handleSubmit} className="mt-8 space-y-5">
-                  {/* NAME */}
+              <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+                <div className="grid gap-5 md:grid-cols-2">
                   <div>
                     <label
                       htmlFor="name"
-                      className="mb-2 block text-sm font-semibold text-[#03045E]"
+                      className="text-sm font-semibold text-[#03045E]"
                     >
                       Full name
                     </label>
@@ -163,16 +105,15 @@ export default function ContactPage() {
                       name="name"
                       type="text"
                       required
-                      placeholder="Enter your name"
-                      className="w-full rounded-xl border border-[#DDE2E8] bg-white px-4 py-3 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#0D21A1] focus:ring-2 focus:ring-[#0D21A1]/10"
+                      placeholder="Your name"
+                      className="mt-2 w-full rounded-xl border border-[#DCE3EB] bg-white px-4 py-3 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#03045E] focus:ring-2 focus:ring-[#03045E]/5"
                     />
                   </div>
 
-                  {/* EMAIL */}
                   <div>
                     <label
                       htmlFor="email"
-                      className="mb-2 block text-sm font-semibold text-[#03045E]"
+                      className="text-sm font-semibold text-[#03045E]"
                     >
                       Email address
                     </label>
@@ -183,91 +124,176 @@ export default function ContactPage() {
                       type="email"
                       required
                       placeholder="you@example.com"
-                      className="w-full rounded-xl border border-[#DDE2E8] bg-white px-4 py-3 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#0D21A1] focus:ring-2 focus:ring-[#0D21A1]/10"
+                      className="mt-2 w-full rounded-xl border border-[#DCE3EB] bg-white px-4 py-3 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#03045E] focus:ring-2 focus:ring-[#03045E]/5"
                     />
                   </div>
+                </div>
 
-                  {/* SUBJECT */}
-                  <div>
-                    <label
-                      htmlFor="subject"
-                      className="mb-2 block text-sm font-semibold text-[#03045E]"
-                    >
-                      Subject
-                    </label>
-
-                    <select
-                      id="subject"
-                      name="subject"
-                      required
-                      className="w-full rounded-xl border border-[#DDE2E8] bg-white px-4 py-3 text-sm text-[#03045E] outline-none transition focus:border-[#0D21A1] focus:ring-2 focus:ring-[#0D21A1]/10"
-                    >
-                      <option value="">Select a topic</option>
-                      <option value="booking">Booking assistance</option>
-                      <option value="payment">Payment issue</option>
-                      <option value="cancellation">Cancellation</option>
-                      <option value="property">Property / hosting</option>
-                      <option value="experience">Experience</option>
-                      <option value="other">Something else</option>
-                    </select>
-                  </div>
-
-                  {/* MESSAGE */}
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="mb-2 block text-sm font-semibold text-[#03045E]"
-                    >
-                      Message
-                    </label>
-
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={6}
-                      placeholder="Tell us how we can help..."
-                      className="w-full resize-none rounded-xl border border-[#DDE2E8] bg-white px-4 py-3 text-sm text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#0D21A1] focus:ring-2 focus:ring-[#0D21A1]/10"
-                    />
-                  </div>
-
-                  {/* SUBMIT */}
-                  <button
-                    type="submit"
-                    className="w-full rounded-xl bg-[#03045E] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
+                <div>
+                  <label
+                    htmlFor="subject"
+                    className="text-sm font-semibold text-[#03045E]"
                   >
-                    Send message
-                  </button>
-                </form>
-              </>
+                    What can we help with?
+                  </label>
+
+                  <select
+                    id="subject"
+                    name="subject"
+                    required
+                    defaultValue=""
+                    className="mt-2 w-full rounded-xl border border-[#DCE3EB] bg-white px-4 py-3 text-sm text-[#03045E] outline-none transition focus:border-[#03045E] focus:ring-2 focus:ring-[#03045E]/5"
+                  >
+                    <option value="" disabled>
+                      Select a topic
+                    </option>
+                    <option value="booking">Booking</option>
+                    <option value="payment">Payment</option>
+                    <option value="stay">Stay or property</option>
+                    <option value="account">Account</option>
+                    <option value="verification">Verification</option>
+                    <option value="other">Something else</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="text-sm font-semibold text-[#03045E]"
+                  >
+                    Message
+                  </label>
+
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    rows={6}
+                    placeholder="Tell us how we can help..."
+                    className="mt-2 w-full resize-none rounded-xl border border-[#DCE3EB] bg-white px-4 py-3 text-sm leading-6 text-[#03045E] outline-none transition placeholder:text-[#94A3B8] focus:border-[#03045E] focus:ring-2 focus:ring-[#03045E]/5"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full rounded-xl bg-[#03045E] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#0D21A1] sm:w-auto"
+                >
+                  Send message →
+                </button>
+              </form>
             )}
           </div>
+
+          {/* CONTACT INFO */}
+          <aside className="space-y-5">
+            <div className="rounded-[28px] border border-[#E2E8F0] bg-white p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B77945]">
+                EMAIL SUPPORT
+              </p>
+
+              <h2 className="mt-3 font-serif text-2xl font-semibold text-[#03045E]">
+                Prefer email?
+              </h2>
+
+              <p className="mt-3 text-sm leading-6 text-[#64748B]">
+                You can also reach the Vistara support team directly
+                through email.
+              </p>
+
+              <a
+                href="mailto:support@vistara.com"
+                className="mt-6 inline-flex rounded-xl border border-[#03045E] px-5 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#03045E] hover:text-white"
+              >
+                support@vistara.com
+              </a>
+            </div>
+
+            <div className="rounded-[28px] border border-[#E2E8F0] bg-[#F7F3EA] p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B77945]">
+                BEFORE CONTACTING US
+              </p>
+
+              <h2 className="mt-3 font-serif text-2xl font-semibold text-[#03045E]">
+                Have your details ready
+              </h2>
+
+              <ul className="mt-5 space-y-3 text-sm leading-6 text-[#64748B]">
+                <li>• Booking ID, if your question is about a reservation.</li>
+                <li>• Email address linked to your Vistara account.</li>
+                <li>• Payment or transaction details, if relevant.</li>
+              </ul>
+            </div>
+
+            <div className="rounded-[28px] border border-[#E2E8F0] bg-white p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B77945]">
+                QUICK ANSWERS
+              </p>
+
+              <h2 className="mt-3 font-serif text-2xl font-semibold text-[#03045E]">
+                Looking for something else?
+              </h2>
+
+              <p className="mt-3 text-sm leading-6 text-[#64748B]">
+                You may find the answer faster in our support centre.
+              </p>
+
+              <Link
+                href="/support"
+                className="mt-5 inline-flex text-sm font-semibold text-[#03045E] hover:underline"
+              >
+                Visit support centre →
+              </Link>
+            </div>
+          </aside>
         </div>
+
+        {/* COMMON QUESTIONS */}
+        <section className="mt-16 border-t border-[#E2E8F0] pt-12">
+          <div className="max-w-2xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B77945]">
+              COMMON QUESTIONS
+            </p>
+
+            <h2 className="mt-3 font-serif text-3xl font-semibold text-[#03045E]">
+              Before you send a message
+            </h2>
+          </div>
+
+          <div className="mt-7 grid gap-4 md:grid-cols-3">
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6">
+              <h3 className="font-semibold text-[#03045E]">
+                Booking changes
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                Need to change or cancel a reservation? Include your
+                booking ID in your message.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6">
+              <h3 className="font-semibold text-[#03045E]">
+                Payment questions
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                For payment issues, include the relevant transaction
+                details so the team can investigate.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6">
+              <h3 className="font-semibold text-[#03045E]">
+                Host support
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-[#64748B]">
+                Hosts can contact us about listings, verification,
+                property information, or hosting questions.
+              </p>
+            </div>
+          </div>
+        </section>
       </section>
 
-      {/* FAQ CTA */}
-      <section className="border-t border-[#03045E]/10 bg-[#03045E]">
-        <div className="mx-auto max-w-7xl px-6 py-14 text-center lg:px-10">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#C6A15B]">
-            NEED QUICK HELP?
-          </p>
-
-          <h2 className="mt-3 font-serif text-3xl font-semibold text-white">
-            Looking for an answer?
-          </h2>
-
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/65">
-            You may find what you need in our support and help section.
-          </p>
-
-          <Link
-            href="/help"
-            className="mt-7 inline-flex rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#EEF4FF]"
-          >
-            Visit Help Center
-          </Link>
-        </div>
-      </section>
+      <Footer />
     </main>
   );
 }

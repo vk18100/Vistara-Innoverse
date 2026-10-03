@@ -1,531 +1,332 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import Navbar from "@/components/navbar";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Home,
+  Image as ImageIcon,
+  MapPin,
+  Users,
+  Sparkles,
+} from "lucide-react";
 
-const stats = [
+const STEPS = [
   {
-    label: "Total earnings",
-    value: "₹84,500",
-    change: "+12.4%",
+    id: 1,
+    title: "Basic details",
+    description: "Tell us about your property",
+    icon: Home,
   },
   {
-    label: "Bookings",
-    value: "18",
-    change: "+4 this month",
+    id: 2,
+    title: "Amenities",
+    description: "Add facilities and features",
+    icon: Sparkles,
   },
   {
-    label: "Occupancy",
-    value: "72%",
-    change: "+8.2%",
+    id: 3,
+    title: "Guests",
+    description: "Set your guest capacity",
+    icon: Users,
   },
   {
-    label: "Rating",
-    value: "4.8",
-    change: "24 reviews",
+    id: 4,
+    title: "Location",
+    description: "Add your property location",
+    icon: MapPin,
+  },
+  {
+    id: 5,
+    title: "Photos",
+    description: "Showcase your property",
+    icon: ImageIcon,
   },
 ];
 
-const bookings = [
-  {
-    guest: "Rahul Sharma",
-    property: "The Heritage Courtyard",
-    dates: "18 Oct – 21 Oct",
-    guests: "2 guests",
-    amount: "₹13,500",
-    status: "Confirmed",
-  },
-  {
-    guest: "Ananya Singh",
-    property: "Ganga Riverside Retreat",
-    dates: "22 Oct – 25 Oct",
-    guests: "3 guests",
-    amount: "₹11,400",
-    status: "Confirmed",
-  },
-  {
-    guest: "Vikram Kumar",
-    property: "The Heritage Courtyard",
-    dates: "29 Oct – 31 Oct",
-    guests: "4 guests",
-    amount: "₹9,000",
-    status: "Pending",
-  },
-];
+type FormData = {
+  name: string;
+  type: string;
+  description: string;
+  location: string;
+  city: string;
+  state: string;
+  guests: string;
+  bedrooms: string;
+  beds: string;
+  bathrooms: string;
+  price: string;
+};
 
-const properties = [
-  {
-    name: "The Heritage Courtyard",
-    location: "Patna, Bihar",
-    rating: "4.8",
-    bookings: "14 bookings",
-    price: "₹4,500",
-    status: "Active",
-    image: "/images/pag1 (1).jpg",
-  },
-  {
-    name: "Ganga Riverside Retreat",
-    location: "Patna, Bihar",
-    rating: "4.7",
-    bookings: "4 bookings",
-    price: "₹3,800",
-    status: "Active",
-    image: "/images/pag1 (2).jpg",
-  },
-];
+const INITIAL_FORM: FormData = {
+  name: "",
+  type: "",
+  description: "",
+  location: "",
+  city: "",
+  state: "",
+  guests: "2",
+  bedrooms: "1",
+  beds: "1",
+  bathrooms: "1",
+  price: "",
+};
 
-export default function HostDashboard() {
+export default function NewPropertyPage() {
+  const [step, setStep] = useState(1);
+  const [form, setForm] = useState<FormData>(INITIAL_FORM);
+  const [saving, setSaving] = useState(false);
+
+  const progress = useMemo(
+    () => Math.round((step / STEPS.length) * 100),
+    [step],
+  );
+
+  function updateField(
+    field: keyof FormData,
+    value: string,
+  ) {
+    setForm((current) => ({
+      ...current,
+      [field]: value,
+    }));
+  }
+
+  function nextStep() {
+    if (step < STEPS.length) {
+      setStep((current) => current + 1);
+    }
+  }
+
+  function previousStep() {
+    if (step > 1) {
+      setStep((current) => current - 1);
+    }
+  }
+
+  async function saveProperty() {
+    try {
+      setSaving(true);
+
+      /*
+       * Connect this with your actual API when ready.
+       *
+       * const response = await fetch("/api/host/properties", {
+       *   method: "POST",
+       *   headers: {
+       *     "Content-Type": "application/json",
+       *   },
+       *   credentials: "include",
+       *   body: JSON.stringify(form),
+       * });
+       */
+
+      await new Promise((resolve) =>
+        setTimeout(resolve, 900),
+      );
+
+      window.location.href = "/host/properties";
+    } catch (error) {
+      console.error("CREATE_PROPERTY_ERROR:", error);
+      window.alert(
+        "Unable to create property right now.",
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
+
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#03045E]">
-      <Navbar />
-
-      {/* HOST NAVIGATION */}
-      <div className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl overflow-x-auto px-6 lg:px-10">
-          <div className="flex min-w-max items-center gap-7 py-4 text-sm">
-            <Link
-              href="/host"
-              className="font-semibold text-[#03045E]"
-            >
-              Dashboard
-            </Link>
-
+    <main className="min-h-screen bg-[#FAF8F3] text-[#18181B]">
+      {/* Header */}
+      <header className="border-b border-black/[0.07] bg-white">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+          <div className="flex min-h-[76px] items-center justify-between gap-4">
             <Link
               href="/host/properties"
-              className="text-[#64748B] transition hover:text-[#03045E]"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[#57534E] transition hover:text-[#18181B]"
             >
-              Properties
+              <ArrowLeft size={17} />
+              Back to properties
             </Link>
 
-            <Link
-              href="/host/bookings"
-              className="text-[#64748B] transition hover:text-[#03045E]"
-            >
-              Bookings
-            </Link>
+            <div className="hidden items-center gap-2 sm:flex">
+              <span className="text-xs text-[#A8A29E]">
+                Property setup
+              </span>
 
-            <Link
-              href="/host/calendar"
-              className="text-[#64748B] transition hover:text-[#03045E]"
-            >
-              Calendar
-            </Link>
-
-            <Link
-              href="/host/earnings"
-              className="text-[#64748B] transition hover:text-[#03045E]"
-            >
-              Earnings
-            </Link>
-
-            <Link
-              href="/host/analytics"
-              className="text-[#64748B] transition hover:text-[#03045E]"
-            >
-              Analytics
-            </Link>
-
-            <Link
-              href="/host/messages"
-              className="text-[#64748B] transition hover:text-[#03045E]"
-            >
-              Messages
-            </Link>
-
-            <Link
-              href="/host/settings"
-              className="text-[#64748B] transition hover:text-[#03045E]"
-            >
-              Settings
-            </Link>
+              <span className="font-serif text-lg font-semibold">
+                Vistara
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* HERO */}
-      <section className="border-b border-[#03045E]/10 bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-          <div className="flex flex-col gap-7 md:flex-row md:items-end md:justify-between">
+      {/* Progress */}
+      <section className="border-b border-black/[0.07] bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-6 sm:px-8 lg:px-10">
+          <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#C6A15B]">
-                VISTARA HOST
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9A711E]">
+                Step {step} of {STEPS.length}
               </p>
 
-              <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight md:text-5xl">
-                Good morning, Sristi.
+              <h1 className="mt-1 font-serif text-2xl font-semibold sm:text-3xl">
+                Add your property
               </h1>
-
-              <p className="mt-3 max-w-xl text-sm leading-6 text-[#64748B]">
-                Here is everything you need to manage your stays,
-                guests and hosting performance.
-              </p>
             </div>
 
-            <Link
-              href="/host/property/new"
-              className="w-fit rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-            >
-              + Add a property
-            </Link>
+            <div className="text-right">
+              <p className="text-xs font-semibold text-[#71717A]">
+                {progress}% complete
+              </p>
+            </div>
           </div>
 
-          {/* VERIFICATION */}
-          <div className="mt-8 flex flex-col gap-4 rounded-2xl border border-[#03045E]/10 bg-[#F7F3EA] p-5 md:flex-row md:items-center md:justify-between">
-            <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-[#03045E] shadow-sm">
-                ✓
-              </div>
-
-              <div>
-                <p className="text-sm font-semibold">
-                  Your host account is verified
-                </p>
-
-                <p className="mt-1 text-xs leading-5 text-[#64748B]">
-                  Your identity has been verified. Keep your
-                  property information up to date.
-                </p>
-              </div>
-            </div>
-
-            <Link
-              href="/host/verification"
-              className="text-sm font-semibold text-[#03045E] hover:underline"
-            >
-              View verification →
-            </Link>
+          <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-[#EEEAE0]">
+            <div
+              className="h-full rounded-full bg-[#D9A441] transition-all duration-500"
+              style={{
+                width: `${progress}%`,
+              }}
+            />
           </div>
         </div>
       </section>
 
-      {/* CONTENT */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
+      {/* Step navigation */}
+      <section className="border-b border-black/[0.07] bg-[#FCFBF8]">
+        <div className="mx-auto max-w-7xl overflow-x-auto px-5 py-5 sm:px-8 lg:px-10">
+          <div className="flex min-w-max items-center">
+            {STEPS.map((item, index) => {
+              const Icon = item.icon;
+              const completed = item.id < step;
+              const active = item.id === step;
 
-        {/* STATS */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-[24px] border border-[#03045E]/10 bg-white p-6 shadow-[0_10px_35px_rgba(3,4,94,0.04)]"
-            >
-              <p className="text-sm text-[#64748B]">
-                {stat.label}
-              </p>
-
-              <div className="mt-3 flex items-end justify-between gap-3">
-                <p className="font-serif text-3xl font-semibold">
-                  {stat.value}
-                </p>
-
-                <span className="rounded-full bg-[#EEF2FF] px-2.5 py-1 text-[10px] font-bold text-[#0D21A1]">
-                  {stat.change}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* MAIN GRID */}
-        <div className="mt-8 grid gap-7 lg:grid-cols-[1.4fr_0.6fr]">
-
-          {/* BOOKINGS */}
-          <div className="overflow-hidden rounded-[28px] border border-[#03045E]/10 bg-white shadow-[0_15px_50px_rgba(3,4,94,0.05)]">
-
-            <div className="flex items-center justify-between border-b border-[#03045E]/10 p-6 md:p-7">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                  RESERVATIONS
-                </p>
-
-                <h2 className="mt-2 font-serif text-2xl font-semibold">
-                  Upcoming bookings
-                </h2>
-              </div>
-
-              <Link
-                href="/host/bookings"
-                className="text-sm font-semibold text-[#0D21A1] hover:underline"
-              >
-                View all
-              </Link>
-            </div>
-
-            <div className="divide-y divide-[#03045E]/10">
-              {bookings.map((booking) => (
+              return (
                 <div
-                  key={`${booking.guest}-${booking.dates}`}
-                  className="p-6 transition hover:bg-[#FAFAF8] md:p-7"
+                  key={item.id}
+                  className="flex items-center"
                 >
-                  <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (item.id <= step) {
+                        setStep(item.id);
+                      }
+                    }}
+                    className="flex items-center gap-3 text-left"
+                  >
+                    <span
+                      className={`flex h-9 w-9 items-center justify-center rounded-full border text-xs font-bold transition ${
+                        completed
+                          ? "border-[#D9A441] bg-[#D9A441] text-[#18181B]"
+                          : active
+                            ? "border-[#18181B] bg-[#18181B] text-white"
+                            : "border-black/10 bg-white text-[#A8A29E]"
+                      }`}
+                    >
+                      {completed ? (
+                        <Check size={15} />
+                      ) : (
+                        <Icon size={15} />
+                      )}
+                    </span>
 
-                    <div className="flex gap-4">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#EEF2FF] text-sm font-bold text-[#03045E]">
-                        {booking.guest
-                          .split(" ")
-                          .map((name) => name[0])
-                          .join("")}
-                      </div>
-
-                      <div>
-                        <p className="text-sm font-semibold">
-                          {booking.guest}
-                        </p>
-
-                        <p className="mt-1 text-xs text-[#64748B]">
-                          {booking.property}
-                        </p>
-
-                        <div className="mt-2 flex flex-wrap gap-3 text-xs text-[#64748B]">
-                          <span>{booking.dates}</span>
-                          <span>{booking.guests}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-5 md:justify-end">
-                      <div className="md:text-right">
-                        <p className="text-sm font-semibold">
-                          {booking.amount}
-                        </p>
-
-                        <span
-                          className={`mt-1 inline-block rounded-full px-2.5 py-1 text-[10px] font-bold ${
-                            booking.status === "Confirmed"
-                              ? "bg-[#ECFDF5] text-emerald-700"
-                              : "bg-[#FFF7E6] text-[#9A6700]"
-                          }`}
-                        >
-                          {booking.status}
-                        </span>
-                      </div>
-
-                      <Link
-                        href="/host/bookings"
-                        className="text-sm text-[#94A3B8] hover:text-[#03045E]"
+                    <span className="hidden sm:block">
+                      <span
+                        className={`block text-xs font-bold ${
+                          active
+                            ? "text-[#18181B]"
+                            : "text-[#57534E]"
+                        }`}
                       >
-                        →
-                      </Link>
-                    </div>
+                        {item.title}
+                      </span>
 
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* QUICK ACTIONS */}
-          <div className="rounded-[28px] border border-[#03045E]/10 bg-white p-6 shadow-[0_15px_50px_rgba(3,4,94,0.05)] md:p-7">
-
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-              QUICK ACTIONS
-            </p>
-
-            <h2 className="mt-2 font-serif text-2xl font-semibold">
-              Manage your hosting
-            </h2>
-
-            <div className="mt-6 space-y-2">
-              <HostAction
-                href="/host/properties"
-                icon="⌂"
-                title="Manage properties"
-                description="Update your listings"
-              />
-
-              <HostAction
-                href="/host/calendar"
-                icon="▣"
-                title="Open calendar"
-                description="Manage availability"
-              />
-
-              <HostAction
-                href="/host/earnings"
-                icon="₹"
-                title="View earnings"
-                description="Track your revenue"
-              />
-
-              <HostAction
-                href="/host/messages"
-                icon="◌"
-                title="Messages"
-                description="Talk to your guests"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* PROPERTIES */}
-        <div className="mt-8 rounded-[28px] border border-[#03045E]/10 bg-white p-6 shadow-[0_15px_50px_rgba(3,4,94,0.05)] md:p-7">
-
-          <div className="flex items-end justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                YOUR LISTINGS
-              </p>
-
-              <h2 className="mt-2 font-serif text-2xl font-semibold">
-                Your properties
-              </h2>
-            </div>
-
-            <Link
-              href="/host/properties"
-              className="text-sm font-semibold text-[#0D21A1] hover:underline"
-            >
-              Manage all
-            </Link>
-          </div>
-
-          <div className="mt-6 grid gap-5 md:grid-cols-2">
-            {properties.map((property) => (
-              <Link
-                key={property.name}
-                href="/host/properties"
-                className="group overflow-hidden rounded-2xl border border-[#03045E]/10 transition hover:-translate-y-0.5 hover:shadow-lg"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={property.image}
-                    alt={property.name}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
-
-                  <span className="absolute left-4 top-4 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold text-emerald-700">
-                    {property.status}
-                  </span>
-                </div>
-
-                <div className="p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="font-serif text-xl font-semibold">
-                        {property.name}
-                      </h3>
-
-                      <p className="mt-1 text-xs text-[#64748B]">
-                        {property.location}
-                      </p>
-                    </div>
-
-                    <span className="text-sm font-semibold">
-                      ★ {property.rating}
-                    </span>
-                  </div>
-
-                  <div className="mt-5 flex items-center justify-between border-t border-[#03045E]/10 pt-4 text-xs">
-                    <span className="text-[#64748B]">
-                      {property.bookings}
-                    </span>
-
-                    <span className="font-semibold">
-                      {property.price}
-                      <span className="font-normal text-[#64748B]">
-                        {" "}
-                        / night
+                      <span className="mt-0.5 block text-[10px] text-[#A8A29E]">
+                        {item.description}
                       </span>
                     </span>
-                  </div>
+                  </button>
+
+                  {index !== STEPS.length - 1 && (
+                    <div className="mx-4 h-px w-8 bg-black/10 sm:mx-7 sm:w-12" />
+                  )}
                 </div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
+      </section>
 
-        {/* PERFORMANCE */}
-        <div className="mt-8 grid gap-7 lg:grid-cols-[1fr_0.8fr]">
+      {/* Content */}
+      <section className="mx-auto max-w-5xl px-5 py-8 sm:px-8 lg:px-10 lg:py-12">
+        <div className="rounded-[28px] border border-black/[0.07] bg-white shadow-[0_18px_55px_rgba(24,24,27,0.05)]">
+          <div className="p-6 sm:p-8 lg:p-10">
+            {step === 1 && (
+              <BasicDetails
+                form={form}
+                updateField={updateField}
+              />
+            )}
 
-          <div className="rounded-[28px] border border-[#03045E]/10 bg-white p-7 shadow-[0_15px_50px_rgba(3,4,94,0.05)]">
+            {step === 2 && <AmenitiesStep />}
 
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-                  PERFORMANCE
-                </p>
+            {step === 3 && (
+              <GuestsStep
+                form={form}
+                updateField={updateField}
+              />
+            )}
 
-                <h2 className="mt-2 font-serif text-2xl font-semibold">
-                  Listing performance
-                </h2>
-              </div>
+            {step === 4 && (
+              <LocationStep
+                form={form}
+                updateField={updateField}
+              />
+            )}
 
-              <Link
-                href="/host/analytics"
-                className="text-sm font-semibold text-[#0D21A1] hover:underline"
+            {step === 5 && (
+              <PhotosStep />
+            )}
+          </div>
+
+          {/* Footer actions */}
+          <div className="flex flex-col-reverse gap-3 border-t border-black/[0.07] bg-[#FCFBF8] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
+            <button
+              type="button"
+              onClick={previousStep}
+              disabled={step === 1}
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-black/10 bg-white px-5 text-sm font-bold text-[#57534E] transition hover:border-black/20 hover:bg-[#FAF8F3] disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ArrowLeft size={16} />
+              Back
+            </button>
+
+            {step < STEPS.length ? (
+              <button
+                type="button"
+                onClick={nextStep}
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#D9A441] px-6 text-sm font-bold text-[#18181B] shadow-[0_10px_25px_rgba(217,164,65,0.18)] transition hover:bg-[#E7C46D]"
               >
-                Details
-              </Link>
-            </div>
-
-            <div className="mt-8 flex h-48 items-end gap-3">
-              {[42, 55, 48, 72, 64, 81, 74, 90, 78, 95, 84, 100].map(
-                (height, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-1 items-end"
-                  >
-                    <div
-                      className="w-full rounded-t-lg bg-[#0D21A1]/80 transition hover:bg-[#03045E]"
-                      style={{ height: `${height}%` }}
-                    />
-                  </div>
-                )
-              )}
-            </div>
-
-            <div className="mt-4 flex justify-between text-[10px] text-[#94A3B8]">
-              <span>Nov</span>
-              <span>Dec</span>
-              <span>Jan</span>
-              <span>Feb</span>
-              <span>Mar</span>
-              <span>Apr</span>
-            </div>
-          </div>
-
-          {/* VISTARA INSIGHT */}
-          <div className="overflow-hidden rounded-[28px] bg-gradient-to-br from-[#03045E] via-[#071A75] to-[#0D21A1] p-7 text-white shadow-[0_18px_55px_rgba(3,4,94,0.16)]">
-
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#C6A15B]">
-              VISTARA INSIGHT
-            </p>
-
-            <h2 className="mt-4 font-serif text-2xl font-semibold">
-              Your property is performing well.
-            </h2>
-
-            <p className="mt-4 text-sm leading-6 text-white/70">
-              Your listings receive more engagement on weekends.
-              Keeping your availability updated can help guests
-              find your property more easily.
-            </p>
-
-            <Link
-              href="/host/analytics"
-              className="mt-7 inline-flex rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#03045E] transition hover:bg-[#F7F3EA]"
-            >
-              View insights
-            </Link>
-          </div>
-        </div>
-
-        {/* FOOTER CTA */}
-        <div className="mt-8 rounded-[28px] border border-[#03045E]/10 bg-[#F7F3EA] p-7 md:p-8">
-          <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="text-sm font-semibold">
-                Ready to grow your hosting business?
-              </p>
-
-              <p className="mt-1 text-xs leading-5 text-[#64748B]">
-                Add another unique place to your Vistara collection.
-              </p>
-            </div>
-
-            <Link
-              href="/host/property/new"
-              className="w-fit rounded-xl bg-[#03045E] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0D21A1]"
-            >
-              Add property
-            </Link>
+                Continue
+                <ArrowRight size={16} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={saveProperty}
+                disabled={saving}
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#18181B] px-6 text-sm font-bold text-white transition hover:bg-[#292524] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {saving ? "Saving..." : "Create property"}
+                {!saving && <Check size={16} />}
+              </button>
+            )}
           </div>
         </div>
       </section>
@@ -533,39 +334,493 @@ export default function HostDashboard() {
   );
 }
 
-function HostAction({
-  href,
-  icon,
+/* -------------------------------------------------------------------------- */
+/* Basic details                                                               */
+/* -------------------------------------------------------------------------- */
+
+function BasicDetails({
+  form,
+  updateField,
+}: {
+  form: FormData;
+  updateField: (
+    field: keyof FormData,
+    value: string,
+  ) => void;
+}) {
+  return (
+    <div>
+      <StepHeading
+        eyebrow="Property basics"
+        title="Tell us about your stay"
+        description="Start with the essential information guests will see first."
+      />
+
+      <div className="mt-8 grid gap-6">
+        <Field
+          label="Property name"
+          required
+          placeholder="Example: Vistara Beach House"
+          value={form.name}
+          onChange={(value) =>
+            updateField("name", value)
+          }
+        />
+
+        <div className="grid gap-6 sm:grid-cols-2">
+          <SelectField
+            label="Property type"
+            required
+            value={form.type}
+            onChange={(value) =>
+              updateField("type", value)
+            }
+            options={[
+              "Villa",
+              "Apartment",
+              "Beach House",
+              "Homestay",
+              "Farm Stay",
+              "Heritage Stay",
+              "Private Room",
+              "Guest House",
+            ]}
+          />
+
+          <Field
+            label="Price per night"
+            type="number"
+            placeholder="₹ 5,000"
+            value={form.price}
+            onChange={(value) =>
+              updateField("price", value)
+            }
+          />
+        </div>
+
+        <TextAreaField
+          label="Description"
+          required
+          placeholder="Describe what makes your property special..."
+          value={form.description}
+          onChange={(value) =>
+            updateField("description", value)
+          }
+        />
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Amenities                                                                   */
+/* -------------------------------------------------------------------------- */
+
+function AmenitiesStep() {
+  const amenities = [
+    "Wi-Fi",
+    "Air conditioning",
+    "Parking",
+    "Kitchen",
+    "Pool",
+    "Breakfast",
+    "TV",
+    "Workspace",
+    "Washing machine",
+    "Garden",
+    "Pet friendly",
+    "Hot water",
+  ];
+
+  const [selected, setSelected] = useState<string[]>([]);
+
+  function toggle(item: string) {
+    setSelected((current) =>
+      current.includes(item)
+        ? current.filter((value) => value !== item)
+        : [...current, item],
+    );
+  }
+
+  return (
+    <div>
+      <StepHeading
+        eyebrow="Property features"
+        title="What does your property offer?"
+        description="Choose the amenities available to guests."
+      />
+
+      <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {amenities.map((item) => {
+          const active = selected.includes(item);
+
+          return (
+            <button
+              key={item}
+              type="button"
+              onClick={() => toggle(item)}
+              className={`flex min-h-14 items-center justify-between rounded-2xl border px-4 text-left text-sm font-semibold transition ${
+                active
+                  ? "border-[#D9A441]/60 bg-[#FFF8E8] text-[#765817]"
+                  : "border-black/[0.08] bg-white text-[#57534E] hover:border-[#D9A441]/35 hover:bg-[#FCFBF8]"
+              }`}
+            >
+              {item}
+
+              <span
+                className={`flex h-6 w-6 items-center justify-center rounded-full border ${
+                  active
+                    ? "border-[#D9A441] bg-[#D9A441] text-[#18181B]"
+                    : "border-black/10"
+                }`}
+              >
+                {active && <Check size={13} />}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Guests                                                                      */
+/* -------------------------------------------------------------------------- */
+
+function GuestsStep({
+  form,
+  updateField,
+}: {
+  form: FormData;
+  updateField: (
+    field: keyof FormData,
+    value: string,
+  ) => void;
+}) {
+  return (
+    <div>
+      <StepHeading
+        eyebrow="Guest capacity"
+        title="How many guests can stay?"
+        description="Set the capacity and sleeping arrangements for your property."
+      />
+
+      <div className="mt-8 grid gap-5 sm:grid-cols-2">
+        <NumberField
+          label="Maximum guests"
+          value={form.guests}
+          onChange={(value) =>
+            updateField("guests", value)
+          }
+        />
+
+        <NumberField
+          label="Bedrooms"
+          value={form.bedrooms}
+          onChange={(value) =>
+            updateField("bedrooms", value)
+          }
+        />
+
+        <NumberField
+          label="Beds"
+          value={form.beds}
+          onChange={(value) =>
+            updateField("beds", value)
+          }
+        />
+
+        <NumberField
+          label="Bathrooms"
+          value={form.bathrooms}
+          onChange={(value) =>
+            updateField("bathrooms", value)
+          }
+        />
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Location                                                                    */
+/* -------------------------------------------------------------------------- */
+
+function LocationStep({
+  form,
+  updateField,
+}: {
+  form: FormData;
+  updateField: (
+    field: keyof FormData,
+    value: string,
+  ) => void;
+}) {
+  return (
+    <div>
+      <StepHeading
+        eyebrow="Property location"
+        title="Where is your property?"
+        description="Add the location guests will use to find your stay."
+      />
+
+      <div className="mt-8 grid gap-6">
+        <Field
+          label="Address"
+          required
+          placeholder="Street, landmark or locality"
+          value={form.location}
+          onChange={(value) =>
+            updateField("location", value)
+          }
+        />
+
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Field
+            label="City"
+            required
+            placeholder="Patna"
+            value={form.city}
+            onChange={(value) =>
+              updateField("city", value)
+            }
+          />
+
+          <Field
+            label="State"
+            required
+            placeholder="Bihar"
+            value={form.state}
+            onChange={(value) =>
+              updateField("state", value)
+            }
+          />
+        </div>
+
+        <div className="flex items-start gap-3 rounded-2xl border border-[#D9A441]/20 bg-[#FFF8E8] p-4">
+          <MapPin
+            size={18}
+            className="mt-0.5 shrink-0 text-[#9A711E]"
+          />
+
+          <div>
+            <p className="text-sm font-bold text-[#765817]">
+              Location privacy
+            </p>
+
+            <p className="mt-1 text-xs leading-5 text-[#8A651B]">
+              Your exact address can remain private until a
+              booking is confirmed.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Photos                                                                      */
+/* -------------------------------------------------------------------------- */
+
+function PhotosStep() {
+  return (
+    <div>
+      <StepHeading
+        eyebrow="Property gallery"
+        title="Show guests your space"
+        description="Add clear, high-quality photos of your property."
+      />
+
+      <div className="mt-8 rounded-3xl border-2 border-dashed border-black/10 bg-[#FCFBF8] px-6 py-14 text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#FFF8E8] text-[#9A711E]">
+          <ImageIcon size={28} />
+        </div>
+
+        <h3 className="mt-5 font-serif text-xl font-semibold">
+          Upload property photos
+        </h3>
+
+        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#78716C]">
+          Add photos of bedrooms, bathrooms, living spaces,
+          exterior areas and special features.
+        </p>
+
+        <button
+          type="button"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-sm font-bold text-[#18181B] transition hover:bg-[#E7C46D]"
+        >
+          <ImageIcon size={17} />
+          Choose photos
+        </button>
+
+        <p className="mt-4 text-[11px] text-[#A8A29E]">
+          JPG, PNG or WEBP · Recommended landscape photos
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Reusable UI                                                                 */
+/* -------------------------------------------------------------------------- */
+
+function StepHeading({
+  eyebrow,
   title,
   description,
 }: {
-  href: string;
-  icon: string;
+  eyebrow: string;
   title: string;
   description: string;
 }) {
   return (
-    <Link
-      href={href}
-      className="group flex items-center gap-4 rounded-2xl p-3 transition hover:bg-[#F7F3EA]"
-    >
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#EEF2FF] text-sm font-semibold text-[#03045E] transition group-hover:bg-[#03045E] group-hover:text-white">
-        {icon}
+    <div>
+      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9A711E]">
+        {eyebrow}
+      </p>
+
+      <h2 className="mt-2 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
+        {title}
+      </h2>
+
+      <p className="mt-2 max-w-2xl text-sm leading-6 text-[#71717A]">
+        {description}
+      </p>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  required,
+  placeholder,
+  value,
+  onChange,
+  type = "text",
+}: {
+  label: string;
+  required?: boolean;
+  placeholder?: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-xs font-bold text-[#44403C]">
+        {label}
+        {required && (
+          <span className="ml-1 text-[#9A711E]">*</span>
+        )}
       </span>
 
-      <span className="min-w-0">
-        <span className="block text-sm font-semibold">
-          {title}
-        </span>
+      <input
+        type={type}
+        value={value}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        placeholder={placeholder}
+        className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm text-[#18181B] outline-none transition placeholder:text-[#A8A29E] focus:border-[#D9A441]/60 focus:ring-4 focus:ring-[#D9A441]/10"
+      />
+    </label>
+  );
+}
 
-        <span className="mt-0.5 block text-xs text-[#94A3B8]">
-          {description}
-        </span>
+function NumberField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <Field
+      label={label}
+      type="number"
+      value={value}
+      onChange={onChange}
+    />
+  );
+}
+
+function SelectField({
+  label,
+  required,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  required?: boolean;
+  value: string;
+  onChange: (value: string) => void;
+  options: string[];
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-xs font-bold text-[#44403C]">
+        {label}
+        {required && (
+          <span className="ml-1 text-[#9A711E]">*</span>
+        )}
       </span>
 
-      <span className="ml-auto text-[#94A3B8] transition group-hover:translate-x-1">
-        →
+      <select
+        value={value}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        className="h-12 w-full rounded-xl border border-black/10 bg-white px-4 text-sm text-[#18181B] outline-none transition focus:border-[#D9A441]/60 focus:ring-4 focus:ring-[#D9A441]/10"
+      >
+        <option value="">Select property type</option>
+
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function TextAreaField({
+  label,
+  required,
+  placeholder,
+  value,
+  onChange,
+}: {
+  label: string;
+  required?: boolean;
+  placeholder?: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-2 block text-xs font-bold text-[#44403C]">
+        {label}
+        {required && (
+          <span className="ml-1 text-[#9A711E]">*</span>
+        )}
       </span>
-    </Link>
+
+      <textarea
+        value={value}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
+        placeholder={placeholder}
+        rows={6}
+        className="w-full resize-none rounded-xl border border-black/10 bg-white px-4 py-3 text-sm leading-6 text-[#18181B] outline-none transition placeholder:text-[#A8A29E] focus:border-[#D9A441]/60 focus:ring-4 focus:ring-[#D9A441]/10"
+      />
+    </label>
   );
 }
