@@ -16,6 +16,7 @@ import {
   Trash2,
   XCircle,
 } from "lucide-react";
+
 import Navbar from "@/components/navbar";
 
 type PropertyStatus =
@@ -44,79 +45,9 @@ type PropertiesResponse = {
   message?: string;
 };
 
-/*
-|--------------------------------------------------------------------------
-| Demo properties
-|--------------------------------------------------------------------------
-| These are shown only when the API has no live properties.
-*/
-
-const DEMO_PROPERTIES: Property[] = [
-  {
-    id: "demo-1",
-    name: "Dubai Skyline Residence",
-    location: "Dubai Marina, Dubai",
-    type: "Luxury Apartment",
-    image:
-      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1400&q=90",
-    price: 18500,
-    rating: 4.9,
-    reviews: 48,
-    status: "PUBLISHED",
-    verified: true,
-    bookings: 26,
-  },
-  {
-    id: "demo-2",
-    name: "Vistara Beach House",
-    location: "Candolim, Goa",
-    type: "Beach House",
-    image:
-      "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1400&q=90",
-    price: 9200,
-    rating: 4.8,
-    reviews: 36,
-    status: "PUBLISHED",
-    verified: true,
-    bookings: 19,
-  },
-  {
-    id: "demo-3",
-    name: "The Heritage House",
-    location: "Jaipur, Rajasthan",
-    type: "Heritage Stay",
-    image:
-      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=90",
-    price: 7200,
-    rating: 4.7,
-    reviews: 29,
-    status: "PENDING",
-    verified: false,
-    bookings: 8,
-  },
-  {
-    id: "demo-4",
-    name: "Green Valley Farm Stay",
-    location: "Manali, Himachal Pradesh",
-    type: "Farm Stay",
-    image:
-      "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=1400&q=90",
-    price: 4800,
-    rating: 4.9,
-    reviews: 21,
-    status: "DRAFT",
-    verified: false,
-    bookings: 0,
-  },
-];
-
-function formatMoney(value?: number) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(Number(value || 0));
-}
+/* =========================================================
+   STATUS
+========================================================= */
 
 function normalizeStatus(status?: string): PropertyStatus {
   const value = String(status || "").toUpperCase();
@@ -128,45 +59,47 @@ function normalizeStatus(status?: string): PropertyStatus {
   return "DRAFT";
 }
 
-/*
-|--------------------------------------------------------------------------
-| IMPORTANT ROUTES
-|--------------------------------------------------------------------------
-|
-| Your folder structure is:
-|
-| app/
-|   host/
-|     property/
-|       new/
-|         page.tsx
-|         [id]/
-|           edit/
-|             page.tsx
-|
-| Therefore:
-|
-| Add    -> /host/property/new
-| Edit   -> /host/property/new/[id]/edit
-|
-*/
-
-function getEditRoute(id: string | number) {
-  return `/host/property/new/${encodeURIComponent(String(id))}/edit`;
-}
+/* =========================================================
+   ROUTES
+========================================================= */
 
 function getAddRoute() {
   return "/host/property/new";
+}
+
+function getEditRoute(id: string | number) {
+  return `/host/property/new/${encodeURIComponent(String(id))}/edit`;
 }
 
 function getViewRoute(id: string | number) {
   return `/properties/${encodeURIComponent(String(id))}`;
 }
 
+function getVerificationRoute(id: string | number) {
+  return `/host/verification?propertyId=${encodeURIComponent(
+    String(id),
+  )}`;
+}
+
+/* =========================================================
+   MONEY
+========================================================= */
+
+function formatMoney(value?: number) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(Number(value || 0));
+}
+
+/* =========================================================
+   PAGE
+========================================================= */
+
 export default function HostPropertiesPage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
-  const [demoMode, setDemoMode] = useState(false);
 
   const [search, setSearch] = useState("");
 
@@ -174,32 +107,27 @@ export default function HostPropertiesPage() {
     "ALL" | PropertyStatus
   >("ALL");
 
-  const [openMenu, setOpenMenu] = useState<string | number | null>(
-    null,
-  );
+  const [openMenu, setOpenMenu] = useState<
+    string | number | null
+  >(null);
 
-  /*
-  |--------------------------------------------------------------------------
-  | Load properties
-  |--------------------------------------------------------------------------
-  */
+  /* =========================================================
+     LOAD EXISTING PROPERTIES
+  ========================================================= */
 
   useEffect(() => {
     let cancelled = false;
 
     async function loadProperties() {
       try {
-        const response = await fetch(
-          "/api/host/properties",
-          {
-            method: "GET",
-            cache: "no-store",
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-            },
+        const response = await fetch("/api/host/properties", {
+          method: "GET",
+          cache: "no-store",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
           },
-        );
+        });
 
         const raw = await response.text();
 
@@ -209,7 +137,7 @@ export default function HostPropertiesPage() {
           result = raw ? JSON.parse(raw) : {};
         } catch {
           throw new Error(
-            "The properties API returned invalid data.",
+            "Properties API returned invalid data.",
           );
         }
 
@@ -220,29 +148,22 @@ export default function HostPropertiesPage() {
           );
         }
 
-        const liveProperties = Array.isArray(result.data)
-          ? result.data
-          : [];
-
         if (cancelled) return;
 
-        if (liveProperties.length > 0) {
-          setProperties(liveProperties);
-          setDemoMode(false);
-        } else {
-          setProperties(DEMO_PROPERTIES);
-          setDemoMode(true);
-        }
+        setProperties(
+          Array.isArray(result.data)
+            ? result.data
+            : [],
+        );
       } catch (error) {
         console.error(
           "HOST_PROPERTIES_ERROR:",
           error,
         );
 
-        if (cancelled) return;
-
-        setProperties(DEMO_PROPERTIES);
-        setDemoMode(true);
+        if (!cancelled) {
+          setProperties([]);
+        }
       } finally {
         if (!cancelled) {
           setLoading(false);
@@ -257,11 +178,9 @@ export default function HostPropertiesPage() {
     };
   }, []);
 
-  /*
-  |--------------------------------------------------------------------------
-  | Filtering
-  |--------------------------------------------------------------------------
-  */
+  /* =========================================================
+     SEARCH + FILTER
+  ========================================================= */
 
   const filteredProperties = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -291,11 +210,9 @@ export default function HostPropertiesPage() {
     });
   }, [properties, search, filter]);
 
-  /*
-  |--------------------------------------------------------------------------
-  | Counts
-  |--------------------------------------------------------------------------
-  */
+  /* =========================================================
+     COUNTS
+  ========================================================= */
 
   const counts = useMemo(() => {
     return {
@@ -321,11 +238,9 @@ export default function HostPropertiesPage() {
     };
   }, [properties]);
 
-  /*
-  |--------------------------------------------------------------------------
-  | Delete property
-  |--------------------------------------------------------------------------
-  */
+  /* =========================================================
+     DELETE
+  ========================================================= */
 
   async function deleteProperty(
     id: string | number,
@@ -375,24 +290,25 @@ export default function HostPropertiesPage() {
     }
   }
 
+  /* =========================================================
+     PAGE
+  ========================================================= */
+
   return (
     <main
       className="min-h-screen bg-[#FAF8F3] text-[#18181B]"
-      onClick={() => {
-        if (openMenu !== null) {
-          setOpenMenu(null);
-        }
-      }}
+      onClick={() => setOpenMenu(null)}
     >
       <Navbar />
 
-      {/* ================================================================ */}
-      {/* HEADER                                                           */}
-      {/* ================================================================ */}
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
 
       <section className="border-b border-black/[0.07] bg-white">
         <div className="mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10 lg:py-11">
           <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
+
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-[#D9A441]/25 bg-[#FFF8E8] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#8A651B]">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#D9A441]" />
@@ -410,7 +326,6 @@ export default function HostPropertiesPage() {
               </p>
             </div>
 
-            {/* FIXED ADD PROPERTY ROUTE */}
             <Link
               href={getAddRoute()}
               onClick={(event) =>
@@ -420,39 +335,24 @@ export default function HostPropertiesPage() {
             >
               <Plus size={18} />
               Add property
-              <span className="ml-1">→</span>
+              <span>→</span>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ================================================================ */}
-      {/* MAIN                                                             */}
-      {/* ================================================================ */}
+      {/* =====================================================
+          CONTENT
+      ===================================================== */}
 
       <section className="mx-auto max-w-7xl px-5 py-7 sm:px-8 lg:px-10 lg:py-10">
-        {/* Demo notice */}
-        {demoMode && (
-          <div className="mb-6 flex flex-col gap-2 rounded-2xl border border-[#D9A441]/25 bg-[#FFF8E8] px-4 py-3 text-sm text-[#765817] sm:flex-row sm:items-center sm:justify-between">
-            <span>
-              Sample properties are displayed because
-              no live property data is available yet.
-            </span>
 
-            <Link
-              href={getAddRoute()}
-              className="font-bold underline underline-offset-4"
-            >
-              Add a property
-            </Link>
-          </div>
-        )}
-
-        {/* ============================================================ */}
-        {/* STATS                                                        */}
-        {/* ============================================================ */}
+        {/* =================================================
+            STATS
+        ================================================= */}
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
           <PropertyStat
             label="All properties"
             value={counts.all}
@@ -486,16 +386,21 @@ export default function HostPropertiesPage() {
             value={counts.drafts}
             icon={<Edit3 size={19} />}
             active={filter === "DRAFT"}
-            onClick={() => setFilter("DRAFT")}
+            onClick={() =>
+              setFilter("DRAFT")
+            }
           />
+
         </div>
 
-        {/* ============================================================ */}
-        {/* TOOLBAR                                                      */}
-        {/* ============================================================ */}
+        {/* =================================================
+            SEARCH + FILTER
+        ================================================= */}
 
         <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
           <label className="relative block w-full lg:max-w-md">
+
             <Search
               size={17}
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#A8A29E]"
@@ -519,6 +424,7 @@ export default function HostPropertiesPage() {
                 Clear
               </button>
             )}
+
           </label>
 
           <div className="flex flex-wrap gap-2">
@@ -546,13 +452,15 @@ export default function HostPropertiesPage() {
               </button>
             ))}
           </div>
+
         </div>
 
-        {/* ============================================================ */}
-        {/* PROPERTY LIST                                                */}
-        {/* ============================================================ */}
+        {/* =================================================
+            PROPERTY LIST
+        ================================================= */}
 
         <div className="mt-7">
+
           {loading ? (
             <PropertiesSkeleton />
           ) : filteredProperties.length === 0 ? (
@@ -562,6 +470,7 @@ export default function HostPropertiesPage() {
             />
           ) : (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+
               {filteredProperties.map(
                 (property) => (
                   <PropertyCard
@@ -585,17 +494,19 @@ export default function HostPropertiesPage() {
                   />
                 ),
               )}
+
             </div>
           )}
+
         </div>
       </section>
     </main>
   );
 }
 
-/* ========================================================================= */
-/* PROPERTY STAT                                                            */
-/* ========================================================================= */
+/* =========================================================
+   STAT CARD
+========================================================= */
 
 function PropertyStat({
   label,
@@ -641,9 +552,9 @@ function PropertyStat({
   );
 }
 
-/* ========================================================================= */
-/* PROPERTY CARD                                                            */
-/* ========================================================================= */
+/* =========================================================
+   PROPERTY CARD
+========================================================= */
 
 function PropertyCard({
   property,
@@ -660,12 +571,6 @@ function PropertyCard({
     property.status,
   );
 
-  /*
-  |--------------------------------------------------------------------------
-  | Fixed routes
-  |--------------------------------------------------------------------------
-  */
-
   const editRoute = getEditRoute(
     property.id,
   );
@@ -674,20 +579,23 @@ function PropertyCard({
     property.id,
   );
 
+  const verificationRoute =
+    getVerificationRoute(property.id);
+
   return (
     <article className="group overflow-visible rounded-[26px] border border-black/[0.08] bg-white shadow-[0_12px_42px_rgba(24,24,27,0.045)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_55px_rgba(24,24,27,0.09)]">
-      {/* ================================================================ */}
-      {/* IMAGE                                                           */}
-      {/* ================================================================ */}
+
+      {/* IMAGE */}
 
       <div className="relative aspect-[16/10] overflow-hidden rounded-t-[26px] bg-[#F1F0EB]">
+
         <PropertyImage
           src={property.image}
           alt={property.name}
         />
 
-        {/* Top controls */}
         <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between p-4">
+
           <StatusBadge status={status} />
 
           <div
@@ -699,21 +607,19 @@ function PropertyCard({
             <button
               type="button"
               onClick={onMenu}
-              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/70 bg-white/90 text-[#292524] shadow-sm backdrop-blur transition hover:bg-white active:scale-95"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/70 bg-white/90 text-[#292524] shadow-sm backdrop-blur transition hover:bg-white"
               aria-label="Property actions"
-              aria-expanded={menuOpen}
             >
               <MoreHorizontal size={18} />
             </button>
 
             {menuOpen && (
-              <div className="absolute right-0 top-11 z-50 w-48 overflow-hidden rounded-2xl border border-black/[0.08] bg-white p-1.5 shadow-[0_18px_50px_rgba(24,24,27,0.15)]">
+              <div className="absolute right-0 top-11 z-50 w-52 overflow-hidden rounded-2xl border border-black/[0.08] bg-white p-1.5 shadow-[0_18px_50px_rgba(24,24,27,0.15)]">
+
                 <Link
                   href={editRoute}
-                  onClick={() =>
-                    onMenu()
-                  }
-                  className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-semibold text-[#44403C] transition hover:bg-[#FAF8F3]"
+                  onClick={onMenu}
+                  className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-semibold text-[#44403C] hover:bg-[#FAF8F3]"
                 >
                   <Edit3 size={14} />
                   Edit property
@@ -721,46 +627,57 @@ function PropertyCard({
 
                 <Link
                   href={viewRoute}
-                  onClick={() =>
-                    onMenu()
-                  }
-                  className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-semibold text-[#44403C] transition hover:bg-[#FAF8F3]"
+                  onClick={onMenu}
+                  className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-semibold text-[#44403C] hover:bg-[#FAF8F3]"
                 >
                   <Eye size={14} />
                   View listing
                 </Link>
+
+                {status !== "PUBLISHED" && (
+                  <Link
+                    href={verificationRoute}
+                    onClick={onMenu}
+                    className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-semibold text-[#8A651B] hover:bg-[#FFF8E8]"
+                  >
+                    <ShieldCheck size={14} />
+                    Verification
+                  </Link>
+                )}
 
                 <div className="my-1 border-t border-black/[0.06]" />
 
                 <button
                   type="button"
                   onClick={onDelete}
-                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-xs font-semibold text-[#9B4439] transition hover:bg-[#FFF1EF]"
+                  className="flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-left text-xs font-semibold text-[#9B4439] hover:bg-[#FFF1EF]"
                 >
                   <Trash2 size={14} />
                   Delete
                 </button>
+
               </div>
             )}
           </div>
         </div>
 
-        {/* Verification */}
         {property.verified && (
-          <div className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/95 px-3 py-1.5 text-[10px] font-bold text-[#4E693E] shadow-sm backdrop-blur">
+          <div className="absolute bottom-4 left-4 inline-flex items-center gap-1.5 rounded-full border border-white/70 bg-white/95 px-3 py-1.5 text-[10px] font-bold text-[#4E693E] shadow-sm">
             <ShieldCheck size={13} />
             Verified
           </div>
         )}
+
       </div>
 
-      {/* ================================================================ */}
-      {/* CONTENT                                                         */}
-      {/* ================================================================ */}
+      {/* CONTENT */}
 
       <div className="p-5">
+
         <div className="flex items-start justify-between gap-3">
+
           <div className="min-w-0">
+
             <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#9A711E]">
               {property.type || "Stay"}
             </p>
@@ -783,6 +700,7 @@ function PropertyCard({
 
               {property.location}
             </p>
+
           </div>
 
           {typeof property.rating ===
@@ -793,14 +711,14 @@ function PropertyCard({
                 fill="#D9A441"
                 className="text-[#D9A441]"
               />
-
               {property.rating.toFixed(1)}
             </div>
           )}
+
         </div>
 
-        {/* Price */}
         <div className="mt-5 flex items-end justify-between border-t border-black/[0.06] pt-4">
+
           <div>
             <span className="font-serif text-lg font-semibold">
               {formatMoney(property.price)}
@@ -814,17 +732,16 @@ function PropertyCard({
           <span className="text-[11px] text-[#A8A29E]">
             {property.reviews ?? 0} reviews
           </span>
+
         </div>
 
-        {/* ============================================================ */}
-        {/* ACTIONS                                                       */}
-        {/* ============================================================ */}
+        {/* ACTIONS */}
 
         <div className="mt-4 grid grid-cols-2 gap-2">
-          {/* FIXED EDIT BUTTON */}
+
           <Link
             href={editRoute}
-            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-black/[0.08] px-3 py-2.5 text-xs font-bold text-[#44403C] transition hover:border-[#D9A441]/40 hover:bg-[#FFF8E8] active:scale-[0.98]"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-black/[0.08] px-3 py-2.5 text-xs font-bold text-[#44403C] hover:bg-[#FFF8E8]"
           >
             <Edit3 size={14} />
             Edit
@@ -832,20 +749,22 @@ function PropertyCard({
 
           <Link
             href={viewRoute}
-            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#18181B] px-3 py-2.5 text-xs font-bold text-white transition hover:bg-[#292524] active:scale-[0.98]"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#18181B] px-3 py-2.5 text-xs font-bold text-white hover:bg-[#292524]"
           >
             <Eye size={14} />
             View
           </Link>
+
         </div>
+
       </div>
     </article>
   );
 }
 
-/* ========================================================================= */
-/* PROPERTY IMAGE                                                           */
-/* ========================================================================= */
+/* =========================================================
+   IMAGE
+========================================================= */
 
 function PropertyImage({
   src,
@@ -872,9 +791,9 @@ function PropertyImage({
   );
 }
 
-/* ========================================================================= */
-/* STATUS BADGE                                                             */
-/* ========================================================================= */
+/* =========================================================
+   STATUS
+========================================================= */
 
 function StatusBadge({
   status,
@@ -916,9 +835,9 @@ function StatusBadge({
   );
 }
 
-/* ========================================================================= */
-/* IMAGE FALLBACK                                                           */
-/* ========================================================================= */
+/* =========================================================
+   IMAGE FALLBACK
+========================================================= */
 
 function ImageFallback() {
   return (
@@ -935,9 +854,9 @@ function ImageFallback() {
   );
 }
 
-/* ========================================================================= */
-/* LOADING                                                                  */
-/* ========================================================================= */
+/* =========================================================
+   LOADING
+========================================================= */
 
 function PropertiesSkeleton() {
   return (
@@ -961,7 +880,6 @@ function PropertiesSkeleton() {
 
               <div className="mt-4 grid grid-cols-2 gap-2">
                 <div className="h-10 animate-pulse rounded-xl bg-[#F1F0EB]" />
-
                 <div className="h-10 animate-pulse rounded-xl bg-[#F1F0EB]" />
               </div>
             </div>
@@ -972,9 +890,9 @@ function PropertiesSkeleton() {
   );
 }
 
-/* ========================================================================= */
-/* EMPTY STATE                                                              */
-/* ========================================================================= */
+/* =========================================================
+   EMPTY
+========================================================= */
 
 function EmptyProperties({
   search,
@@ -985,6 +903,7 @@ function EmptyProperties({
 }) {
   return (
     <div className="rounded-[28px] border border-dashed border-black/15 bg-white px-6 py-16 text-center">
+
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#FFF8E8] text-[#9A711E]">
         <Home size={28} />
       </div>
@@ -1005,19 +924,20 @@ function EmptyProperties({
         <button
           type="button"
           onClick={onClear}
-          className="mt-6 inline-flex items-center gap-2 rounded-xl border border-black/[0.08] bg-white px-5 py-3 text-sm font-bold text-[#18181B] transition hover:bg-[#FAF8F3]"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl border border-black/[0.08] bg-white px-5 py-3 text-sm font-bold hover:bg-[#FAF8F3]"
         >
           Clear search
         </button>
       ) : (
         <Link
-          href="/host/property/new"
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-sm font-bold text-[#18181B] transition hover:bg-[#E7C46D]"
+          href={getAddRoute()}
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-sm font-bold text-[#18181B] hover:bg-[#E7C46D]"
         >
           <Plus size={17} />
           Add your first property
         </Link>
       )}
+
     </div>
   );
 }

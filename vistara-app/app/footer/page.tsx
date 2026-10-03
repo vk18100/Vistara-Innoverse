@@ -8,7 +8,7 @@ const exploreLinks = [
 
 const guestLinks = [
   { href: "/wishlist", label: "Wishlist" },
-  { href: "/help", label: "Help Centre" },
+  { href: "/settings/help", label: "Help Centre" },
 ];
 
 const vistaraLinks = [

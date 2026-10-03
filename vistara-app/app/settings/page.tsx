@@ -54,13 +54,14 @@ const settingsItems = [
     href: "/settings/notifications",
     icon: "◌",
   },
-  {
-    title: "Host",
-    description:
-      "Manage your hosting profile, properties and hosting preferences.",
-    href: "/settings/host",
-    icon: "⌂",
-  },
+  
+ {
+  title: "Host",
+  description:
+    "Become a host, register your hosting profile, and manage your properties.",
+  href: "/host/register",
+  icon: "⌂",
+},
 ];
 
 export default function SettingsPage() {

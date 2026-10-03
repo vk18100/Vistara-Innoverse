@@ -25,10 +25,7 @@ import {
 ========================================================= */
 
 const mainNavigation = [
-  {
-    href: "/",
-    label: "Home",
-  },
+  
   {
     href: "/stays",
     label: "Stays",
@@ -41,6 +38,10 @@ const mainNavigation = [
     href: "/experiences",
     label: "Experiences",
   },
+  {
+    href:"/explore",
+    label:"Explore"
+  }
 ];
 
 /* =========================================================

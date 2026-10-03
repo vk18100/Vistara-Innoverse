@@ -245,13 +245,7 @@ export default function HostEarningsPage() {
                 Bookings
               </Link>
 
-              <Link
-                href="/host/settings"
-                className="inline-flex items-center gap-2 rounded-xl bg-[#D9A441] px-5 py-3 text-sm font-bold text-[#18181B] shadow-[0_10px_28px_rgba(217,164,65,0.22)] transition hover:bg-[#E7C46D]"
-              >
-                Payout settings
-                <ArrowRight size={16} />
-              </Link>
+             
             </div>
           </div>
         </div>
