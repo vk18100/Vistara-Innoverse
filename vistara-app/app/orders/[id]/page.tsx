@@ -1,467 +1,588 @@
 "use client";
-
+import {useState} from "react";
 import Link from "next/link";
-import { useState } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
   CalendarDays,
+  Clock3,
   MapPin,
   Users,
-  ShieldCheck,
-  CreditCard,
   ChevronRight,
-  Minus,
-  Plus,
+  ShieldCheck,
+  Star,
 } from "lucide-react";
 
+const stayData = {
+  title: "Luxury Stay in Patna",
+  location: "Patna, Bihar",
+  image: "/images/stay.jpg",
+  price: 2499,
+  rating: 4.8,
+  duration: "1 night",
+};
+
+const experienceData = {
+  title: "Jaipur Palace Discovery",
+  location: "Jaipur, Rajasthan",
+  image: "/images/Cultural Crown.jpg",
+  price: 999,
+  rating: 4.8,
+  duration: "3 hours",
+};
+
+const tripData = {
+  title: "Himalayan Adventure Trip",
+  location: "Manali, Himachal Pradesh",
+  image: "/images/download (6).jpg",
+  price: 4999,
+  rating: 4.9,
+  duration: "3 days",
+};
+
+const exploreData = {
+  title: "Heritage City Explorer",
+  location: "Jaipur, Rajasthan",
+  image: "/images/download (4).jpg",
+  price: 1499,
+  rating: 4.8,
+  duration: "1 day",
+};
+
 export default function OrderPage() {
-  const [guests, setGuests] = useState(2);
+  const params = useParams();
+  const searchParams = useSearchParams();
+ const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const pricePerNight = 5000;
-  const nights = 3;
+  const id = params.id;
+  const type = searchParams.get("type") || "stay";
 
-  const stayTotal = pricePerNight * nights;
-  const serviceFee = 1200;
-  const taxes = 900;
-  const total = stayTotal + serviceFee + taxes;
+  let item = stayData;
+
+  if (type === "experience") {
+    item = experienceData;
+  }
+
+  if (type === "trip") {
+    item = tripData;
+  }
+
+  if (type === "explore") {
+    item = exploreData;
+  }
+
+  const typeLabel =
+    type === "stay"
+      ? "Stay"
+      : type === "experience"
+      ? "Experience"
+      : type === "trip"
+      ? "Trip"
+      : "Explore";
 
   return (
-    <main className="min-h-screen bg-[#FAF8F4] text-[#241F1C]">
+    <main className="min-h-screen bg-[#F8F5EF] text-[#222]">
+
       {/* NAVBAR */}
-      <header className="border-b border-[#E7E0D8] bg-white">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
+
+      <header className="sticky top-0 z-50 border-b border-[#E7E0D5] bg-[#F8F5EF]/95 backdrop-blur">
+        <div className="mx-auto flex h-[76px] max-w-[1240px] items-center justify-between px-6">
+
           <Link
             href="/"
-            className="font-serif text-3xl font-semibold tracking-tight text-[#211C19]"
+            className="text-[27px] font-semibold tracking-[-1px]"
+            style={{ fontFamily: "Georgia, serif" }}
           >
             Vistara
           </Link>
 
-          <div className="text-sm font-medium text-[#6B625B]">
-            Secure booking
+          <nav className="hidden items-center gap-8 md:flex">
+            <Link
+              href="/"
+              className="text-sm font-medium transition hover:text-[#B58A3A]"
+            >
+              Home
+            </Link>
+
+            <Link
+              href="/stays"
+              className="text-sm font-medium transition hover:text-[#B58A3A]"
+            >
+              Stays
+            </Link>
+
+            <Link
+              href="/experiences"
+              className="text-sm font-medium transition hover:text-[#B58A3A]"
+            >
+              Experiences
+            </Link>
+
+            <Link
+              href="/explore"
+              className="text-sm font-medium transition hover:text-[#B58A3A]"
+            >
+              Explore
+            </Link>
+
+            <Link
+              href="/trips"
+              className="text-sm font-medium transition hover:text-[#B58A3A]"
+            >
+              Trips
+            </Link>
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <Link
+              href="/profile"
+              className="rounded-full border border-[#DCD4C8] bg-white px-5 py-2.5 text-sm font-medium transition hover:border-[#B58A3A]"
+            >
+              Profile
+            </Link>
           </div>
         </div>
       </header>
 
-      {/* HEADER */}
-      <section className="border-b border-[#E7E0D8] bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-          <Link
-            href="/stays"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#6B625B] transition hover:text-[#241F1C]"
+      {/* PAGE */}
+
+      <div className="mx-auto max-w-[1180px] px-6 py-10">
+
+        {/* BACK */}
+
+        <Link
+          href={
+            type === "stay"
+              ? "/stays"
+              : type === "experience"
+              ? "/experiences"
+              : type === "trip"
+              ? "/trips"
+              : "/explore"
+          }
+          className="mb-8 inline-flex items-center gap-2 text-sm font-medium text-[#555] transition hover:text-[#B58A3A]"
+        >
+          <ArrowLeft size={17} />
+          Back
+        </Link>
+
+        {/* TITLE */}
+
+        <div className="mb-8">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[3px] text-[#B58A3A]">
+            {typeLabel} booking
+          </p>
+
+          <h1
+            className="text-4xl font-semibold tracking-[-1px] md:text-5xl"
+            style={{ fontFamily: "Georgia, serif" }}
           >
-            <ArrowLeft size={17} />
-            Back to stays
-          </Link>
+            Complete your booking
+          </h1>
 
-          <div className="mt-8">
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#B98242]">
-              VISTARA BOOKING
-            </p>
-
-            <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#241F1C] md:text-5xl">
-              Complete your stay
-            </h1>
-
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#746B63]">
-              Review your reservation details before confirming your
-              booking.
-            </p>
-          </div>
+          <p className="mt-3 text-[#777]">
+            Review your selection and provide your booking details.
+          </p>
         </div>
-      </section>
 
-      {/* MAIN */}
-      <section className="mx-auto max-w-7xl px-6 py-10 lg:px-10">
-        <div className="grid gap-8 lg:grid-cols-[1fr_420px]">
+        {/* CONTENT */}
+
+        <div className="grid gap-8 lg:grid-cols-[1fr_430px]">
+
           {/* LEFT */}
-          <div className="space-y-6">
-            {/* PROPERTY CARD */}
-            <div className="overflow-hidden rounded-[28px] border border-[#E4DDD5] bg-white">
-              <div className="relative h-[320px] overflow-hidden">
-                <img
-                  src="/images/hawamahal.jpg"
-                  alt="Hawa Mahal stay"
-                  className="h-full w-full object-cover"
-                />
 
-                <div className="absolute bottom-5 left-5 rounded-full bg-white/95 px-4 py-2 text-xs font-bold tracking-wide text-[#241F1C]">
-                  VISTARA STAY
+          <section>
+
+            {/* ITEM CARD */}
+
+            <div className="overflow-hidden rounded-[28px] border border-[#E4DDD2] bg-white">
+
+              <div className="grid md:grid-cols-[240px_1fr]">
+
+                <div className="h-[240px] md:h-full">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="h-full w-full object-cover"
+                  />
                 </div>
-              </div>
 
-              <div className="p-7">
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                  <div>
-                    <h2 className="font-serif text-3xl font-semibold text-[#241F1C]">
-                      Peaceful Heritage Stay
-                    </h2>
+                <div className="p-7">
 
-                    <div className="mt-2 flex items-center gap-2 text-sm text-[#746B63]">
-                      <MapPin size={16} />
-                      Jaipur, Rajasthan, India
+                  <div className="mb-3 flex items-center justify-between">
+
+                    <span className="rounded-full bg-[#F3EEE5] px-3 py-1.5 text-xs font-semibold uppercase tracking-[1.5px] text-[#8C6A2D]">
+                      {typeLabel}
+                    </span>
+
+                    <div className="flex items-center gap-1 text-sm font-semibold">
+                      <Star
+                        size={15}
+                        fill="#B58A3A"
+                        className="text-[#B58A3A]"
+                      />
+                      {item.rating}
                     </div>
+
                   </div>
 
-                  <div className="rounded-full bg-[#F4EFE8] px-4 py-2 text-sm font-semibold text-[#8A5A2B]">
-                    ★ 4.8
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* DATES */}
-            <div className="rounded-[28px] border border-[#E4DDD5] bg-white p-7">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F4EFE8]">
-                  <CalendarDays
-                    size={20}
-                    className="text-[#9A6335]"
-                  />
-                </div>
-
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A97948]">
-                    Your dates
-                  </p>
-
-                  <h2 className="mt-1 text-lg font-semibold text-[#241F1C]">
-                    18 Oct – 21 Oct 2026
+                  <h2
+                    className="text-2xl font-semibold"
+                    style={{ fontFamily: "Georgia, serif" }}
+                  >
+                    {item.title}
                   </h2>
-                </div>
-              </div>
 
-              <div className="mt-6 grid gap-4 border-t border-[#ECE6DF] pt-6 sm:grid-cols-2">
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-[#9B9189]">
-                    Check-in
-                  </p>
-
-                  <p className="mt-1 font-semibold text-[#241F1C]">
-                    18 October 2026
-                  </p>
-
-                  <p className="mt-1 text-sm text-[#746B63]">
-                    After 2:00 PM
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-xs uppercase tracking-wider text-[#9B9189]">
-                    Check-out
-                  </p>
-
-                  <p className="mt-1 font-semibold text-[#241F1C]">
-                    21 October 2026
-                  </p>
-
-                  <p className="mt-1 text-sm text-[#746B63]">
-                    Before 11:00 AM
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* GUESTS */}
-            <div className="rounded-[28px] border border-[#E4DDD5] bg-white p-7">
-              <div className="flex items-center justify-between gap-5">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F4EFE8]">
-                    <Users
-                      size={20}
-                      className="text-[#9A6335]"
-                    />
+                  <div className="mt-4 flex items-center gap-2 text-sm text-[#777]">
+                    <MapPin size={16} />
+                    {item.location}
                   </div>
 
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A97948]">
-                      Guests
-                    </p>
+                  <div className="mt-5 flex flex-wrap gap-3">
 
-                    <h2 className="mt-1 text-lg font-semibold text-[#241F1C]">
-                      Who is coming?
-                    </h2>
+                    <div className="rounded-2xl bg-[#F8F5EF] px-4 py-3">
+                      <div className="mb-1 flex items-center gap-2 text-xs text-[#888]">
+                        <Clock3 size={14} />
+                        Duration
+                      </div>
+
+                      <p className="text-sm font-semibold">
+                        {item.duration}
+                      </p>
+                    </div>
+
+                    <div className="rounded-2xl bg-[#F8F5EF] px-4 py-3">
+                      <div className="mb-1 flex items-center gap-2 text-xs text-[#888]">
+                        <Users size={14} />
+                        Guests
+                      </div>
+
+                      <p className="text-sm font-semibold">
+                        2 Guests
+                      </p>
+                    </div>
+
                   </div>
+
                 </div>
 
-                <div className="flex items-center gap-3 rounded-full border border-[#DED6CE] px-2 py-2">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setGuests((value) => Math.max(1, value - 1))
-                    }
-                    className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-[#F4EFE8]"
-                  >
-                    <Minus size={15} />
-                  </button>
-
-                  <span className="min-w-7 text-center text-sm font-semibold">
-                    {guests}
-                  </span>
-
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setGuests((value) => Math.min(10, value + 1))
-                    }
-                    className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-[#F4EFE8]"
-                  >
-                    <Plus size={15} />
-                  </button>
-                </div>
               </div>
 
-              <p className="mt-5 text-sm text-[#746B63]">
-                {guests} {guests === 1 ? "guest" : "guests"} will be
-                staying at this property.
-              </p>
             </div>
 
-            {/* GUEST INFORMATION */}
-            <div className="rounded-[28px] border border-[#E4DDD5] bg-white p-7">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A97948]">
-                Guest information
-              </p>
+            {/* BOOKING DETAILS */}
 
-              <h2 className="mt-2 font-serif text-2xl font-semibold">
+            <div className="mt-7 rounded-[28px] border border-[#E4DDD2] bg-white p-7">
+
+              <h3
+                className="text-2xl font-semibold"
+                style={{ fontFamily: "Georgia, serif" }}
+              >
                 Your details
-              </h2>
+              </h3>
 
-              <div className="mt-6 grid gap-5 sm:grid-cols-2">
+              <div className="mt-6 grid gap-5 md:grid-cols-2">
+
                 <div>
-                  <label className="text-sm font-medium text-[#4D4540]">
-                    First name
+                  <label className="mb-2 block text-sm font-medium">
+                    Full name
                   </label>
 
                   <input
                     type="text"
-                    placeholder="Enter first name"
-                    className="mt-2 w-full rounded-xl border border-[#DED6CE] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#8A5A2B]"
+                    placeholder="Enter your name"
+                    className="w-full rounded-2xl border border-[#DDD5C9] bg-[#FCFAF7] px-4 py-3.5 text-sm outline-none transition focus:border-[#B58A3A]"
                   />
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-[#4D4540]">
-                    Last name
-                  </label>
-
-                  <input
-                    type="text"
-                    placeholder="Enter last name"
-                    className="mt-2 w-full rounded-xl border border-[#DED6CE] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#8A5A2B]"
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="text-sm font-medium text-[#4D4540]">
-                    Email
-                  </label>
-
-                  <input
-                    type="email"
-                    placeholder="you@example.com"
-                    className="mt-2 w-full rounded-xl border border-[#DED6CE] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#8A5A2B]"
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="text-sm font-medium text-[#4D4540]">
+                  <label className="mb-2 block text-sm font-medium">
                     Phone number
                   </label>
 
                   <input
                     type="tel"
-                    placeholder="+91"
-                    className="mt-2 w-full rounded-xl border border-[#DED6CE] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#8A5A2B]"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* PAYMENT */}
-            <div className="rounded-[28px] border border-[#E4DDD5] bg-white p-7">
-              <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#F4EFE8]">
-                  <CreditCard
-                    size={20}
-                    className="text-[#9A6335]"
+                    placeholder="+91 XXXXX XXXXX"
+                    className="w-full rounded-2xl border border-[#DDD5C9] bg-[#FCFAF7] px-4 py-3.5 text-sm outline-none transition focus:border-[#B58A3A]"
                   />
                 </div>
 
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A97948]">
-                    Payment
-                  </p>
+                  <label className="mb-2 block text-sm font-medium">
+                    Date
+                  </label>
 
-                  <h2 className="mt-1 text-lg font-semibold">
-                    Payment method
-                  </h2>
+                  <div className="relative">
+                    <CalendarDays
+                      size={18}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-[#888]"
+                    />
+
+                    <input
+                      type="date"
+                      className="w-full rounded-2xl border border-[#DDD5C9] bg-[#FCFAF7] px-11 py-3.5 text-sm outline-none transition focus:border-[#B58A3A]"
+                    />
+                  </div>
                 </div>
+
+                <div>
+                  <label className="mb-2 block text-sm font-medium">
+                    Guests
+                  </label>
+
+                  <div className="relative">
+                    <Users
+                      size={18}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-[#888]"
+                    />
+
+                    <select
+                      className="w-full appearance-none rounded-2xl border border-[#DDD5C9] bg-[#FCFAF7] px-11 py-3.5 text-sm outline-none transition focus:border-[#B58A3A]"
+                    >
+                      <option>1 Guest</option>
+                      <option>2 Guests</option>
+                      <option>3 Guests</option>
+                      <option>4 Guests</option>
+                      <option>5+ Guests</option>
+                    </select>
+                  </div>
+                </div>
+
               </div>
 
-              <button
-                type="button"
-                className="mt-6 flex w-full items-center justify-between rounded-2xl border border-[#DED6CE] p-5 text-left transition hover:border-[#9A6335]"
-              >
+              <div className="mt-5">
+                <label className="mb-2 block text-sm font-medium">
+                  Special request
+                </label>
+
+                <textarea
+                  rows={4}
+                  placeholder="Anything we should know?"
+                  className="w-full resize-none rounded-2xl border border-[#DDD5C9] bg-[#FCFAF7] px-4 py-3.5 text-sm outline-none transition focus:border-[#B58A3A]"
+                />
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* RIGHT — PRICE */}
+
+          <aside>
+
+            <div className="sticky top-[100px] rounded-[28px] border border-[#E1D9CD] bg-white p-7 shadow-[0_15px_50px_rgba(40,30,20,0.06)]">
+
+              <div className="flex items-start justify-between">
+
                 <div>
-                  <p className="text-sm font-semibold">
-                    Pay securely online
+                  <p className="text-sm text-[#888]">
+                    {typeLabel} price
                   </p>
 
-                  <p className="mt-1 text-xs text-[#746B63]">
-                    UPI, cards and other payment methods
+                  <p className="mt-1 text-3xl font-semibold">
+                    ₹{item.price.toLocaleString("en-IN")}
                   </p>
                 </div>
 
-                <ChevronRight size={18} />
-              </button>
-            </div>
-
-            {/* TRUST */}
-            <div className="rounded-[28px] border border-[#E4DDD5] bg-[#F7F2EB] p-6">
-              <div className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white">
-                  <ShieldCheck
-                    size={21}
-                    className="text-[#8A5A2B]"
+                <div className="flex items-center gap-1 text-sm font-semibold">
+                  <Star
+                    size={15}
+                    fill="#B58A3A"
+                    className="text-[#B58A3A]"
                   />
+                  {item.rating}
                 </div>
 
-                <div>
-                  <h3 className="font-semibold text-[#241F1C]">
-                    Your booking is protected
-                  </h3>
-
-                  <p className="mt-2 text-sm leading-6 text-[#746B63]">
-                    Your booking information and payment details are
-                    handled securely through Vistara.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT — ORDER SUMMARY */}
-          <aside className="lg:sticky lg:top-6 lg:h-fit">
-            <div className="overflow-hidden rounded-[28px] border border-[#DED6CE] bg-white shadow-[0_15px_50px_rgba(50,35,20,0.06)]">
-              <div className="border-b border-[#ECE6DF] p-7">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#A97948]">
-                  Reservation summary
-                </p>
-
-                <h2 className="mt-2 font-serif text-2xl font-semibold">
-                  Your stay
-                </h2>
               </div>
 
-              <div className="p-7">
-                <div className="flex items-start justify-between gap-5">
-                  <div>
-                    <p className="font-semibold">
-                      Peaceful Heritage Stay
-                    </p>
+              <div className="my-6 h-px bg-[#ECE5DB]" />
 
-                    <p className="mt-1 text-sm text-[#746B63]">
-                      Jaipur, Rajasthan
-                    </p>
-                  </div>
+              <div className="space-y-4 text-sm">
 
-                  <p className="text-sm font-semibold">
-                    ★ 4.8
-                  </p>
-                </div>
+                <div className="flex justify-between">
+                  <span className="text-[#777]">
+                    Base price
+                  </span>
 
-                <div className="mt-6 space-y-4 border-y border-[#ECE6DF] py-6">
-                  <div className="flex justify-between gap-4 text-sm">
-                    <span className="text-[#746B63]">
-                      ₹{pricePerNight.toLocaleString("en-IN")} ×{" "}
-                      {nights} nights
-                    </span>
-
-                    <span className="font-medium">
-                      ₹{stayTotal.toLocaleString("en-IN")}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between gap-4 text-sm">
-                    <span className="text-[#746B63]">
-                      Vistara service fee
-                    </span>
-
-                    <span className="font-medium">
-                      ₹{serviceFee.toLocaleString("en-IN")}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between gap-4 text-sm">
-                    <span className="text-[#746B63]">
-                      Taxes
-                    </span>
-
-                    <span className="font-medium">
-                      ₹{taxes.toLocaleString("en-IN")}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-6 flex items-end justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-wider text-[#9B9189]">
-                      Total
-                    </p>
-
-                    <p className="mt-1 font-serif text-3xl font-semibold">
-                      ₹{total.toLocaleString("en-IN")}
-                    </p>
-                  </div>
-
-                  <span className="text-xs text-[#746B63]">
-                    INR
+                  <span>
+                    ₹{item.price.toLocaleString("en-IN")}
                   </span>
                 </div>
 
-                {/* CONFIRM */}
-                <button
-                  type="button"
-                  className="mt-7 flex w-full items-center justify-center gap-2 rounded-2xl bg-[#241F1C] px-6 py-4 text-sm font-semibold text-white transition hover:bg-[#3A312B]"
-                >
-                  Confirm & pay
-                  <ChevronRight size={18} />
-                </button>
+                <div className="flex justify-between">
+                  <span className="text-[#777]">
+                    Service fee
+                  </span>
 
-                <p className="mt-4 text-center text-xs leading-5 text-[#8B8179]">
-                  By confirming, you agree to Vistara's booking
-                  terms and cancellation policy.
-                </p>
+                  <span>
+                    ₹0
+                  </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-[#777]">
+                    Taxes
+                  </span>
+
+                  <span>
+                    Included
+                  </span>
+                </div>
+
               </div>
-            </div>
 
-            {/* HELP */}
-            <div className="mt-5 rounded-[28px] border border-[#E4DDD5] bg-white p-6">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#A97948]">
-                NEED HELP?
+              <div className="my-6 h-px bg-[#ECE5DB]" />
+
+              <div className="flex items-center justify-between">
+
+                <span className="font-semibold">
+                  Total
+                </span>
+
+                <span className="text-xl font-semibold">
+                  ₹{item.price.toLocaleString("en-IN")}
+                </span>
+
+              </div>
+
+              {/* CONFIRM */}
+
+             <button
+  type="button"
+  onClick={() => setShowConfirmation(true)}
+  className="mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-[#25221E] px-6 py-4 font-semibold text-white transition hover:bg-[#B58A3A] active:scale-[0.99]"
+>
+  Confirm & Book
+  <ChevronRight size={18} />
+</button>
+
+              <p className="mt-4 text-center text-xs leading-5 text-[#888]">
+                You won't be charged until your booking is confirmed.
               </p>
 
-              <h3 className="mt-2 font-serif text-xl font-semibold">
-                Have a question?
-              </h3>
+              <div className="mt-6 flex items-start gap-3 rounded-2xl bg-[#F8F5EF] p-4">
 
-              <p className="mt-2 text-sm leading-6 text-[#746B63]">
-                Our support team can help with your reservation,
-                payment or stay.
-              </p>
+                <ShieldCheck
+                  size={20}
+                  className="mt-0.5 shrink-0 text-[#B58A3A]"
+                />
 
-              <Link
-                href="/support"
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#8A5A2B] hover:underline"
-              >
-                Contact support
-                <ChevronRight size={16} />
-              </Link>
+                <div>
+                  <p className="text-sm font-semibold">
+                    Vistara protected booking
+                  </p>
+
+                  <p className="mt-1 text-xs leading-5 text-[#777]">
+                    Your booking information is handled securely.
+                  </p>
+                </div>
+
+              </div>
+
             </div>
+
           </aside>
+
         </div>
-      </section>
+{/* CONFIRMATION POPUP */}
+
+{showConfirmation && (
+  <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/45 px-5 backdrop-blur-sm">
+
+    <div className="relative w-full max-w-[460px] overflow-hidden rounded-[32px] border border-[#E4DDD2] bg-[#FCFAF7] p-8 text-center shadow-[0_30px_100px_rgba(30,25,15,0.25)]">
+
+      {/* GOLD TOP */}
+      <div className="absolute left-0 right-0 top-0 h-1.5 bg-[#B58A3A]" />
+
+      {/* SUCCESS ICON */}
+      <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#F1E7D3]">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#B58A3A] text-2xl font-bold text-white">
+          ✓
+        </div>
+      </div>
+
+      {/* CONTENT */}
+      <p className="mt-7 text-xs font-bold uppercase tracking-[3px] text-[#B58A3A]">
+        Booking confirmed
+      </p>
+
+      <h2
+        className="mt-3 text-3xl font-semibold text-[#25221E]"
+        style={{ fontFamily: "Georgia, serif" }}
+      >
+        Your order is confirmed
+      </h2>
+
+      <p className="mx-auto mt-4 max-w-[350px] text-sm leading-6 text-[#777]">
+        Your {typeLabel.toLowerCase()} has been successfully booked.
+        We’ll keep your booking details safe and available in your profile.
+      </p>
+
+      {/* ORDER CARD */}
+      <div className="mt-7 rounded-[22px] border border-[#E4DDD2] bg-white p-5 text-left">
+
+        <div className="flex items-center justify-between gap-4">
+
+          <div>
+            <p className="text-xs uppercase tracking-[1.5px] text-[#999]">
+              {typeLabel}
+            </p>
+
+            <p
+              className="mt-1 text-lg font-semibold text-[#25221E]"
+              style={{ fontFamily: "Georgia, serif" }}
+            >
+              {item.title}
+            </p>
+          </div>
+
+          <div className="shrink-0 text-right">
+            <p className="text-xs text-[#999]">
+              Total
+            </p>
+
+            <p className="mt-1 text-lg font-bold text-[#25221E]">
+              ₹{item.price.toLocaleString("en-IN")}
+            </p>
+          </div>
+
+        </div>
+
+        <div className="mt-4 flex items-center gap-2 text-sm text-[#777]">
+          <MapPin size={15} className="text-[#B58A3A]" />
+          {item.location}
+        </div>
+
+      </div>
+
+      {/* ACTIONS */}
+      <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+
+        <Link
+          href="/profile"
+          className="flex flex-1 items-center justify-center rounded-full bg-[#25221E] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#B58A3A]"
+        >
+          View booking
+        </Link>
+
+        <Link
+          href="/"
+          className="flex flex-1 items-center justify-center rounded-full border border-[#DCD3C7] bg-white px-6 py-3.5 text-sm font-semibold text-[#25221E] transition hover:border-[#B58A3A]"
+        >
+          Back home
+        </Link>
+
+      </div>
+
+      <p className="mt-5 text-xs text-[#999]">
+        Booking ID: VS-{id}
+      </p>
+
+    </div>
+  </div>
+)}
+      </div>
+
     </main>
   );
 }

@@ -12,6 +12,7 @@ import {
   Globe2,
   Users,
 } from "lucide-react";
+import Navbar from "@/components/navbar";
 
 type Guide = {
   id: string | number;
@@ -155,7 +156,7 @@ export default function GuidesPage() {
 
   return (
     <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
-
+         <Navbar />
       {/* =====================================================
           HERO
       ===================================================== */}

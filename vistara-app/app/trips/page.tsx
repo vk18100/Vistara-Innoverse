@@ -56,21 +56,21 @@ const recentlyExplored: Place[] = [
     id: 1,
     title: "Patna",
     location: "Bihar, India",
-    image: "/images/pag1 (2).jpg",
+    image: "/images/pag1 (33).jpg",
     category: "Destination",
   },
   {
     id: 2,
     title: "Heritage Bihar",
     location: "Bihar, India",
-    image: "/images/pag1 (3).jpg",
+    image: "/images/pag1 (30).jpg",
     category: "Culture",
   },
   {
     id: 3,
     title: "Riverside Escape",
     location: "Patna, Bihar",
-    image: "/images/pag1 (4).jpg",
+    image: "/images/pag1 (40).jpg",
     category: "Nature",
   },
 ];
@@ -80,19 +80,19 @@ const inspiration: Place[] = [
     id: 4,
     title: "A slower kind of journey.",
     location: "Discover somewhere unexpected",
-    image: "/images/pag1 (5).jpg",
+    image: "/images/pag1 (40).jpg",
   },
   {
     id: 5,
     title: "Places worth remembering.",
     location: "Hidden destinations across India",
-    image: "/images/pag1 (6).jpg",
+    image: "/images/pag1 (30).jpg",
   },
   {
     id: 6,
     title: "Travel beyond the obvious.",
     location: "Meaningful local experiences",
-    image: "/images/pag1 (7).jpg",
+    image: "/images/pag1 (40).jpg",
   },
 ];
 

@@ -746,7 +746,7 @@ export default async function ExperienceDetailPage({
               <div className="relative h-14 w-14 overflow-hidden rounded-full bg-[#E6DED1]">
 
                 <Image
-                  src={experience.hostImage}
+                  src="/images/profile.jpg"
                   alt={experience.host}
                   fill
                   sizes="56px"
@@ -1005,7 +1005,7 @@ export default async function ExperienceDetailPage({
                       <div className="relative h-10 w-10 overflow-hidden rounded-full">
 
                         <Image
-                          src={review.image}
+                          src="/images/profile.jpg"
                           alt={review.name}
                           fill
                           sizes="40px"
@@ -1090,85 +1090,80 @@ export default async function ExperienceDetailPage({
         ============================ */}
 
         <aside className="lg:sticky lg:top-8 lg:h-fit">
+  <div className="rounded-[28px] border border-[#DED9D0] bg-white p-6 shadow-[0_15px_50px_rgba(30,25,15,0.08)]">
 
-          <div className="rounded-[28px] border border-[#DED9D0] bg-white p-6 shadow-[0_15px_50px_rgba(30,25,15,0.08)]">
+    {/* PRICE + RATING */}
+    <div className="flex items-start justify-between">
+      <div>
+        <p className="text-sm text-[#817A70]">
+          Experience from
+        </p>
 
-            <div className="flex items-start justify-between">
+        <p className="mt-1 text-2xl font-bold text-[#24211D]">
+          ₹{experience.price}
+        </p>
+      </div>
 
-              <div>
+      <div className="flex items-center gap-1 text-sm font-semibold text-[#24211D]">
+        <Star
+          size={15}
+          className="fill-[#B28A45] text-[#B28A45]"
+        />
+        {experience.rating}
+      </div>
+    </div>
 
-                <p className="text-sm text-[#817A70]">
-                  Experience from
-                </p>
+    {/* DETAILS */}
+    <div className="mt-6 grid grid-cols-2 gap-3">
 
-                <p className="mt-1 text-2xl font-bold">
-                  {experience.price}
-                </p>
+      {/* DURATION */}
+      <div className="rounded-2xl bg-[#F7F5F0] p-4">
+        <Clock3
+          size={17}
+          className="text-[#8A6935]"
+        />
 
-              </div>
+        <p className="mt-3 text-xs text-[#817A70]">
+          Duration
+        </p>
 
-              <div className="flex items-center gap-1 text-sm font-semibold">
-                <Star
-                  size={15}
-                  className="fill-[#B28A45] text-[#B28A45]"
-                />
-                {experience.rating}
-              </div>
+        <p className="mt-1 text-sm font-semibold text-[#24211D]">
+          {experience.duration}
+        </p>
+      </div>
 
-            </div>
+      {/* GROUP */}
+      <div className="rounded-2xl bg-[#F7F5F0] p-4">
+        <Users
+          size={17}
+          className="text-[#8A6935]"
+        />
 
-            <div className="mt-6 grid grid-cols-2 gap-3">
+        <p className="mt-3 text-xs text-[#817A70]">
+          Group
+        </p>
 
-              <div className="rounded-2xl bg-[#F7F5F0] p-4">
+        <p className="mt-1 text-sm font-semibold text-[#24211D]">
+          Small group
+        </p>
+      </div>
 
-                <Clock3
-                  size={17}
-                  className="text-[#8A6935]"
-                />
+    </div>
 
-                <p className="mt-3 text-xs text-[#817A70]">
-                  Duration
-                </p>
+    {/* BOOK */}
+    <Link
+      href={`/orders/${experience.id}?type=explore`}
+      className="mt-6 flex w-full items-center justify-center rounded-full bg-[#24211D] py-4 text-sm font-semibold text-white transition hover:bg-[#B28A45]"
+    >
+      Book this experience
+    </Link>
 
-                <p className="mt-1 text-sm font-semibold">
-                  {experience.duration}
-                </p>
+    <p className="mt-4 text-center text-xs text-[#817A70]">
+      You won't be charged yet
+    </p>
 
-              </div>
-
-              <div className="rounded-2xl bg-[#F7F5F0] p-4">
-
-                <Users
-                  size={17}
-                  className="text-[#8A6935]"
-                />
-
-                <p className="mt-3 text-xs text-[#817A70]">
-                  Group
-                </p>
-
-                <p className="mt-1 text-sm font-semibold">
-                  Small group
-                </p>
-
-              </div>
-
-            </div>
-
-            <button
-              type="button"
-              className="mt-6 w-full rounded-full bg-[#24211D] py-4 text-sm font-semibold text-white transition hover:bg-[#3A352F]"
-            >
-              Book this experience
-            </button>
-
-            <p className="mt-4 text-center text-xs text-[#817A70]">
-              You won't be charged yet
-            </p>
-
-          </div>
-
-        </aside>
+  </div>
+</aside>
 
       </div>
 

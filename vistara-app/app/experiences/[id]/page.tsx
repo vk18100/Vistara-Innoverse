@@ -2,7 +2,16 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import {
+  ArrowLeft,
+  Clock3,
+  MapPin,
+  Star,
+  UserRound,
+  ShieldCheck,
+  ChevronRight,
+} from "lucide-react";
+import Navbar from "@/components/navbar";
 
 const activities = [
   {
@@ -12,9 +21,12 @@ const activities = [
     category: "Food",
     duration: "2–3 hours",
     price: 499,
-    icon: "🍜",
+    image: "/images/Cultural Crown.jpg",
     description:
-      "Explore local flavours, hidden food spots and authentic regional dishes.",
+      "Taste authentic local flavours, discover hidden food spots and experience the food culture of the destination.",
+    host: "Ananya Singh",
+    hostRole: "Local Food Host",
+    hostImage: "/images/host-1.jpg",
     highlights: [
       "Local food recommendations",
       "Selected food spots",
@@ -22,6 +34,7 @@ const activities = [
       "Local experience",
     ],
   },
+
   {
     id: 2,
     title: "Heritage Walk",
@@ -29,9 +42,12 @@ const activities = [
     category: "Culture",
     duration: "2 hours",
     price: 399,
-    icon: "🏛️",
+    image: "/images/download (4).jpg",
     description:
-      "Discover historical places and stories that shaped the local area.",
+      "Walk through historic streets, iconic landmarks and cultural places while discovering the stories behind them.",
+    host: "Rohan Kumar",
+    hostRole: "Heritage Guide",
+    hostImage: "/images/host-2.jpg",
     highlights: [
       "Historical locations",
       "Local stories",
@@ -39,6 +55,7 @@ const activities = [
       "Walking experience",
     ],
   },
+
   {
     id: 3,
     title: "Sunset Riverside Experience",
@@ -46,9 +63,12 @@ const activities = [
     category: "Nature",
     duration: "2 hours",
     price: 299,
-    icon: "🌅",
+    image: "/images/download (2).jpg",
     description:
-      "Enjoy a peaceful evening experience along the riverside.",
+      "Slow down and enjoy beautiful landscapes, peaceful surroundings and memorable moments close to nature.",
+    host: "Priya Sharma",
+    hostRole: "Local Experience Host",
+    hostImage: "/images/host-3.jpg",
     highlights: [
       "Riverside experience",
       "Sunset views",
@@ -56,6 +76,7 @@ const activities = [
       "Local surroundings",
     ],
   },
+
   {
     id: 4,
     title: "Local Market Explorer",
@@ -63,9 +84,12 @@ const activities = [
     category: "Shopping",
     duration: "2–3 hours",
     price: 349,
-    icon: "🛍️",
+    image: "/images/download (5).jpg",
     description:
-      "Explore local markets, handmade products and regional shopping spots.",
+      "Explore vibrant local markets, discover unique finds and experience the everyday life of the destination.",
+    host: "Amit Raj",
+    hostRole: "Local Market Host",
+    hostImage: "/images/host-4.jpg",
     highlights: [
       "Local markets",
       "Regional products",
@@ -73,6 +97,7 @@ const activities = [
       "Local discoveries",
     ],
   },
+
   {
     id: 5,
     title: "Cafe Hopping",
@@ -80,9 +105,12 @@ const activities = [
     category: "Cafe",
     duration: "3 hours",
     price: 599,
-    icon: "☕",
+    image: "/images/Tour through coastal Mallorca.jpg",
     description:
-      "Visit selected local cafes and discover the city's coffee culture.",
+      "Visit charming local cafés, enjoy signature treats and discover the local coffee and food culture.",
+    host: "Meera Sinha",
+    hostRole: "Cafe Experience Host",
+    hostImage: "/images/host-5.jpg",
     highlights: [
       "Selected cafes",
       "Coffee experiences",
@@ -90,6 +118,7 @@ const activities = [
       "Cafe hopping",
     ],
   },
+
   {
     id: 6,
     title: "Photography Trail",
@@ -97,9 +126,12 @@ const activities = [
     category: "Experience",
     duration: "2 hours",
     price: 449,
-    icon: "📸",
+    image: "/images/download (3).jpg",
     description:
-      "Capture interesting locations, local life and hidden visual gems.",
+      "Capture beautiful locations, local life and hidden visual gems while exploring the destination.",
+    host: "Arjun Verma",
+    hostRole: "Photography Host",
+    hostImage: "/images/host-6.jpg",
     highlights: [
       "Photography locations",
       "Local life",
@@ -107,27 +139,175 @@ const activities = [
       "Visual exploration",
     ],
   },
+
+  {
+    id: 7,
+    title: "Adventure & Rafting",
+    location: "Slovenia",
+    category: "Adventure",
+    duration: "3–4 hours",
+    price: 1299,
+    image:
+      "/images/Whitewater rafting in Slovenia, on the emerald Soca River.jpg",
+    description:
+      "Take on rushing turquoise waters and experience an unforgettable outdoor adventure surrounded by nature.",
+    host: "Luca Weber",
+    hostRole: "Adventure Host",
+    hostImage: "/images/host-7.jpg",
+    highlights: [
+      "River rafting",
+      "Mountain scenery",
+      "Outdoor adventure",
+      "Professional guidance",
+    ],
+  },
+
+  {
+    id: 8,
+    title: "Mountain Escape",
+    location: "Swiss Alps",
+    category: "Nature",
+    duration: "5 hours",
+    price: 1799,
+    image: "/images/download (2).jpg",
+    description:
+      "Explore breathtaking alpine landscapes, peaceful valleys and scenic mountain trails.",
+    host: "Luca Weber",
+    hostRole: "Mountain Experience Host",
+    hostImage: "/images/host-8.jpg",
+    highlights: [
+      "Alpine landscapes",
+      "Mountain trails",
+      "Scenic valleys",
+      "Nature exploration",
+    ],
+  },
+
+  {
+    id: 9,
+    title: "Desert Balloon Experience",
+    location: "Dubai, UAE",
+    category: "Adventure",
+    duration: "3 hours",
+    price: 2499,
+    image: "/images/download (1).jpg",
+    description:
+      "Rise above the desert at sunrise and experience sweeping views across the golden dunes.",
+    host: "Omar Hassan",
+    hostRole: "Adventure Host",
+    hostImage: "/images/host-9.jpg",
+    highlights: [
+      "Sunrise flight",
+      "Desert views",
+      "Hot air balloon",
+      "Golden dunes",
+    ],
+  },
+
+  {
+    id: 10,
+    title: "Northern Lights",
+    location: "Iceland",
+    category: "Nature",
+    duration: "4 hours",
+    price: 2999,
+    image: "/images/download (11).jpg",
+    description:
+      "Chase the northern lights and witness one of nature's most spectacular nighttime experiences.",
+    host: "Einar Jónsson",
+    hostRole: "Northern Lights Guide",
+    hostImage: "/images/host-10.jpg",
+    highlights: [
+      "Northern lights",
+      "Night photography",
+      "Arctic landscape",
+      "Local guidance",
+    ],
+  },
+
+  {
+    id: 11,
+    title: "Venice Canal Ride",
+    location: "Venice, Italy",
+    category: "Culture",
+    duration: "2 hours",
+    price: 1599,
+    image: "/images/download (4).jpg",
+    description:
+      "Glide through Venice's historic canals and discover the city's architecture from the water.",
+    host: "Marco Rossi",
+    hostRole: "Venice Local Host",
+    hostImage: "/images/host-11.jpg",
+    highlights: [
+      "Venice canals",
+      "Historic architecture",
+      "Gondola experience",
+      "Local stories",
+    ],
+  },
+
+  {
+    id: 12,
+    title: "Mountain Paragliding",
+    location: "Interlaken, Switzerland",
+    category: "Adventure",
+    duration: "2 hours",
+    price: 3999,
+    image: "/images/download (6).jpg",
+    description:
+      "Fly above alpine valleys and turquoise lakes for an unforgettable high-altitude adventure.",
+    host: "Noah Keller",
+    hostRole: "Certified Adventure Host",
+    hostImage: "/images/host-12.jpg",
+    highlights: [
+      "Mountain flight",
+      "Alpine valleys",
+      "Lake views",
+      "Professional guidance",
+    ],
+  },
+];
+const reviews = [
+  {
+    name: "Aarav",
+    rating: 5,
+    comment:
+      "Beautiful experience. Everything felt local and well organised.",
+  },
+  {
+    name: "Riya",
+    rating: 5,
+    comment:
+      "The host was really helpful and the experience was worth the price.",
+  },
+  {
+    name: "Kabir",
+    rating: 4,
+    comment:
+      "Loved the atmosphere and the way the experience was planned.",
+  },
 ];
 
 export default function ExperienceDetailsPage() {
   const params = useParams();
-  const [booked, setBooked] = useState(false);
 
   const id = Number(params.id);
 
-  const activity = activities.find((item) => item.id === id);
+  const activity = activities.find(
+    (item) => item.id === id
+  );
 
   if (!activity) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#FAF8F3] px-6">
+      <main className="flex min-h-screen items-center justify-center bg-white">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-[#2C2420]">
+          <h1 className="text-3xl font-semibold">
             Experience not found
           </h1>
 
           <Link
             href="/experiences"
-            className="mt-6 inline-block rounded-full bg-[#B76545] px-6 py-3 font-semibold text-white transition hover:bg-[#965039]"
+            className="mt-6 inline-flex rounded-full bg-[#222] px-6 py-3 text-sm font-semibold text-white"
           >
             Back to experiences
           </Link>
@@ -136,243 +316,386 @@ export default function ExperienceDetailsPage() {
     );
   }
 
-  return (
-    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+  const openMap = () => {
+    const query = encodeURIComponent(activity.location);
 
-      {/* Back */}
-      <div className="mx-auto max-w-7xl px-6 pt-8">
+    window.open(
+      `https://www.google.com/maps/search/?api=1&query=${query}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
+  return (
+    <main className="min-h-screen bg-white text-[#222]">
+
+      {/* ================= NAVBAR ================= */}
+
+    <Navbar />
+
+
+      {/* ================= CONTENT ================= */}
+
+      <div className="mx-auto max-w-[1280px] px-5 py-8 md:px-8 lg:py-10">
+
+        {/* BACK */}
+
         <Link
           href="/experiences"
-          className="text-sm font-semibold text-[#756D67] transition hover:text-[#B76545]"
+          className="mb-7 inline-flex items-center gap-2 text-sm font-medium hover:underline"
         >
-          ← Back to experiences
+          <ArrowLeft size={17} />
+          Back to experiences
         </Link>
-      </div>
 
-      {/* Hero */}
-      <section className="mx-auto max-w-7xl px-6 py-8">
-        <div className="overflow-hidden rounded-3xl bg-[#2C2420] shadow-sm">
 
-          <div className="grid min-h-[420px] md:grid-cols-2">
+        {/* TITLE */}
 
-            {/* Visual */}
-            <div className="flex items-center justify-center bg-[#E8DED0]">
-              <span className="text-[120px]">
-                {activity.icon}
+        <div className="mb-6 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+
+          <div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[3px] text-[#B58A3A]">
+              VISTARA EXPERIENCE
+            </p>
+
+            <h1 className="font-serif text-4xl font-semibold tracking-tight md:text-5xl">
+              {activity.title}
+            </h1>
+
+            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-[#666]">
+
+              <span className="flex items-center gap-1.5">
+                <MapPin size={17} />
+                {activity.location}
               </span>
-            </div>
 
-            {/* Information */}
-            <div className="flex flex-col justify-center bg-[#2C2420] p-8 text-white md:p-12">
+              <span>·</span>
 
-              <span className="mb-5 w-fit rounded-full bg-[#B76545] px-4 py-2 text-sm font-semibold">
-                {activity.category}
+              <span className="flex items-center gap-1.5">
+                <Star
+                  size={16}
+                  fill="#B58A3A"
+                  className="text-[#B58A3A]"
+                />
+                4.9
               </span>
 
-              <h1 className="text-4xl font-semibold leading-tight tracking-[-0.02em] md:text-5xl">
-                {activity.title}
-              </h1>
+              <span>·</span>
 
-              <p className="mt-5 text-[#E8DED0]">
-                📍 {activity.location}
-              </p>
+              <span>{activity.category}</span>
 
-              <div className="mt-6 flex flex-wrap gap-6 text-sm text-[#E8DED0]">
-                <span>⏱ {activity.duration}</span>
-                <span>✓ Local experience</span>
-              </div>
-
-              <p className="mt-7 max-w-xl leading-7 text-[#E8DED0]">
-                {activity.description}
-              </p>
             </div>
           </div>
+
+          {/* MAP BUTTON */}
+
+          <button
+            onClick={openMap}
+            className="inline-flex w-fit items-center gap-2 rounded-full border border-[#222] px-5 py-3 text-sm font-semibold transition hover:bg-[#222] hover:text-white"
+          >
+            <MapPin size={17} />
+            View location
+          </button>
+
         </div>
-      </section>
 
-      {/* Details */}
-      <section className="mx-auto grid max-w-7xl gap-8 px-6 py-10 lg:grid-cols-[1fr_380px]">
 
-        {/* Main content */}
-        <div>
+        {/* ================= HERO IMAGE ================= */}
 
-          <h2 className="text-2xl font-semibold tracking-[-0.01em]">
-            About this experience
-          </h2>
+        <div className="overflow-hidden rounded-[28px]">
+          <img
+            src={activity.image}
+            alt={activity.title}
+            className="h-[420px] w-full object-cover md:h-[560px]"
+          />
+        </div>
 
-          <p className="mt-4 max-w-3xl leading-8 text-[#756D67]">
-            Discover selected local places and experiences around your
-            destination. Vistara helps travelers explore beyond their
-            accommodation through curated local discovery.
-          </p>
 
-          {/* Highlights */}
-          <div className="mt-10">
+        {/* ================= MAIN GRID ================= */}
 
-            <h2 className="text-2xl font-semibold">
-              What you can discover
-            </h2>
+        <section className="mt-10 grid gap-12 lg:grid-cols-[1fr_390px]">
 
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+          <div>
 
-              {activity.highlights.map((highlight) => (
-                <div
-                  key={highlight}
-                  className="rounded-2xl border border-[#E5DED6] bg-white p-5 transition hover:border-[#B76545] hover:shadow-sm"
-                >
-                  <div className="mb-2 text-xl font-semibold text-[#B76545]">
-                    ✓
-                  </div>
+            {/* ABOUT */}
 
-                  <p className="font-semibold text-[#2C2420]">
-                    {highlight}
+            <section className="border-b border-[#eeeeee] pb-10">
+
+              <div className="flex items-center justify-between">
+
+                <div>
+                  <h2 className="font-serif text-3xl font-semibold">
+                    About this experience
+                  </h2>
+
+                  <p className="mt-2 text-[#666]">
+                    Hosted by {activity.host}
                   </p>
                 </div>
-              ))}
 
-            </div>
-          </div>
-
-          {/* Location */}
-          <div className="mt-10 rounded-3xl bg-[#E8DED0] p-6">
-
-            <h2 className="text-xl font-semibold">
-              Location
-            </h2>
-
-            <p className="mt-3 text-[#756D67]">
-              {activity.location}
-            </p>
-
-            <div className="mt-5 flex h-48 items-center justify-center rounded-2xl bg-[#68705A] text-white">
-
-              <div className="text-center">
-
-                <div className="text-4xl">
-                  📍
+                <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-[#f3f3f3]">
+                  <img
+                    src="/images/profile.jpg"
+                    alt={activity.host}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                  <UserRound size={24} className="text-[#777]" />
                 </div>
 
-                <p className="mt-2 font-semibold">
-                  Location preview
-                </p>
+              </div>
 
-                <p className="text-sm text-[#E8DED0]">
-                  Exact location available after booking
-                </p>
+              <p className="mt-7 max-w-3xl text-[16px] leading-8 text-[#555]">
+                {activity.description}
+              </p>
+
+            </section>
+
+
+            {/* HIGHLIGHTS */}
+
+            <section className="border-b border-[#eeeeee] py-10">
+
+              <h2 className="font-serif text-3xl font-semibold">
+                What you'll experience
+              </h2>
+
+              <div className="mt-7 grid gap-5 sm:grid-cols-2">
+
+                {activity.highlights.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-4 rounded-2xl border border-[#eeeeee] p-5"
+                  >
+                    <div className="mt-1">
+                      <ShieldCheck
+                        size={20}
+                        className="text-[#B58A3A]"
+                      />
+                    </div>
+
+                    <span className="text-sm leading-6 text-[#444]">
+                      {item}
+                    </span>
+                  </div>
+                ))}
 
               </div>
 
-            </div>
+            </section>
+
+
+            {/* HOST */}
+
+            <section className="border-b border-[#eeeeee] py-10">
+
+              <h2 className="font-serif text-3xl font-semibold">
+                Meet your host
+              </h2>
+
+              <div className="mt-7 flex flex-col gap-6 rounded-3xl border border-[#eeeeee] p-6 sm:flex-row sm:items-center">
+
+                <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full bg-[#f2f2f2]">
+
+                  <img
+                    src={activity.hostImage}
+                    alt={activity.host}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+
+                </div>
+
+                <div>
+                  <h3 className="text-xl font-semibold">
+                    {activity.host}
+                  </h3>
+
+                  <p className="mt-1 text-sm text-[#777]">
+                    {activity.hostRole}
+                  </p>
+
+                  <div className="mt-3 flex items-center gap-2 text-sm">
+                    <Star
+                      size={15}
+                      fill="#B58A3A"
+                      className="text-[#B58A3A]"
+                    />
+                    <span className="font-semibold">
+                      4.9
+                    </span>
+
+                    <span className="text-[#888]">
+                      · 120+ hosted experiences
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+
+            </section>
+
+
+            {/* REVIEWS */}
+
+            <section className="py-10">
+
+              <div className="flex items-center gap-3">
+
+                <Star
+                  size={22}
+                  fill="#B58A3A"
+                  className="text-[#B58A3A]"
+                />
+
+                <h2 className="font-serif text-3xl font-semibold">
+                  4.9 · 48 reviews
+                </h2>
+
+              </div>
+
+              <div className="mt-8 space-y-6">
+
+                {reviews.map((review) => (
+                  <article
+                    key={review.name}
+                    className="border-b border-[#eeeeee] pb-6"
+                  >
+
+                    <div className="flex items-center justify-between">
+
+                      <div>
+                        <p className="font-semibold">
+                          {review.name}
+                        </p>
+
+                        <div className="mt-1 flex gap-1">
+                          {[...Array(review.rating)].map(
+                            (_, index) => (
+                              <Star
+                                key={index}
+                                size={13}
+                                fill="#B58A3A"
+                                className="text-[#B58A3A]"
+                              />
+                            )
+                          )}
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <p className="mt-3 text-sm leading-7 text-[#555]">
+                      {review.comment}
+                    </p>
+
+                  </article>
+                ))}
+
+              </div>
+
+              <button className="mt-7 rounded-full border border-[#222] px-6 py-3 text-sm font-semibold hover:bg-[#222] hover:text-white">
+                Show all reviews
+              </button>
+
+            </section>
+
           </div>
-        </div>
 
-        {/* Booking Card */}
-        <aside>
 
-          <div className="sticky top-8 rounded-3xl border border-[#E5DED6] bg-white p-6 shadow-sm">
+          {/* ================= BOOKING CARD ================= */}
 
-            <p className="text-sm text-[#756D67]">
-              Starting from
-            </p>
+          <aside>
 
-            <div className="mt-1 flex items-end gap-2">
+            <div className="sticky top-28 rounded-3xl border border-[#dddddd] bg-white p-7 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
 
-              <span className="text-3xl font-semibold text-[#2C2420]">
-                ₹{activity.price}
-              </span>
+              <div className="flex items-end justify-between">
 
-              <span className="pb-1 text-sm text-[#756D67]">
-                / person
-              </span>
+                <div>
+                  <span className="text-3xl font-semibold">
+                    ₹{activity.price}
+                  </span>
+
+                  <span className="ml-2 text-sm text-[#777]">
+                    / person
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-1 text-sm">
+                  <Star
+                    size={15}
+                    fill="#B58A3A"
+                    className="text-[#B58A3A]"
+                  />
+                  4.9
+                </div>
+
+              </div>
+
+
+              <div className="my-6 border-t border-[#eeeeee]" />
+
+
+              <div className="space-y-5">
+
+                <div className="flex items-center justify-between">
+                  <span className="text-[#777]">
+                    Experience
+                  </span>
+
+                  <span className="font-medium">
+                    {activity.category}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-[#777]">
+                    Duration
+                  </span>
+
+                  <span className="flex items-center gap-2 font-medium">
+                    <Clock3 size={16} />
+                    {activity.duration}
+                  </span>
+                </div>
+
+                <div className="flex items-start justify-between gap-5">
+                  <span className="text-[#777]">
+                    Location
+                  </span>
+
+                  <span className="max-w-[200px] text-right font-medium">
+                    {activity.location}
+                  </span>
+                </div>
+
+              </div>
+
+{/* BOOK */}
+
+<Link
+  href={`/orders/${activity.id}?type=experience`}
+  className="mt-7 flex w-full items-center justify-center gap-2 rounded-full bg-[#222] px-6 py-4 text-center font-semibold text-white transition hover:bg-[#B58A3A]"
+>
+  Book now
+  <ChevronRight size={18} />
+</Link>
+
+<p className="mt-4 text-center text-xs leading-5 text-[#777]">
+  You won't be charged until you confirm your booking.
+</p>
 
             </div>
 
-            <div className="my-6 border-t border-[#E5DED6]" />
+          </aside>
 
-            <div className="space-y-4 text-sm">
+        </section>
 
-              <div className="flex justify-between">
-                <span className="text-[#756D67]">
-                  Experience
-                </span>
-
-                <span className="font-semibold text-[#2C2420]">
-                  {activity.category}
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span className="text-[#756D67]">
-                  Duration
-                </span>
-
-                <span className="font-semibold text-[#2C2420]">
-                  {activity.duration}
-                </span>
-              </div>
-
-              <div className="flex justify-between gap-4">
-
-                <span className="text-[#756D67]">
-                  Location
-                </span>
-
-                <span className="max-w-[170px] text-right font-semibold text-[#2C2420]">
-                  {activity.location}
-                </span>
-
-              </div>
-
-            </div>
-
-            {/* BOOK NOW */}
-            <button
-              type="button"
-              onClick={() => setBooked(true)}
-              disabled={booked}
-              className={`mt-7 w-full rounded-full px-6 py-3.5 text-center font-semibold text-white transition ${
-                booked
-                  ? "cursor-default bg-[#68705A]"
-                  : "bg-[#B76545] hover:bg-[#965039]"
-              }`}
-            >
-              {booked ? "✓ Booking Confirmed" : "Book Now"}
-            </button>
-
-            <p className="mt-4 text-center text-xs leading-5 text-[#756D67]">
-              {booked
-                ? "Your experience has been confirmed."
-                : "Reserve this local experience and explore the destination."}
-            </p>
-
-          </div>
-        </aside>
-      </section>
-
-      {/* Bottom CTA */}
-      <section className="mx-auto max-w-7xl px-6 pb-16">
-
-        <div className="rounded-3xl bg-[#2C2420] p-8 text-center text-white md:p-12">
-
-          <h2 className="text-3xl font-semibold">
-            Want to explore more?
-          </h2>
-
-          <p className="mx-auto mt-3 max-w-xl text-[#E8DED0]">
-            Discover more local activities, places, food, culture
-            and experiences around your stay.
-          </p>
-
-          <Link
-            href="/experiences"
-            className="mt-7 inline-block rounded-full bg-[#B76545] px-7 py-3 font-semibold text-white transition hover:bg-[#965039]"
-          >
-            Browse all experiences
-          </Link>
-
-        </div>
-
-      </section>
+      </div>
 
     </main>
   );

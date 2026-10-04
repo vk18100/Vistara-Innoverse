@@ -17,6 +17,7 @@ import {
   Star,
   Users,
 } from "lucide-react";
+import Navbar from "@/components/navbar";
 
 const guides = [
   {
@@ -98,41 +99,8 @@ export default function GuideDetailPage() {
     <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
 
       {/* NAVBAR */}
-      <header className="sticky top-0 z-50 border-b border-[#E5DED6] bg-[#FAF8F3]/95 backdrop-blur">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 lg:px-10">
-
-          <Link
-            href="/guides"
-            className="flex items-center gap-2 text-sm font-semibold text-[#2C2420] transition hover:text-[#B76545]"
-          >
-            <ArrowLeft size={18} />
-            Back to guides
-          </Link>
-
-          <Link
-            href="/"
-            className="font-serif text-2xl font-bold tracking-[0.16em]"
-          >
-            VISTARA
-          </Link>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="hidden h-10 w-10 items-center justify-center rounded-full border border-[#E5DED6] bg-white sm:flex"
-            >
-              <Share2 size={17} />
-            </button>
-
-            <button
-              type="button"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E5DED6] bg-white"
-            >
-              <Heart size={18} />
-            </button>
-          </div>
-        </div>
-      </header>
+     
+    <Navbar/>
 
       {/* HERO */}
       <section className="mx-auto max-w-7xl px-5 pb-10 pt-7 lg:px-10 lg:pt-10">

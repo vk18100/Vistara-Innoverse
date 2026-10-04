@@ -3,6 +3,16 @@
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  ArrowRight,
+  Check,
+  Compass,
+  Eye,
+  EyeOff,
+  MapPin,
+  Sparkles,
+} from "lucide-react";
+
 import Navbar from "@/components/navbar";
 
 export default function Register() {
@@ -13,6 +23,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -90,109 +101,218 @@ export default function Register() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F3F6FF]">
+    <main className="min-h-screen bg-[#F5F1EA] text-[#25231F]">
       <Navbar />
 
+      {/* PAGE BACKGROUND */}
       <section className="relative min-h-[calc(100vh-80px)] overflow-hidden">
-        {/* BACKGROUND */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#EEF2FF] via-white to-[#E5EBFF]" />
 
-        <div className="absolute -left-40 -top-40 h-[520px] w-[520px] rounded-full bg-[#0D21A1]/10 blur-[120px]" />
+        {/* soft luxury background */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(184,148,90,0.16),transparent_30%),radial-gradient(circle_at_85%_80%,rgba(120,105,80,0.10),transparent_32%),#F5F1EA]" />
 
-        <div className="absolute -bottom-48 -right-40 h-[600px] w-[600px] rounded-full bg-[#023E8A]/10 blur-[130px]" />
+        <div className="pointer-events-none absolute -left-32 top-20 h-80 w-80 rounded-full bg-[#B8945A]/10 blur-[100px]" />
+
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-[#8A7A62]/10 blur-[110px]" />
 
         {/* MAIN */}
-        <div className="relative mx-auto flex min-h-[calc(100vh-80px)] w-full max-w-6xl items-center justify-center px-6 py-12 lg:px-10">
-          <div className="grid w-full overflow-hidden rounded-[36px] border border-white/80 bg-white/80 shadow-[0_30px_100px_rgba(3,4,94,0.14)] backdrop-blur-xl lg:grid-cols-2">
+        <div className="relative mx-auto flex w-full max-w-[1320px] items-center px-5 py-10 sm:px-8 lg:min-h-[calc(100vh-80px)] lg:px-10 lg:py-14">
 
-            {/* LEFT PANEL */}
-            <div className="hidden min-h-[680px] flex-col justify-between bg-[#03045E] p-12 text-white lg:flex">
-              <div>
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-xl font-bold text-[#03045E]">
-                  V
+          <div className="grid w-full overflow-hidden rounded-[38px] border border-[#DED6C9] bg-[#FCFAF6] shadow-[0_35px_100px_rgba(55,45,30,0.14)] lg:grid-cols-[0.92fr_1.08fr]">
+
+            {/* ================================================= */}
+            {/* LEFT PREMIUM VISUAL PANEL */}
+            {/* ================================================= */}
+
+            <div className="relative hidden min-h-[720px] overflow-hidden bg-[#25231F] text-white lg:flex">
+
+              {/* decorative gold circles */}
+              <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full border border-[#C5A66A]/30" />
+
+              <div className="absolute -right-12 -top-12 h-48 w-48 rounded-full border border-[#C5A66A]/20" />
+
+              <div className="absolute -bottom-40 -left-40 h-[500px] w-[500px] rounded-full border border-[#C5A66A]/20" />
+
+              {/* texture */}
+              <div className="absolute inset-0 opacity-[0.04] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:42px_42px]" />
+
+              <div className="relative z-10 flex w-full flex-col justify-between p-10 xl:p-14">
+
+                {/* BRAND */}
+                <div>
+                  <div className="flex items-center justify-between">
+
+                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F8F3EA] text-xl font-bold text-[#25231F] shadow-[0_10px_30px_rgba(0,0,0,0.15)]">
+                      V
+                    </div>
+
+                    <div className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60 backdrop-blur">
+                      Vistara
+                    </div>
+
+                  </div>
+
+                  <p className="mt-20 text-[11px] font-semibold uppercase tracking-[0.35em] text-[#C8A968]">
+                    A different way to travel
+                  </p>
+
+                  <h2 className="mt-6 max-w-lg font-serif text-5xl font-medium leading-[1.03] tracking-tight xl:text-6xl">
+                    Discover places
+                    <br />
+                    worth
+                    <br />
+                    remembering.
+                  </h2>
+
+                  <p className="mt-7 max-w-md text-sm leading-7 text-white/60">
+                    Stay somewhere meaningful. Meet local people.
+                    Discover experiences that turn a destination into
+                    a memory.
+                  </p>
                 </div>
 
-                <p className="mt-12 text-xs font-semibold uppercase tracking-[0.3em] text-white/60">
-                  Welcome to Vistara
-                </p>
+                {/* CENTER FEATURE */}
+                <div className="relative my-12">
 
-                <h2 className="mt-5 max-w-md font-serif text-5xl font-semibold leading-tight">
-                  Discover places worth experiencing.
-                </h2>
+                  <div className="absolute -inset-5 rounded-[32px] border border-[#C8A968]/10" />
 
-                <p className="mt-6 max-w-md text-sm leading-7 text-white/65">
-                  Create your Vistara account and discover thoughtfully
-                  selected stays, destinations and experiences.
-                </p>
-              </div>
+                  <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#302D28] p-6 shadow-[0_25px_60px_rgba(0,0,0,0.25)]">
 
-              <div>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="text-xl font-semibold">01</p>
-                    <p className="mt-1 text-xs text-white/50">
-                      Discover
+                    <div className="flex items-start justify-between">
+
+                      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#C8A968]/15">
+                        <Compass
+                          size={20}
+                          className="text-[#C8A968]"
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-1 rounded-full bg-white/5 px-3 py-1.5 text-[10px] text-white/60">
+                        <Sparkles
+                          size={12}
+                          className="text-[#C8A968]"
+                        />
+                        Curated
+                      </div>
+
+                    </div>
+
+                    <p className="mt-8 text-[10px] uppercase tracking-[0.25em] text-white/40">
+                      Your next discovery
                     </p>
-                  </div>
 
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="text-xl font-semibold">02</p>
-                    <p className="mt-1 text-xs text-white/50">
-                      Stay
+                    <p className="mt-2 font-serif text-2xl text-white">
+                      Go beyond the obvious.
                     </p>
-                  </div>
 
-                  <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                    <p className="text-xl font-semibold">03</p>
-                    <p className="mt-1 text-xs text-white/50">
-                      Experience
-                    </p>
+                    <div className="mt-6 flex items-center gap-3 text-xs text-white/50">
+                      <MapPin
+                        size={14}
+                        className="text-[#C8A968]"
+                      />
+                      Hidden places · Local stories · Real experiences
+                    </div>
+
                   </div>
                 </div>
 
-                <p className="mt-6 text-xs text-white/40">
-                  Your journey begins here.
-                </p>
+                {/* BOTTOM */}
+                <div>
+
+                  <div className="grid grid-cols-3 gap-3">
+
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                      <p className="font-serif text-2xl">01</p>
+                      <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-white/40">
+                        Discover
+                      </p>
+                    </div>
+
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                      <p className="font-serif text-2xl">02</p>
+                      <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-white/40">
+                        Stay
+                      </p>
+                    </div>
+
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                      <p className="font-serif text-2xl">03</p>
+                      <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-white/40">
+                        Experience
+                      </p>
+                    </div>
+
+                  </div>
+
+                  <div className="mt-6 flex items-center justify-between">
+                    <p className="text-xs text-white/35">
+                      Your journey begins here.
+                    </p>
+
+                    <div className="h-px w-20 bg-[#C8A968]/40" />
+                  </div>
+
+                </div>
+
               </div>
             </div>
 
-            {/* REGISTER PANEL */}
-            <div className="flex min-h-[680px] items-center bg-white px-7 py-10 sm:px-12 lg:px-16">
-              <div className="mx-auto w-full max-w-md">
+            {/* ================================================= */}
+            {/* RIGHT REGISTER PANEL */}
+            {/* ================================================= */}
 
-                {/* MOBILE LOGO */}
-                <div className="mb-8 flex lg:hidden">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#03045E] text-lg font-bold text-white">
+            <div className="flex min-h-[720px] items-center bg-[#FCFAF6] px-6 py-10 sm:px-10 lg:px-14 xl:px-20">
+
+              <div className="mx-auto w-full max-w-[500px]">
+
+                {/* MOBILE BRAND */}
+                <div className="mb-10 flex items-center justify-between lg:hidden">
+
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#25231F] text-lg font-bold text-white">
                     V
                   </div>
+
+                  <span className="text-xs font-semibold uppercase tracking-[0.25em] text-[#9A8050]">
+                    Vistara
+                  </span>
+
                 </div>
 
                 {/* HEADER */}
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#0D21A1]">
-                    Create account
-                  </p>
 
-                  <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#03045E]">
-                    Welcome to Vistara
+                  <div className="flex items-center gap-3">
+
+                    <span className="h-px w-8 bg-[#B8945A]" />
+
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#9A8050]">
+                      Create account
+                    </p>
+
+                  </div>
+
+                  <h1 className="mt-5 font-serif text-4xl font-medium tracking-tight text-[#25231F] sm:text-5xl">
+                    Welcome to Vistara.
                   </h1>
 
-                  <p className="mt-3 text-sm leading-6 text-[#64748B]">
-                    Create your account and start discovering places
-                    worth staying in.
+                  <p className="mt-4 max-w-md text-sm leading-7 text-[#777066]">
+                    Create your account and start discovering stays,
+                    destinations and experiences worth your time.
                   </p>
+
                 </div>
 
                 {/* FORM */}
                 <form
                   onSubmit={handleSubmit}
-                  className="mt-8 space-y-5"
+                  className="mt-9 space-y-5"
                 >
+
                   {/* NAME */}
                   <div>
+
                     <label
                       htmlFor="name"
-                      className="text-sm font-semibold text-[#334155]"
+                      className="text-xs font-bold uppercase tracking-[0.12em] text-[#4E4941]"
                     >
                       Full name
                     </label>
@@ -208,15 +328,17 @@ export default function Register() {
                       placeholder="Enter your full name"
                       autoComplete="name"
                       required
-                      className="mt-2 w-full rounded-2xl border border-[#DDE3F0] bg-[#F8FAFF] px-4 py-3.5 text-sm text-[#03045E] outline-none transition focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
+                      className="mt-2 w-full rounded-2xl border border-[#DDD6CB] bg-white px-4 py-4 text-sm text-[#25231F] outline-none transition placeholder:text-[#A49D93] focus:border-[#B8945A] focus:ring-4 focus:ring-[#B8945A]/10"
                     />
+
                   </div>
 
                   {/* EMAIL */}
                   <div>
+
                     <label
                       htmlFor="email"
-                      className="text-sm font-semibold text-[#334155]"
+                      className="text-xs font-bold uppercase tracking-[0.12em] text-[#4E4941]"
                     >
                       Email address
                     </label>
@@ -232,73 +354,101 @@ export default function Register() {
                       placeholder="you@example.com"
                       autoComplete="email"
                       required
-                      className="mt-2 w-full rounded-2xl border border-[#DDE3F0] bg-[#F8FAFF] px-4 py-3.5 text-sm text-[#03045E] outline-none transition focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
+                      className="mt-2 w-full rounded-2xl border border-[#DDD6CB] bg-white px-4 py-4 text-sm text-[#25231F] outline-none transition placeholder:text-[#A49D93] focus:border-[#B8945A] focus:ring-4 focus:ring-[#B8945A]/10"
                     />
+
                   </div>
 
                   {/* PASSWORD */}
                   <div>
+
                     <label
                       htmlFor="password"
-                      className="text-sm font-semibold text-[#334155]"
+                      className="text-xs font-bold uppercase tracking-[0.12em] text-[#4E4941]"
                     >
                       Password
                     </label>
 
-                    <input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => {
-                        setPassword(e.target.value);
-                        setError("");
-                      }}
-                      placeholder="Create a password"
-                      autoComplete="new-password"
-                      required
-                      className="mt-2 w-full rounded-2xl border border-[#DDE3F0] bg-[#F8FAFF] px-4 py-3.5 text-sm text-[#03045E] outline-none transition focus:border-[#0D21A1] focus:bg-white focus:ring-4 focus:ring-[#0D21A1]/10"
-                    />
+                    <div className="relative mt-2">
 
-                    <p className="mt-2 text-xs text-[#94A3B8]">
+                      <input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        onChange={(e) => {
+                          setPassword(e.target.value);
+                          setError("");
+                        }}
+                        placeholder="Create a password"
+                        autoComplete="new-password"
+                        required
+                        className="w-full rounded-2xl border border-[#DDD6CB] bg-white px-4 py-4 pr-12 text-sm text-[#25231F] outline-none transition placeholder:text-[#A49D93] focus:border-[#B8945A] focus:ring-4 focus:ring-[#B8945A]/10"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setShowPassword(!showPassword)
+                        }
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-[#91897E] transition hover:text-[#25231F]"
+                        aria-label={
+                          showPassword
+                            ? "Hide password"
+                            : "Show password"
+                        }
+                      >
+                        {showPassword ? (
+                          <EyeOff size={18} />
+                        ) : (
+                          <Eye size={18} />
+                        )}
+                      </button>
+
+                    </div>
+
+                    <p className="mt-2 text-xs text-[#9B948A]">
                       At least 8 characters.
                     </p>
+
                   </div>
 
                   {/* TERMS */}
-                  <label className="flex items-start gap-3 text-xs leading-5 text-[#64748B]">
+                  <label className="flex cursor-pointer items-start gap-3 pt-1 text-xs leading-5 text-[#777066]">
+
                     <input
                       type="checkbox"
                       checked={acceptedTerms}
                       onChange={(e) =>
                         setAcceptedTerms(e.target.checked)
                       }
-                      className="mt-1 h-4 w-4 accent-[#03045E]"
+                      className="mt-1 h-4 w-4 accent-[#B8945A]"
                     />
 
                     <span>
                       I agree to Vistara&apos;s{" "}
                       <Link
                         href="/terms"
-                        className="font-semibold text-[#03045E]"
+                        className="font-semibold text-[#25231F] underline decoration-[#B8945A] underline-offset-2"
                       >
                         Terms
                       </Link>{" "}
                       and{" "}
                       <Link
                         href="/privacy"
-                        className="font-semibold text-[#03045E]"
+                        className="font-semibold text-[#25231F] underline decoration-[#B8945A] underline-offset-2"
                       >
                         Privacy Policy
                       </Link>
                       .
                     </span>
+
                   </label>
 
                   {/* ERROR */}
                   {error && (
                     <div
                       role="alert"
-                      className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600"
+                      className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600"
                     >
                       {error}
                     </div>
@@ -308,42 +458,55 @@ export default function Register() {
                   {success && (
                     <div
                       role="status"
-                      className="rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700"
+                      className="flex items-center gap-2 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700"
                     >
+                      <Check size={16} />
                       {success}
                     </div>
                   )}
 
-                  {/* SUBMIT */}
+                  {/* CREATE ACCOUNT */}
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full rounded-2xl bg-[#03045E] px-5 py-4 text-sm font-semibold text-white shadow-lg shadow-[#03045E]/20 transition hover:bg-[#0D21A1] hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
+                    className="group flex w-full items-center justify-center gap-3 rounded-2xl bg-[#25231F] px-5 py-4 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(37,35,31,0.16)] transition hover:bg-[#3A362F] hover:shadow-[0_16px_35px_rgba(37,35,31,0.22)] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {loading
                       ? "Creating account..."
                       : "Create account"}
+
+                    {!loading && (
+                      <ArrowRight
+                        size={17}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
+                    )}
                   </button>
+
                 </form>
 
                 {/* DIVIDER */}
-                <div className="my-6 flex items-center gap-4">
-                  <div className="h-px flex-1 bg-[#E2E8F0]" />
+                <div className="my-7 flex items-center gap-4">
 
-                  <span className="text-xs text-[#94A3B8]">
-                    OR
+                  <div className="h-px flex-1 bg-[#E3DDD4]" />
+
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A29A8F]">
+                    Or
                   </span>
 
-                  <div className="h-px flex-1 bg-[#E2E8F0]" />
+                  <div className="h-px flex-1 bg-[#E3DDD4]" />
+
                 </div>
 
                 {/* GOOGLE */}
                 <button
                   type="button"
-                  onClick={() => { window.location.href = "/api/auth/google"; }}
-                  className="flex w-full items-center justify-center gap-3 rounded-2xl border border-[#DDE3F0] bg-white px-5 py-3.5 text-sm font-semibold text-[#334155] transition hover:border-[#0D21A1] hover:bg-[#F8FAFF]"
+                  onClick={() => {
+                    window.location.href = "/api/auth/google";
+                  }}
+                  className="flex w-full items-center justify-center gap-3 rounded-2xl border border-[#DDD6CB] bg-white px-5 py-4 text-sm font-semibold text-[#4E4941] transition hover:border-[#B8945A] hover:bg-[#FAF7F1]"
                 >
-                  <span className="font-bold text-[#03045E]">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full border border-[#E1D9CD] text-xs font-bold">
                     G
                   </span>
 
@@ -351,17 +514,31 @@ export default function Register() {
                 </button>
 
                 {/* LOGIN */}
-                <p className="mt-6 text-center text-sm text-[#64748B]">
+                <p className="mt-7 text-center text-sm text-[#81796E]">
+
                   Already have an account?{" "}
+
                   <Link
                     href="/login"
-                    className="font-semibold text-[#03045E] transition hover:text-[#0D21A1]"
+                    className="font-semibold text-[#25231F] underline decoration-[#B8945A] underline-offset-4 transition hover:text-[#9A8050]"
                   >
                     Sign in
                   </Link>
+
                 </p>
+
+                {/* TRUST NOTE */}
+                <div className="mt-9 flex items-center justify-center gap-2 text-[10px] uppercase tracking-[0.16em] text-[#A29A8F]">
+
+                  <div className="h-1.5 w-1.5 rounded-full bg-[#B8945A]" />
+
+                  Secure · Private · Built for travellers
+
+                </div>
+
               </div>
             </div>
+
           </div>
         </div>
       </section>

@@ -49,7 +49,7 @@ const experiences: Experience[] = [
     duration: "3 hours",
     price: "From ₹999",
     rating: "4.8",
-    image: "/images/hawamahal.jpg.jpg",
+    image: "/images/hawamahal.jpg",
     description:
       "Walk through Jaipur's royal streets, architecture and culture.",
   },
@@ -75,7 +75,7 @@ const experiences: Experience[] = [
     duration: "3 hours",
     price: "From ₹899",
     rating: "4.7",
-    image: "/images/coffeebein.jpg",
+    image: "/images/coffeebin.jpg",
     description:
       "Taste local coffee and discover neighbourhood cafés.",
   },

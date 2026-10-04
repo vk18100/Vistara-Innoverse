@@ -447,118 +447,122 @@ export default function TripDetailsPage() {
         </div>
 
         {/* RIGHT BOOKING / SUMMARY */}
-        <aside className="lg:sticky lg:top-6 lg:h-fit">
+    <aside className="lg:sticky lg:top-6 lg:h-fit">
 
-          <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_35px_rgba(44,36,32,0.06)] sm:p-7">
+  <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_35px_rgba(44,36,32,0.06)] sm:p-7">
 
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
-              Trip summary
-            </p>
+    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
+      Trip summary
+    </p>
 
-            <h3 className="mt-3 font-serif text-2xl font-bold">
-              {trip.title}
-            </h3>
+    <h3 className="mt-3 font-serif text-2xl font-bold">
+      {trip.title}
+    </h3>
 
-            <div className="mt-5 space-y-4">
+    <div className="mt-5 space-y-4">
 
-              <div className="flex items-start gap-3">
-                <CalendarDays
-                  size={18}
-                  className="mt-0.5 text-[#B76545]"
-                />
+      <div className="flex items-start gap-3">
+        <CalendarDays
+          size={18}
+          className="mt-0.5 text-[#B76545]"
+        />
 
-                <div>
-                  <p className="text-xs text-[#756D67]">
-                    Dates
-                  </p>
-                  <p className="mt-1 text-sm font-semibold">
-                    {trip.dates}
-                  </p>
-                </div>
-              </div>
+        <div>
+          <p className="text-xs text-[#756D67]">
+            Dates
+          </p>
 
-              <div className="flex items-start gap-3">
-                <MapPin
-                  size={18}
-                  className="mt-0.5 text-[#B76545]"
-                />
+          <p className="mt-1 text-sm font-semibold">
+            {trip.dates}
+          </p>
+        </div>
+      </div>
 
-                <div>
-                  <p className="text-xs text-[#756D67]">
-                    Destination
-                  </p>
-                  <p className="mt-1 text-sm font-semibold">
-                    {trip.location}
-                  </p>
-                </div>
-              </div>
+      <div className="flex items-start gap-3">
+        <MapPin
+          size={18}
+          className="mt-0.5 text-[#B76545]"
+        />
 
-              <div className="flex items-start gap-3">
-                <Users
-                  size={18}
-                  className="mt-0.5 text-[#B76545]"
-                />
+        <div>
+          <p className="text-xs text-[#756D67]">
+            Destination
+          </p>
 
-                <div>
-                  <p className="text-xs text-[#756D67]">
-                    Travellers
-                  </p>
-                  <p className="mt-1 text-sm font-semibold">
-                    {trip.guests}
-                  </p>
-                </div>
-              </div>
+          <p className="mt-1 text-sm font-semibold">
+            {trip.location}
+          </p>
+        </div>
+      </div>
 
-            </div>
+      <div className="flex items-start gap-3">
+        <Users
+          size={18}
+          className="mt-0.5 text-[#B76545]"
+        />
 
-            <div className="my-6 border-t border-[#E5DED6]" />
+        <div>
+          <p className="text-xs text-[#756D67]">
+            Travellers
+          </p>
 
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-[#756D67]">
-                Trip status
-              </span>
+          <p className="mt-1 text-sm font-semibold">
+            {trip.guests}
+          </p>
+        </div>
+      </div>
 
-              <span className="rounded-full bg-[#E8DED0] px-3 py-1.5 text-xs font-bold text-[#965039]">
-                Planned
-              </span>
-            </div>
+    </div>
 
-            <Link
-              href="/explore"
-              className="mt-7 flex w-full items-center justify-center rounded-full bg-[#B76545] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#965039] active:scale-[0.98]"
-            >
-              Continue planning
-            </Link>
+    <div className="my-6 border-t border-[#E5DED6]" />
 
-            <p className="mt-4 text-center text-xs leading-5 text-[#756D67]">
-              You can update your stay, experiences and places anytime.
-            </p>
+    <div className="flex items-center justify-between">
 
-          </div>
+      <span className="text-sm text-[#756D67]">
+        Trip status
+      </span>
 
-          {/* RATING */}
-          <div className="mt-4 rounded-[24px] border border-[#E5DED6] bg-white p-5">
+      <span className="rounded-full bg-[#E8DED0] px-3 py-1.5 text-xs font-bold text-[#965039]">
+        Planned
+      </span>
 
-            <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <Star
-                  key={star}
-                  size={16}
-                  fill="#B8945A"
-                  className="text-[#B8945A]"
-                />
-              ))}
-            </div>
+    </div>
 
-            <p className="mt-3 text-sm leading-6 text-[#756D67]">
-              Curated around the places, food and experiences you want to
-              discover.
-            </p>
+    <Link
+      href={`/orders/${trip.id}`}
+      className="mt-7 flex w-full items-center justify-center rounded-full bg-[#B76545] px-6 py-3.5 text-sm font-bold text-white transition hover:bg-[#965039] active:scale-[0.98]"
+    >
+      Book this trip
+    </Link>
 
-          </div>
+    <p className="mt-4 text-center text-xs leading-5 text-[#756D67]">
+      You can update your stay, experiences and places anytime.
+    </p>
 
-        </aside>
+  </div>
 
+  {/* RATING */}
+  <div className="mt-4 rounded-[24px] border border-[#E5DED6] bg-white p-5">
+
+    <div className="flex items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star
+          key={star}
+          size={16}
+          fill="#B8945A"
+          className="text-[#B8945A]"
+        />
+      ))}
+    </div>
+
+    <p className="mt-3 text-sm leading-6 text-[#756D67]">
+      Curated around the places, food and experiences you want to
+      discover.
+    </p>
+
+  </div>
+
+</aside>
       </section>
 
       {/* FINAL CTA */}
