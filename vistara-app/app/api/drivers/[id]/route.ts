@@ -1,23 +1,29 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-type Params = {
+type Context = {
   params: Promise<{
     id: string;
   }>;
 };
 
-/* =========================
-   GET /api/drivers/[id]
-   Public — single driver profile
-========================= */
+/*
+|--------------------------------------------------------------------------
+| GET /api/drivers/[id]
+| Public — single driver
+|--------------------------------------------------------------------------
+*/
 
-export async function GET(req: NextRequest, { params }: Params) {
+export async function GET(
+  _req: NextRequest,
+  { params }: Context
+) {
   try {
-    const { id } = await params;
-    const driverId = Number(id);
+    const { id: idParam } = await params;
 
-    if (!Number.isInteger(driverId) || driverId <= 0) {
+    const id = Number(idParam);
+
+    if (!Number.isInteger(id) || id <= 0) {
       return NextResponse.json(
         {
           success: false,
@@ -29,19 +35,46 @@ export async function GET(req: NextRequest, { params }: Params) {
 
     const driver = await prisma.driverProfile.findUnique({
       where: {
-        id: driverId,
+        id,
       },
-      include: {
+
+      select: {
+        id: true,
+        rating: true,
+        totalTrips: true,
+        isVerified: true,
+        status: true,
+        pricePerRide: true,
+        experienceYears: true,
+        languages: true,
+        services: true,
+
         user: {
           select: {
+            id: true,
             name: true,
+
+            profile: {
+              select: {
+                avatar: true,
+              },
+            },
           },
         },
-        vehicles: true,
+
+        vehicles: {
+          select: {
+            id: true,
+            model: true,
+            type: true,
+            seats: true,
+            capacity: true,
+          },
+        },
       },
     });
 
-    if (!driver) {
+    if (!driver || !driver.isVerified) {
       return NextResponse.json(
         {
           success: false,
@@ -53,19 +86,44 @@ export async function GET(req: NextRequest, { params }: Params) {
 
     return NextResponse.json({
       success: true,
+
       data: {
         id: driver.id,
-        name: driver.user.name,
-        rating: driver.rating,
-        totalTrips: driver.totalTrips,
+
+        name: driver.user?.name ?? "Driver",
+
+        avatar: driver.user?.profile?.avatar ?? null,
+
+        rating: Number(driver.rating ?? 0),
+
+        totalTrips: driver.totalTrips ?? 0,
+
         isVerified: driver.isVerified,
+
         status: driver.status,
-        vehicles: driver.vehicles.map((v) => ({
-          id: v.id,
-          make: v.make,
-          model: v.model,
-          type: v.type,
-          capacity: v.capacity,
+
+        pricePerRide:
+          driver.pricePerRide !== null &&
+          driver.pricePerRide !== undefined
+            ? Number(driver.pricePerRide)
+            : 0,
+
+        experienceYears:
+          driver.experienceYears ?? 0,
+
+        languages: Array.isArray(driver.languages)
+          ? driver.languages
+          : [],
+
+        services: Array.isArray(driver.services)
+          ? driver.services
+          : [],
+
+        vehicles: driver.vehicles.map((vehicle) => ({
+          id: vehicle.id,
+          model: vehicle.model,
+          type: vehicle.type,
+          seats: vehicle.seats ?? vehicle.capacity ?? null,
         })),
       },
     });
@@ -75,7 +133,7 @@ export async function GET(req: NextRequest, { params }: Params) {
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to load this driver.",
+        message: "Unable to load driver.",
       },
       { status: 500 }
     );

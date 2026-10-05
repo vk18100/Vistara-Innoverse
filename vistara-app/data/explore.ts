@@ -1,202 +1,484 @@
-export const experiences = [
+// data/explore.ts
+
+export type ExploreCategory =
+  | "Heritage"
+  | "Nature"
+  | "Food"
+  | "Local Life"
+  | "Adventure"
+  | "Culture"
+  | "Religious"
+  | "Shopping"
+  | "Cafes"
+  | "Experiences"
+  | "Events"
+  | "Local Markets";
+
+export interface Experience {
+  id: number;
+  slug: string;
+
+  title: string;
+  location: string;
+  city: string;
+  state: string;
+
+  category: ExploreCategory;
+
+  duration: string;
+  price: number;
+  priceLabel: string;
+
+  rating: number;
+  reviews: number;
+
+  image: string;
+
+  description: string;
+
+  tags: string[];
+
+  // Used for Explore preview
+  preview: string;
+
+  // Exact details can be shown after Local Plan purchase
+  exactLocation: string;
+
+  // Suitable for filtering/recommendation
+  interests: string[];
+
+  featured?: boolean;
+}
+
+export const experiences: Experience[] = [
   {
     id: 1,
-    title: "Banaras Ghat Sunrise",
-    location: "Varanasi, Uttar Pradesh",
-    category: "Culture",
+    slug: "golghar-heritage-walk",
+
+    title: "Golghar Heritage Walk",
+    location: "Patna, Bihar",
+    city: "Patna",
+    state: "Bihar",
+
+    category: "Heritage",
+
     duration: "2 hours",
-    price: "From ₹799",
-    rating: "4.9",
-    image: "/images/pag1 (30).jpg",
+    price: 699,
+    priceLabel: "From ₹699",
+
+    rating: 4.9,
+    reviews: 128,
+
+    image: "/images/golghar.jpg",
+
+    description:
+      "Discover Patna through its iconic heritage, architecture and local stories.",
+
+    tags: ["Heritage", "History", "Walking Tour", "Local Stories"],
+
+    preview:
+      "Explore one of Patna's iconic landmarks and discover the stories surrounding the old city.",
+
+    exactLocation: "Golghar Heritage Area, Patna, Bihar",
+
+    interests: ["History", "Architecture", "Local Culture"],
+
+    featured: true,
   },
+
   {
     id: 2,
-    title: "Ganga Aarti Experience",
-    location: "Varanasi, Uttar Pradesh",
-    category: "Culture",
-    duration: "2 hours",
-    price: "From ₹899",
-    rating: "4.9",
-    image: "/images/pag1 (31).jpg",
+    slug: "jaipur-palace-discovery",
+
+    title: "Jaipur Palace Discovery",
+    location: "Jaipur, Rajasthan",
+    city: "Jaipur",
+    state: "Rajasthan",
+
+    category: "Heritage",
+
+    duration: "3 hours",
+    price: 999,
+    priceLabel: "From ₹999",
+
+    rating: 4.8,
+    reviews: 214,
+
+    image: "/images/hawamahal.jpg",
+
+    description:
+      "Walk through Jaipur's royal streets, architecture and cultural landmarks.",
+
+    tags: ["Palace", "Heritage", "Architecture", "Culture"],
+
+    preview:
+      "Discover Jaipur's royal side through historic streets, architecture and cultural stories.",
+
+    exactLocation: "Old Jaipur Heritage District, Jaipur, Rajasthan",
+
+    interests: ["History", "Architecture", "Culture"],
+
+    featured: true,
   },
+
   {
     id: 3,
-    title: "Old City Walking Tour",
-    location: "Jaipur, Rajasthan",
-    category: "Culture",
-    duration: "3 hours",
-    price: "From ₹999",
-    rating: "4.8",
-    image: "/images/pag1 (32).jpg",
+    slug: "qutub-heritage-trail",
+
+    title: "Qutub Heritage Trail",
+    location: "Delhi, India",
+    city: "Delhi",
+    state: "Delhi",
+
+    category: "Heritage",
+
+    duration: "2 hours",
+    price: 799,
+    priceLabel: "From ₹799",
+
+    rating: 4.8,
+    reviews: 176,
+
+    image: "/images/kutub.jpg.jpg",
+
+    description:
+      "Explore historic architecture and stories from Delhi's fascinating past.",
+
+    tags: ["History", "Architecture", "Heritage", "Walking Tour"],
+
+    preview:
+      "Walk through historic Delhi and discover architectural stories from another era.",
+
+    exactLocation: "Qutub Heritage Area, New Delhi",
+
+    interests: ["History", "Architecture", "Heritage"],
+
+    featured: true,
   },
+
   {
     id: 4,
-    title: "Heritage Haveli Experience",
-    location: "Jaipur, Rajasthan",
-    category: "Heritage",
+    slug: "local-cafe-coffee-trail",
+
+    title: "Local Café & Coffee Trail",
+    location: "Bengaluru, Karnataka",
+    city: "Bengaluru",
+    state: "Karnataka",
+
+    category: "Food",
+
     duration: "3 hours",
-    price: "From ₹1,499",
-    rating: "4.9",
-    image: "/images/pag1 (33).jpg",
+    price: 899,
+    priceLabel: "From ₹899",
+
+    rating: 4.7,
+    reviews: 142,
+
+    image: "/images/coffeebin.jpg",
+
+    description:
+      "Taste local coffee and discover neighbourhood cafés loved by locals.",
+
+    tags: ["Coffee", "Cafes", "Food", "Local Favourite"],
+
+    preview:
+      "Discover neighbourhood cafés and experience Bengaluru's local coffee culture.",
+
+    exactLocation: "Central Bengaluru Café District",
+
+    interests: ["Coffee", "Food", "Cafes"],
+
+    featured: true,
   },
+
   {
     id: 5,
-    title: "Goa Beach Escape",
-    location: "Goa",
-    category: "Nature",
-    duration: "4 hours",
-    price: "From ₹1,299",
-    rating: "4.8",
-    image: "/images/pag1 (34).jpg",
+    slug: "countryside-farm-experience",
+
+    title: "Countryside Farm Experience",
+    location: "Bihar, India",
+    city: "Patna",
+    state: "Bihar",
+
+    category: "Local Life",
+
+    duration: "3 hours",
+    price: 799,
+    priceLabel: "From ₹799",
+
+    rating: 4.8,
+    reviews: 96,
+
+    image: "/images/farm.jpg",
+
+    description:
+      "Spend time with local communities and experience rural life.",
+
+    tags: ["Farm", "Local Life", "Rural", "Community"],
+
+    preview:
+      "Step away from the city and experience everyday rural life through a local community.",
+
+    exactLocation: "Rural outskirts of Patna, Bihar",
+
+    interests: ["Local Life", "Nature", "Community"],
+
+    featured: true,
   },
+
   {
     id: 6,
-    title: "Sunset by the Arabian Sea",
-    location: "Goa",
-    category: "Nature",
+    slug: "hidden-heritage-house",
+
+    title: "Hidden Heritage House",
+    location: "Rajasthan, India",
+    city: "Jaipur",
+    state: "Rajasthan",
+
+    category: "Heritage",
+
     duration: "2 hours",
-    price: "From ₹899",
-    rating: "4.9",
-    image: "/images/pag1 (35).jpg",
+    price: 699,
+    priceLabel: "From ₹699",
+
+    rating: 4.7,
+    reviews: 84,
+
+    image: "/images/blackhouse.jpg",
+
+    description:
+      "Step inside a lesser-known architectural gem away from the usual tourist routes.",
+
+    tags: ["Hidden Gem", "Architecture", "Heritage", "Local"],
+
+    preview:
+      "Discover a lesser-known heritage space away from the usual tourist trail.",
+
+    exactLocation: "Hidden Heritage Quarter, Jaipur, Rajasthan",
+
+    interests: ["Architecture", "Hidden Gems", "History"],
   },
+
   {
     id: 7,
-    title: "Local Food Walk",
-    location: "Delhi",
-    category: "Food",
+    slug: "coastal-escape",
+
+    title: "Coastal Escape",
+    location: "Goa, India",
+    city: "Goa",
+    state: "Goa",
+
+    category: "Nature",
+
     duration: "3 hours",
-    price: "From ₹799",
-    rating: "4.7",
-    image: "/images/pag1 (36).jpg",
+    price: 899,
+    priceLabel: "From ₹899",
+
+    rating: 4.8,
+    reviews: 203,
+
+    image: "/images/beachhouse.jpg.jpg",
+
+    description:
+      "Slow down with coastal views, peaceful surroundings and local experiences.",
+
+    tags: ["Beach", "Nature", "Relaxation", "Coastal"],
+
+    preview:
+      "Escape the busy tourist spots and enjoy a slower coastal experience.",
+
+    exactLocation: "North Goa Coastal Area",
+
+    interests: ["Nature", "Beach", "Relaxation"],
+
+    featured: true,
   },
+
   {
     id: 8,
-    title: "Royal Food Experience",
-    location: "Lucknow, Uttar Pradesh",
-    category: "Food",
-    duration: "2 hours",
-    price: "From ₹1,099",
-    rating: "4.8",
-    image: "/images/pag1 (37).jpg",
+    slug: "city-lights-discovery",
+
+    title: "City Lights Discovery",
+    location: "Dubai",
+    city: "Dubai",
+    state: "Dubai",
+
+    category: "Adventure",
+
+    duration: "4 hours",
+    price: 1499,
+    priceLabel: "From ₹1,499",
+
+    rating: 4.8,
+    reviews: 318,
+
+    image: "/images/dubai.jpg",
+
+    description:
+      "Experience Dubai after sunset through local highlights and city views.",
+
+    tags: ["Night", "City", "Adventure", "Photography"],
+
+    preview:
+      "See Dubai after sunset and discover the city's most vibrant evening experiences.",
+
+    exactLocation: "Downtown Dubai",
+
+    interests: ["Nightlife", "Adventure", "Photography"],
+
+    featured: true,
   },
+
   {
     id: 9,
-    title: "Mountain Village Experience",
-    location: "Himachal Pradesh",
-    category: "Nature",
-    duration: "4 hours",
-    price: "From ₹1,299",
-    rating: "4.9",
-    image: "/images/pag1 (38).jpg",
+    slug: "ancient-temple-trail",
+
+    title: "Ancient Temple Trail",
+    location: "India",
+    city: "Patna",
+    state: "Bihar",
+
+    category: "Religious",
+
+    duration: "3 hours",
+    price: 799,
+    priceLabel: "From ₹799",
+
+    rating: 4.9,
+    reviews: 117,
+
+    image: "/images/krantaktemple.jpg",
+
+    description:
+      "Discover architecture, rituals and stories surrounding an ancient temple.",
+
+    tags: ["Temple", "Spiritual", "Architecture", "History"],
+
+    preview:
+      "Explore an ancient place of worship and learn about its architecture and traditions.",
+
+    exactLocation: "Ancient Temple Heritage Area, Bihar",
+
+    interests: ["Spiritual", "History", "Culture"],
+
+    featured: true,
   },
+
   {
     id: 10,
-    title: "Himalayan Sunset",
-    location: "Manali, Himachal Pradesh",
-    category: "Nature",
-    duration: "3 hours",
-    price: "From ₹999",
-    rating: "4.8",
-    image: "/images/pag1 (39).jpg",
+    slug: "local-home-experience",
+
+    title: "Local Home Experience",
+    location: "Patna, Bihar",
+    city: "Patna",
+    state: "Bihar",
+
+    category: "Local Life",
+
+    duration: "2 hours",
+    price: 599,
+    priceLabel: "From ₹599",
+
+    rating: 4.8,
+    reviews: 73,
+
+    image: "/images/house.jpg",
+
+    description:
+      "Meet locals and experience the city through everyday life and traditions.",
+
+    tags: ["Local Home", "Culture", "Community", "Food"],
+
+    preview:
+      "Meet local people and experience the destination from a more personal perspective.",
+
+    exactLocation: "Local Residential Area, Patna, Bihar",
+
+    interests: ["Local Life", "Culture", "Food"],
+
+    featured: true,
   },
+
   {
     id: 11,
-    title: "Kerala Backwater Ride",
-    location: "Alappuzha, Kerala",
+    slug: "grand-city-discovery",
+
+    title: "Grand City Discovery",
+    location: "India",
+    city: "Delhi",
+    state: "Delhi",
+
     category: "Adventure",
+
     duration: "4 hours",
-    price: "From ₹1,499",
-    rating: "4.9",
-    image: "/images/pag1 (40).jpg",
+    price: 1099,
+    priceLabel: "From ₹1,099",
+
+    rating: 4.7,
+    reviews: 154,
+
+    image: "/images/big.jpg",
+
+    description:
+      "See the city through places and experiences most travellers miss.",
+
+    tags: ["City Tour", "Hidden Gems", "Adventure", "Local"],
+
+    preview:
+      "Explore a different side of the city through lesser-known places and local highlights.",
+
+    exactLocation: "Central Delhi Discovery Route",
+
+    interests: ["Adventure", "Hidden Gems", "City Life"],
   },
+
   {
     id: 12,
-    title: "Houseboat Experience",
-    location: "Kerala",
-    category: "Experience",
-    duration: "5 hours",
-    price: "From ₹1,899",
-    rating: "4.8",
-    image: "/images/pag1 (41).jpg",
-  },
-  {
-    id: 13,
-    title: "Local Seafood Experience",
-    location: "Goa",
-    category: "Food",
-    duration: "2 hours",
-    price: "From ₹1,199",
-    rating: "4.8",
-    image: "/images/pag1 (42).jpg",
-  },
-  {
-    id: 14,
-    title: "Goa Sunset Experience",
-    location: "Goa",
+    slug: "hidden-gem-escape",
+
+    title: "Hidden Gem Escape",
+    location: "Patna, Bihar",
+    city: "Patna",
+    state: "Bihar",
+
     category: "Nature",
-    duration: "2 hours",
-    price: "From ₹899",
-    rating: "4.7",
-    image: "/images/pag1 (43).jpg",
-  },
-  {
-    id: 15,
-    title: "Himalayan Village Walk",
-    location: "Himachal Pradesh",
-    category: "Nature",
-    duration: "4 hours",
-    price: "From ₹1,299",
-    rating: "4.9",
-    image: "/images/pag1 (44).jpg",
-  },
-  {
-    id: 16,
-    title: "Mountain Café Trail",
-    location: "Manali, Himachal Pradesh",
-    category: "Food",
+
     duration: "3 hours",
-    price: "From ₹899",
-    rating: "4.7",
-    image: "/images/pag1 (45).jpg",
+    price: 699,
+    priceLabel: "From ₹699",
+
+    rating: 4.9,
+    reviews: 91,
+
+    image: "/images/download.jpg",
+
+    description:
+      "Find a quiet corner and experience the destination differently.",
+
+    tags: ["Hidden Gem", "Nature", "Peaceful", "Local"],
+
+    preview:
+      "Find a quieter side of Patna and enjoy a local escape away from crowded places.",
+
+    exactLocation: "Hidden Nature Spot, Patna, Bihar",
+
+    interests: ["Nature", "Peaceful", "Hidden Gems"],
+
+    featured: true,
   },
-  {
-    id: 17,
-    title: "Riverside Adventure",
-    location: "Rishikesh, Uttarakhand",
-    category: "Adventure",
-    duration: "4 hours",
-    price: "From ₹1,499",
-    rating: "4.8",
-    image: "/images/pag1 (46).jpg",
-  },
-  {
-    id: 18,
-    title: "Forest Escape",
-    location: "Uttarakhand",
-    category: "Nature",
-    duration: "5 hours",
-    price: "From ₹1,199",
-    rating: "4.8",
-    image: "/images/pag1 (47).jpg",
-  },
-  {
-    id: 19,
-    title: "Heritage City Walk",
-    location: "Udaipur, Rajasthan",
-    category: "Heritage",
-    duration: "3 hours",
-    price: "From ₹999",
-    rating: "4.9",
-    image: "/images/pag1 (48).jpg",
-  },
-  {
-    id: 20,
-    title: "Royal Rajasthan Experience",
-    location: "Jodhpur, Rajasthan",
-    category: "Heritage",
-    duration: "4 hours",
-    price: "From ₹1,399",
-    rating: "4.9",
-    image: "/images/pag1 (49).jpg",
-  },
+];
+
+export const categories: ExploreCategory[] = [
+  "Heritage",
+  "Nature",
+  "Food",
+  "Local Life",
+  "Adventure",
+  "Culture",
+  "Religious",
+  "Shopping",
+  "Cafes",
+  "Experiences",
+  "Events",
+  "Local Markets",
 ];

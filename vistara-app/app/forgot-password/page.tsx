@@ -63,60 +63,57 @@ export default function ForgotPassword() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#171717]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      <section className="flex min-h-[calc(100vh-64px)] items-center justify-center px-5 py-12 sm:px-6 lg:py-16">
-        <div className="w-full max-w-[440px]">
+      <section className="flex min-h-[calc(100vh-64px)] items-center justify-center px-5 py-10 sm:px-6">
+        <div className="w-full max-w-[400px]">
 
           {/* CARD */}
-          <div className="rounded-[30px] border border-black/[0.08] bg-white px-6 py-8 shadow-[0_20px_70px_rgba(0,0,0,0.06)] sm:px-10 sm:py-10">
+          <div className="rounded-2xl border border-neutral-200 bg-white px-6 py-7 shadow-[0_10px_40px_rgba(0,0,0,0.04)] sm:px-8">
 
             {/* ICON */}
             <div className="flex justify-center">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F3EFE8] text-[#292929]">
-                <Mail
-                  size={23}
-                  strokeWidth={1.7}
-                />
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-neutral-200 bg-white text-black">
+                <Mail size={19} strokeWidth={1.7} />
               </div>
             </div>
 
             {/* HEADER */}
-            <div className="mt-6 text-center">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#8B6F3D]">
+            <div className="mt-5 text-center">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-500">
                 Account recovery
               </p>
 
-              <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight text-[#171717] sm:text-4xl">
+              <h1 className="mt-2 font-serif text-2xl font-semibold tracking-tight text-black sm:text-[27px]">
                 Forgot your password?
               </h1>
 
-              <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-[#737373]">
-                No worries. Enter your email and we'll send
-                you a secure link to create a new password.
+              <p className="mx-auto mt-2 max-w-sm text-xs leading-5 text-neutral-500">
+                Enter your email and we'll send you a secure
+                link to create a new password.
               </p>
             </div>
 
             {/* FORM */}
             <form
               onSubmit={handleSubmit}
-              className="mt-8 space-y-5"
+              className="mt-6 space-y-4"
             >
               {/* EMAIL */}
               <div>
                 <label
                   htmlFor="email"
-                  className="text-sm font-medium text-[#292929]"
+                  className="text-xs font-medium text-black"
                 >
                   Email address
                 </label>
 
-                <div className="relative mt-2">
+                <div className="relative mt-1.5">
                   <Mail
-                    size={18}
+                    size={16}
                     strokeWidth={1.7}
-                    className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[#A3A3A3]"
+                    className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400"
                   />
 
                   <input
@@ -137,23 +134,23 @@ export default function ForgotPassword() {
                     disabled={loading}
                     className="
                       w-full
-                      rounded-2xl
+                      rounded-xl
                       border
-                      border-[#E5E5E5]
+                      border-neutral-200
                       bg-white
-                      py-3.5
-                      pl-11
-                      pr-4
-                      text-sm
-                      text-[#171717]
+                      py-3
+                      pl-10
+                      pr-3
+                      text-xs
+                      text-black
                       outline-none
                       transition
-                      placeholder:text-[#A3A3A3]
-                      hover:border-[#CFCFCF]
-                      focus:border-[#292929]
-                      focus:ring-4
-                      focus:ring-black/[0.04]
-                      disabled:bg-[#F8F8F8]
+                      placeholder:text-neutral-400
+                      hover:border-neutral-300
+                      focus:border-black
+                      focus:ring-2
+                      focus:ring-black/5
+                      disabled:bg-neutral-50
                     "
                   />
                 </div>
@@ -164,7 +161,7 @@ export default function ForgotPassword() {
                 <div
                   role="alert"
                   aria-live="polite"
-                  className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm leading-5 text-red-600"
+                  className="rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs leading-5 text-black"
                 >
                   {error}
                 </div>
@@ -175,7 +172,7 @@ export default function ForgotPassword() {
                 <div
                   role="status"
                   aria-live="polite"
-                  className="rounded-2xl border border-green-100 bg-green-50 px-4 py-3 text-sm leading-5 text-green-700"
+                  className="rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-xs leading-5 text-black"
                 >
                   {success}
                 </div>
@@ -192,19 +189,18 @@ export default function ForgotPassword() {
                   items-center
                   justify-center
                   gap-2
-                  rounded-2xl
-                  bg-[#171717]
+                  rounded-xl
+                  bg-black
                   px-4
-                  py-3.5
-                  text-sm
+                  py-3
+                  text-xs
                   font-semibold
                   text-white
                   transition
-                  duration-200
-                  hover:bg-[#292929]
+                  hover:bg-neutral-800
                   active:scale-[0.99]
                   disabled:cursor-not-allowed
-                  disabled:opacity-60
+                  disabled:opacity-50
                 "
               >
                 {loading ? (
@@ -213,7 +209,7 @@ export default function ForgotPassword() {
                   <>
                     Send reset link
                     <ArrowRight
-                      size={17}
+                      size={15}
                       className="transition-transform group-hover:translate-x-0.5"
                     />
                   </>
@@ -222,39 +218,39 @@ export default function ForgotPassword() {
             </form>
 
             {/* BACK */}
-            <div className="mt-7 flex justify-center">
+            <div className="mt-5 flex justify-center">
               <Link
                 href="/login"
                 className="
                   inline-flex
                   items-center
-                  gap-2
-                  text-sm
+                  gap-1.5
+                  text-xs
                   font-medium
-                  text-[#666]
+                  text-neutral-500
                   transition
-                  hover:text-[#171717]
+                  hover:text-black
                 "
               >
-                <ArrowLeft size={15} />
+                <ArrowLeft size={14} />
                 Back to Sign In
               </Link>
             </div>
           </div>
 
           {/* REGISTER */}
-          <p className="mt-6 text-center text-sm text-[#737373]">
+          <p className="mt-5 text-center text-xs text-neutral-500">
             Don't have an account?{" "}
             <Link
               href="/register"
-              className="font-semibold text-[#292929] underline-offset-4 hover:underline"
+              className="font-semibold text-black underline-offset-4 hover:underline"
             >
               Create account
             </Link>
           </p>
 
           {/* TRUST NOTE */}
-          <p className="mt-4 text-center text-[11px] leading-5 text-[#A3A3A3]">
+          <p className="mt-3 text-center text-[10px] leading-4 text-neutral-400">
             For your security, we never reveal whether an email
             is registered with Vistara.
           </p>

@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import Navbar from "@/components/navbar";
+import Footer from "@/app/footer/page";
 
 type ProfileData = {
   name: string;
@@ -31,7 +33,6 @@ export default function EditProfile() {
   const [form, setForm] = useState<ProfileData>(emptyForm);
   const [email, setEmail] = useState("");
 
-  // Page no longer gets replaced by a full-screen spinner.
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -143,7 +144,6 @@ export default function EditProfile() {
         );
       }
 
-      // Keep the screen updated immediately.
       if (result.user) {
         setEmail(result.user.email ?? email);
 
@@ -187,108 +187,136 @@ export default function EditProfile() {
     `${form.firstName?.charAt(0) ?? ""}${form.lastName?.charAt(0) ?? ""}`
       .toUpperCase() ||
     form.name?.charAt(0)?.toUpperCase() ||
-    "V";
+    "S";
 
   const displayName =
     `${form.firstName} ${form.lastName}`.trim() ||
     form.name ||
-    "Your profile";
+    "Sristi Gupta";
 
   return (
-    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+    <main className="min-h-screen bg-white text-black">
+
       <Navbar />
 
-      {/* HEADER */}
-      <section className="border-b border-[#E5DED6] bg-[#FAF8F3]">
-        <div className="mx-auto max-w-6xl px-5 py-8 sm:px-6 lg:px-10 lg:py-12">
+      {/* ================= HEADER ================= */}
+
+      <section className="border-b border-slate-200 bg-white">
+
+        <div className="mx-auto max-w-5xl px-5 py-7 sm:px-6 lg:px-8">
+
           <Link
             href="/profile"
-            className="inline-flex items-center text-sm font-medium text-[#756D67] transition hover:text-[#B76545]"
+            className="inline-flex items-center text-xs font-medium text-slate-500 transition hover:text-black"
           >
             ← Back to profile
           </Link>
 
-          <div className="mt-7 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B76545]">
+
+              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-500">
                 PROFILE SETTINGS
               </p>
 
-              <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
+              <h1 className="mt-1.5 text-2xl font-semibold tracking-tight text-black sm:text-3xl">
                 Edit your profile
               </h1>
 
-              <p className="mt-3 max-w-xl text-sm leading-6 text-[#756D67] sm:text-base">
+              <p className="mt-1.5 max-w-lg text-xs leading-5 text-slate-500">
                 Keep your personal details up to date for a smoother
                 Vistara journey.
               </p>
+
             </div>
 
-            {/* LIVE NAME */}
+            {/* LIVE USER */}
+
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#2C2420] font-serif font-semibold text-white">
+
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
                 {initials}
               </div>
 
               <div className="min-w-0">
-                <p className="max-w-[180px] truncate text-sm font-semibold">
+
+                <p className="max-w-[180px] truncate text-xs font-semibold text-black">
                   {loading ? "Loading..." : displayName}
                 </p>
 
-                <p className="max-w-[200px] truncate text-xs text-[#756D67]">
+                <p className="max-w-[200px] truncate text-[10px] text-slate-500">
                   {email || "Your email"}
                 </p>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
+
       </section>
 
-      {/* FORM */}
-      <section className="mx-auto max-w-4xl px-5 py-8 sm:px-6 lg:px-10 lg:py-12">
+      {/* ================= FORM ================= */}
+
+      <section className="mx-auto max-w-4xl px-5 py-7 sm:px-6 lg:px-8">
+
         <form
           onSubmit={handleSubmit}
-          className="space-y-6"
+          className="space-y-5"
         >
-          {/* PROFILE PHOTO */}
-          <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_40px_rgba(44,36,32,0.05)] sm:p-8">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
+
+          {/* ================= PROFILE ================= */}
+
+          <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+
+            <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-500">
               PROFILE
             </p>
 
-            <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center">
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-[#2C2420] font-serif text-3xl font-semibold text-white shadow-md">
+            <div className="mt-5 flex items-center gap-4">
+
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-black text-lg font-semibold text-white">
                 {initials}
               </div>
 
               <div>
-                <h2 className="font-serif text-2xl font-semibold">
+
+                <h2 className="text-base font-semibold text-black">
                   {loading ? "Your profile" : displayName}
                 </h2>
 
-                <p className="mt-2 text-sm leading-6 text-[#756D67]">
+                <p className="mt-1 max-w-md text-xs leading-5 text-slate-500">
                   Your profile information appears throughout your
                   Vistara account.
                 </p>
+
               </div>
+
             </div>
+
           </div>
 
-          {/* PERSONAL DETAILS */}
-          <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_40px_rgba(44,36,32,0.05)] sm:p-8">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
+          {/* ================= PERSONAL DETAILS ================= */}
+
+          <div className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+
+            <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-500">
               PERSONAL DETAILS
             </p>
 
-            <h2 className="mt-2 font-serif text-2xl font-semibold">
+            <h2 className="mt-1.5 text-base font-semibold text-black">
               Tell us about yourself
             </h2>
 
-            <p className="mt-2 text-sm text-[#756D67]">
+            <p className="mt-1 text-xs text-slate-500">
               Changes you make here will be reflected in your profile.
             </p>
 
-            <div className="mt-7 grid gap-5 md:grid-cols-2">
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+
               <Input
                 label="First name"
                 value={form.firstName}
@@ -343,11 +371,14 @@ export default function EditProfile() {
                 }
                 loading={loading}
               />
+
             </div>
 
-            {/* NAME */}
-            <div className="mt-5">
-              <label className="text-sm font-semibold">
+            {/* DISPLAY NAME */}
+
+            <div className="mt-4">
+
+              <label className="text-xs font-semibold text-black">
                 Display name
               </label>
 
@@ -359,72 +390,84 @@ export default function EditProfile() {
                 }
                 disabled={loading}
                 placeholder="How should we display your name?"
-                className="mt-2 w-full rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] px-4 py-3.5 text-sm outline-none transition placeholder:text-[#756D67]/60 focus:border-[#B76545] focus:bg-white focus:ring-4 focus:ring-[#B76545]/10 disabled:cursor-wait disabled:opacity-60"
+                className="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-black outline-none transition placeholder:text-slate-400 focus:border-black focus:bg-white disabled:cursor-wait disabled:opacity-60"
               />
+
             </div>
 
             {/* BIO */}
-            <div className="mt-5">
-              <label className="text-sm font-semibold">
+
+            <div className="mt-4">
+
+              <label className="text-xs font-semibold text-black">
                 About you
               </label>
 
               <textarea
-                rows={5}
+                rows={4}
                 value={form.bio}
                 disabled={loading}
                 onChange={(e) =>
                   updateField("bio", e.target.value)
                 }
                 placeholder="Tell us a little about yourself and how you like to travel..."
-                className="mt-2 w-full resize-none rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] px-4 py-3.5 text-sm leading-6 outline-none transition placeholder:text-[#756D67]/60 focus:border-[#B76545] focus:bg-white focus:ring-4 focus:ring-[#B76545]/10 disabled:cursor-wait disabled:opacity-60"
+                className="mt-1.5 w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs leading-5 text-black outline-none transition placeholder:text-slate-400 focus:border-black focus:bg-white disabled:cursor-wait disabled:opacity-60"
               />
 
-              <div className="mt-2 flex justify-end">
-                <span className="text-xs text-[#756D67]">
+              <div className="mt-1 flex justify-end">
+                <span className="text-[10px] text-slate-400">
                   {form.bio.length}/500
                 </span>
               </div>
+
             </div>
+
           </div>
 
-          {/* ERROR */}
+          {/* ================= ERROR ================= */}
+
           {error && (
-            <div className="rounded-2xl border border-red-100 bg-red-50 px-4 py-3.5 text-sm text-red-600">
+            <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-600">
               {error}
             </div>
           )}
 
-          {/* ACTIONS */}
-          <div className="sticky bottom-3 z-20 rounded-2xl border border-[#E5DED6] bg-white/95 p-3 shadow-[0_12px_40px_rgba(44,36,32,0.12)] backdrop-blur sm:p-4">
+          {/* ================= ACTIONS ================= */}
+
+          <div className="sticky bottom-3 z-20 rounded-xl border border-slate-200 bg-white/95 p-3 shadow-lg backdrop-blur">
+
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="min-h-[38px]">
+
+              <div className="min-h-[30px]">
+
                 {saved ? (
                   <div>
-                    <p className="text-sm font-semibold text-[#68705A]">
+                    <p className="text-xs font-semibold text-black">
                       ✓ Profile updated successfully
                     </p>
 
-                    <p className="mt-0.5 text-xs text-[#756D67]">
+                    <p className="mt-0.5 text-[10px] text-slate-500">
                       Your latest information is now visible.
                     </p>
                   </div>
                 ) : loading ? (
-                  <p className="text-xs text-[#756D67]">
+                  <p className="text-[10px] text-slate-500">
                     Loading your profile...
                   </p>
                 ) : (
-                  <p className="text-xs text-[#756D67]">
+                  <p className="text-[10px] text-slate-500">
                     Your changes will be saved to your account.
                   </p>
                 )}
+
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-2">
+
                 <button
                   type="button"
                   onClick={() => router.push("/profile")}
-                  className="flex-1 rounded-xl border border-[#E5DED6] px-5 py-3 text-sm font-semibold text-[#756D67] transition hover:border-[#2C2420] hover:text-[#2C2420] sm:flex-none"
+                  className="rounded-lg border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 transition hover:border-black hover:text-black"
                 >
                   Cancel
                 </button>
@@ -432,20 +475,31 @@ export default function EditProfile() {
                 <button
                   type="submit"
                   disabled={saving || loading}
-                  className="flex-1 rounded-xl bg-[#B76545] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#965039] disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none"
+                  className="rounded-lg bg-black px-5 py-2 text-xs font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {saving ? "Saving..." : "Save changes"}
                 </button>
+
               </div>
+
             </div>
+
           </div>
+
         </form>
+
       </section>
+
+      <Footer />
+
     </main>
   );
 }
 
-/* ================= INPUT ================= */
+
+/* ============================================================
+   INPUT
+============================================================ */
 
 function Input({
   label,
@@ -464,20 +518,24 @@ function Input({
 }) {
   return (
     <div>
-      <label className="text-sm font-semibold text-[#2C2420]">
+
+      <label className="text-xs font-semibold text-black">
         {label}
       </label>
 
-      <div className="relative">
-        <input
-          type={type}
-          value={value}
-          disabled={disabled || loading}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={loading ? "Loading..." : `Enter ${label.toLowerCase()}`}
-          className="mt-2 w-full rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] px-4 py-3.5 text-sm text-[#2C2420] outline-none transition placeholder:text-[#756D67]/50 focus:border-[#B76545] focus:bg-white focus:ring-4 focus:ring-[#B76545]/10 disabled:cursor-not-allowed disabled:opacity-60"
-        />
-      </div>
+      <input
+        type={type}
+        value={value}
+        disabled={disabled || loading}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={
+          loading
+            ? "Loading..."
+            : `Enter ${label.toLowerCase()}`
+        }
+        className="mt-1.5 w-full rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-xs text-black outline-none transition placeholder:text-slate-400 focus:border-black focus:bg-white disabled:cursor-not-allowed disabled:opacity-60"
+      />
+
     </div>
   );
 }

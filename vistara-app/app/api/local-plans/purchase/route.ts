@@ -1,25 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/guard";
 
-/* =====================================================
-   GET /api/local-plans/purchases
-   Logged-in user's purchased local plans
-===================================================== */
+/*
+|--------------------------------------------------------------------------
+| GET /api/local-plans/purchases
+| Logged-in user's purchased local plans
+|--------------------------------------------------------------------------
+*/
 
 export async function GET(req: NextRequest) {
   try {
     const { user, response } = await requireAuth(req);
 
-    if (response) return response;
+    if (response) {
+      return response;
+    }
 
     const purchases = await prisma.localPlanPurchase.findMany({
       where: {
         userId: user!.id,
       },
+
       orderBy: {
         createdAt: "desc",
       },
+
       include: {
         plan: {
           include: {
@@ -34,7 +41,10 @@ export async function GET(req: NextRequest) {
       data: purchases,
     });
   } catch (error) {
-    console.error("LOCAL_PLAN_PURCHASES_GET_ERROR:", error);
+    console.error(
+      "LOCAL_PLAN_PURCHASES_GET_ERROR:",
+      error
+    );
 
     return NextResponse.json(
       {
@@ -46,22 +56,56 @@ export async function GET(req: NextRequest) {
   }
 }
 
-/* =====================================================
-   POST /api/local-plans/purchases
-   Create a local plan purchase
-===================================================== */
+/*
+|--------------------------------------------------------------------------
+| POST /api/local-plans/purchases
+| Create local plan purchase
+|--------------------------------------------------------------------------
+*/
 
 export async function POST(req: NextRequest) {
   try {
     const { user, response } = await requireAuth(req);
 
-    if (response) return response;
+    if (response) {
+      return response;
+    }
 
-    const body = await req.json();
+    let body: unknown;
 
-    const planId = Number(body?.planId);
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid request body.",
+        },
+        { status: 400 }
+      );
+    }
 
-    if (!Number.isInteger(planId) || planId <= 0) {
+    if (
+      typeof body !== "object" ||
+      body === null ||
+      Array.isArray(body)
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid request data.",
+        },
+        { status: 400 }
+      );
+    }
+
+    const { planId } = body as {
+      planId?: unknown;
+    };
+
+    const id = Number(planId);
+
+    if (!Number.isInteger(id) || id <= 0) {
       return NextResponse.json(
         {
           success: false,
@@ -71,15 +115,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* ---------------------------------------------
-       Find published plan
-    --------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | Find published plan
+    |--------------------------------------------------------------------------
+    */
 
     const plan = await prisma.localPlan.findFirst({
       where: {
-        id: planId,
+        id,
         status: "PUBLISHED",
       },
+
       include: {
         places: true,
       },
@@ -95,9 +142,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* ---------------------------------------------
-       Check duplicate purchase
-    --------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | Prevent duplicate purchase
+    |--------------------------------------------------------------------------
+    */
 
     const existingPurchase =
       await prisma.localPlanPurchase.findUnique({
@@ -107,6 +156,7 @@ export async function POST(req: NextRequest) {
             planId: plan.id,
           },
         },
+
         include: {
           plan: true,
         },
@@ -117,37 +167,45 @@ export async function POST(req: NextRequest) {
         {
           success: false,
           message: "You have already purchased this plan.",
-          purchase: existingPurchase,
+          data: {
+            purchase: existingPurchase,
+          },
         },
         { status: 409 }
       );
     }
 
-    /* ---------------------------------------------
-       Create purchase
-    --------------------------------------------- */
+    /*
+    |--------------------------------------------------------------------------
+    | Create purchase
+    |--------------------------------------------------------------------------
+    */
 
-    const purchase = await prisma.localPlanPurchase.create({
-      data: {
-        userId: user!.id,
-        planId: plan.id,
-        amount: plan.price,
-        status: "PENDING",
-      },
-      include: {
-        plan: {
-          include: {
-            places: true,
+    const purchase =
+      await prisma.localPlanPurchase.create({
+        data: {
+          userId: user!.id,
+          planId: plan.id,
+          amount: plan.price,
+          status: "PENDING",
+        },
+
+        include: {
+          plan: {
+            include: {
+              places: true,
+            },
           },
         },
-      },
-    });
+      });
 
     return NextResponse.json(
       {
         success: true,
-        message: "Local plan purchase created.",
-        purchase,
+        message: "Local plan purchase created successfully.",
+        data: {
+          purchase,
+        },
       },
       { status: 201 }
     );

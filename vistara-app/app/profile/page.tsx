@@ -1,81 +1,157 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
+
 import Navbar from "@/components/navbar";
+import Footer from "@/app/footer/page";
 
-const stats = [
-  {
-    value: "04",
-    label: "Trips",
-  },
-  {
-    value: "12",
-    label: "Saved places",
-  },
-  {
-    value: "08",
-    label: "Experiences",
-  },
-];
+type User = {
+  name?: string;
+  email?: string;
+  image?: string | null;
+  createdAt?: string;
+};
 
-const upcoming = {
-  title: "A peaceful stay by the Ganges",
-  location: "Varanasi, Uttar Pradesh",
-  dates: "18 Oct – 21 Oct 2026",
-  image:
-    "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1200&q=80",
+type Trip = {
+  id: string;
+  title: string;
+  location: string;
+  date: string;
+  image?: string;
+  status?: string;
+};
+
+type WishlistItem = {
+  id: string;
+  title: string;
+  location?: string;
+  image?: string;
+};
+
+type ProfileData = {
+  user: User;
+  trips: Trip[];
+  wishlist: WishlistItem[];
+  bookings: any[];
+  payments: any[];
+};
+
+const defaultUser: User = {
+  name: "Sristi Gupta",
+  email: "sristi@example.com",
 };
 
 export default function ProfilePage() {
+  const [profile, setProfile] = useState<ProfileData>({
+    user: defaultUser,
+    trips: [],
+    wishlist: [],
+    bookings: [],
+    payments: [],
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getProfile() {
+      try {
+        const res = await fetch("/api/profile", {
+          cache: "no-store",
+        });
+
+        if (!res.ok) {
+          throw new Error("Unable to load profile");
+        }
+
+        const data = await res.json();
+
+        setProfile({
+          user: data.user ?? defaultUser,
+          trips: data.trips ?? [],
+          wishlist: data.wishlist ?? [],
+          bookings: data.bookings ?? [],
+          payments: data.payments ?? [],
+        });
+      } catch (error) {
+        console.error("Profile error:", error);
+
+        setProfile((prev) => ({
+          ...prev,
+          user: defaultUser,
+        }));
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    getProfile();
+  }, []);
+
+  const user = profile.user;
+
+  const displayName =
+    user.name?.trim() || "Sristi Gupta";
+
+  const displayEmail =
+    user.email?.trim() || "sristi@example.com";
+
+  const initials = displayName
+    .split(" ")
+    .filter(Boolean)
+    .map((word) => word[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
-    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      {/* ================= PROFILE HERO ================= */}
-      <section className="relative overflow-hidden border-b border-[#E5DED6] bg-[#FAF8F3]">
-        <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[#B76545]/10 blur-3xl" />
-        <div className="absolute -bottom-32 left-1/3 h-80 w-80 rounded-full bg-[#68705A]/10 blur-3xl" />
+      {/* =====================================================
+          PROFILE HEADER
+      ===================================================== */}
 
-        <div className="relative mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-10 lg:py-14">
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <section className="border-b border-slate-200 bg-white">
+        <div className="mx-auto max-w-6xl px-5 py-8 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+
             {/* USER */}
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
-              <div className="relative w-fit">
-                <div className="flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-[#2C2420] font-serif text-3xl font-semibold text-white shadow-lg sm:h-28 sm:w-28 sm:text-4xl">
-                  SG
-                </div>
+            <div className="flex items-center gap-4">
 
-                <button
-                  type="button"
-                  aria-label="Edit profile picture"
-                  className="absolute bottom-0 right-0 flex h-9 w-9 items-center justify-center rounded-full border-4 border-[#FAF8F3] bg-white text-sm text-[#2C2420] shadow-md transition hover:bg-[#E8DED0]"
-                >
-                  ✎
-                </button>
+              {/* Avatar */}
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#03045E] text-lg font-semibold text-white">
+                {user.image ? (
+                  <img
+                    src={user.image}
+                    alt={displayName}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  initials || "SG"
+                )}
               </div>
 
+              {/* Info */}
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#B76545]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-black">
                   VISTARA TRAVELLER
                 </p>
 
-                <h1 className="mt-2 font-serif text-4xl font-semibold tracking-tight text-[#2C2420] sm:text-5xl">
-                  Sristi Gupta
+                <h1 className="mt-1 text-2xl font-semibold tracking-tight text-black sm:text-3xl">
+                  {loading ? "Loading..." : displayName}
                 </h1>
 
-                <p className="mt-2 text-sm text-[#756D67]">
-                  sristi@example.com
-                </p>
-
-                <p className="mt-1 text-xs text-[#756D67]/80">
-                  Member since 2026
+                <p className="mt-1 text-xs text-slate-500">
+                  {displayEmail}
                 </p>
               </div>
             </div>
 
+            {/* EDIT */}
             <Link
               href="/profile/edit"
-              className="w-full rounded-xl border border-[#2C2420] bg-white px-6 py-3 text-center text-sm font-semibold text-[#2C2420] transition hover:bg-[#2C2420] hover:text-white sm:w-fit"
+              className="inline-flex w-fit items-center justify-center rounded-lg border border-black bg-black px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-white hover:text-black"
             >
               Edit profile
             </Link>
@@ -83,259 +159,418 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* ================= CONTENT ================= */}
-      <section className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-10 lg:py-14">
-        {/* STATS */}
-        <div className="grid gap-4 sm:grid-cols-3">
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-3xl border border-[#E5DED6] bg-white p-5 shadow-[0_10px_35px_rgba(44,36,32,0.05)] sm:p-6"
+      {/* =====================================================
+          MAIN PROFILE CONTENT
+      ===================================================== */}
+
+      <section className="mx-auto max-w-6xl px-5 py-9 sm:px-6 lg:px-8">
+
+        {/* INTRO */}
+        <div className="mb-7">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+            YOUR ACCOUNT
+          </p>
+
+          <h2 className="mt-1 text-xl font-semibold text-black">
+            Your Vistara journey
+          </h2>
+        </div>
+
+        {/* =====================================================
+            STATS
+        ===================================================== */}
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+
+          <SmallStat
+            number={profile.trips.length}
+            label="Trips"
+          />
+
+          <SmallStat
+            number={profile.wishlist.length}
+            label="Saved places"
+          />
+
+          <SmallStat
+            number={profile.bookings.length}
+            label="Bookings"
+          />
+
+          <SmallStat
+            number={profile.payments.length}
+            label="Payments"
+          />
+
+        </div>
+
+        {/* =====================================================
+            TRIPS
+        ===================================================== */}
+
+        <section className="mt-7 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+
+          {/* Heading */}
+          <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
+
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                TRAVEL
+              </p>
+
+              <h3 className="mt-1 text-lg font-semibold text-black">
+                My trips
+              </h3>
+            </div>
+
+            <Link
+              href="/trips"
+              className="text-xs font-semibold text-black underline-offset-4 hover:underline"
             >
-              <p className="font-serif text-3xl font-semibold text-[#2C2420]">
-                {stat.value}
-              </p>
+              View trips →
+            </Link>
+          </div>
 
-              <p className="mt-1 text-sm text-[#756D67]">{stat.label}</p>
-            </div>
-          ))}
-        </div>
+          {/* Trip content */}
+          <div className="p-5 sm:p-6">
 
-        {/* MAIN GRID */}
-        <div className="mt-7 grid gap-7 lg:grid-cols-[1.35fr_0.65fr]">
-          {/* LEFT */}
-          <div className="space-y-7">
-            {/* UPCOMING TRIP */}
-            <div className="overflow-hidden rounded-[28px] border border-[#E5DED6] bg-white shadow-[0_15px_50px_rgba(44,36,32,0.06)]">
-              <div className="flex flex-col gap-3 border-b border-[#E5DED6] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-7">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
-                    UPCOMING
-                  </p>
+            {profile.trips.length === 0 ? (
+              <EmptyTrips />
+            ) : (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-                  <h2 className="mt-2 font-serif text-2xl font-semibold text-[#2C2420]">
-                    Your next trip
-                  </h2>
-                </div>
-
-                <Link
-                  href="/trips"
-                  className="w-fit text-sm font-semibold text-[#B76545] transition hover:text-[#965039]"
-                >
-                  View all →
-                </Link>
-              </div>
-
-              <div className="grid md:grid-cols-[220px_1fr]">
-                <div className="h-56 md:h-full">
-                  <img
-                    src={upcoming.image}
-                    alt={upcoming.title}
-                    className="h-full w-full object-cover"
+                {profile.trips.slice(0, 6).map((trip) => (
+                  <TripCard
+                    key={trip.id}
+                    trip={trip}
                   />
-                </div>
+                ))}
 
-                <div className="p-5 sm:p-7">
-                  <span className="inline-flex rounded-full bg-[#E8DED0] px-3 py-1.5 text-xs font-bold text-[#68705A]">
-                    Confirmed
-                  </span>
-
-                  <h3 className="mt-4 font-serif text-2xl font-semibold leading-tight text-[#2C2420]">
-                    {upcoming.title}
-                  </h3>
-
-                  <p className="mt-2 text-sm text-[#756D67]">
-                    {upcoming.location}
-                  </p>
-
-                  <p className="mt-4 text-sm font-medium text-[#2C2420]">
-                    {upcoming.dates}
-                  </p>
-
-                  <Link
-                    href="/bookings/VS-2026-1048"
-                    className="mt-6 inline-flex rounded-xl bg-[#B76545] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#965039]"
-                  >
-                    View booking
-                  </Link>
-                </div>
               </div>
+            )}
+
+          </div>
+        </section>
+
+        {/* =====================================================
+            WISHLIST
+        ===================================================== */}
+
+        <section className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white">
+
+          {/* Heading */}
+          <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
+
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                SAVED
+              </p>
+
+              <h3 className="mt-1 text-lg font-semibold text-black">
+                Wishlist
+              </h3>
             </div>
 
-            {/* SAVED PLACES */}
-            <div className="rounded-[28px] border border-[#E5DED6] bg-white p-5 shadow-[0_15px_50px_rgba(44,36,32,0.05)] sm:p-7">
-              <div className="flex items-end justify-between gap-4">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
-                    YOUR COLLECTION
-                  </p>
-
-                  <h2 className="mt-2 font-serif text-2xl font-semibold text-[#2C2420]">
-                    Saved places
-                  </h2>
-                </div>
-
-                <Link
-                  href="/wishlist"
-                  className="shrink-0 text-sm font-semibold text-[#B76545] transition hover:text-[#965039]"
-                >
-                  See all →
-                </Link>
-              </div>
-
-              <div className="mt-6 grid gap-4 sm:grid-cols-3">
-                <SavedPlace
-                  title="Goa"
-                  image="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80"
-                />
-
-                <SavedPlace
-                  title="Jaipur"
-                  image="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=600&q=80"
-                />
-
-                <SavedPlace
-                  title="Varanasi"
-                  image="https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=600&q=80"
-                />
-              </div>
-            </div>
+            <Link
+              href="/wishlist"
+              className="text-xs font-semibold text-black underline-offset-4 hover:underline"
+            >
+              View wishlist →
+            </Link>
           </div>
 
-          {/* RIGHT */}
-          <div className="space-y-6">
-            {/* QUICK ACCESS */}
-            <div className="rounded-[28px] border border-[#E5DED6] bg-white p-5 shadow-[0_15px_50px_rgba(44,36,32,0.05)] sm:p-7">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
-                ACCOUNT
-              </p>
+          {/* Wishlist content */}
+          <div className="p-5 sm:p-6">
 
-              <h2 className="mt-2 font-serif text-2xl font-semibold text-[#2C2420]">
-                Quick access
-              </h2>
+            {profile.wishlist.length === 0 ? (
+              <EmptyWishlist />
+            ) : (
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
 
-              <div className="mt-6 space-y-2">
-                <QuickLink
-                  href="/trips"
-                  icon="✦"
-                  title="My trips"
-                />
+                {profile.wishlist.slice(0, 8).map((item) => (
+                  <WishlistCard
+                    key={item.id}
+                    item={item}
+                  />
+                ))}
 
-                <QuickLink
-                  href="/bookings"
-                  icon="⌂"
-                  title="My bookings"
-                />
-
-                <QuickLink
-                  href="/wishlist"
-                  icon="♡"
-                  title="Wishlist"
-                />
-
-                <QuickLink
-                  href="/payments"
-                  icon="₹"
-                  title="Payments"
-                />
-
-                <QuickLink
-                  href="/settings"
-                  icon="⚙"
-                  title="Settings"
-                />
               </div>
-            </div>
+            )}
 
-            {/* TRAVEL STYLE */}
-            <div className="rounded-[28px] bg-[#2C2420] p-6 text-white shadow-[0_18px_55px_rgba(44,36,32,0.16)] sm:p-7">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B8945A]">
-                YOUR TRAVEL STYLE
-              </p>
-
-              <h2 className="mt-3 font-serif text-2xl font-semibold">
-                Discover more of what you love.
-              </h2>
-
-              <p className="mt-3 text-sm leading-6 text-white/70">
-                Your saved places and trips help Vistara understand the
-                kind of experiences you enjoy.
-              </p>
-
-              <Link
-                href="/explore"
-                className="mt-6 inline-flex rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#2C2420] transition hover:bg-[#E8DED0]"
-              >
-                Discover places →
-              </Link>
-            </div>
           </div>
+        </section>
+
+        {/* =====================================================
+            BOOKINGS + PAYMENTS
+        ===================================================== */}
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+
+          <SimpleAccountCard
+            href="/bookings"
+            title="Bookings"
+            description="View your accommodation and travel bookings."
+            count={profile.bookings.length}
+          />
+
+          <SimpleAccountCard
+            href="/payments"
+            title="Payments"
+            description="View your payment history and transactions."
+            count={profile.payments.length}
+          />
+
         </div>
+
       </section>
+
+      <Footer />
     </main>
   );
 }
 
-/* ================= SAVED PLACE ================= */
 
-function SavedPlace({
-  title,
-  image,
+/* ============================================================
+   SMALL STAT
+============================================================ */
+
+function SmallStat({
+  number,
+  label,
 }: {
-  title: string;
-  image: string;
+  number: number;
+  label: string;
+}) {
+  return (
+    <div className="rounded-xl border border-slate-200 bg-white px-4 py-4">
+
+      <p className="text-xl font-semibold leading-none text-black">
+        {number}
+      </p>
+
+      <p className="mt-1.5 text-[11px] text-slate-500">
+        {label}
+      </p>
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   TRIP CARD
+============================================================ */
+
+function TripCard({
+  trip,
+}: {
+  trip: Trip;
 }) {
   return (
     <Link
-      href="/wishlist"
-      className="group overflow-hidden rounded-2xl border border-[#E5DED6] bg-white transition hover:-translate-y-1 hover:shadow-lg"
+      href={`/trips/${trip.id}`}
+      className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:border-black hover:shadow-sm"
     >
-      <div className="h-36 overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-        />
+
+      {/* IMAGE */}
+      <div className="h-40 overflow-hidden bg-slate-100">
+
+        {trip.image ? (
+          <img
+            src={trip.image}
+            alt={trip.title}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center text-xs text-slate-400">
+            No image
+          </div>
+        )}
+
       </div>
 
+      {/* INFO */}
       <div className="p-4">
-        <p className="text-sm font-semibold text-[#2C2420]">{title}</p>
 
-        <p className="mt-1 text-xs text-[#756D67]">Saved place</p>
+        {trip.status && (
+          <span className="text-[9px] font-semibold uppercase tracking-[0.15em] text-slate-500">
+            {trip.status}
+          </span>
+        )}
+
+        <h4 className="mt-1 text-sm font-semibold text-black">
+          {trip.title}
+        </h4>
+
+        <p className="mt-1 text-xs text-slate-500">
+          {trip.location}
+        </p>
+
+        <p className="mt-3 text-[11px] font-medium text-black">
+          {trip.date}
+        </p>
+
       </div>
     </Link>
   );
 }
 
-/* ================= QUICK LINK ================= */
 
-function QuickLink({
+/* ============================================================
+   WISHLIST CARD
+============================================================ */
+
+function WishlistCard({
+  item,
+}: {
+  item: WishlistItem;
+}) {
+  return (
+    <Link
+      href={`/wishlist/${item.id}`}
+      className="group overflow-hidden rounded-xl border border-slate-200 bg-white transition hover:border-black hover:shadow-sm"
+    >
+
+      <div className="h-32 overflow-hidden bg-slate-100">
+
+        {item.image ? (
+          <img
+            src={item.image}
+            alt={item.title}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center text-xs text-slate-400">
+            No image
+          </div>
+        )}
+
+      </div>
+
+      <div className="p-3">
+
+        <p className="truncate text-xs font-semibold text-black">
+          {item.title}
+        </p>
+
+        {item.location && (
+          <p className="mt-1 truncate text-[11px] text-slate-500">
+            {item.location}
+          </p>
+        )}
+
+      </div>
+
+    </Link>
+  );
+}
+
+
+/* ============================================================
+   EMPTY TRIPS
+============================================================ */
+
+function EmptyTrips() {
+  return (
+    <div className="rounded-xl bg-[#f7f7f7] px-5 py-9 text-center">
+
+      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm text-black shadow-sm">
+        ✦
+      </div>
+
+      <h4 className="mt-3 text-sm font-semibold text-black">
+        No trips yet
+      </h4>
+
+      <p className="mx-auto mt-1 max-w-md text-xs leading-5 text-slate-500">
+        Your upcoming and completed trips will appear here.
+      </p>
+
+      <Link
+        href="/explore"
+        className="mt-4 inline-flex rounded-lg bg-black px-4 py-2 text-[11px] font-semibold text-white transition hover:bg-slate-800"
+      >
+        Explore places
+      </Link>
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   EMPTY WISHLIST
+============================================================ */
+
+function EmptyWishlist() {
+  return (
+    <div className="rounded-xl bg-[#f7f7f7] px-5 py-9 text-center">
+
+      <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-white text-lg text-black shadow-sm">
+        ♡
+      </div>
+
+      <h4 className="mt-3 text-sm font-semibold text-black">
+        Your wishlist is empty
+      </h4>
+
+      <p className="mx-auto mt-1 max-w-md text-xs leading-5 text-slate-500">
+        Save stays and places you would like to explore later.
+      </p>
+
+      <Link
+        href="/explore"
+        className="mt-4 inline-flex rounded-lg bg-black px-4 py-2 text-[11px] font-semibold text-white transition hover:bg-slate-800"
+      >
+        Explore places
+      </Link>
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   BOOKINGS / PAYMENTS
+============================================================ */
+
+function SimpleAccountCard({
   href,
-  icon,
   title,
+  description,
+  count,
 }: {
   href: string;
-  icon: string;
   title: string;
+  description: string;
+  count: number;
 }) {
   return (
     <Link
       href={href}
-      className="group flex items-center justify-between rounded-xl p-3 transition hover:bg-[#FAF8F3]"
+      className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white p-5 transition hover:border-black"
     >
-      <div className="flex items-center gap-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#E8DED0] text-sm text-[#2C2420] transition group-hover:bg-[#B76545] group-hover:text-white">
-          {icon}
-        </span>
 
-        <span className="text-sm font-medium text-[#2C2420]">
+      <div>
+
+        <p className="text-sm font-semibold text-black">
           {title}
-        </span>
+        </p>
+
+        <p className="mt-1 max-w-sm text-xs leading-5 text-slate-500">
+          {description}
+        </p>
+
+        <p className="mt-3 text-[11px] font-medium text-black">
+          {count} {count === 1 ? "record" : "records"}
+        </p>
+
       </div>
 
-      <span className="text-[#756D67] transition group-hover:translate-x-1">
+      <span className="ml-4 text-sm text-slate-400 transition group-hover:translate-x-1 group-hover:text-black">
         →
       </span>
+
     </Link>
   );
 }

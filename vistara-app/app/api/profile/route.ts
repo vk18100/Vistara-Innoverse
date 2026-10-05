@@ -19,12 +19,15 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
+
       user: {
         id: user!.id,
         name: user!.name,
         email: user!.email,
+        phone: user!.phone,
         role: user!.role,
       },
+
       profile,
     });
   } catch (error) {
@@ -65,6 +68,7 @@ export async function PATCH(req: NextRequest) {
       where: {
         id: user!.id,
       },
+
       data: {
         ...(name !== undefined && {
           name: name.trim(),
@@ -74,6 +78,7 @@ export async function PATCH(req: NextRequest) {
           phone: phone.trim(),
         }),
       },
+
       select: {
         id: true,
         name: true,
@@ -87,6 +92,7 @@ export async function PATCH(req: NextRequest) {
       where: {
         userId: user!.id,
       },
+
       update: {
         ...(firstName !== undefined && {
           firstName: firstName.trim(),
@@ -112,6 +118,7 @@ export async function PATCH(req: NextRequest) {
           avatar: avatar.trim(),
         }),
       },
+
       create: {
         userId: user!.id,
         firstName: firstName?.trim() || null,
@@ -126,6 +133,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Profile updated successfully",
+
       user: updatedUser,
       profile,
     });

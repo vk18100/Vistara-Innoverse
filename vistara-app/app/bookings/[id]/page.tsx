@@ -1,140 +1,117 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
 import {
   ArrowLeft,
   ArrowRight,
   CalendarDays,
   Check,
-  CheckCircle2,
-  Clock3,
   CreditCard,
-  HelpCircle,
   MapPin,
+  ShieldCheck,
+  UserRound,
   Users,
-  XCircle,
 } from "lucide-react";
 
 import Navbar from "@/components/navbar";
-
-type BookingStatus =
-  | "PENDING"
-  | "CONFIRMED"
-  | "CANCELLED"
-  | "COMPLETED";
+import Footer from "@/app/footer/page";
 
 type Booking = {
   id: number;
+
   checkIn: string;
   checkOut: string;
   guests: number;
   nights: number;
-  totalAmount: number | string;
-  status: BookingStatus;
+
+  totalAmount: number;
+
+  status: string;
   paymentStatus: string;
-  property: {
+
+  property?: {
     id: number;
-    title: string;
-    city: string;
-    country: string;
-    images: {
-      id: number;
-      url: string;
-      altText?: string | null;
-      isPrimary: boolean;
+
+    name?: string;
+    title?: string;
+
+    city?: string;
+    location?: string;
+
+    pricePerNight?: number;
+
+    images?: {
+      url?: string;
+      imageUrl?: string;
+      src?: string;
+      isPrimary?: boolean;
     }[];
+
+    host?: {
+      name?: string;
+      image?: string;
+      avatar?: string;
+    };
   };
 };
 
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
-
-function formatAmount(amount: number | string) {
-  return `₹${Number(amount).toLocaleString("en-IN")}`;
-}
-
-function getStatusLabel(status: BookingStatus) {
-  switch (status) {
-    case "CONFIRMED":
-      return "Confirmed";
-    case "PENDING":
-      return "Pending";
-    case "CANCELLED":
-      return "Cancelled";
-    case "COMPLETED":
-      return "Completed";
-    default:
-      return status;
-  }
-}
-
-function getStatusStyles(status: BookingStatus) {
-  switch (status) {
-    case "CONFIRMED":
-      return "bg-[#EEF1E8] text-[#68705A] border-[#DCE2D2]";
-
-    case "COMPLETED":
-      return "bg-[#F5EFE4] text-[#8D6E38] border-[#E7D9BC]";
-
-    case "CANCELLED":
-      return "bg-[#F9EDE8] text-[#A04E32] border-[#EBD0C6]";
-
-    case "PENDING":
-      return "bg-[#F5F0EA] text-[#806C5E] border-[#E4D9CF]";
-
-    default:
-      return "bg-[#F5F0EA] text-[#756D67] border-[#E4D9CF]";
-  }
-}
-
-export default function BookingDetailPage() {
+export default function BookingConfirmationPage() {
   const params = useParams();
-  const router = useRouter();
 
-  const id = params.id as string;
+  const bookingId = String(params?.id ?? "");
 
-  const [booking, setBooking] = useState<Booking | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [booking, setBooking] =
+    useState<Booking | null>(null);
 
-  const [cancelling, setCancelling] = useState(false);
-  const [cancelError, setCancelError] = useState("");
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
+
+
+  /* =====================================================
+     FETCH BOOKING
+  ===================================================== */
 
   useEffect(() => {
+    if (!bookingId) return;
+
     async function loadBooking() {
       try {
         setLoading(true);
-        setError("");
 
-        const response = await fetch(`/api/bookings/${id}`, {
-          method: "GET",
-          credentials: "include",
-          cache: "no-store",
-        });
+        const response = await fetch(
+          `/api/bookings/${bookingId}`,
+          {
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
 
         const result = await response.json();
 
         if (!response.ok || !result.success) {
           throw new Error(
-            result.message || "Unable to load this booking."
+            result.message ||
+              "Failed to load booking"
           );
         }
 
-        setBooking(result.booking ?? result.data ?? null);
-      } catch (err) {
-        console.error("BOOKING_DETAIL_ERROR:", err);
+        setBooking(result.booking);
+      } catch (error) {
+        console.error(
+          "BOOKING_CONFIRMATION_ERROR:",
+          error
+        );
 
         setError(
-          err instanceof Error
-            ? err.message
-            : "Unable to load this booking."
+          error instanceof Error
+            ? error.message
+            : "Failed to load booking."
         );
       } finally {
         setLoading(false);
@@ -142,456 +119,560 @@ export default function BookingDetailPage() {
     }
 
     loadBooking();
-  }, [id]);
+  }, [bookingId]);
 
-  async function handleCancel() {
-    if (!booking || cancelling) return;
 
-    const confirmed = window.confirm(
-      "Cancel this booking? This action cannot be undone."
-    );
-
-    if (!confirmed) return;
-
-    try {
-      setCancelling(true);
-      setCancelError("");
-
-      const response = await fetch(
-        `/api/bookings/${booking.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            status: "CANCELLED",
-          }),
-        }
-      );
-
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(
-          result.message || "Unable to cancel booking."
-        );
-      }
-
-      router.push("/bookings");
-    } catch (err) {
-      console.error("BOOKING_CANCEL_ERROR:", err);
-
-      setCancelError(
-        err instanceof Error
-          ? err.message
-          : "Unable to cancel booking."
-      );
-
-      setCancelling(false);
-    }
-  }
-
-  /* ==========================================================
+  /* =====================================================
      LOADING
-  ========================================================== */
+  ===================================================== */
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#FAF8F3]">
+      <main className="min-h-screen bg-white text-black">
+
         <Navbar />
 
-        <section className="mx-auto max-w-7xl px-5 py-12 sm:px-7 lg:px-10">
-          <div className="h-5 w-32 animate-pulse rounded bg-[#E9E2DA]" />
+        <section className="mx-auto max-w-5xl px-5 py-12">
 
-          <div className="mt-8 overflow-hidden rounded-[28px] border border-[#E5DED6] bg-white">
-            <div className="h-[360px] animate-pulse bg-[#EEE8E1]" />
+          <div className="animate-pulse">
 
-            <div className="space-y-6 p-7">
-              <div className="h-8 w-2/3 animate-pulse rounded bg-[#EEE8E1]" />
-              <div className="h-4 w-1/3 animate-pulse rounded bg-[#EEE8E1]" />
+            <div className="mx-auto h-14 w-14 rounded-full bg-slate-100" />
 
-              <div className="grid gap-5 sm:grid-cols-4">
-                {[1, 2, 3, 4].map((item) => (
-                  <div
-                    key={item}
-                    className="h-20 animate-pulse rounded-xl bg-[#F3EFEA]"
-                  />
-                ))}
-              </div>
-            </div>
+            <div className="mx-auto mt-6 h-7 w-64 rounded bg-slate-100" />
+
+            <div className="mx-auto mt-3 h-3 w-80 rounded bg-slate-100" />
+
+            <div className="mt-10 h-80 rounded-2xl bg-slate-100" />
+
           </div>
+
         </section>
+
+        <Footer />
+
       </main>
     );
   }
 
-  /* ==========================================================
-     ERROR
-  ========================================================== */
 
-  if (error || !booking) {
+  /* =====================================================
+     ERROR / NOT FOUND
+  ===================================================== */
+
+  if (!booking) {
     return (
-      <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+      <main className="min-h-screen bg-white text-black">
+
         <Navbar />
 
-        <section className="mx-auto flex min-h-[75vh] max-w-7xl items-center justify-center px-5">
-          <div className="max-w-lg text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#F3EFEA] text-[#B76545]">
-              <CalendarDays size={27} />
-            </div>
+        <section className="flex min-h-[65vh] items-center justify-center px-5">
 
-            <p className="mt-7 text-[10px] font-bold uppercase tracking-[0.22em] text-[#B76545]">
-              Booking unavailable
+          <div className="text-center">
+
+            <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+              BOOKING
             </p>
 
-            <h1 className="mt-3 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
-              {error || "We couldn't find this booking."}
+            <h1 className="mt-2 font-serif text-2xl font-semibold">
+              Booking not found
             </h1>
 
-            <p className="mt-4 text-sm leading-6 text-[#756D67]">
-              The booking may no longer exist, or you may not
-              have access to it.
+            <p className="mt-2 text-xs text-slate-500">
+              {error ||
+                "This booking could not be found."}
             </p>
 
             <Link
-              href="/bookings"
-              className="mt-7 inline-flex items-center gap-2 rounded-xl bg-[#B76545] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#965039]"
+              href="/profile"
+              className="mt-5 inline-flex items-center gap-2 rounded-lg bg-black px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-slate-800"
             >
-              <ArrowLeft size={15} />
-              Back to bookings
+              <ArrowLeft size={13} />
+              Back to profile
             </Link>
+
           </div>
+
         </section>
+
+        <Footer />
+
       </main>
     );
   }
 
-  const primaryImage =
-    booking.property.images.find(
-      (image) => image.isPrimary
-    ) || booking.property.images[0];
 
-  const canCancel =
+  /* =====================================================
+     DATA
+  ===================================================== */
+
+  const property =
+    booking.property;
+
+  const propertyName =
+    property?.name ||
+    property?.title ||
+    "Vistara Stay";
+
+  const location =
+    property?.city ||
+    property?.location ||
+    "India";
+
+  const image =
+    property?.images?.find(
+      (item) => item.isPrimary
+    )?.url ||
+    property?.images?.[0]?.url ||
+    property?.images?.[0]?.imageUrl ||
+    property?.images?.[0]?.src ||
+    "/images/profile.jpg";
+
+  const hostName =
+    property?.host?.name ||
+    "Vistara Host";
+
+  const hostImage =
+    property?.host?.image ||
+    property?.host?.avatar ||
+    "/images/profile.jpg";
+
+  const total =
+    Number(booking.totalAmount) || 0;
+
+  const pricePerNight =
+    Number(property?.pricePerNight) || 0;
+
+  const checkIn =
+    new Date(
+      booking.checkIn
+    ).toLocaleDateString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }
+    );
+
+  const checkOut =
+    new Date(
+      booking.checkOut
+    ).toLocaleDateString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }
+    );
+
+
+  const confirmed =
     booking.status === "CONFIRMED" ||
-    booking.status === "PENDING";
+    booking.paymentStatus === "PAID";
 
-  /* ==========================================================
-     PAGE
-  ========================================================== */
 
   return (
-    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+    <main className="min-h-screen bg-white text-black">
+
       <Navbar />
 
-      {/* ======================================================
-          TOP HEADER
-      ====================================================== */}
 
-      <section className="border-b border-[#E5DED6] bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-9 sm:px-7 lg:px-10">
-          <Link
-            href="/bookings"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#756D67] transition hover:text-[#B76545]"
-          >
-            <ArrowLeft size={15} />
-            Back to bookings
-          </Link>
+      {/* =================================================
+          CONFIRMATION HEADER
+      ================================================= */}
 
-          <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#B8945A]">
-                Booking details
-              </p>
+      <section className="border-b border-slate-200">
 
-              <h1 className="mt-2 font-serif text-3xl font-semibold tracking-[-0.03em] sm:text-4xl">
-                Your reservation
-              </h1>
-            </div>
+        <div className="mx-auto max-w-5xl px-5 py-10 text-center sm:px-6">
 
-            <p className="text-xs text-[#948981]">
-              Booking ID:{" "}
-              <span className="font-semibold text-[#5F554E]">
-                VS-{booking.id}
-              </span>
-            </p>
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-black text-white">
+
+            <Check
+              size={23}
+              strokeWidth={2.5}
+            />
+
           </div>
+
+          <p className="mt-5 text-[9px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+            {confirmed
+              ? "BOOKING CONFIRMED"
+              : "BOOKING CREATED"}
+          </p>
+
+          <h1 className="mt-2 font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
+            Your journey is confirmed
+          </h1>
+
+          <p className="mx-auto mt-2 max-w-md text-xs leading-5 text-slate-500">
+            Your Vistara booking has been
+            successfully created.
+          </p>
+
+          {/* BOOKING ID */}
+
+          <div className="mt-5 inline-flex items-center gap-3 rounded-full border border-slate-200 px-4 py-2">
+
+            <span className="text-[9px] uppercase tracking-[0.15em] text-slate-400">
+              Booking ID
+            </span>
+
+            <span className="text-xs font-semibold">
+              #{booking.id}
+            </span>
+
+          </div>
+
         </div>
+
       </section>
 
-      {/* ======================================================
+
+      {/* =================================================
           MAIN
-      ====================================================== */}
+      ================================================= */}
 
-      <section className="mx-auto max-w-7xl px-5 py-9 sm:px-7 lg:px-10 lg:py-12">
-        <div className="grid gap-7 lg:grid-cols-[minmax(0,1fr)_340px]">
-          {/* ==================================================
+      <section className="mx-auto max-w-5xl px-5 py-8 sm:px-6 lg:px-8">
+
+        <div className="grid gap-6 lg:grid-cols-[1.35fr_0.7fr]">
+
+
+          {/* =================================================
               LEFT
-          ================================================== */}
+          ================================================= */}
 
-          <div className="space-y-6">
+          <div className="space-y-5">
+
+
             {/* PROPERTY */}
 
-            <article className="overflow-hidden rounded-[30px] border border-[#E5DED6] bg-white shadow-[0_12px_45px_rgba(44,36,32,0.045)]">
-              {/* IMAGE */}
+            <div className="overflow-hidden rounded-2xl border border-slate-200">
 
-              <div className="relative h-[300px] overflow-hidden sm:h-[390px]">
-                {primaryImage ? (
-                  <img
-                     src="/images/hawamahal.jpg"
-                    alt={
-                      primaryImage.altText ||
-                      booking.property.title
-                    }
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full items-center justify-center bg-[#F3EFEA] text-sm text-[#756D67]">
-                    No property image available
-                  </div>
-                )}
+              <div className="group aspect-[16/8] overflow-hidden bg-slate-100">
 
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent p-6 sm:p-8">
-                  <span className="inline-flex rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-[#4A403A]">
-                    Vistara stay
-                  </span>
-                </div>
+                <img
+                  src={image}
+                  alt={propertyName}
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                />
+
               </div>
 
-              {/* PROPERTY INFO */}
 
-              <div className="p-6 sm:p-8">
-                <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+              <div className="p-5 sm:p-6">
+
+                <div className="flex items-start justify-between gap-4">
+
                   <div>
-                    <h2 className="font-serif text-3xl font-semibold tracking-[-0.03em]">
-                      {booking.property.title}
+
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                      YOUR JOURNEY
+                    </p>
+
+                    <h2 className="mt-1.5 font-serif text-xl font-semibold">
+                      {propertyName}
                     </h2>
 
-                    <div className="mt-3 flex items-center gap-2 text-sm text-[#756D67]">
-                      <MapPin
-                        size={15}
-                        className="text-[#B76545]"
-                      />
+                    <div className="mt-2 flex items-center gap-1.5 text-xs text-slate-500">
 
-                      <span>
-                        {booking.property.city},{" "}
-                        {booking.property.country}
-                      </span>
+                      <MapPin size={13} />
+
+                      {location}
+
                     </div>
+
                   </div>
 
-                  <span
-                    className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-bold ${getStatusStyles(
-                      booking.status
-                    )}`}
-                  >
-                    {booking.status === "CONFIRMED" && (
-                      <CheckCircle2 size={13} />
-                    )}
 
-                    {booking.status === "CANCELLED" && (
-                      <XCircle size={13} />
-                    )}
-
-                    {booking.status === "PENDING" && (
-                      <Clock3 size={13} />
-                    )}
-
-                    {booking.status === "COMPLETED" && (
-                      <Check size={13} />
-                    )}
-
-                    {getStatusLabel(booking.status)}
+                  <span className="rounded-full bg-black px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider text-white">
+                    Confirmed
                   </span>
+
                 </div>
 
-                {/* BOOKING INFORMATION */}
-
-                <div className="mt-8 grid gap-5 border-y border-[#EAE3DC] py-6 sm:grid-cols-2 lg:grid-cols-4">
-                  <BookingInfo
-                    icon={<CalendarDays size={16} />}
-                    label="Check-in"
-                    value={formatDate(booking.checkIn)}
-                  />
-
-                  <BookingInfo
-                    icon={<CalendarDays size={16} />}
-                    label="Check-out"
-                    value={formatDate(booking.checkOut)}
-                  />
-
-                  <BookingInfo
-                    icon={<Users size={16} />}
-                    label="Guests"
-                    value={`${booking.guests} ${
-                      booking.guests === 1
-                        ? "Guest"
-                        : "Guests"
-                    }`}
-                  />
-
-                  <BookingInfo
-                    icon={<Clock3 size={16} />}
-                    label="Duration"
-                    value={`${booking.nights} ${
-                      booking.nights === 1
-                        ? "Night"
-                        : "Nights"
-                    }`}
-                  />
-                </div>
               </div>
-            </article>
 
-            {/* =================================================
-                PAYMENT
-            ================================================= */}
+            </div>
 
-            <article className="rounded-[26px] border border-[#E5DED6] bg-white p-6 sm:p-7">
-              <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F3EFEA] text-[#B8945A]">
-                  <CreditCard size={19} />
+
+            {/* DATES */}
+
+            <div className="rounded-2xl border border-slate-200 p-5 sm:p-6">
+
+              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                TRIP DETAILS
+              </p>
+
+              <h2 className="mt-1.5 font-serif text-xl font-semibold">
+                Your reservation
+              </h2>
+
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+
+                <Info
+                  icon={<CalendarDays size={15} />}
+                  label="Check-in"
+                  value={checkIn}
+                />
+
+                <Info
+                  icon={<CalendarDays size={15} />}
+                  label="Check-out"
+                  value={checkOut}
+                />
+
+                <Info
+                  icon={<Users size={15} />}
+                  label="Guests"
+                  value={`${booking.guests} ${
+                    booking.guests === 1
+                      ? "Guest"
+                      : "Guests"
+                  }`}
+                />
+
+                <Info
+                  icon={<CalendarDays size={15} />}
+                  label="Duration"
+                  value={`${booking.nights} ${
+                    booking.nights === 1
+                      ? "Night"
+                      : "Nights"
+                  }`}
+                />
+
+              </div>
+
+            </div>
+
+
+            {/* HOST */}
+
+            <div className="rounded-2xl border border-slate-200 p-5 sm:p-6">
+
+              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                YOUR HOST
+              </p>
+
+
+              <div className="mt-4 flex items-center gap-3">
+
+                <img
+                  src={hostImage}
+                  alt={hostName}
+                  className="h-11 w-11 rounded-full object-cover"
+                />
+
+                <div>
+
+                  <p className="text-xs font-semibold">
+                    {hostName}
+                  </p>
+
+                  <p className="mt-0.5 text-[10px] text-slate-500">
+                    Your Vistara host
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            {/* PAYMENT */}
+
+            <div className="rounded-2xl border border-slate-200 p-5 sm:p-6">
+
+              <div className="flex items-center gap-3">
+
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white">
+
+                  <CreditCard size={15} />
+
                 </div>
 
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B8945A]">
+
+                  <p className="text-xs font-semibold">
                     Payment
                   </p>
 
-                  <h2 className="mt-1 font-serif text-2xl font-semibold">
-                    Payment summary
-                  </h2>
+                  <p className="mt-0.5 text-[10px] text-slate-500">
+                    {booking.paymentStatus}
+                  </p>
+
                 </div>
+
               </div>
 
-              <div className="mt-7 space-y-4">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-[#756D67]">
-                    Stay
-                  </span>
+            </div>
 
-                  <span className="font-medium text-[#4A403A]">
-                    {formatAmount(booking.totalAmount)}
-                  </span>
+
+            {/* PROTECTION */}
+
+            <div className="rounded-2xl border border-slate-200 p-5">
+
+              <div className="flex gap-3">
+
+                <ShieldCheck
+                  size={18}
+                  className="shrink-0"
+                />
+
+                <div>
+
+                  <p className="text-xs font-semibold">
+                    Vistara protection
+                  </p>
+
+                  <p className="mt-1 text-[10px] leading-5 text-slate-500">
+                    Your booking details are securely
+                    connected to your Vistara account.
+                  </p>
+
                 </div>
 
-                <div className="flex items-center justify-between border-t border-[#EEE7E1] pt-4">
-                  <span className="font-semibold">
+              </div>
+
+            </div>
+
+          </div>
+
+
+          {/* =================================================
+              RIGHT
+          ================================================= */}
+
+          <aside className="lg:sticky lg:top-24 lg:h-fit">
+
+            <div className="rounded-2xl border border-slate-200 p-5 sm:p-6">
+
+              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+                BOOKING SUMMARY
+              </p>
+
+
+              <div className="mt-5 space-y-3">
+
+                <Summary
+                  label="Booking ID"
+                  value={`#${booking.id}`}
+                />
+
+                <Summary
+                  label="Status"
+                  value={booking.status}
+                />
+
+                <Summary
+                  label="Payment"
+                  value={booking.paymentStatus}
+                />
+
+              </div>
+
+
+              <div className="mt-5 border-t border-slate-200 pt-4">
+
+                <div className="flex items-end justify-between">
+
+                  <span className="text-xs text-slate-500">
                     Total
                   </span>
 
-                  <span className="font-serif text-xl font-semibold text-[#B76545]">
-                    {formatAmount(booking.totalAmount)}
+                  <span className="text-xl font-semibold">
+                    ₹{total.toLocaleString("en-IN")}
                   </span>
+
                 </div>
+
               </div>
 
-              <div className="mt-5 flex items-center justify-between rounded-xl bg-[#F7F4EF] px-4 py-3">
-                <span className="text-xs text-[#756D67]">
-                  Payment status
-                </span>
 
-                <span className="text-xs font-bold text-[#68705A]">
-                  {booking.paymentStatus}
-                </span>
-              </div>
-            </article>
-          </div>
-
-          {/* ==================================================
-              RIGHT SIDEBAR
-          ================================================== */}
-
-          <aside className="space-y-5 lg:sticky lg:top-24 lg:self-start">
-            {/* TOTAL */}
-
-            <div className="rounded-[26px] border border-[#E2D8CE] bg-[#F3EFEA] p-6 sm:p-7">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B8945A]">
-                Reservation total
-              </p>
-
-              <p className="mt-3 font-serif text-3xl font-semibold">
-                {formatAmount(booking.totalAmount)}
-              </p>
-
-              <p className="mt-1 text-xs text-[#756D67]">
-                {booking.nights}{" "}
-                {booking.nights === 1
-                  ? "night"
-                  : "nights"}{" "}
-                · {booking.guests}{" "}
-                {booking.guests === 1
-                  ? "guest"
-                  : "guests"}
-              </p>
-
-              <div className="mt-6 space-y-3">
-                <Link
-                  href={`/stays/${booking.property.id}`}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#B76545] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#965039]"
-                >
-                  View stay
-                  <ArrowRight size={15} />
-                </Link>
-
-                {canCancel && (
-                  <button
-                    type="button"
-                    onClick={handleCancel}
-                    disabled={cancelling}
-                    className="flex w-full items-center justify-center rounded-xl border border-[#D9C8BE] bg-white px-5 py-3 text-sm font-semibold text-[#A04E32] transition hover:border-[#B76545] disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {cancelling
-                      ? "Cancelling..."
-                      : "Cancel booking"}
-                  </button>
-                )}
-              </div>
-
-              {cancelError && (
-                <div className="mt-4 rounded-xl border border-[#E9CFC6] bg-[#F9EDE8] px-4 py-3 text-xs leading-5 text-[#A04E32]">
-                  {cancelError}
-                </div>
-              )}
-            </div>
-
-            {/* HELP */}
-
-            <div className="rounded-[26px] border border-[#E5DED6] bg-white p-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F3EFEA] text-[#B76545]">
-                <HelpCircle size={18} />
-              </div>
-
-              <h3 className="mt-5 font-serif text-xl font-semibold">
-                Need help?
-              </h3>
-
-              <p className="mt-2 text-sm leading-6 text-[#756D67]">
-                Have a question about your reservation or
-                payment? Our support team can help.
-              </p>
+              {/* VIEW TRIP */}
 
               <Link
-                href="/support"
-                className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#B76545] transition hover:text-[#965039]"
+                href={`/trips/${booking.property?.id ?? ""}`}
+                className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-3 text-xs font-semibold text-white transition hover:bg-slate-800"
               >
-                Contact support
-                <ArrowRight size={14} />
+                View trip
+
+                <ArrowRight size={13} />
+
               </Link>
+
+
+              <Link
+                href="/profile"
+                className="mt-2 flex w-full items-center justify-center rounded-lg border border-slate-200 px-4 py-3 text-xs font-semibold transition hover:border-black"
+              >
+                Go to profile
+              </Link>
+
             </div>
+
+
+            {/* BOOKING REFERENCE */}
+
+            <div className="mt-4 rounded-xl border border-slate-200 p-4">
+
+              <div className="flex items-center gap-3">
+
+                <UserRound size={15} />
+
+                <div>
+
+                  <p className="text-[9px] uppercase tracking-[0.15em] text-slate-400">
+                    BOOKING REFERENCE
+                  </p>
+
+                  <p className="mt-1 text-sm font-semibold">
+                    #{booking.id}
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
           </aside>
+
         </div>
+
+
+        {/* BACK */}
+
+        <div className="mt-8">
+
+          <Link
+            href="/explore"
+            className="inline-flex items-center gap-2 text-[11px] text-slate-500 transition hover:text-black"
+          >
+            <ArrowLeft size={13} />
+            Back to explore
+          </Link>
+
+        </div>
+
       </section>
+
+
+      <Footer />
+
     </main>
   );
 }
 
+
 /* ============================================================
-   BOOKING INFO
+   INFO
 ============================================================ */
 
-function BookingInfo({
+function Info({
   icon,
   label,
   value,
@@ -601,18 +682,49 @@ function BookingInfo({
   value: string;
 }) {
   return (
-    <div>
-      <div className="flex items-center gap-2 text-[#A59C95]">
+    <div className="rounded-lg bg-slate-50 p-3">
+
+      <div className="flex items-center gap-2 text-slate-400">
+
         {icon}
 
-        <span className="text-[10px] font-bold uppercase tracking-[0.15em]">
+        <span className="text-[9px] font-semibold uppercase tracking-[0.14em]">
           {label}
         </span>
+
       </div>
 
-      <p className="mt-2 text-sm font-semibold text-[#3A302A]">
+      <p className="mt-2 text-xs font-semibold">
         {value}
       </p>
+
+    </div>
+  );
+}
+
+
+/* ============================================================
+   SUMMARY
+============================================================ */
+
+function Summary({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-4">
+
+      <span className="text-[10px] text-slate-500">
+        {label}
+      </span>
+
+      <span className="text-[10px] font-semibold">
+        {value}
+      </span>
+
     </div>
   );
 }

@@ -221,7 +221,7 @@ export default function BookingDetailPage({
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
           <div className="flex min-h-[76px] items-center justify-between gap-4">
             <Link
-              href="/bookings"
+              href="/host/bookings"
               className="inline-flex items-center gap-2 text-sm font-semibold text-[#57534E] transition hover:text-[#18181B]"
             >
               <ArrowLeft size={17} />

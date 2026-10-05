@@ -1,428 +1,418 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   ArrowLeft,
+  ArrowRight,
   Car,
   CheckCircle2,
-  Clock3,
   MapPin,
   ShieldCheck,
   Star,
   Users,
 } from "lucide-react";
 
-import Navbar from "@/components/navbar";
-
-type Vehicle = {
-  id: number;
-  make: string | null;
-  model: string | null;
-  type: string;
-  capacity: number;
-};
-
 type Driver = {
   id: number;
   name: string;
+  city: string;
+  bio?: string | null;
+  image?: string | null;
+  vehicle?: string | null;
+  vehicleType?: string | null;
   rating: number;
-  totalTrips: number;
-  isVerified: boolean;
-  vehicles: Vehicle[];
+  reviewCount: number;
+  price?: number | null;
+  seats?: number | null;
+  verified?: boolean;
+  experienceYears?: number | null;
+  languages?: string[];
+  services?: string[];
 };
 
-type PageProps = {
-  params: Promise<{
-    id: string;
-  }>;
-};
-
-export default function DriverProfilePage({
-  params,
-}: PageProps) {
+export default function DriverDetailsPage() {
   const [driver, setDriver] = useState<Driver | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    async function loadDriver() {
-      try {
-        const { id } = await params;
+    const id = window.location.pathname.split("/")[2];
 
-        const response = await fetch("/api/drivers");
+    if (!id) {
+      setError("Driver not found.");
+      setLoading(false);
+      return;
+    }
+
+    const loadDriver = async () => {
+      try {
+        const response = await fetch(`/api/drivers/${id}`, {
+          credentials: "include",
+        });
+
         const result = await response.json();
 
-        if (result.success) {
-          const foundDriver = result.data.find(
-            (item: Driver) => String(item.id) === id
+        if (!response.ok || !result?.success) {
+          throw new Error(
+            result?.message || "Unable to load driver."
           );
-
-          setDriver(foundDriver || null);
         }
-      } catch (error) {
-        console.error("Driver profile error:", error);
-        setDriver(null);
+
+        setDriver(result.data?.driver || result.data);
+      } catch (err) {
+        console.error("DRIVER_DETAILS_ERROR:", err);
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Unable to load driver."
+        );
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     loadDriver();
-  }, [params]);
+  }, []);
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#FAF8F3]">
-        <Navbar />
+      <main className="min-h-screen bg-white text-black">
+        <Header />
 
-        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
           <div className="animate-pulse">
-            <div className="h-5 w-28 rounded bg-[#E8E3DA]" />
+            <div className="h-[420px] rounded-3xl bg-black/[0.05]" />
 
-            <div className="mt-8 h-[300px] rounded-[28px] bg-[#E8E3DA]" />
+            <div className="mt-6 h-7 w-56 rounded bg-black/[0.06]" />
 
-            <div className="mt-8 h-8 w-64 rounded bg-[#E8E3DA]" />
-            <div className="mt-4 h-4 w-96 max-w-full rounded bg-[#E8E3DA]" />
+            <div className="mt-3 h-4 w-80 rounded bg-black/[0.05]" />
           </div>
         </div>
+
+        <Footer />
       </main>
     );
   }
 
-  if (!driver) {
+  if (error || !driver) {
     return (
-      <main className="min-h-screen bg-[#FAF8F3]">
-        <Navbar />
+      <main className="min-h-screen bg-white text-black">
+        <Header />
 
-        <div className="flex min-h-[70vh] items-center justify-center px-5">
-          <div className="text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-sm">
-              <Car size={26} className="text-[#B96342]" />
-            </div>
+        <div className="mx-auto max-w-6xl px-5 py-24 text-center">
+          <Car className="mx-auto" size={30} />
 
-            <h1 className="mt-5 font-serif text-3xl font-semibold text-[#292524]">
-              Driver not found
-            </h1>
+          <h1 className="mt-4 text-lg font-semibold">
+            Driver not found
+          </h1>
 
-            <p className="mt-2 text-sm text-[#78716C]">
-              This driver may no longer be available.
-            </p>
+          <p className="mt-2 text-xs text-black/45">
+            {error || "This driver is currently unavailable."}
+          </p>
 
-            <Link
-              href="/drivers"
-              className="mt-6 inline-flex rounded-xl bg-[#292524] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#44403C]"
-            >
-              Back to drivers
-            </Link>
-          </div>
+          <Link
+            href="/drivers"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-black px-5 py-2.5 text-xs font-semibold text-white"
+          >
+            <ArrowLeft size={13} />
+            Back to drivers
+          </Link>
         </div>
+
+        <Footer />
       </main>
     );
   }
-
-  const vehicle = driver.vehicles?.[0];
-
-  const vehicleName =
-    vehicle?.make || vehicle?.model
-      ? `${vehicle.make ?? ""} ${vehicle.model ?? ""}`.trim()
-      : vehicle?.type || "Comfort vehicle";
 
   return (
-    <main className="min-h-screen bg-[#FAF8F3] text-[#292524]">
-      <Navbar />
+    <main className="min-h-screen bg-white text-black">
+      <Header />
 
-      {/* PAGE */}
-      <div className="mx-auto max-w-6xl px-5 py-7 sm:px-6 lg:px-8 lg:py-10">
+      {/* ================= CONTENT ================= */}
 
-        {/* BACK */}
+      <section className="mx-auto max-w-6xl px-5 pb-14 pt-7 lg:px-8">
+
+        {/* Back */}
+
         <Link
           href="/drivers"
-          className="inline-flex items-center gap-2 text-sm font-medium text-[#78716C] transition hover:text-[#292524]"
+          className="mb-5 inline-flex items-center gap-2 text-xs text-black/50 transition hover:text-black"
         >
-          <ArrowLeft size={17} />
+          <ArrowLeft size={13} />
           All drivers
         </Link>
 
-        {/* PROFILE HERO */}
-        <section className="mt-6 overflow-hidden rounded-[30px] border border-[#E7E2D8] bg-white shadow-[0_12px_45px_rgba(41,37,36,0.06)]">
+        {/* ================= HERO ================= */}
 
-          {/* TOP */}
-          <div className="relative h-36 bg-[#F1ECE3] sm:h-44">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#EFE7DA] to-[#F8F5EF]" />
+        <div className="grid gap-7 lg:grid-cols-[1.15fr_.85fr]">
 
-            {driver.isVerified && (
-              <div className="absolute right-5 top-5 flex items-center gap-2 rounded-full bg-white px-3.5 py-2 text-xs font-semibold text-[#356859] shadow-sm sm:right-7 sm:top-7">
-                <ShieldCheck size={15} />
-                Verified driver
-              </div>
-            )}
-          </div>
+          {/* IMAGE */}
 
-          {/* PROFILE CONTENT */}
-          <div className="relative px-5 pb-7 sm:px-8 lg:px-10">
+          <div className="overflow-hidden rounded-3xl bg-black/[0.04]">
 
-            {/* PROFILE IMAGE */}
-            <div className="-mt-14 sm:-mt-16">
-              <div className="relative h-28 w-28 overflow-hidden rounded-full border-[5px] border-white bg-[#E8E3DA] shadow-lg sm:h-32 sm:w-32">
-                <Image
-                  src="/images/profile.jpg"
-                  alt={driver.name}
-                  fill
-                  priority
-                  sizes="128px"
-                  className="object-cover"
-                />
-              </div>
-            </div>
+            <div className="relative h-[360px] sm:h-[430px]">
 
-            {/* NAME + BOOK */}
-            <div className="mt-5 flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+              <img
+                src={
+                  driver.image ||
+                  "/images/profile.jpg"
+                }
+                alt={driver.name}
+                className="h-full w-full object-cover"
+              />
 
-              <div>
-                <div className="flex flex-wrap items-center gap-3">
-                  <h1 className="font-serif text-3xl font-semibold text-[#292524] sm:text-4xl">
-                    {driver.name}
-                  </h1>
-
-                  {driver.isVerified && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EEF6F1] px-3 py-1.5 text-xs font-semibold text-[#356859]">
-                      <CheckCircle2 size={14} />
-                      Verified
-                    </span>
-                  )}
+              {driver.verified && (
+                <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-semibold">
+                  <ShieldCheck size={12} />
+                  Verified driver
                 </div>
-
-                <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[#78716C]">
-                  <span className="flex items-center gap-1.5">
-                    <Star
-                      size={16}
-                      fill="currentColor"
-                      className="text-[#C6923E]"
-                    />
-                    <strong className="text-[#292524]">
-                      {driver.rating.toFixed(1)}
-                    </strong>
-                    rating
-                  </span>
-
-                  <span className="flex items-center gap-1.5">
-                    <Car size={16} />
-                    {driver.totalTrips} trips
-                  </span>
-                </div>
-              </div>
-
-              <Link
-                href={`/drivers/${driver.id}/book`}
-                className="inline-flex w-full items-center justify-center rounded-xl bg-[#292524] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#44403C] sm:w-auto"
-              >
-                Book this driver
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* MAIN GRID */}
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_330px]">
-
-          {/* LEFT */}
-          <div className="space-y-6">
-
-            {/* ABOUT */}
-            <section className="rounded-[26px] border border-[#E7E2D8] bg-white p-6 sm:p-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#B96342]">
-                About your driver
-              </p>
-
-              <h2 className="mt-2 font-serif text-2xl font-semibold text-[#292524]">
-                Travel comfortably, your way.
-              </h2>
-
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#78716C]">
-                Book a local driver for your journey and travel with
-                someone who knows the roads, routes and destinations.
-                Driver details and trip history are shown before you book.
-              </p>
-            </section>
-
-            {/* VEHICLE */}
-            <section className="rounded-[26px] border border-[#E7E2D8] bg-white p-6 sm:p-7">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#B96342]">
-                    Vehicle
-                  </p>
-
-                  <h2 className="mt-2 text-xl font-semibold text-[#292524]">
-                    Your ride
-                  </h2>
-                </div>
-
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F7F3EA] text-[#8B6F3D]">
-                  <Car size={21} />
-                </div>
-              </div>
-
-              {vehicle ? (
-                <div className="mt-6 flex flex-col gap-4 rounded-2xl bg-[#FAF8F3] p-4 sm:flex-row sm:items-center">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-[#292524] shadow-sm">
-                    <Car size={21} />
-                  </div>
-
-                  <div>
-                    <h3 className="font-semibold text-[#292524]">
-                      {vehicleName}
-                    </h3>
-
-                    <p className="mt-1 text-sm text-[#78716C]">
-                      {vehicle.type} · {vehicle.capacity} seats
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <p className="mt-5 text-sm text-[#78716C]">
-                  Vehicle details will be shown during booking.
-                </p>
               )}
-            </section>
 
-            {/* WHY BOOK */}
-            <section className="rounded-[26px] border border-[#E7E2D8] bg-white p-6 sm:p-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#B96342]">
-                Why book with Vistara
-              </p>
+            </div>
 
-              <div className="mt-6 grid gap-5 sm:grid-cols-3">
-
-                <Feature
-                  icon={<ShieldCheck size={20} />}
-                  title="Verified"
-                  text="Driver verification shown before booking."
-                />
-
-                <Feature
-                  icon={<Clock3 size={20} />}
-                  title="Flexible"
-                  text="Choose your route, date and timing."
-                />
-
-                <Feature
-                  icon={<MapPin size={20} />}
-                  title="Local"
-                  text="Travel with someone familiar with the area."
-                />
-
-              </div>
-            </section>
           </div>
 
-          {/* RIGHT SUMMARY */}
-          <aside className="lg:block">
-            <div className="sticky top-24 rounded-[26px] border border-[#E7E2D8] bg-white p-6 shadow-[0_12px_40px_rgba(41,37,36,0.06)]">
+          {/* INFO */}
 
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A8A29E]">
-                Driver profile
+          <div className="flex flex-col justify-center">
+
+            <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-black/40">
+              LOCAL DRIVER
+            </p>
+
+            <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
+              {driver.name}
+            </h1>
+
+            <div className="mt-2 flex items-center gap-1.5 text-xs text-black/50">
+              <MapPin size={12} />
+              {driver.city}
+            </div>
+
+            {/* Rating */}
+
+            <div className="mt-4 flex items-center gap-3">
+
+              <div className="flex items-center gap-1 text-sm">
+                <Star
+                  size={13}
+                  fill="currentColor"
+                />
+                <span className="font-semibold">
+                  {Number(driver.rating || 0).toFixed(1)}
+                </span>
+              </div>
+
+              <span className="text-xs text-black/40">
+                {driver.reviewCount || 0} reviews
+              </span>
+
+            </div>
+
+            {/* Bio */}
+
+            <p className="mt-5 max-w-lg text-sm leading-6 text-black/55">
+              {driver.bio ||
+                "A trusted local driver helping you travel comfortably around the city and nearby destinations."}
+            </p>
+
+            {/* Quick details */}
+
+            <div className="mt-6 grid grid-cols-2 gap-2">
+
+              <Detail
+                icon={<Car size={14} />}
+                label="Vehicle"
+                value={
+                  driver.vehicle ||
+                  driver.vehicleType ||
+                  "Comfort"
+                }
+              />
+
+              <Detail
+                icon={<Users size={14} />}
+                label="Capacity"
+                value={`${driver.seats || 4} seats`}
+              />
+
+              {driver.experienceYears !== undefined &&
+                driver.experienceYears !== null && (
+                  <Detail
+                    icon={<CheckCircle2 size={14} />}
+                    label="Experience"
+                    value={`${driver.experienceYears} years`}
+                  />
+                )}
+
+              <Detail
+                icon={<MapPin size={14} />}
+                label="Service"
+                value="Local rides"
+              />
+
+            </div>
+
+            {/* Price */}
+
+            <div className="mt-6 border-t border-black/10 pt-5">
+
+              <p className="text-[10px] uppercase tracking-wider text-black/40">
+                Starting from
               </p>
 
-              <div className="mt-5 flex items-center gap-4">
-                <div className="relative h-14 w-14 overflow-hidden rounded-full">
-                  <Image
-                    src="/images/profile.jpg"
-                    alt={driver.name}
-                    fill
-                    sizes="56px"
-                    className="object-cover"
-                  />
-                </div>
+              <div className="mt-1 flex items-end gap-1">
 
-                <div>
-                  <p className="font-semibold text-[#292524]">
-                    {driver.name}
-                  </p>
+                <span className="text-2xl font-semibold">
+                  ₹
+                  {Number(
+                    driver.price || 0
+                  ).toLocaleString("en-IN")}
+                </span>
 
-                  <p className="mt-1 flex items-center gap-1 text-sm text-[#78716C]">
-                    <Star
-                      size={14}
-                      fill="currentColor"
-                      className="text-[#C6923E]"
-                    />
-                    {driver.rating.toFixed(1)}
-                  </p>
-                </div>
+                <span className="mb-1 text-xs text-black/40">
+                  / ride
+                </span>
+
               </div>
 
-              <div className="my-6 border-t border-[#E7E2D8]" />
+            </div>
 
-              <div className="space-y-4">
-                <SummaryRow
-                  icon={<Car size={17} />}
-                  label="Trips completed"
-                  value={String(driver.totalTrips)}
-                />
+            {/* CTA */}
 
-                <SummaryRow
-                  icon={<Users size={17} />}
-                  label="Vehicle capacity"
-                  value={
-                    vehicle
-                      ? `${vehicle.capacity} seats`
-                      : "Available on booking"
-                  }
-                />
-
-                <SummaryRow
-                  icon={<ShieldCheck size={17} />}
-                  label="Verification"
-                  value={driver.isVerified ? "Verified" : "Pending"}
-                />
-              </div>
+            <div className="mt-5 flex gap-2">
 
               <Link
                 href={`/drivers/${driver.id}/book`}
-                className="mt-7 flex w-full items-center justify-center rounded-xl bg-[#292524] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#44403C]"
+                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-black px-4 py-3 text-xs font-semibold text-white transition hover:bg-black/80"
               >
-                Book driver
+                Book this ride
+                <ArrowRight size={14} />
               </Link>
 
-              <p className="mt-3 text-center text-xs leading-5 text-[#A8A29E]">
-                You can review your journey details before confirming.
-              </p>
             </div>
-          </aside>
+
+          </div>
+
         </div>
-      </div>
+
+        {/* ================= DETAILS ================= */}
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-3">
+
+          <InfoCard
+            title="What you can book"
+            items={
+              driver.services?.length
+                ? driver.services
+                : [
+                    "City rides",
+                    "Airport transfers",
+                    "Local sightseeing",
+                    "Nearby destinations",
+                  ]
+            }
+          />
+
+          <InfoCard
+            title="Why book with Vistara"
+            items={[
+              "Verified driver",
+              "Local destination knowledge",
+              "Clear pricing",
+              "Comfortable rides",
+            ]}
+          />
+
+          <InfoCard
+            title="Languages"
+            items={
+              driver.languages?.length
+                ? driver.languages
+                : ["Hindi", "English"]
+            }
+          />
+
+        </div>
+
+      </section>
+
+      <Footer />
     </main>
   );
 }
 
-function Feature({
-  icon,
-  title,
-  text,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  text: string;
-}) {
+/* =========================
+   HEADER
+========================= */
+
+function Header() {
   return (
-    <div className="rounded-2xl bg-[#FAF8F3] p-4">
-      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-[#8B6F3D] shadow-sm">
-        {icon}
+    <header className="sticky top-0 z-50 border-b border-black/10 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5 lg:px-8">
+
+        <Link
+          href="/"
+          className="text-xl font-semibold tracking-tight"
+        >
+          Vistara
+        </Link>
+
+        <nav className="hidden items-center gap-7 text-xs md:flex">
+          <Link
+            href="/explore"
+            className="text-black/50 hover:text-black"
+          >
+            Explore
+          </Link>
+
+          <Link
+            href="/trips"
+            className="text-black/50 hover:text-black"
+          >
+            Trips
+          </Link>
+
+          <Link
+            href="/wishlist"
+            className="text-black/50 hover:text-black"
+          >
+            Wishlist
+          </Link>
+
+          <Link
+            href="/guides"
+            className="text-black/50 hover:text-black"
+          >
+            Guides
+          </Link>
+
+          <Link
+            href="/drivers"
+            className="font-semibold"
+          >
+            Drivers
+          </Link>
+        </nav>
+
+        <Link
+          href="/explore"
+          className="text-xs font-medium"
+        >
+          Explore
+        </Link>
+
       </div>
-
-      <h3 className="mt-4 text-sm font-semibold text-[#292524]">
-        {title}
-      </h3>
-
-      <p className="mt-1.5 text-xs leading-5 text-[#78716C]">
-        {text}
-      </p>
-    </div>
+    </header>
   );
 }
 
-function SummaryRow({
+/* =========================
+   DETAIL
+========================= */
+
+function Detail({
   icon,
   label,
   value,
@@ -432,15 +422,109 @@ function SummaryRow({
   value: string;
 }) {
   return (
-    <div className="flex items-center justify-between gap-4">
-      <div className="flex items-center gap-3 text-[#78716C]">
+    <div className="rounded-xl bg-black/[0.035] p-3">
+
+      <div className="flex items-center gap-1.5 text-black/50">
         {icon}
-        <span className="text-sm">{label}</span>
+
+        <span className="text-[9px] uppercase tracking-wide">
+          {label}
+        </span>
       </div>
 
-      <span className="text-right text-sm font-semibold text-[#292524]">
+      <p className="mt-1.5 text-xs font-medium">
         {value}
-      </span>
+      </p>
+
     </div>
+  );
+}
+
+/* =========================
+   INFO CARD
+========================= */
+
+function InfoCard({
+  title,
+  items,
+}: {
+  title: string;
+  items: string[];
+}) {
+  return (
+    <div className="rounded-2xl border border-black/10 p-5">
+
+      <h2 className="text-sm font-semibold">
+        {title}
+      </h2>
+
+      <div className="mt-4 space-y-2.5">
+
+        {items.map((item, index) => (
+          <div
+            key={`${item}-${index}`}
+            className="flex items-center gap-2 text-xs text-black/55"
+          >
+            <CheckCircle2
+              size={13}
+              className="shrink-0"
+            />
+
+            {item}
+          </div>
+        ))}
+
+      </div>
+
+    </div>
+  );
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+function Footer() {
+  return (
+    <footer className="border-t border-black/10">
+
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-7 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+
+        <div>
+          <p className="text-sm font-semibold">
+            Vistara
+          </p>
+
+          <p className="mt-1 text-[10px] text-black/40">
+            Discover places. Meet locals. Travel differently.
+          </p>
+        </div>
+
+        <div className="flex gap-5 text-[10px] text-black/45">
+
+          <Link href="/explore">
+            Explore
+          </Link>
+
+          <Link href="/trips">
+            Trips
+          </Link>
+
+          <Link href="/guides">
+            Guides
+          </Link>
+
+          <Link
+            href="/drivers"
+            className="text-black"
+          >
+            Drivers
+          </Link>
+
+        </div>
+
+      </div>
+
+    </footer>
   );
 }

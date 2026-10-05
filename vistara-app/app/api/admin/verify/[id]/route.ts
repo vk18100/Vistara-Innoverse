@@ -14,8 +14,7 @@ export async function PATCH(
   { params }: Params
 ) {
   try {
-    const { user, response } = await requireRole(req, ["ADMIN"]);
-
+const { response } = await requireRole(req, ["ADMIN"]);
     if (response) {
       return response;
     }

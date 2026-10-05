@@ -1,68 +1,58 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-
+import { usePathname } from "next/navigation";
 import {
-  Search,
   MoreHorizontal,
   User,
   Settings,
+  Heart,
+  CalendarDays,
   Map,
   Compass,
   Car,
   Home,
-  Heart,
-  CalendarDays,
   LogOut,
-  X,
-  Menu,
 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 /* =========================================================
-   MAIN NAVIGATION
-========================================================= */
-
-const mainNavigation = [
-  
-  {
-    href: "/stays",
-    label: "Stays",
-  },
-  {
-    href: "/trips",
-    label: "Trips",
-  },
-  {
-    href: "/experiences",
-    label: "Experiences",
-  },
-  {
-    href:"/explore",
-    label:"Explore"
-  }
-];
-
-/* =========================================================
-   EXPLORE / MORE MENU
+   THREE DOT MENU ITEMS
 ========================================================= */
 
 const menuItems = [
+  // Main navigation
   {
-    href: "/settings",
-    title: "Settings",
-    icon: Settings,
+    href: "/stays",
+    title: "Stay",
+    icon: Home,
   },
   {
-    href: "/wishlist",
-    title: "Wishlist",
-    icon: Heart,
+    href: "/experiences",
+    title: "Experience",
+    icon: Compass,
+  },
+  {
+    href: "/explore",
+    title: "Explore",
+    icon: Map,
+  },
+
+  // Account / services
+  {
+    href: "/profile",
+    title: "Profile",
+    icon: User,
   },
   {
     href: "/bookings",
     title: "Bookings",
     icon: CalendarDays,
+  },
+  {
+    href: "/wishlist",
+    title: "Wishlist",
+    icon: Heart,
   },
   {
     href: "/guides",
@@ -76,13 +66,13 @@ const menuItems = [
   },
   {
     href: "/drivers",
-    title: "Drivers",
+    title: "Transport",
     icon: Car,
   },
   {
-    href: "/host/register",
-    title: "Host",
-    icon: Home,
+    href: "/settings",
+    title: "Settings",
+    icon: Settings,
   },
 ];
 
@@ -91,52 +81,65 @@ const menuItems = [
 ========================================================= */
 
 export default function Navbar() {
-  const router = useRouter();
+  const pathname = usePathname();
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   /* =======================================================
-     ESCAPE KEY
+     CLOSE MENU
   ======================================================= */
 
   useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+    const handleOutsideClick = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (
+        menuOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(target) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(target)
+      ) {
         setMenuOpen(false);
-        setSearchOpen(false);
-        setMobileOpen(false);
       }
     };
 
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
     document.addEventListener("keydown", handleEscape);
 
     return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
       document.removeEventListener("keydown", handleEscape);
     };
-  }, []);
+  }, [menuOpen]);
 
   /* =======================================================
-     SEARCH
+     ACTIVE ROUTE
   ======================================================= */
 
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const query = searchQuery.trim();
-
-    setMenuOpen(false);
-    setSearchOpen(false);
-    setMobileOpen(false);
-
-    if (!query) {
-      router.push("/stays");
-      return;
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
     }
 
-    router.push(`/stays?search=${encodeURIComponent(query)}`);
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
+  /* =======================================================
+     CLOSE MENU
+  ======================================================= */
+
+  const closeMenu = () => {
+    setMenuOpen(false);
   };
 
   /* =======================================================
@@ -145,24 +148,16 @@ export default function Navbar() {
 
   const handleLogout = () => {
     setMenuOpen(false);
-    setMobileOpen(false);
-
-    router.push("/login");
+    window.location.href = "/login";
   };
 
   /* =======================================================
-     CLOSE ALL
+     UI
   ======================================================= */
 
-  const closeAllMenus = () => {
-    setMenuOpen(false);
-    setSearchOpen(false);
-    setMobileOpen(false);
-  };
-
   return (
-    <header className="sticky top-0 z-50 border-b border-[#E5E1D8] bg-white/95 backdrop-blur-xl">
-      <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-10">
+    <header className="sticky top-0 z-50 w-full border-b border-[#E5E5E5] bg-white">
+      <div className="flex h-14 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
 
         {/* =================================================
             LOGO
@@ -170,15 +165,14 @@ export default function Navbar() {
 
         <Link
           href="/"
-          onClick={closeAllMenus}
+          onClick={closeMenu}
           aria-label="Vistara home"
           className="
             shrink-0
-            font-serif
-            text-[27px]
+            text-[21px]
             font-semibold
-            tracking-tight
-            text-[#171717]
+            tracking-[-0.03em]
+            text-[#111111]
             transition-opacity
             hover:opacity-70
           "
@@ -187,127 +181,35 @@ export default function Navbar() {
         </Link>
 
         {/* =================================================
-            DESKTOP NAVIGATION
-        ================================================= */}
-
-        <nav
-          aria-label="Main navigation"
-          className="hidden items-center gap-8 lg:flex"
-        >
-          {mainNavigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="
-                text-sm
-                font-medium
-                text-[#404040]
-                transition-colors
-                duration-200
-                hover:text-[#171717]
-              "
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* =================================================
             RIGHT SIDE
         ================================================= */}
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
 
           {/* =================================================
-              SEARCH
+              LIST YOUR PROPERTY
           ================================================= */}
 
-          {searchOpen ? (
-            <form
-              onSubmit={handleSearch}
-              className="
-                hidden
-                items-center
-                rounded-full
-                border
-                border-[#D6D1C7]
-                bg-[#F8F6F1]
-                px-3
-                py-1.5
-                shadow-sm
-                sm:flex
-              "
-            >
-              <Search
-                size={17}
-                className="mr-2 text-[#404040]"
-              />
-
-              <input
-                autoFocus
-                value={searchQuery}
-                onChange={(event) =>
-                  setSearchQuery(event.target.value)
-                }
-                placeholder="Search Vistara..."
-                aria-label="Search Vistara"
-                className="
-                  w-[180px]
-                  bg-transparent
-                  text-sm
-                  text-[#171717]
-                  outline-none
-                  placeholder:text-[#A3A09A]
-                "
-              />
-
-              <button
-                type="button"
-                onClick={() => {
-                  setSearchOpen(false);
-                  setSearchQuery("");
-                }}
-                aria-label="Close search"
-                className="
-                  ml-2
-                  rounded-full
-                  p-1
-                  text-[#737373]
-                  transition
-                  hover:bg-[#EAE6DE]
-                  hover:text-[#171717]
-                "
-              >
-                <X size={16} />
-              </button>
-            </form>
-          ) : (
-            <button
-              type="button"
-              aria-label="Search Vistara"
-              onClick={() => {
-                setSearchOpen(true);
-                setMenuOpen(false);
-              }}
-              className="
-                flex
-                h-10
-                w-10
-                items-center
-                justify-center
-                rounded-full
-                text-[#404040]
-                transition-all
-                hover:bg-[#F7F4EE]
-                hover:text-[#171717]
-              "
-            >
-              <Search
-                size={20}
-                strokeWidth={1.8}
-              />
-            </button>
-          )}
+          <Link
+            href="/host/register"
+            onClick={closeMenu}
+            className="
+              hidden
+              rounded-full
+              px-3
+              py-2
+              text-[13px]
+              font-medium
+              text-[#333333]
+              transition-all
+              duration-200
+              hover:bg-[#F3F3F3]
+              hover:text-[#111111]
+              sm:inline-flex
+            "
+          >
+            List your property
+          </Link>
 
           {/* =================================================
               SIGN IN
@@ -315,83 +217,53 @@ export default function Navbar() {
 
           <Link
             href="/login"
+            onClick={closeMenu}
             className="
-              hidden
               rounded-full
-              px-4
+              px-3
               py-2
-              text-sm
+              text-[13px]
               font-semibold
               text-[#171717]
-              transition
-              hover:bg-[#F7F4EE]
-              sm:inline-flex
+              transition-all
+              duration-200
+              hover:bg-[#F3F3F3]
             "
           >
             Sign in
           </Link>
 
           {/* =================================================
-              PROFILE
+              THREE DOT MENU
           ================================================= */}
 
-          <Link
-            href="/profile"
-            aria-label="Open profile"
-            className="
-              flex
-              h-10
-              w-10
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-[#E5E1D8]
-              bg-white
-              text-[#404040]
-              transition-all
-              hover:border-[#C6A15B]
-              hover:bg-[#F7F4EE]
-              hover:text-[#171717]
-            "
-          >
-            <User
-              size={18}
-              strokeWidth={1.8}
-            />
-          </Link>
-
-          {/* =================================================
-              MORE MENU
-          ================================================= */}
-
-          <div className="relative hidden sm:block">
+          <div className="relative" ref={menuRef}>
 
             <button
+              ref={menuButtonRef}
               type="button"
               aria-label="Open more options"
               aria-expanded={menuOpen}
-              onClick={() => {
-                setMenuOpen((current) => !current);
-                setSearchOpen(false);
-              }}
+              onClick={() => setMenuOpen((current) => !current)}
               className={`
                 flex
-                h-10
-                w-10
+                h-9
+                w-9
                 items-center
                 justify-center
                 rounded-full
                 transition-all
+                duration-200
+
                 ${
                   menuOpen
                     ? "bg-[#171717] text-white"
-                    : "text-[#404040] hover:bg-[#F7F4EE] hover:text-[#171717]"
+                    : "text-[#333333] hover:bg-[#F3F3F3] hover:text-[#111111]"
                 }
               `}
             >
               <MoreHorizontal
-                size={21}
+                size={20}
                 strokeWidth={2}
               />
             </button>
@@ -401,396 +273,179 @@ export default function Navbar() {
             ================================================= */}
 
             {menuOpen && (
-              <>
-                {/* Outside click */}
-                <button
-                  type="button"
-                  aria-label="Close menu"
-                  onClick={() => setMenuOpen(false)}
-                  className="
-                    fixed
-                    inset-0
-                    z-40
-                    h-full
-                    w-full
-                    cursor-default
-                  "
-                />
-
-                <div
-                  role="menu"
-                  className="
-                    absolute
-                    right-0
-                    top-12
-                    z-50
-                    w-[270px]
-                    overflow-hidden
-                    rounded-[22px]
-                    border
-                    border-[#E5E1D8]
-                    bg-white
-                    p-2
-                    shadow-[0_20px_60px_rgba(23,23,23,0.14)]
-                  "
-                >
-
-                  {/* MENU HEADER */}
-
-                  <div className="px-3 pb-2 pt-3">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#A3A09A]">
-                      VISTARA
-                    </p>
-
-                    <p className="mt-1 text-sm font-semibold text-[#171717]">
-                      Explore more
-                    </p>
-                  </div>
-
-                  <div className="my-2 h-px bg-[#E5E1D8]" />
-
-                  {/* MENU LINKS */}
-
-                  {menuItems.map((item) => {
-                    const Icon = item.icon;
-
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        role="menuitem"
-                        onClick={() => setMenuOpen(false)}
-                        className="
-                          flex
-                          items-center
-                          gap-3
-                          rounded-xl
-                          px-3
-                          py-2.5
-                          text-sm
-                          font-medium
-                          text-[#404040]
-                          transition
-                          hover:bg-[#F7F4EE]
-                          hover:text-[#171717]
-                        "
-                      >
-                        <span
-                          className="
-                            flex
-                            h-8
-                            w-8
-                            shrink-0
-                            items-center
-                            justify-center
-                            rounded-lg
-                            bg-[#F1EFEA]
-                          "
-                        >
-                          <Icon size={16} />
-                        </span>
-
-                        <span>{item.title}</span>
-                      </Link>
-                    );
-                  })}
-
-                  <div className="my-2 h-px bg-[#E5E1D8]" />
-
-                  {/* LOGOUT */}
-
-                  <button
-                    type="button"
-                    role="menuitem"
-                    onClick={handleLogout}
-                    className="
-                      flex
-                      w-full
-                      items-center
-                      gap-3
-                      rounded-xl
-                      px-3
-                      py-2.5
-                      text-left
-                      text-sm
-                      font-medium
-                      text-[#737373]
-                      transition
-                      hover:bg-[#F7F4EE]
-                      hover:text-[#171717]
-                    "
-                  >
-                    <span
-                      className="
-                        flex
-                        h-8
-                        w-8
-                        shrink-0
-                        items-center
-                        justify-center
-                        rounded-lg
-                        bg-[#F1EFEA]
-                      "
-                    >
-                      <LogOut size={16} />
-                    </span>
-
-                    <span>Log out</span>
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-
-          {/* =================================================
-              MOBILE MENU BUTTON
-          ================================================= */}
-
-          <button
-            type="button"
-            aria-label={
-              mobileOpen
-                ? "Close navigation"
-                : "Open navigation"
-            }
-            aria-expanded={mobileOpen}
-            onClick={() => {
-              setMobileOpen((current) => !current);
-              setSearchOpen(false);
-              setMenuOpen(false);
-            }}
-            className="
-              flex
-              h-10
-              w-10
-              items-center
-              justify-center
-              rounded-full
-              text-[#404040]
-              transition
-              hover:bg-[#F7F4EE]
-              hover:text-[#171717]
-              sm:hidden
-            "
-          >
-            {mobileOpen ? (
-              <X size={21} />
-            ) : (
-              <Menu size={21} />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* =====================================================
-          MOBILE NAVIGATION
-      ===================================================== */}
-
-      {mobileOpen && (
-        <div
-          className="
-            border-t
-            border-[#E5E1D8]
-            bg-white
-            px-4
-            pb-6
-            pt-4
-            shadow-[0_15px_40px_rgba(23,23,23,0.08)]
-            sm:hidden
-          "
-        >
-
-          {/* MOBILE SEARCH */}
-
-          <form
-            onSubmit={handleSearch}
-            className="
-              mb-4
-              flex
-              items-center
-              rounded-2xl
-              border
-              border-[#E5E1D8]
-              bg-[#F8F6F1]
-              px-4
-              py-3
-            "
-          >
-            <Search
-              size={18}
-              className="mr-3 shrink-0 text-[#404040]"
-            />
-
-            <input
-              value={searchQuery}
-              onChange={(event) =>
-                setSearchQuery(event.target.value)
-              }
-              placeholder="Search Vistara..."
-              aria-label="Search Vistara"
-              className="
-                min-w-0
-                flex-1
-                bg-transparent
-                text-sm
-                text-[#171717]
-                outline-none
-                placeholder:text-[#A3A09A]
-              "
-            />
-          </form>
-
-          {/* MOBILE MAIN NAV */}
-
-          <nav className="space-y-1">
-            {mainNavigation.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
+              <div
+                role="menu"
                 className="
-                  block
-                  rounded-xl
-                  px-4
-                  py-3
-                  text-sm
-                  font-medium
-                  text-[#404040]
-                  transition
-                  hover:bg-[#F7F4EE]
-                  hover:text-[#171717]
+                  absolute
+                  right-0
+                  top-11
+                  z-[100]
+                  w-[255px]
+                  overflow-hidden
+                  rounded-2xl
+                  border
+                  border-[#E5E5E5]
+                  bg-white
+                  p-2
+                  shadow-[0_18px_50px_rgba(0,0,0,0.12)]
                 "
               >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
 
-          <div className="my-3 h-px bg-[#E5E1D8]" />
+                {/* =================================================
+                    MENU HEADER
+                ================================================= */}
 
-          {/* MOBILE ACCOUNT LINKS */}
+                <div className="px-3 pb-2 pt-2">
 
-          <div className="space-y-1">
+                  <p
+                    className="
+                      text-[10px]
+                      font-semibold
+                      uppercase
+                      tracking-[0.18em]
+                      text-[#999999]
+                    "
+                  >
+                    VISTARA
+                  </p>
 
-            {menuItems.map((item) => {
-              const Icon = item.icon;
+                  <p
+                    className="
+                      mt-1
+                      text-sm
+                      font-semibold
+                      text-[#171717]
+                    "
+                  >
+                    More options
+                  </p>
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
+                </div>
+
+                <div className="my-1 h-px bg-[#EEEEEE]" />
+
+                {/* =================================================
+                    MENU ITEMS
+                ================================================= */}
+
+                {menuItems.map((item) => {
+                  const Icon = item.icon;
+                  const active = isActive(item.href);
+
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      role="menuitem"
+                      onClick={closeMenu}
+                      className={`
+                        flex
+                        items-center
+                        gap-3
+                        rounded-xl
+                        px-3
+                        py-2.5
+                        text-sm
+                        transition-all
+                        duration-200
+
+                        ${
+                          active
+                            ? "bg-[#171717] text-white"
+                            : "text-[#444444] hover:bg-[#F4F4F4] hover:text-[#111111]"
+                        }
+                      `}
+                    >
+
+                      {/* ICON */}
+
+                      <span
+                        className={`
+                          flex
+                          h-8
+                          w-8
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-lg
+
+                          ${
+                            active
+                              ? "bg-white/15"
+                              : "bg-[#F3F3F3]"
+                          }
+                        `}
+                      >
+                        <Icon size={16} />
+                      </span>
+
+                      {/* TITLE */}
+
+                      <span>{item.title}</span>
+
+                    </Link>
+                  );
+                })}
+
+                {/* =================================================
+                    DIVIDER
+                ================================================= */}
+
+                <div className="my-1 h-px bg-[#EEEEEE]" />
+
+                {/* =================================================
+                    LOG OUT
+                ================================================= */}
+
+                <button
+                  type="button"
+                  role="menuitem"
+                  onClick={handleLogout}
                   className="
                     flex
+                    w-full
                     items-center
                     gap-3
                     rounded-xl
-                    px-4
-                    py-3
+                    px-3
+                    py-2.5
+                    text-left
                     text-sm
-                    font-medium
-                    text-[#404040]
-                    transition
-                    hover:bg-[#F7F4EE]
-                    hover:text-[#171717]
+                    text-[#555555]
+                    transition-all
+                    duration-200
+                    hover:bg-[#F4F4F4]
+                    hover:text-[#111111]
                   "
                 >
+
                   <span
                     className="
                       flex
                       h-8
                       w-8
+                      shrink-0
                       items-center
                       justify-center
                       rounded-lg
-                      bg-[#F1EFEA]
+                      bg-[#F3F3F3]
                     "
                   >
-                    <Icon size={16} />
+                    <LogOut size={16} />
                   </span>
 
-                  {item.title}
-                </Link>
-              );
-            })}
+                  <span>Log out</span>
 
-            {/* MOBILE SIGN IN */}
+                </button>
 
-            <Link
-              href="/login"
-              onClick={() => setMobileOpen(false)}
-              className="
-                flex
-                items-center
-                gap-3
-                rounded-xl
-                px-4
-                py-3
-                text-sm
-                font-semibold
-                text-[#171717]
-                transition
-                hover:bg-[#F7F4EE]
-              "
-            >
-              <span
-                className="
-                  flex
-                  h-8
-                  w-8
-                  items-center
-                  justify-center
-                  rounded-lg
-                  bg-[#F1EFEA]
-                "
-              >
-                <User size={16} />
-              </span>
+              </div>
+            )}
 
-              Sign in
-            </Link>
-
-            {/* MOBILE LOGOUT */}
-
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="
-                flex
-                w-full
-                items-center
-                gap-3
-                rounded-xl
-                px-4
-                py-3
-                text-left
-                text-sm
-                font-medium
-                text-[#737373]
-                transition
-                hover:bg-[#F7F4EE]
-                hover:text-[#171717]
-              "
-            >
-              <span
-                className="
-                  flex
-                  h-8
-                  w-8
-                  items-center
-                  justify-center
-                  rounded-lg
-                  bg-[#F1EFEA]
-                "
-              >
-                <LogOut size={16} />
-              </span>
-
-              Log out
-            </button>
           </div>
+
         </div>
-      )}
+
+      </div>
     </header>
   );
 }

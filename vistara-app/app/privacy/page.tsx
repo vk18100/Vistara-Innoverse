@@ -1,415 +1,253 @@
+"use client";
+
+import { FormEvent, useState } from "react";
 import Link from "next/link";
+import { Mail, ArrowLeft, ArrowRight } from "lucide-react";
+
 import Navbar from "@/components/navbar";
 
-const sections = [
-  {
-    number: "01",
-    title: "Information We Collect",
-    text: "Vistara may collect information you provide when creating an account, searching for accommodation, making a booking, using Explore, purchasing a Local Plan, requesting transport, listing a property, or contacting support.",
-    points: [
-      "Account and profile information",
-      "Booking and reservation information",
-      "Property, host, guide and provider information",
-      "Information submitted through support or service requests",
-    ],
-  },
-  {
-    number: "02",
-    title: "Account & Authentication",
-    text: "Account information is used to provide access to Vistara services and maintain the security of your account. Authentication is part of the Vistara application architecture and supports account, booking and provider workflows.",
-    points: [
-      "Account access and authentication",
-      "Profile and account settings",
-      "Security-related account activity",
-      "Role-based provider workflows where applicable",
-    ],
-  },
-  {
-    number: "03",
-    title: "Bookings & Payments",
-    text: "Information required for reservations and payments may be processed to complete transactions and provide booking-related services. Vistara's booking flow includes accommodation selection, availability, booking and payment.",
-    points: [
-      "Reservation details",
-      "Guest and booking information",
-      "Payment-related transaction information",
-      "Booking status and history",
-    ],
-  },
-  {
-    number: "04",
-    title: "Property & Provider Verification",
-    text: "Vistara includes verification workflows for properties and providers to support trust and safety. Information or documents submitted during verification may be reviewed as part of these workflows.",
-    points: [
-      "Host and provider information",
-      "Property information",
-      "Verification status",
-      "Verification-related records and reasons where applicable",
-    ],
-  },
-  {
-    number: "05",
-    title: "Location, Maps & Explore",
-    text: "Vistara uses location and map functionality as part of destination discovery, directions and travel workflows. Explore allows users to select an area, date, guests and interests before discovering relevant local options.",
-    points: [
-      "Selected destination or area",
-      "Map and location information",
-      "Directions and route information",
-      "Explore preferences such as food, culture, nature and local experiences",
-    ],
-  },
-  {
-    number: "06",
-    title: "Local Plan & Protected Details",
-    text: "The Vistara Explore journey can provide discovery information before a Local Plan is purchased. The planned Local Plan unlocks more detailed information such as exact locations, full place details, maps, directions and route sequences.",
-    points: [
-      "Discovery previews",
-      "Local Plan purchase information",
-      "Unlocked location details",
-      "Routes and planned journey information",
-    ],
-  },
-  {
-    number: "07",
-    title: "Transport & Trip Information",
-    text: "Vistara Services includes local and intercity transport workflows. Where transport is used, relevant information may be processed to support vehicle selection, pickup, destination, driver assignment, trip progress and completion.",
-    points: [
-      "Pickup and destination information",
-      "Selected vehicle type",
-      "Driver and trip information",
-      "Multi-stop journey information",
-    ],
-  },
-  {
-    number: "08",
-    title: "How We Use Information",
-    text: "Information may be used to operate and improve Vistara services, process bookings and payments, maintain account security, support verification, provide location-based functionality and communicate important service information.",
-    points: [
-      "Provide requested services",
-      "Process bookings and transactions",
-      "Support trust and safety workflows",
-      "Improve discovery and platform functionality",
-    ],
-  },
-  {
-    number: "09",
-    title: "Data Security",
-    text: "Vistara is designed with separate application, backend, database and service layers. Security-related account and transaction information should be handled using appropriate safeguards within the platform's technical architecture.",
-    points: [
-      "Authenticated account access",
-      "Protected application and backend workflows",
-      "Controlled access to platform data",
-      "Security-conscious handling of account and transaction information",
-    ],
-  },
-  {
-    number: "10",
-    title: "Your Choices",
-    text: "You can review and update certain account information through your profile and account settings. Information associated with bookings, payments, verification or completed services may be retained as necessary for the relevant platform workflow.",
-    points: [
-      "Review profile information",
-      "Update available account details",
-      "Manage relevant account settings",
-      "Contact support regarding privacy questions",
-    ],
-  },
-];
+export default function ForgotPassword() {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
-export default function Privacy() {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    setError("");
+    setSuccess("");
+
+    const cleanEmail = email.trim().toLowerCase();
+
+    if (!cleanEmail) {
+      setError("Please enter your email address.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: cleanEmail }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.message || "Unable to process your request."
+        );
+      }
+
+      setSuccess(
+        "If an account exists with this email, reset instructions have been sent."
+      );
+
+      setEmail("");
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      {/* =====================================================
-          HERO
-      ====================================================== */}
-      <section className="border-b border-[#E5DED6] bg-[#FAF8F3]">
-        <div className="mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-10 lg:py-16">
-          <Link
-            href="/settings"
-            className="inline-flex items-center text-sm font-medium text-[#756D67] transition hover:text-[#B76545]"
-          >
-            ← Back to Settings
-          </Link>
+      <section className="flex min-h-[calc(100vh-64px)] items-center justify-center px-4 py-8">
+        <div className="w-full max-w-[370px]">
 
-          <div className="mt-10 max-w-4xl">
-            <div className="flex items-center gap-3">
-              <span className="h-px w-10 bg-[#B76545]" />
+          {/* CARD */}
+          <div className="rounded-xl border border-neutral-200 bg-white px-5 py-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] sm:px-7">
 
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B76545]">
-                Legal & Privacy
-              </p>
-            </div>
-
-            <h1 className="mt-5 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-[#2C2420] sm:text-6xl">
-              Privacy, explained
-              <br />
-              <span className="text-[#B76545]">with clarity.</span>
-            </h1>
-
-            <p className="mt-7 max-w-2xl text-base leading-8 text-[#756D67] sm:text-lg">
-              This policy explains how information may be handled across
-              Vistara's accommodation, discovery, Local Plan, transport,
-              account and provider workflows.
-            </p>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <span className="rounded-full border border-[#E5DED6] bg-white px-4 py-2 text-xs font-semibold text-[#2C2420]">
-                Privacy
-              </span>
-
-              <span className="rounded-full border border-[#E5DED6] bg-white px-4 py-2 text-xs font-semibold text-[#2C2420]">
-                Account security
-              </span>
-
-              <span className="rounded-full border border-[#E5DED6] bg-white px-4 py-2 text-xs font-semibold text-[#2C2420]">
-                Trust & verification
-              </span>
-            </div>
-
-            <div className="mt-8 flex flex-col gap-2 border-l-2 border-[#B76545] pl-4">
-              <p className="text-xs font-bold uppercase tracking-wider text-[#756D67]">
-                Last updated
-              </p>
-
-              <p className="text-sm font-semibold text-[#2C2420]">
-                September 2026
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* =====================================================
-          CONTENT
-      ====================================================== */}
-      <section className="mx-auto max-w-6xl px-5 py-10 sm:px-6 lg:px-10 lg:py-16">
-        <div className="grid gap-10 lg:grid-cols-[220px_1fr]">
-          {/* SIDE INDEX */}
-          <aside className="hidden lg:block">
-            <div className="sticky top-24 rounded-3xl border border-[#E5DED6] bg-white p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
-                On this page
-              </p>
-
-              <nav className="mt-5 space-y-3">
-                {sections.map((section) => (
-                  <a
-                    key={section.number}
-                    href={`#section-${section.number}`}
-                    className="flex items-center gap-3 text-xs font-medium text-[#756D67] transition hover:text-[#B76545]"
-                  >
-                    <span className="font-semibold text-[#B76545]">
-                      {section.number}
-                    </span>
-
-                    <span>{section.title}</span>
-                  </a>
-                ))}
-              </nav>
-            </div>
-          </aside>
-
-          {/* MAIN DOCUMENT */}
-          <div className="min-w-0">
-            {/* INTRO */}
-            <div className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_40px_rgba(44,36,32,0.04)] sm:p-8">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
-                OUR APPROACH
-              </p>
-
-              <h2 className="mt-3 font-serif text-3xl font-semibold text-[#2C2420]">
-                Your information is part of your journey.
-              </h2>
-
-              <p className="mt-5 text-sm leading-8 text-[#756D67] sm:text-base">
-                Vistara connects accommodation, destination discovery,
-                Local Plans and travel services into one platform. This
-                means different parts of your journey can involve account,
-                booking, location, payment and provider information.
-              </p>
-
-              <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                <TrustItem
-                  number="01"
-                  title="Account"
-                  text="Profile and authentication"
-                />
-
-                <TrustItem
-                  number="02"
-                  title="Journey"
-                  text="Bookings and discovery"
-                />
-
-                <TrustItem
-                  number="03"
-                  title="Trust"
-                  text="Verification and security"
-                />
+            {/* ICON */}
+            <div className="flex justify-center">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-neutral-200">
+                <Mail size={17} strokeWidth={1.6} />
               </div>
             </div>
 
-            {/* SECTIONS */}
-            <div className="mt-8 space-y-5">
-              {sections.map((section) => (
-                <article
-                  id={`section-${section.number}`}
-                  key={section.number}
-                  className="scroll-mt-24 rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_10px_35px_rgba(44,36,32,0.035)] transition hover:shadow-[0_15px_45px_rgba(44,36,32,0.06)] sm:p-8"
+            {/* HEADER */}
+            <div className="mt-4 text-center">
+              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
+                Account recovery
+              </p>
+
+              <h1 className="mt-1.5 font-serif text-[23px] font-semibold tracking-tight">
+                Forgot your password?
+              </h1>
+
+              <p className="mx-auto mt-2 max-w-[300px] text-[11px] leading-[18px] text-neutral-500">
+                Enter your email and we'll send you a secure
+                link to reset your password.
+              </p>
+            </div>
+
+            {/* FORM */}
+            <form onSubmit={handleSubmit} className="mt-5 space-y-3.5">
+
+              {/* EMAIL */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="text-[11px] font-medium text-black"
                 >
-                  <div className="flex gap-5">
-                    {/* NUMBER */}
-                    <div className="hidden shrink-0 sm:block">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#E8DED0] font-serif text-sm font-semibold text-[#B76545]">
-                        {section.number}
-                      </div>
-                    </div>
+                  Email address
+                </label>
 
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-3 sm:hidden">
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E8DED0] font-serif text-xs font-semibold text-[#B76545]">
-                          {section.number}
-                        </span>
+                <div className="relative mt-1">
+                  <Mail
+                    size={14}
+                    strokeWidth={1.6}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400"
+                  />
 
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B76545]">
-                          Vistara Privacy
-                        </span>
-                      </div>
-
-                      <h2 className="mt-4 font-serif text-2xl font-semibold text-[#2C2420] sm:mt-0 sm:text-3xl">
-                        {section.title}
-                      </h2>
-
-                      <p className="mt-4 text-sm leading-7 text-[#756D67] sm:text-base sm:leading-8">
-                        {section.text}
-                      </p>
-
-                      <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                        {section.points.map((point) => (
-                          <div
-                            key={point}
-                            className="flex gap-3 rounded-2xl bg-[#FAF8F3] p-4"
-                          >
-                            <span className="mt-0.5 text-sm font-bold text-[#B76545]">
-                              ✓
-                            </span>
-
-                            <span className="text-sm leading-6 text-[#2C2420]">
-                              {point}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-
-            {/* SECURITY NOTE */}
-            <div className="mt-8 overflow-hidden rounded-[30px] bg-[#2C2420] p-7 text-white sm:p-9">
-              <div className="flex flex-col gap-7 sm:flex-row sm:items-start sm:justify-between">
-                <div className="max-w-2xl">
-                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#B8945A]">
-                    TRUST & SAFETY
-                  </p>
-
-                  <h2 className="mt-3 font-serif text-3xl font-semibold">
-                    Built around a connected travel workflow.
-                  </h2>
-
-                  <p className="mt-4 text-sm leading-7 text-white/65">
-                    Vistara's architecture separates the web application,
-                    backend, data services, maps, payment services and
-                    intelligence layer. Verification and security-related
-                    workflows are handled through the relevant application
-                    and backend services.
-                  </p>
-                </div>
-
-                <div className="shrink-0 rounded-2xl border border-white/10 bg-white/5 p-5">
-                  <div className="text-2xl">✓</div>
-
-                  <p className="mt-3 text-sm font-semibold">
-                    Trust-focused platform
-                  </p>
-
-                  <p className="mt-1 text-xs leading-5 text-white/50">
-                    Account · Booking · Verification
-                  </p>
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setError("");
+                      setSuccess("");
+                    }}
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    required
+                    disabled={loading}
+                    className="
+                      h-10
+                      w-full
+                      rounded-lg
+                      border
+                      border-neutral-200
+                      bg-white
+                      pl-9
+                      pr-3
+                      text-[11px]
+                      text-black
+                      outline-none
+                      transition
+                      placeholder:text-neutral-400
+                      hover:border-neutral-300
+                      focus:border-black
+                      focus:ring-2
+                      focus:ring-black/[0.04]
+                    "
+                  />
                 </div>
               </div>
-            </div>
 
-            {/* USER RIGHTS / SUPPORT */}
-            <div className="mt-8 rounded-[30px] border border-[#E5DED6] bg-[#E8DED0]/45 p-7 sm:p-9">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
-                QUESTIONS?
-              </p>
+              {/* MESSAGE */}
+              {error && (
+                <div
+                  role="alert"
+                  className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-[10px] leading-4 text-black"
+                >
+                  {error}
+                </div>
+              )}
 
-              <h2 className="mt-3 font-serif text-3xl font-semibold text-[#2C2420]">
-                Need help with your information?
-              </h2>
+              {success && (
+                <div
+                  role="status"
+                  className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-[10px] leading-4 text-black"
+                >
+                  {success}
+                </div>
+              )}
 
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-[#756D67]">
-                If you have questions about this policy, your account
-                information, bookings or privacy-related requests,
-                contact Vistara support.
-              </p>
-
-              <Link
-                href="/help"
-                className="mt-6 inline-flex rounded-xl bg-[#B76545] px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-[#965039]"
+              {/* BUTTON */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="
+                  group
+                  flex
+                  h-10
+                  w-full
+                  items-center
+                  justify-center
+                  gap-1.5
+                  rounded-lg
+                  bg-black
+                  px-4
+                  text-[11px]
+                  font-semibold
+                  text-white
+                  transition
+                  hover:bg-neutral-800
+                  active:scale-[0.99]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-50
+                "
               >
-                Contact Support
+                {loading ? (
+                  "Sending..."
+                ) : (
+                  <>
+                    Send reset link
+                    <ArrowRight
+                      size={14}
+                      className="transition-transform group-hover:translate-x-0.5"
+                    />
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* BACK */}
+            <div className="mt-4 flex justify-center">
+              <Link
+                href="/login"
+                className="
+                  inline-flex
+                  items-center
+                  gap-1
+                  text-[11px]
+                  font-medium
+                  text-neutral-500
+                  transition
+                  hover:text-black
+                "
+              >
+                <ArrowLeft size={13} />
+                Back to Sign In
               </Link>
             </div>
-
-            {/* LEGAL FOOTNOTE */}
-            <div className="mt-8 border-t border-[#E5DED6] pt-6">
-              <p className="text-xs leading-6 text-[#756D67]">
-                This page describes the privacy and information-handling
-                approach represented in the current Vistara prototype and
-                architecture. Specific legal, regulatory, retention and
-                jurisdictional requirements should be finalized before
-                production launch.
-              </p>
-            </div>
           </div>
+
+          {/* REGISTER */}
+          <p className="mt-4 text-center text-[11px] text-neutral-500">
+            Don't have an account?{" "}
+            <Link
+              href="/register"
+              className="font-semibold text-black hover:underline"
+            >
+              Create account
+            </Link>
+          </p>
+
+          {/* SECURITY */}
+          <p className="mx-auto mt-2.5 max-w-[320px] text-center text-[9px] leading-4 text-neutral-400">
+            For your security, we never reveal whether an email
+            is registered with Vistara.
+          </p>
         </div>
       </section>
     </main>
-  );
-}
-
-/* =========================================================
-   TRUST ITEM
-========================================================= */
-
-function TrustItem({
-  number,
-  title,
-  text,
-}: {
-  number: string;
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] p-4">
-      <div className="flex items-center gap-3">
-        <span className="text-xs font-bold text-[#B76545]">
-          {number}
-        </span>
-
-        <span className="text-sm font-semibold text-[#2C2420]">
-          {title}
-        </span>
-      </div>
-
-      <p className="mt-2 text-xs leading-5 text-[#756D67]">
-        {text}
-      </p>
-    </div>
   );
 }

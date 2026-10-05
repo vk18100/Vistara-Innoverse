@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import { prisma } from "@/lib/prisma";
 import { createToken } from "@/lib/auth";
 
@@ -17,42 +16,50 @@ type GoogleUser = {
   name?: string;
   email: string;
   picture?: string;
+  email_verified?: boolean;
 };
 
 export async function GET(req: Request) {
+  const appUrl = (
+    process.env.NEXT_PUBLIC_APP_URL ||
+    "http://localhost:3000"
+  ).replace(/\/$/, "");
+
   try {
     const url = new URL(req.url);
 
     const code = url.searchParams.get("code");
     const error = url.searchParams.get("error");
 
-    const appUrl = (
-      process.env.NEXT_PUBLIC_APP_URL ||
-      "http://localhost:3000"
-    ).replace(/\/$/, "");
+    /*
+    |--------------------------------------------------------------------------
+    | Google cancelled login
+    |--------------------------------------------------------------------------
+    */
 
-    console.log("GOOGLE CALLBACK");
-    console.log("CALLBACK URL:", req.url);
-    console.log("CODE EXISTS:", Boolean(code));
-    console.log("GOOGLE ERROR:", error);
-
-    // Google cancelled / rejected login
     if (error) {
       return NextResponse.redirect(
         `${appUrl}/login?error=google_cancelled`
       );
     }
 
-    // Google did not send authorization code
-    if (!code) {
-      console.error(
-        "GOOGLE CALLBACK ERROR: authorization code missing"
-      );
+    /*
+    |--------------------------------------------------------------------------
+    | Authorization code
+    |--------------------------------------------------------------------------
+    */
 
+    if (!code) {
       return NextResponse.redirect(
         `${appUrl}/login?error=google_code_missing`
       );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Google credentials
+    |--------------------------------------------------------------------------
+    */
 
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const clientSecret =
@@ -60,7 +67,7 @@ export async function GET(req: Request) {
 
     if (!clientId || !clientSecret) {
       console.error(
-        "GOOGLE CLIENT ID / SECRET MISSING"
+        "GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET missing"
       );
 
       return NextResponse.redirect(
@@ -71,14 +78,11 @@ export async function GET(req: Request) {
     const redirectUri =
       `${appUrl}/api/auth/google/callback`;
 
-    console.log(
-      "TOKEN REDIRECT URI:",
-      redirectUri
-    );
-
-    // --------------------------------
-    // Exchange authorization code
-    // --------------------------------
+    /*
+    |--------------------------------------------------------------------------
+    | Exchange code for Google tokens
+    |--------------------------------------------------------------------------
+    */
 
     const tokenResponse = await fetch(
       "https://oauth2.googleapis.com/token",
@@ -101,12 +105,9 @@ export async function GET(req: Request) {
     );
 
     if (!tokenResponse.ok) {
-      const errorText =
-        await tokenResponse.text();
-
       console.error(
-        "GOOGLE TOKEN ERROR:",
-        errorText
+        "GOOGLE TOKEN EXCHANGE FAILED:",
+        await tokenResponse.text()
       );
 
       return NextResponse.redirect(
@@ -117,9 +118,17 @@ export async function GET(req: Request) {
     const tokens =
       (await tokenResponse.json()) as GoogleTokenResponse;
 
-    // --------------------------------
-    // Get Google user
-    // --------------------------------
+    if (!tokens.access_token) {
+      return NextResponse.redirect(
+        `${appUrl}/login?error=google_access_token_missing`
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Google profile
+    |--------------------------------------------------------------------------
+    */
 
     const userResponse = await fetch(
       "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -133,7 +142,7 @@ export async function GET(req: Request) {
 
     if (!userResponse.ok) {
       console.error(
-        "GOOGLE USER INFO ERROR"
+        "GOOGLE USER INFO FAILED"
       );
 
       return NextResponse.redirect(
@@ -144,9 +153,21 @@ export async function GET(req: Request) {
     const googleUser =
       (await userResponse.json()) as GoogleUser;
 
+    /*
+    |--------------------------------------------------------------------------
+    | Validate Google account
+    |--------------------------------------------------------------------------
+    */
+
     if (!googleUser.email) {
       return NextResponse.redirect(
         `${appUrl}/login?error=google_email_missing`
+      );
+    }
+
+    if (googleUser.email_verified === false) {
+      return NextResponse.redirect(
+        `${appUrl}/login?error=google_email_not_verified`
       );
     }
 
@@ -154,9 +175,11 @@ export async function GET(req: Request) {
       .trim()
       .toLowerCase();
 
-    // --------------------------------
-    // Find user
-    // --------------------------------
+    /*
+    |--------------------------------------------------------------------------
+    | Find existing Vistara user
+    |--------------------------------------------------------------------------
+    */
 
     let user = await prisma.user.findUnique({
       where: {
@@ -164,15 +187,17 @@ export async function GET(req: Request) {
       },
     });
 
-    // --------------------------------
-    // Create user
-    // --------------------------------
+    /*
+    |--------------------------------------------------------------------------
+    | Create user if first Google login
+    |--------------------------------------------------------------------------
+    */
 
     if (!user) {
       user = await prisma.user.create({
         data: {
           name:
-            googleUser.name ||
+            googleUser.name?.trim() ||
             "Vistara User",
 
           email,
@@ -184,9 +209,11 @@ export async function GET(req: Request) {
       });
     }
 
-    // --------------------------------
-    // Create Vistara JWT
-    // --------------------------------
+    /*
+    |--------------------------------------------------------------------------
+    | Create Vistara JWT
+    |--------------------------------------------------------------------------
+    */
 
     const token = createToken({
       userId: user.id,
@@ -200,9 +227,11 @@ export async function GET(req: Request) {
         | "ADMIN",
     });
 
-    // --------------------------------
-    // Login + redirect
-    // --------------------------------
+    /*
+    |--------------------------------------------------------------------------
+    | Login response
+    |--------------------------------------------------------------------------
+    */
 
     const response = NextResponse.redirect(
       `${appUrl}/`
@@ -228,11 +257,7 @@ export async function GET(req: Request) {
 
     console.log(
       "GOOGLE LOGIN SUCCESS:",
-      {
-        userId: user.id,
-        email: user.email,
-        role: user.role,
-      }
+      user.id
     );
 
     return response;
@@ -241,11 +266,6 @@ export async function GET(req: Request) {
       "GOOGLE_LOGIN_ERROR:",
       error
     );
-
-    const appUrl = (
-      process.env.NEXT_PUBLIC_APP_URL ||
-      "http://localhost:3000"
-    ).replace(/\/$/, "");
 
     return NextResponse.redirect(
       `${appUrl}/login?error=google_login_failed`

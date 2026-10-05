@@ -1,483 +1,446 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
-  CalendarDays,
-  Check,
   Clock3,
   MapPin,
+  Check,
   Sparkles,
-  Users,
 } from "lucide-react";
+
 import Navbar from "@/components/navbar";
+import Footer from "@/app/footer/page";
 
 type Place = {
-  id?: string | number;
-  name?: string;
-  title?: string;
-  description?: string;
-  image?: string;
+  id?: number | string;
+  name: string;
+  description?: string | null;
+  image?: string | null;
+  category?: string | null;
+  area?: string | null;
 };
 
-type LocalPlan = {
-  id: string;
+type Plan = {
+  id: number;
   title: string;
   slug: string;
   description: string;
   city: string;
-  area: string;
-  price: number;
+  area?: string | null;
+  price: number | string;
   durationHours: number;
-  coverImage: string;
-  isFeatured: boolean;
-  places: Place[];
+  coverImage?: string | null;
+  places?: Place[];
+  placesCount?: number;
+  isFeatured?: boolean;
 };
+
+function formatPrice(price: number | string) {
+  return `₹${Number(price).toLocaleString("en-IN")}`;
+}
+
+function formatDuration(hours: number) {
+  if (hours >= 336) return "14 days";
+  if (hours >= 168) return "7 days";
+  if (hours >= 72) return "3 days";
+  return "2 days";
+}
 
 export default function LocalPlanDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const [plan, setPlan] = useState<LocalPlan | null>(null);
+  const [plan, setPlan] = useState<Plan | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const [id, setId] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
+    let active = true;
+
     async function loadPlan() {
       try {
-        const { id: planId } = await params;
+        setLoading(true);
+        setError("");
 
-        setId(planId);
+        const { id } = await params;
 
-        const response = await fetch(`/api/local-plans/${planId}`);
-
-        if (!response.ok) {
-          throw new Error("Plan not found");
-        }
+        const response = await fetch(`/api/local-plans/${id}`, {
+          method: "GET",
+          cache: "no-store",
+        });
 
         const result = await response.json();
 
-        if (result.success && result.data) {
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.message || "Unable to load this plan."
+          );
+        }
+
+        if (active) {
           setPlan(result.data);
-        } else {
-          setError(true);
         }
       } catch (err) {
-        console.error("Local plan error:", err);
-        setError(true);
+        console.error("LOCAL_PLAN_DETAIL_ERROR:", err);
+
+        if (active) {
+          setError(
+            err instanceof Error
+              ? err.message
+              : "Unable to load this plan."
+          );
+        }
       } finally {
-        setLoading(false);
+        if (active) {
+          setLoading(false);
+        }
       }
     }
 
     loadPlan();
-  }, [params]);
 
-  /* =========================
-     LOADING
-  ========================= */
+    return () => {
+      active = false;
+    };
+  }, [params]);
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#FAF9F6]">
+      <main className="min-h-screen bg-white text-black">
         <Navbar />
 
-        <div className="mx-auto max-w-7xl px-5 py-8 lg:px-10">
-          <div className="h-5 w-28 animate-pulse rounded bg-[#E7E2D8]" />
+        <section className="mx-auto max-w-6xl px-5 py-10 sm:px-6 lg:px-10">
+          <div className="animate-pulse">
+            <div className="h-3 w-20 rounded bg-neutral-200" />
+            <div className="mt-4 h-8 w-72 rounded bg-neutral-200" />
+            <div className="mt-3 h-4 w-full max-w-xl rounded bg-neutral-100" />
 
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1.4fr_0.6fr]">
-            <div className="h-[520px] animate-pulse rounded-[30px] bg-[#EDE9E1]" />
+            <div className="mt-8 h-[280px] rounded-2xl bg-neutral-100" />
 
-            <div className="h-[420px] animate-pulse rounded-[30px] bg-[#EDE9E1]" />
+            <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_280px]">
+              <div className="space-y-4">
+                <div className="h-5 w-40 rounded bg-neutral-200" />
+                <div className="h-20 rounded bg-neutral-100" />
+                <div className="h-20 rounded bg-neutral-100" />
+              </div>
+
+              <div className="h-52 rounded-2xl bg-neutral-100" />
+            </div>
           </div>
-        </div>
+        </section>
       </main>
     );
   }
 
-  /* =========================
-     NOT FOUND
-  ========================= */
-
   if (error || !plan) {
     return (
-      <main className="min-h-screen bg-[#FAF9F6] text-[#292524]">
+      <main className="min-h-screen bg-white text-black">
         <Navbar />
 
-        <div className="flex min-h-[70vh] items-center justify-center px-6">
-          <div className="text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#A08452]">
-              LOCAL PLANS
+        <section className="flex min-h-[65vh] items-center justify-center px-5">
+          <div className="max-w-md text-center">
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-neutral-400">
+              LOCAL PLAN
             </p>
 
-            <h1 className="mt-4 font-serif text-4xl font-semibold">
+            <h1 className="mt-3 font-serif text-2xl font-semibold">
               Plan not found
             </h1>
 
-            <p className="mt-3 text-sm text-[#78716C]">
-              This local plan may no longer be available.
+            <p className="mt-2 text-xs leading-5 text-neutral-500">
+              This local plan may have been removed or is
+              currently unavailable.
             </p>
 
             <Link
               href="/local-plans"
-              className="mt-7 inline-flex items-center gap-2 rounded-full bg-[#292524] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#44403C]"
+              className="mt-5 inline-flex items-center gap-2 rounded-lg bg-black px-4 py-2.5 text-[10px] font-semibold text-white transition hover:bg-neutral-800"
             >
-              <ArrowLeft size={16} />
-              Back to Local Plans
+              <ArrowLeft size={14} />
+              Back to local plans
             </Link>
           </div>
-        </div>
+        </section>
+
+        <Footer />
       </main>
     );
   }
 
+  const places = plan.places ?? [];
+
   return (
-    <main className="min-h-screen bg-[#FAF9F6] text-[#292524]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      {/* =========================================
-          PAGE
-      ========================================= */}
-
-      <section className="mx-auto max-w-7xl px-5 py-7 lg:px-10 lg:py-10">
-        {/* BACK */}
+      {/* BACK */}
+      <div className="mx-auto max-w-6xl px-5 pt-5 sm:px-6 lg:px-10">
         <Link
           href="/local-plans"
-          className="inline-flex items-center gap-2 text-sm font-medium text-[#78716C] transition hover:text-[#292524]"
+          className="inline-flex items-center gap-1.5 text-[10px] font-medium text-neutral-500 transition hover:text-black"
         >
-          <ArrowLeft size={16} />
-          Local Plans
+          <ArrowLeft size={13} />
+          Local plans
         </Link>
+      </div>
 
-        {/* =====================================
-            HERO
-        ===================================== */}
+      {/* HERO */}
+      <section className="mx-auto max-w-6xl px-5 pb-8 pt-5 sm:px-6 lg:px-10 lg:pb-10">
+        <div className="grid gap-7 lg:grid-cols-[1fr_390px] lg:items-end">
+          <div>
+            <div className="flex flex-wrap items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.14em] text-neutral-400">
+              <span>{plan.city}</span>
 
-        <div className="mt-7 grid gap-8 lg:grid-cols-[1.55fr_0.75fr]">
-          {/* IMAGE */}
-          <div className="relative min-h-[380px] overflow-hidden rounded-[30px] bg-[#E7E2D8] sm:min-h-[500px]">
-            <Image
-              src={plan.coverImage}
-              alt={plan.title}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 65vw"
-              className="object-cover"
-            />
+              {plan.area && (
+                <>
+                  <span>•</span>
+                  <span>{plan.area}</span>
+                </>
+              )}
 
-            {/* subtle overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+              {plan.isFeatured && (
+                <>
+                  <span>•</span>
+                  <span className="text-black">Featured</span>
+                </>
+              )}
+            </div>
 
-            {/* FEATURED */}
-            {plan.isFeatured && (
-              <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-semibold text-[#292524] shadow-sm backdrop-blur">
-                <Sparkles size={14} />
-                Featured plan
-              </div>
-            )}
+            <h1 className="mt-2 max-w-2xl font-serif text-[30px] font-semibold leading-[1.05] tracking-tight sm:text-[36px]">
+              {plan.title}
+            </h1>
 
-            {/* IMAGE TITLE */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 text-white sm:p-8">
-              <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-white/85">
-                <span className="inline-flex items-center gap-1.5">
-                  <MapPin size={14} />
-                  {plan.city}
-                </span>
+            <p className="mt-3 max-w-2xl text-[11px] leading-5 text-neutral-500 sm:text-xs">
+              {plan.description}
+            </p>
 
-                {plan.area && (
-                  <>
-                    <span>·</span>
-                    <span>{plan.area}</span>
-                  </>
-                )}
+            <div className="mt-4 flex flex-wrap gap-2">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 px-3 py-1.5 text-[9px] font-medium">
+                <MapPin size={12} />
+                {plan.city}
               </div>
 
-              <h1 className="mt-3 max-w-3xl font-serif text-3xl font-semibold leading-tight sm:text-5xl">
-                {plan.title}
-              </h1>
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 px-3 py-1.5 text-[9px] font-medium">
+                <Clock3 size={12} />
+                {formatDuration(plan.durationHours)}
+              </div>
+
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 px-3 py-1.5 text-[9px] font-medium">
+                <Sparkles size={12} />
+                {places.length || plan.placesCount || 0} places
+              </div>
             </div>
           </div>
 
-          {/* =================================
-              BOOKING / PRICING CARD
-          ================================= */}
+          {/* PRICE */}
+          <div className="border-t border-neutral-200 pt-4 lg:border-l lg:border-t-0 lg:pl-6">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-neutral-400">
+              One-time price
+            </p>
 
-          <aside className="lg:pt-2">
-            <div className="sticky top-24 overflow-hidden rounded-[28px] border border-[#E7E2D8] bg-white shadow-[0_16px_50px_rgba(41,37,36,0.07)]">
-              <div className="p-6 sm:p-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#A08452]">
-                  YOUR LOCAL PLAN
-                </p>
+            <div className="mt-1 flex items-center justify-between gap-4">
+              <span className="font-serif text-[25px] font-semibold tracking-tight">
+                {formatPrice(plan.price)}
+              </span>
 
-                <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight">
-                  {plan.title}
-                </h2>
-
-                {/* PRICE */}
-                <div className="mt-7 border-b border-[#E7E2D8] pb-6">
-                  <p className="text-xs text-[#78716C]">
-                    Starting from
-                  </p>
-
-                  <div className="mt-1 flex items-end gap-2">
-                    <span className="text-4xl font-semibold tracking-tight">
-                      ₹{Number(plan.price).toLocaleString("en-IN")}
-                    </span>
-
-                    <span className="mb-1 text-sm text-[#78716C]">
-                      / person
-                    </span>
-                  </div>
-                </div>
-
-                {/* QUICK INFO */}
-                <div className="space-y-4 py-6">
-                  <QuickInfo
-                    icon={<Clock3 size={17} />}
-                    label="Duration"
-                    value={`${plan.durationHours} hours`}
-                  />
-
-                  <QuickInfo
-                    icon={<MapPin size={17} />}
-                    label="Location"
-                    value={`${plan.area}, ${plan.city}`}
-                  />
-
-                  <QuickInfo
-                    icon={<Users size={17} />}
-                    label="Experience"
-                    value="Local experience"
-                  />
-                </div>
-
-                {/* CTA */}
-                <Link
-                  href={`/local-plans/purchase?planId=${plan.id}`}
-                  className="group flex w-full items-center justify-center gap-2 rounded-2xl bg-[#292524] px-5 py-4 text-sm font-semibold text-white transition hover:bg-[#44403C]"
-                >
-                  Book this plan
-                  <ArrowRight
-                    size={17}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
-                </Link>
-
-                <p className="mt-3 text-center text-xs text-[#A8A29E]">
-                  Plan details are shown before booking.
-                </p>
-              </div>
+              <span className="text-[9px] text-neutral-400">
+                Full plan access
+              </span>
             </div>
-          </aside>
+
+            <Link
+              href={`/local-plans/${plan.slug}?buy=true`}
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-2.5 text-[10px] font-semibold text-white transition hover:bg-neutral-800"
+            >
+              Get this plan
+              <ArrowRight size={13} />
+            </Link>
+          </div>
         </div>
+      </section>
 
-        {/* =====================================
-            DETAILS
-        ===================================== */}
+      {/* COVER */}
+      <section className="mx-auto max-w-6xl px-5 sm:px-6 lg:px-10">
+        <div className="relative h-[260px] overflow-hidden rounded-2xl bg-neutral-100 sm:h-[340px]">
+          {plan.coverImage ? (
+            <img
+              src={plan.coverImage}
+              alt={plan.title}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-xs text-neutral-400">
+              No cover image
+            </div>
+          )}
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_330px]">
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-5">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-white/70">
+              VISTARA LOCAL PLAN
+            </p>
+
+            <p className="mt-1 text-sm font-medium text-white">
+              Explore {plan.city} like a local.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTENT */}
+      <section className="mx-auto max-w-6xl px-5 py-9 sm:px-6 lg:px-10 lg:py-11">
+        <div className="grid gap-10 lg:grid-cols-[1fr_280px]">
+          {/* ITINERARY */}
           <div>
-            {/* ABOUT */}
-            <section className="border-b border-[#E7E2D8] pb-10">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A08452]">
-                ABOUT THIS PLAN
+            <div className="mb-5">
+              <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-neutral-400">
+                INCLUDED IN YOUR PLAN
               </p>
 
-              <h2 className="mt-3 font-serif text-3xl font-semibold">
-                A simple way to experience the city.
+              <h2 className="mt-1 font-serif text-xl font-semibold">
+                Places to discover
               </h2>
+            </div>
 
-              <p className="mt-5 max-w-3xl text-[15px] leading-8 text-[#57534E]">
-                {plan.description}
-              </p>
-            </section>
+            {places.length > 0 ? (
+              <div className="divide-y divide-neutral-200 border-y border-neutral-200">
+                {places.map((place, index) => (
+                  <div
+                    key={place.id ?? `${place.name}-${index}`}
+                    className="flex gap-4 py-4"
+                  >
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-black text-[9px] font-semibold">
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
 
-            {/* PLACES */}
-            <section className="border-b border-[#E7E2D8] py-10">
-              <div className="flex items-end justify-between gap-4">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A08452]">
-                    ON THE PLAN
-                  </p>
+                    {place.image && (
+                      <img
+                        src={place.image}
+                        alt={place.name}
+                        className="h-16 w-20 shrink-0 rounded-lg object-cover"
+                      />
+                    )}
 
-                  <h2 className="mt-2 font-serif text-3xl font-semibold">
-                    Places you’ll explore
-                  </h2>
-                </div>
-
-                <span className="hidden text-sm text-[#78716C] sm:block">
-                  {plan.places?.length || 0} places
-                </span>
-              </div>
-
-              {plan.places?.length > 0 ? (
-                <div className="mt-7 space-y-4">
-                  {plan.places.map((place, index) => (
-                    <div
-                      key={place.id ?? index}
-                      className="group flex gap-4 rounded-2xl border border-[#E7E2D8] bg-white p-4 transition hover:shadow-md"
-                    >
-                      {/* NUMBER */}
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F4EFE5] text-sm font-semibold text-[#8B6F3D]">
-                        {String(index + 1).padStart(2, "0")}
-                      </div>
-
-                      <div className="min-w-0">
-                        <h3 className="font-semibold">
-                          {place.name || place.title || "Local destination"}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h3 className="text-xs font-semibold text-black">
+                          {place.name}
                         </h3>
 
-                        {place.description && (
-                          <p className="mt-1.5 text-sm leading-6 text-[#78716C]">
-                            {place.description}
-                          </p>
+                        {place.category && (
+                          <span className="rounded-full bg-neutral-100 px-2 py-0.5 text-[8px] font-medium text-neutral-500">
+                            {place.category}
+                          </span>
                         )}
                       </div>
+
+                      {place.area && (
+                        <p className="mt-1 text-[9px] text-neutral-400">
+                          {place.area}
+                        </p>
+                      )}
+
+                      {place.description && (
+                        <p className="mt-1.5 max-w-xl text-[10px] leading-4 text-neutral-500">
+                          {place.description}
+                        </p>
+                      )}
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="mt-6 text-sm text-[#78716C]">
-                  Places included in this plan will be shared during
-                  booking.
-                </p>
-              )}
-            </section>
-
-            {/* INCLUDED */}
-            <section className="py-10">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#A08452]">
-                WHAT YOU GET
-              </p>
-
-              <h2 className="mt-2 font-serif text-3xl font-semibold">
-                Everything kept simple.
-              </h2>
-
-              <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                {[
-                  "Curated local route",
-                  "Local places to explore",
-                  "Flexible experience",
-                  "Clear upfront pricing",
-                  "Plan details before booking",
-                  "Easy booking experience",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-3 rounded-2xl border border-[#E7E2D8] bg-white px-4 py-4"
-                  >
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#F4EFE5] text-[#8B6F3D]">
-                      <Check size={15} />
-                    </span>
-
-                    <span className="text-sm font-medium">
-                      {item}
-                    </span>
                   </div>
                 ))}
               </div>
-            </section>
+            ) : (
+              <div className="border-y border-neutral-200 py-8 text-center">
+                <p className="text-xs font-medium">
+                  Your local plan is ready to explore.
+                </p>
+
+                <p className="mt-1 text-[10px] text-neutral-400">
+                  Detailed places will appear here once available.
+                </p>
+              </div>
+            )}
           </div>
 
-          {/* SIDE SUMMARY */}
-          <aside className="hidden lg:block">
-            <div className="rounded-[26px] border border-[#E7E2D8] bg-[#F4EFE5] p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8B6F3D]">
-                PLAN AT A GLANCE
+          {/* SIDE INFO */}
+          <aside>
+            <div className="rounded-2xl border border-neutral-200 p-5">
+              <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-neutral-400">
+                PLAN DETAILS
               </p>
 
-              <div className="mt-6 space-y-5">
-                <SummaryItem
-                  icon={<CalendarDays size={18} />}
-                  title="Local experience"
-                  value={plan.city}
-                />
+              <div className="mt-4 space-y-3">
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-[10px] text-neutral-500">
+                    Destination
+                  </span>
 
-                <SummaryItem
-                  icon={<Clock3 size={18} />}
-                  title="Duration"
-                  value={`${plan.durationHours} hours`}
-                />
+                  <span className="text-[10px] font-semibold">
+                    {plan.city}
+                  </span>
+                </div>
 
-                <SummaryItem
-                  icon={<MapPin size={18} />}
-                  title="Area"
-                  value={plan.area}
-                />
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-[10px] text-neutral-500">
+                    Duration
+                  </span>
 
-                <SummaryItem
-                  icon={<Users size={18} />}
-                  title="Best for"
-                  value="Explorers & travellers"
-                />
+                  <span className="text-[10px] font-semibold">
+                    {formatDuration(plan.durationHours)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-[10px] text-neutral-500">
+                    Places
+                  </span>
+
+                  <span className="text-[10px] font-semibold">
+                    {places.length || plan.placesCount || 0}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between gap-4 border-t border-neutral-200 pt-3">
+                  <span className="text-[10px] text-neutral-500">
+                    Price
+                  </span>
+
+                  <span className="text-sm font-semibold">
+                    {formatPrice(plan.price)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-5 border-t border-neutral-200 pt-4">
+                <div className="flex gap-2">
+                  <Check
+                    size={13}
+                    className="mt-0.5 shrink-0"
+                  />
+
+                  <p className="text-[9px] leading-4 text-neutral-500">
+                    One-time purchase. Access your selected local
+                    plan and its curated places.
+                  </p>
+                </div>
+
+                <Link
+                  href={`/local-plans/${plan.slug}?buy=true`}
+                  className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-black px-3 py-2.5 text-[10px] font-semibold text-white transition hover:bg-neutral-800"
+                >
+                  Get this plan
+                  <ArrowRight size={13} />
+                </Link>
               </div>
             </div>
           </aside>
         </div>
       </section>
+
+      <Footer />
     </main>
-  );
-}
-
-/* =========================================
-   QUICK INFO
-========================================= */
-
-function QuickInfo({
-  icon,
-  label,
-  value,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-center gap-3">
-      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F4EFE5] text-[#8B6F3D]">
-        {icon}
-      </span>
-
-      <div>
-        <p className="text-xs text-[#A8A29E]">{label}</p>
-        <p className="mt-0.5 text-sm font-medium text-[#44403C]">
-          {value}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* =========================================
-   SUMMARY ITEM
-========================================= */
-
-function SummaryItem({
-  icon,
-  title,
-  value,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <span className="mt-0.5 text-[#8B6F3D]">{icon}</span>
-
-      <div>
-        <p className="text-xs text-[#78716C]">{title}</p>
-        <p className="mt-1 text-sm font-semibold text-[#292524]">
-          {value}
-        </p>
-      </div>
-    </div>
   );
 }

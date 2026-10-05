@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -29,7 +29,6 @@ export default function HostRegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
   function updateField(
     field: keyof typeof form,
     value: string,
@@ -39,86 +38,52 @@ export default function HostRegisterPage() {
       [field]: value,
     }));
   }
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
+  try {
+    setLoading(true);
     setError("");
-    setSuccess("");
 
-    if (
-      !form.firstName ||
-      !form.lastName ||
-      !form.email ||
-      !form.phone ||
-      !form.password ||
-      !form.confirmPassword
-    ) {
-      setError("Please complete all required fields.");
-      return;
-    }
+    const response = await fetch("/api/host/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+     body: JSON.stringify({
+  firstName: form.firstName,
+  lastName: form.lastName,
+  email: form.email,
+  phone: form.phone,
+  password: form.password,
+  confirmPassword: form.confirmPassword,
+}),
+    });
 
-    if (form.password.length < 8) {
-      setError(
-        "Password must contain at least 8 characters.",
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message || "Unable to create host account."
       );
-      return;
     }
 
-    if (form.password !== form.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
+    // Registration successful
+    alert("Host account created successfully.");
 
-    try {
-      setLoading(true);
+    window.location.href = "/login";
+  } catch (error) {
+    console.error("HOST_REGISTER_ERROR:", error);
 
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          firstName: form.firstName,
-          lastName: form.lastName,
-          email: form.email,
-          phone: form.phone,
-          password: form.password,
-          role: "HOST",
-        }),
-      });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(
-          data?.message || "Registration failed.",
-        );
-      }
-
-      setSuccess(
-        "Your host account has been created successfully.",
-      );
-
-      setForm({
-        firstName: "",
-        lastName: "",
-        email: "",
-        phone: "",
-        password: "",
-        confirmPassword: "",
-      });
-    } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong. Please try again.",
-      );
-    } finally {
-      setLoading(false);
-    }
+    setError(
+      error instanceof Error
+        ? error.message
+        : "Something went wrong."
+    );
+  } finally {
+    setLoading(false);
   }
+};
 
   return (
     <main className="min-h-screen bg-[#FAF8F3] text-[#18181B]">

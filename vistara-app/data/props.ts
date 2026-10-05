@@ -1,30 +1,42 @@
-export const props = [
+export type Property = {
+  id: string;
+  name: string;
+  location: string;
+  description: string;
+  price: number;
+  rating: number;
+  reviews: number;
+  images: string[];
+  guests?: number;
+  amenities: string[];
+
+  host: {
+    name: string;
+    image: string;
+  };
+};
+
+export const props: Property[] = [
   {
-    id: "1",
-    name: "Serene Valley Villa",
-    location: "Manali, Himachal Pradesh",
-    price: 4500,
-    rating: 4.8,
+    id: "patna-heritage-stay",
+    name: "Patna Heritage Stay",
+    location: "Rajendra Nagar, Patna",
+    description: "A beautiful stay in Patna.",
+    price: 2200,
+    rating: 4.7,
     reviews: 24,
-    images: [
-      "/properties/p1.jpg",
-      "/properties/p2.jpg",
-      "/properties/p3.jpg",
-      "/properties/p4.jpg",
-    ],
-    description:
-      "A peaceful villa surrounded by mountains, perfect for a relaxing getaway.",
+    images: ["/images/pag1 (28).jpg"],
+    guests: 3,
     amenities: [
       "WiFi",
+      "Air conditioning",
       "Parking",
-      "Kitchen",
-      "Mountain View",
-      "Pool",
-      "Air Conditioning",
     ],
     host: {
-      name: "Ananya Sharma",
-      image: "/avatars/a1.jpg",
+      name: "Vistara Host",
+      image: "/images/host.jpg",
     },
   },
+
+  // baaki properties...
 ];

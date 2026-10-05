@@ -8,13 +8,17 @@ type Params = {
 };
 
 /* =========================
-   GET /api/guide/[id]
-   Public — single guide profile with availability
+   GET /api/guides/[id]
+   Public — single guide
 ========================= */
 
-export async function GET(req: NextRequest, { params }: Params) {
+export async function GET(
+  req: NextRequest,
+  { params }: Params
+) {
   try {
     const { id } = await params;
+
     const guideId = Number(id);
 
     if (!Number.isInteger(guideId) || guideId <= 0) {
@@ -31,12 +35,21 @@ export async function GET(req: NextRequest, { params }: Params) {
       where: {
         id: guideId,
       },
+
       include: {
         user: {
           select: {
+            id: true,
             name: true,
+            email: true,
+            profile: {
+              select: {
+                avatar: true,
+              },
+            },
           },
         },
+
         availability: {
           where: {
             isActive: true,
@@ -44,6 +57,7 @@ export async function GET(req: NextRequest, { params }: Params) {
               gte: new Date(),
             },
           },
+
           orderBy: {
             startTime: "asc",
           },
@@ -63,19 +77,59 @@ export async function GET(req: NextRequest, { params }: Params) {
 
     return NextResponse.json({
       success: true,
+
       data: {
-        id: guide.id,
-        name: guide.user.name,
+        id: String(guide.id),
+
+        name:
+          guide.user.name?.trim() ||
+          "Vistara Local Guide",
+
+        location: guide.city,
+
         city: guide.city,
-        bio: guide.bio,
-        languages: guide.languages,
-        specialties: guide.specialties,
-        experienceYears: guide.experienceYears,
-        hourlyRate: guide.hourlyRate ? Number(guide.hourlyRate) : null,
-        halfDayRate: guide.halfDayRate ? Number(guide.halfDayRate) : null,
-        fullDayRate: guide.fullDayRate ? Number(guide.fullDayRate) : null,
-        rating: guide.rating,
-        reviewCount: guide.reviewCount,
+
+        image:
+          guide.user.profile?.avatar ||
+          "/images/profile.jpg",
+
+        bio: guide.bio || "",
+
+        description: guide.bio || "",
+
+        languages: guide.languages || [],
+
+        specialties: guide.specialties || [],
+
+        experience: guide.experienceYears || 0,
+
+        experienceYears:
+          guide.experienceYears || 0,
+
+        price: guide.hourlyRate
+          ? Number(guide.hourlyRate)
+          : 0,
+
+        hourlyRate: guide.hourlyRate
+          ? Number(guide.hourlyRate)
+          : null,
+
+        halfDayRate: guide.halfDayRate
+          ? Number(guide.halfDayRate)
+          : null,
+
+        fullDayRate: guide.fullDayRate
+          ? Number(guide.fullDayRate)
+          : null,
+
+        rating: Number(guide.rating || 0),
+
+        reviews: guide.reviewCount || 0,
+
+        reviewCount: guide.reviewCount || 0,
+
+        verified: true,
+
         availability: guide.availability,
       },
     });

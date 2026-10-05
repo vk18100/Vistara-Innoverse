@@ -1,18 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { verifyToken } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
-    const cookieHeader = req.headers.get("cookie");
+    // --------------------------------
+    // Get authentication cookie
+    // --------------------------------
 
-    const token = cookieHeader
-      ?.split("; ")
-      .find((cookie) => cookie.startsWith("vistara_token="))
-      ?.split("=")[1];
+    const token = req.cookies.get("vistara_token")?.value;
 
-    // No authentication cookie
     if (!token) {
       return NextResponse.json(
         {
@@ -23,7 +21,10 @@ export async function GET(req: Request) {
       );
     }
 
+    // --------------------------------
     // Verify JWT
+    // --------------------------------
+
     const payload = verifyToken(token);
 
     if (!payload) {
@@ -36,11 +37,15 @@ export async function GET(req: Request) {
       );
     }
 
-    // Find user from JWT userId
+    // --------------------------------
+    // Find current user
+    // --------------------------------
+
     const user = await prisma.user.findUnique({
       where: {
         id: payload.userId,
       },
+
       select: {
         id: true,
         name: true,
@@ -48,6 +53,7 @@ export async function GET(req: Request) {
         phone: true,
         role: true,
         createdAt: true,
+
         profile: true,
       },
     });
@@ -61,6 +67,10 @@ export async function GET(req: Request) {
         { status: 404 }
       );
     }
+
+    // --------------------------------
+    // Success
+    // --------------------------------
 
     return NextResponse.json({
       success: true,

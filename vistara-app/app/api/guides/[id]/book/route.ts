@@ -11,8 +11,8 @@ type Context = {
 
 /*
 |--------------------------------------------------------------------------
-| GET
-| Load guide for booking page
+| GET /api/guides/[id]/book
+| Load guide for booking
 |--------------------------------------------------------------------------
 */
 
@@ -22,10 +22,9 @@ export async function GET(
 ) {
   try {
     const { id: idParam } = await params;
-
     const id = Number(idParam);
 
-    if (!Number.isInteger(id)) {
+    if (!Number.isInteger(id) || id <= 0) {
       return NextResponse.json(
         {
           success: false,
@@ -39,13 +38,11 @@ export async function GET(
       where: {
         id,
       },
-
       include: {
         user: {
           select: {
             id: true,
             name: true,
-
             profile: {
               select: {
                 avatar: true,
@@ -53,10 +50,15 @@ export async function GET(
             },
           },
         },
-
         availability: {
           where: {
             isActive: true,
+            startTime: {
+              gte: new Date(),
+            },
+          },
+          orderBy: {
+            startTime: "asc",
           },
         },
       },
@@ -66,7 +68,7 @@ export async function GET(
       return NextResponse.json(
         {
           success: false,
-          message: "Guide not found.",
+          message: "Guide not found or unavailable.",
         },
         { status: 404 }
       );
@@ -75,7 +77,30 @@ export async function GET(
     return NextResponse.json({
       success: true,
       data: {
-        guide,
+        guide: {
+          id: guide.id,
+          name: guide.user.name,
+          city: guide.city,
+          bio: guide.bio,
+          languages: guide.languages,
+          specialties: guide.specialties,
+          experienceYears: guide.experienceYears,
+          hourlyRate: guide.hourlyRate
+            ? Number(guide.hourlyRate)
+            : 0,
+          halfDayRate: guide.halfDayRate
+            ? Number(guide.halfDayRate)
+            : null,
+          fullDayRate: guide.fullDayRate
+            ? Number(guide.fullDayRate)
+            : null,
+          rating: Number(guide.rating || 0),
+          reviewCount: guide.reviewCount || 0,
+          image:
+            guide.user.profile?.avatar ||
+            "/images/profile.jpg",
+          availability: guide.availability,
+        },
       },
     });
   } catch (error) {
@@ -93,8 +118,8 @@ export async function GET(
 
 /*
 |--------------------------------------------------------------------------
-| POST
-| Create Guide Booking
+| POST /api/guides/[id]/book
+| Create guide booking
 |--------------------------------------------------------------------------
 */
 
@@ -109,17 +134,10 @@ export async function POST(
   }
 
   try {
-    /*
-    |--------------------------------------------------------------------------
-    | Guide ID
-    |--------------------------------------------------------------------------
-    */
-
     const { id: idParam } = await params;
-
     const guideId = Number(idParam);
 
-    if (!Number.isInteger(guideId)) {
+    if (!Number.isInteger(guideId) || guideId <= 0) {
       return NextResponse.json(
         {
           success: false,
@@ -129,26 +147,14 @@ export async function POST(
       );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Request body
-    |--------------------------------------------------------------------------
-    */
-
     const body = await req.json();
 
     const {
       date,
       startTime,
       duration,
-      guests,
+      guests = 1,
     } = body;
-
-    /*
-    |--------------------------------------------------------------------------
-    | Validation
-    |--------------------------------------------------------------------------
-    */
 
     if (!date) {
       return NextResponse.json(
@@ -174,43 +180,38 @@ export async function POST(
 
     if (
       !Number.isFinite(durationHours) ||
-      durationHours <= 0
+      durationHours <= 0 ||
+      durationHours > 12
     ) {
       return NextResponse.json(
         {
           success: false,
-          message: "Valid duration is required.",
+          message: "Duration must be between 1 and 12 hours.",
         },
         { status: 400 }
       );
     }
 
-    const guestCount = Number(guests ?? 1);
+    const guestCount = Number(guests);
 
     if (
       !Number.isInteger(guestCount) ||
-      guestCount <= 0
+      guestCount < 1 ||
+      guestCount > 20
     ) {
       return NextResponse.json(
         {
           success: false,
-          message: "Valid guest count is required.",
+          message: "Guests must be between 1 and 20.",
         },
         { status: 400 }
       );
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Find guide
-    |--------------------------------------------------------------------------
-    */
 
     const guide = await prisma.guideProfile.findUnique({
       where: {
         id: guideId,
       },
-
       select: {
         id: true,
         userId: true,
@@ -230,12 +231,6 @@ export async function POST(
       );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Prevent self booking
-    |--------------------------------------------------------------------------
-    */
-
     if (guide.userId === user!.id) {
       return NextResponse.json(
         {
@@ -245,17 +240,6 @@ export async function POST(
         { status: 400 }
       );
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Create start DateTime
-    |--------------------------------------------------------------------------
-    |
-    | Frontend sends:
-    | date      = "2026-09-28"
-    | startTime = "10:00"
-    |
-    */
 
     const startDateTime = new Date(
       `${date}T${startTime}:00`
@@ -271,11 +255,15 @@ export async function POST(
       );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Calculate end DateTime
-    |--------------------------------------------------------------------------
-    */
+    if (startDateTime <= new Date()) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Booking time must be in the future.",
+        },
+        { status: 400 }
+      );
+    }
 
     const endDateTime = new Date(
       startDateTime.getTime() +
@@ -284,7 +272,43 @@ export async function POST(
 
     /*
     |--------------------------------------------------------------------------
-    | Calculate amount
+    | Check overlapping guide bookings
+    |--------------------------------------------------------------------------
+    */
+
+    const existingBooking =
+      await prisma.guideBooking.findFirst({
+        where: {
+          guideId: guide.id,
+
+          status: {
+            in: ["PENDING", "CONFIRMED"],
+          },
+
+          startTime: {
+            lt: endDateTime,
+          },
+
+          endTime: {
+            gt: startDateTime,
+          },
+        },
+      });
+
+    if (existingBooking) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "Guide is already booked for this time.",
+        },
+        { status: 409 }
+      );
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Calculate price
     |--------------------------------------------------------------------------
     */
 
@@ -292,8 +316,7 @@ export async function POST(
       guide.hourlyRate ?? 0
     );
 
-    const amount =
-      hourlyRate * durationHours;
+    const amount = hourlyRate * durationHours;
 
     /*
     |--------------------------------------------------------------------------
@@ -305,34 +328,20 @@ export async function POST(
       await prisma.guideBooking.create({
         data: {
           guestId: user!.id,
-
           guideId: guide.id,
-
           startTime: startDateTime,
-
           endTime: endDateTime,
-
           guests: guestCount,
-
           amount,
-
           status: "PENDING",
         },
       });
 
-    /*
-    |--------------------------------------------------------------------------
-    | Response
-    |--------------------------------------------------------------------------
-    */
-
     return NextResponse.json(
       {
         success: true,
-
         message:
-          "Guide booking request created successfully.",
-
+          "Guide booking created successfully.",
         data: {
           booking,
         },
@@ -348,8 +357,7 @@ export async function POST(
     return NextResponse.json(
       {
         success: false,
-        message:
-          "Unable to create guide booking.",
+        message: "Unable to create guide booking.",
       },
       { status: 500 }
     );

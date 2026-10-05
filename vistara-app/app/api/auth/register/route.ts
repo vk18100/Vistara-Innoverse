@@ -6,28 +6,46 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
+    // --------------------------------
+    // Parse request
+    // --------------------------------
+
     const body = await req.json();
 
     const name =
-      typeof body.name === "string"
+      typeof body?.name === "string"
         ? body.name.trim()
         : "";
 
     const email =
-      typeof body.email === "string"
+      typeof body?.email === "string"
         ? body.email.trim().toLowerCase()
         : "";
 
     const password =
-      typeof body.password === "string"
+      typeof body?.password === "string"
         ? body.password
         : "";
+
+    // --------------------------------
+    // Validation
+    // --------------------------------
 
     if (!name || !email || !password) {
       return NextResponse.json(
         {
           success: false,
-          message: "Name, email and password are required",
+          message: "Name, email and password are required.",
+        },
+        { status: 400 }
+      );
+    }
+
+    if (name.length > 100) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Name must be 100 characters or less.",
         },
         { status: 400 }
       );
@@ -37,11 +55,15 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: "Password must be at least 6 characters",
+          message: "Password must be at least 6 characters.",
         },
         { status: 400 }
       );
     }
+
+    // --------------------------------
+    // Check existing user
+    // --------------------------------
 
     const existingUser = await prisma.user.findUnique({
       where: {
@@ -53,13 +75,21 @@ export async function POST(req: Request) {
       return NextResponse.json(
         {
           success: false,
-          message: "User already exists",
+          message: "An account with this email already exists.",
         },
         { status: 409 }
       );
     }
 
+    // --------------------------------
+    // Hash password
+    // --------------------------------
+
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // --------------------------------
+    // Create user
+    // --------------------------------
 
     const user = await prisma.user.create({
       data: {
@@ -68,6 +98,7 @@ export async function POST(req: Request) {
         password: hashedPassword,
         role: "GUEST",
       },
+
       select: {
         id: true,
         name: true,
@@ -75,6 +106,10 @@ export async function POST(req: Request) {
         role: true,
       },
     });
+
+    // --------------------------------
+    // Create authentication token
+    // --------------------------------
 
     const token = createToken({
       userId: user.id,
@@ -86,10 +121,14 @@ export async function POST(req: Request) {
         | "ADMIN",
     });
 
+    // --------------------------------
+    // Create response + cookie
+    // --------------------------------
+
     const response = NextResponse.json(
       {
         success: true,
-        message: "Account created successfully",
+        message: "Account created successfully.",
         user,
       },
       { status: 201 }
@@ -112,7 +151,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: "Something went wrong",
+        message: "Unable to create your account. Please try again.",
       },
       { status: 500 }
     );

@@ -2,13 +2,14 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+
 import {
-  Heart,
-  MapPin,
   ArrowRight,
+  Heart,
   Loader2,
+  MapPin,
   Search,
-  Sparkles,
+  Star,
 } from "lucide-react";
 
 import Navbar from "@/components/navbar";
@@ -27,15 +28,52 @@ type WishlistPlace = {
 };
 
 type WishlistResponse = {
+  success?: boolean;
   data?: WishlistPlace[];
   message?: string;
 };
 
+/* =========================================================
+   AUTH TOKEN
+   ---------------------------------------------------------
+   If your auth is cookie based, credentials: "include"
+   will handle it.
+
+   If your login stores a token in localStorage, this also
+   tries common token names.
+========================================================= */
+
+function getAuthHeaders(): HeadersInit {
+  if (typeof window === "undefined") {
+    return {};
+  }
+
+  const token =
+    localStorage.getItem("token") ||
+    localStorage.getItem("accessToken") ||
+    localStorage.getItem("authToken");
+
+  if (!token) {
+    return {};
+  }
+
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+}
+
 export default function WishlistPage() {
-  const [places, setPlaces] = useState<WishlistPlace[]>([]);
+  const [places, setPlaces] = useState<WishlistPlace[]>(
+    []
+  );
+
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState("");
-  const [removingId, setRemovingId] = useState<number | null>(null);
+
+  const [removingId, setRemovingId] = useState<
+    number | null
+  >(null);
 
   /* =========================================================
      LOAD WISHLIST
@@ -48,21 +86,51 @@ export default function WishlistPage() {
 
       const response = await fetch("/api/wishlist", {
         method: "GET",
+
         credentials: "include",
+
         cache: "no-store",
+
+        headers: {
+          ...getAuthHeaders(),
+        },
       });
 
-      const result: WishlistResponse = await response.json();
+      /*
+       * Authentication failed.
+       *
+       * Don't throw "Authentication required"
+       * into console as an application error.
+       */
+      if (response.status === 401) {
+        if (typeof window !== "undefined") {
+          window.location.href =
+            "/login?redirect=/wishlist";
+        }
+
+        return;
+      }
+
+      const result: WishlistResponse =
+        await response.json();
 
       if (!response.ok) {
         throw new Error(
-          result?.message || "Unable to load your wishlist."
+          result.message ||
+            "Unable to load your wishlist."
         );
       }
 
-      setPlaces(Array.isArray(result.data) ? result.data : []);
+      setPlaces(
+        Array.isArray(result.data)
+          ? result.data
+          : []
+      );
     } catch (error) {
-      console.error("WISHLIST_LOAD_ERROR:", error);
+      console.error(
+        "WISHLIST_LOAD_ERROR:",
+        error
+      );
 
       setError(
         error instanceof Error
@@ -82,7 +150,9 @@ export default function WishlistPage() {
      REMOVE FROM WISHLIST
   ========================================================= */
 
-  const removeFromWishlist = async (propertyId: number) => {
+  const removeFromWishlist = async (
+    propertyId: number
+  ) => {
     if (removingId !== null) return;
 
     const previousPlaces = places;
@@ -90,39 +160,66 @@ export default function WishlistPage() {
     try {
       setRemovingId(propertyId);
 
-      // Optimistic UI:
-      // card disappears immediately
+      /*
+       * Optimistic UI
+       */
       setPlaces((current) =>
         current.filter(
-          (place) => place.propertyId !== propertyId
+          (place) =>
+            place.propertyId !== propertyId
         )
       );
 
-      const response = await fetch("/api/wishlist", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          propertyId,
-        }),
-      });
+      const response = await fetch(
+        "/api/wishlist",
+        {
+          method: "DELETE",
+
+          credentials: "include",
+
+          headers: {
+            "Content-Type": "application/json",
+            ...getAuthHeaders(),
+          },
+
+          body: JSON.stringify({
+            propertyId,
+          }),
+        }
+      );
+
+      if (response.status === 401) {
+        /*
+         * Restore before redirect
+         */
+        setPlaces(previousPlaces);
+
+        window.location.href =
+          "/login?redirect=/wishlist";
+
+        return;
+      }
 
       const result = await response.json();
 
       if (!response.ok) {
         throw new Error(
-          result?.message || "Unable to remove this stay."
+          result.message ||
+            "Unable to remove this stay."
         );
       }
     } catch (error) {
-      console.error("WISHLIST_DELETE_ERROR:", error);
+      console.error(
+        "WISHLIST_DELETE_ERROR:",
+        error
+      );
 
-      // Restore card if API failed
+      /*
+       * Restore card if delete failed
+       */
       setPlaces(previousPlaces);
 
-      alert(
+      setError(
         error instanceof Error
           ? error.message
           : "Unable to remove this stay."
@@ -133,40 +230,42 @@ export default function WishlistPage() {
   };
 
   /* =========================================================
-     LOADING SKELETON
+     LOADING
   ========================================================= */
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+      <main className="min-h-screen bg-white text-black">
         <Navbar />
 
-        <section className="border-b border-[#E7DFD7] bg-white">
-          <div className="mx-auto max-w-7xl px-5 py-12 sm:px-7 lg:px-10">
-            <div className="h-3 w-28 animate-pulse rounded bg-[#E9E2DA]" />
+        <section className="border-b border-black/10">
+          <div className="mx-auto max-w-7xl px-5 py-7 sm:px-7 lg:px-10">
+            <div className="h-2 w-20 animate-pulse rounded bg-black/10" />
 
-            <div className="mt-4 h-12 w-64 animate-pulse rounded bg-[#E9E2DA]" />
+            <div className="mt-3 h-8 w-40 animate-pulse rounded bg-black/10" />
 
-            <div className="mt-4 h-4 max-w-xl animate-pulse rounded bg-[#EEE8E1]" />
+            <div className="mt-2 h-3 w-72 max-w-full animate-pulse rounded bg-black/5" />
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-5 py-12 sm:px-7 lg:px-10">
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <div
-                key={index}
-                className="animate-pulse"
-              >
-                <div className="aspect-[4/3] rounded-[24px] bg-[#E9E2DA]" />
+        <section className="mx-auto max-w-7xl px-5 py-8 sm:px-7 lg:px-10">
+          <div className="grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {Array.from({ length: 8 }).map(
+              (_, index) => (
+                <div
+                  key={index}
+                  className="animate-pulse"
+                >
+                  <div className="aspect-[4/3] rounded-2xl bg-black/5" />
 
-                <div className="mt-4 h-5 w-3/4 rounded bg-[#E9E2DA]" />
+                  <div className="mt-3 h-3.5 w-3/4 rounded bg-black/10" />
 
-                <div className="mt-3 h-4 w-1/2 rounded bg-[#EEE8E1]" />
+                  <div className="mt-2 h-3 w-1/2 rounded bg-black/5" />
 
-                <div className="mt-4 h-5 w-1/3 rounded bg-[#E9E2DA]" />
-              </div>
-            ))}
+                  <div className="mt-2 h-3 w-1/3 rounded bg-black/10" />
+                </div>
+              )
+            )}
           </div>
         </section>
 
@@ -176,47 +275,36 @@ export default function WishlistPage() {
   }
 
   /* =========================================================
-     AUTH / ERROR
+     ERROR
   ========================================================= */
 
   if (error) {
     return (
-      <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+      <main className="min-h-screen bg-white text-black">
         <Navbar />
 
-        <section className="mx-auto flex min-h-[65vh] max-w-7xl items-center justify-center px-5 py-16">
-          <div className="w-full max-w-lg rounded-[30px] border border-[#E5DED6] bg-white px-7 py-12 text-center shadow-[0_18px_60px_rgba(44,36,32,0.06)]">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#F2EAE4]">
-              <Heart
-                size={28}
-                className="text-[#B76545]"
-              />
+        <section className="flex min-h-[48vh] items-center justify-center px-5 py-10">
+          <div className="w-full max-w-sm text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-black text-white">
+              <Heart size={18} />
             </div>
 
-            <h1 className="mt-6 font-serif text-3xl font-semibold">
-              Your wishlist
+            <h1 className="mt-4 font-serif text-xl font-semibold">
+              Wishlist unavailable
             </h1>
 
-            <p className="mt-3 text-sm leading-6 text-[#756D67]">
-              Sign in to save stays you love and access your
-              collection whenever you return.
+            <p className="mt-2 text-[11px] leading-5 text-black/50">
+              We couldn't load your saved places.
+              Please try again.
             </p>
 
-            <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-              <Link
-                href="/login"
-                className="inline-flex items-center justify-center rounded-xl bg-[#B76545] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#965039]"
-              >
-                Sign in
-              </Link>
-
-              <Link
-                href="/stays"
-                className="inline-flex items-center justify-center rounded-xl border border-[#DED5CD] bg-white px-7 py-3.5 text-sm font-semibold text-[#4A403A] transition hover:border-[#B76545]"
-              >
-                Explore stays
-              </Link>
-            </div>
+            <button
+              type="button"
+              onClick={loadWishlist}
+              className="mt-5 rounded-lg bg-black px-4 py-2 text-[11px] font-semibold text-white transition hover:bg-black/80"
+            >
+              Try again
+            </button>
           </div>
         </section>
 
@@ -226,56 +314,59 @@ export default function WishlistPage() {
   }
 
   /* =========================================================
-     EMPTY
+     EMPTY WISHLIST
   ========================================================= */
 
   if (places.length === 0) {
     return (
-      <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+      <main className="min-h-screen bg-white text-black">
         <Navbar />
 
-        <section className="border-b border-[#E7DFD7] bg-white">
-          <div className="mx-auto max-w-7xl px-5 py-12 sm:px-7 lg:px-10">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#B76545]">
+        {/* HEADER */}
+
+        <section className="border-b border-black/10">
+          <div className="mx-auto max-w-7xl px-5 py-7 sm:px-7 lg:px-10">
+            <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-black/45">
               Your collection
             </p>
 
-            <h1 className="mt-3 font-serif text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+            <h1 className="mt-1 font-serif text-2xl font-semibold tracking-tight">
               Wishlist
             </h1>
 
-            <p className="mt-4 max-w-xl text-sm leading-6 text-[#756D67]">
-              Save the stays that catch your eye and come back to
-              them whenever you are ready.
+            <p className="mt-1.5 max-w-xl text-[11px] leading-5 text-black/50">
+              Save the stays that catch your eye
+              and return whenever you're ready.
             </p>
           </div>
         </section>
 
-        <section className="mx-auto flex min-h-[55vh] max-w-7xl items-center justify-center px-5 py-16">
-          <div className="max-w-md text-center">
-            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#F2EAE4]">
+        {/* EMPTY */}
+
+        <section className="flex min-h-[42vh] items-center justify-center px-5 py-10">
+          <div className="max-w-sm text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-black text-white">
               <Heart
-                size={32}
+                size={19}
                 strokeWidth={1.6}
-                className="text-[#B76545]"
               />
             </div>
 
-            <h2 className="mt-7 font-serif text-3xl font-semibold">
+            <h2 className="mt-4 font-serif text-xl font-semibold">
               Nothing saved yet
             </h2>
 
-            <p className="mt-3 text-sm leading-7 text-[#756D67]">
-              Your favourite stays will appear here. Start exploring
-              and tap the heart whenever you find somewhere you
-              would love to remember.
+            <p className="mx-auto mt-2 max-w-xs text-[11px] leading-5 text-black/50">
+              Your favourite stays will appear
+              here. Start exploring and save the
+              places you love.
             </p>
 
             <Link
               href="/stays"
-              className="mt-8 inline-flex items-center gap-2 rounded-xl bg-[#B76545] px-7 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#965039]"
+              className="mt-5 inline-flex items-center gap-2 rounded-lg bg-black px-4 py-2 text-[11px] font-semibold text-white transition hover:bg-black/80"
             >
-              <Search size={16} />
+              <Search size={13} />
               Explore stays
             </Link>
           </div>
@@ -287,65 +378,54 @@ export default function WishlistPage() {
   }
 
   /* =========================================================
-     MAIN PAGE
+     MAIN WISHLIST
   ========================================================= */
 
   return (
-    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
+      {/* HEADER */}
 
-      <section className="border-b border-[#E7DFD7] bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-7 lg:px-10">
-          <div className="flex flex-col justify-between gap-7 sm:flex-row sm:items-end">
+      <section className="border-b border-black/10">
+        <div className="mx-auto max-w-7xl px-5 py-7 sm:px-7 lg:px-10">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#D8C29B]/50 bg-[#B8945A]/[0.07] px-3.5 py-2">
-                <Sparkles
-                  size={13}
-                  className="text-[#B8945A]"
-                />
+              <p className="text-[8px] font-semibold uppercase tracking-[0.2em] text-black/45">
+                Your collection
+              </p>
 
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8D6E38]">
-                  Your collection
-                </span>
-              </div>
-
-              <h1 className="mt-4 font-serif text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+              <h1 className="mt-1 font-serif text-2xl font-semibold tracking-tight">
                 Wishlist
               </h1>
 
-              <p className="mt-4 max-w-2xl text-sm leading-6 text-[#756D67]">
-                Keep the stays you love in one place and return
-                whenever you are ready to plan your next journey.
+              <p className="mt-1.5 text-[11px] leading-5 text-black/50">
+                Places worth remembering for your
+                next journey.
               </p>
             </div>
 
-            {/* COUNT */}
-            <div className="flex w-fit items-center gap-2 rounded-full border border-[#E1D9D1] bg-[#FAF8F3] px-4 py-2.5">
+            <div className="flex w-fit items-center gap-2 rounded-full border border-black/10 px-3 py-1.5">
               <Heart
-                size={15}
-                className="text-[#B76545]"
+                size={12}
                 fill="currentColor"
               />
 
-              <span className="text-sm font-semibold text-[#4A403A]">
+              <span className="text-[10px] font-semibold">
                 {places.length}{" "}
-                {places.length === 1 ? "stay" : "stays"}
+                {places.length === 1
+                  ? "place"
+                  : "places"}
               </span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* =====================================================
-          CONTENT
-      ===================================================== */}
+      {/* CONTENT */}
 
-      <section className="mx-auto max-w-7xl px-5 py-12 sm:px-7 lg:px-10">
-        <div className="grid grid-cols-1 gap-x-6 gap-y-11 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <section className="mx-auto max-w-7xl px-5 py-8 sm:px-7 lg:px-10">
+        <div className="grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {places.map((place) => {
             const isRemoving =
               removingId === place.propertyId;
@@ -355,104 +435,102 @@ export default function WishlistPage() {
                 key={place.wishlistId}
                 className={`group transition duration-300 ${
                   isRemoving
-                    ? "scale-[0.98] opacity-50"
+                    ? "scale-[0.98] opacity-40"
                     : ""
                 }`}
               >
-                {/* =================================================
-                    IMAGE
-                ================================================= */}
+                {/* IMAGE */}
 
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[25px] bg-[#EEE8E1]">
+                <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-black/5">
                   <Link
                     href={`/stays/${place.propertyId}`}
                     className="block h-full w-full"
                   >
-                    {place.image ? (
-                      <img
-                        src={place.image}
-                        alt={place.title}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.045]"
-                        onError={(event) => {
-                          event.currentTarget.style.display =
-                            "none";
-                        }}
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center text-sm text-[#9A918B]">
-                        No image available
-                      </div>
-                    )}
+                    <img
+                      src={
+                        place.image ||
+                        "/images/property-placeholder.jpg"
+                      }
+                      alt={place.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
+                      onError={(event) => {
+                        event.currentTarget.src =
+                          "/images/property-placeholder.jpg";
+                      }}
+                    />
                   </Link>
 
-                  {/* IMAGE OVERLAY */}
+                  {/* DARK HOVER */}
 
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/25 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                  <div className="pointer-events-none absolute inset-0 bg-black/10 opacity-0 transition duration-300 group-hover:opacity-100" />
 
-                  {/* =================================================
-                      HEART
-                  ================================================= */}
+                  {/* REMOVE */}
 
                   <button
                     type="button"
                     disabled={isRemoving}
                     onClick={() =>
-                      removeFromWishlist(place.propertyId)
+                      removeFromWishlist(
+                        place.propertyId
+                      )
                     }
                     aria-label={`Remove ${place.title} from wishlist`}
-                    className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/60 bg-white/95 text-[#B76545] shadow-[0_5px_20px_rgba(0,0,0,0.12)] backdrop-blur-sm transition hover:scale-105 hover:bg-white disabled:cursor-not-allowed"
+                    className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-white text-black shadow-sm transition hover:bg-black hover:text-white disabled:cursor-not-allowed"
                   >
                     {isRemoving ? (
                       <Loader2
-                        size={18}
+                        size={13}
                         className="animate-spin"
                       />
                     ) : (
                       <Heart
-                        size={20}
+                        size={14}
                         fill="currentColor"
                         strokeWidth={1.8}
                       />
                     )}
                   </button>
 
-                  {/* SAVED LABEL */}
+                  {/* TYPE */}
 
-                  <div className="absolute bottom-4 left-4 rounded-full bg-white/95 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-[#4A403A] opacity-0 shadow-sm backdrop-blur-sm transition duration-300 group-hover:opacity-100">
-                    Saved
-                  </div>
+                  {place.type && (
+                    <div className="absolute bottom-3 left-3 rounded-full bg-white px-2.5 py-1 text-[7px] font-semibold uppercase tracking-[0.12em] text-black opacity-0 shadow-sm transition group-hover:opacity-100">
+                      {place.type}
+                    </div>
+                  )}
                 </div>
 
-                {/* =================================================
-                    DETAILS
-                ================================================= */}
+                {/* DETAILS */}
 
-                <div className="mt-4">
+                <div className="mt-2.5">
                   <div className="flex items-start justify-between gap-3">
                     <Link
                       href={`/stays/${place.propertyId}`}
                       className="min-w-0"
                     >
-                      <h2 className="truncate text-[17px] font-semibold text-[#2C2420] transition hover:text-[#B76545]">
+                      <h2 className="truncate text-[12px] font-semibold tracking-[-0.01em] hover:opacity-60">
                         {place.title}
                       </h2>
                     </Link>
 
                     {place.rating && (
-                      <span className="shrink-0 text-sm font-medium text-[#4A403A]">
-                        ★ {place.rating}
-                      </span>
+                      <div className="flex shrink-0 items-center gap-1 text-[9px] font-medium">
+                        <Star
+                          size={9}
+                          fill="currentColor"
+                        />
+                        {place.rating}
+                      </div>
                     )}
                   </div>
 
                   {/* LOCATION */}
 
-                  <div className="mt-2 flex items-center gap-1.5 text-sm text-[#756D67]">
+                  <div className="mt-1 flex items-center gap-1 text-[9px] text-black/50">
                     <MapPin
-                      size={14}
+                      size={10}
                       strokeWidth={1.8}
-                      className="shrink-0"
                     />
 
                     <span className="truncate">
@@ -460,25 +538,19 @@ export default function WishlistPage() {
                     </span>
                   </div>
 
-                  {/* PRICE */}
+                  {/* BOTTOM */}
 
-                  <div className="mt-4 flex items-center justify-between">
-                    <div>
-                      <span className="font-semibold text-[#2C2420]">
-                        {place.price}
-                      </span>
-
-                      <span className="ml-1 text-xs text-[#8F8781]">
-                        / night
-                      </span>
-                    </div>
+                  <div className="mt-2 flex items-center justify-between">
+                    <span className="text-[10px] font-semibold">
+                      {place.price}
+                    </span>
 
                     <Link
                       href={`/stays/${place.propertyId}`}
+                      className="flex h-7 w-7 items-center justify-center rounded-full border border-black/15 transition hover:bg-black hover:text-white"
                       aria-label={`View ${place.title}`}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-[#DED5CD] bg-white text-[#756D67] transition hover:border-[#B76545] hover:bg-[#B76545] hover:text-white"
                     >
-                      <ArrowRight size={15} />
+                      <ArrowRight size={11} />
                     </Link>
                   </div>
                 </div>

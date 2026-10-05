@@ -3,503 +3,1237 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Search,
-  MapPin,
   CalendarDays,
-  Users,
-  Minus,
-  Plus,
   ChevronLeft,
   ChevronRight,
+  Clock3,
+  MapPin,
+  Minus,
+  Plus,
+  Search,
+  Users,
   X,
 } from "lucide-react";
 
+/* =========================================================
+   TYPES
+========================================================= */
+
+type Panel = "where" | "when" | "guests" | null;
+
+type Guests = {
+  adults: number;
+  children: number;
+  infants: number;
+  pets: boolean;
+};
+
+type DateMode = "calendar" | "flexible";
+
+type FlexibleOption = {
+  value: string;
+  label: string;
+  hourly?: boolean;
+};
+
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
+const WEEK_DAYS = [
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+];
+
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const FLEXIBLE_OPTIONS: FlexibleOption[] = [
+  {
+    value: "3h",
+    label: "3 hours",
+    hourly: true,
+  },
+  {
+    value: "6h",
+    label: "6 hours",
+    hourly: true,
+  },
+  {
+    value: "9h",
+    label: "9 hours",
+    hourly: true,
+  },
+  {
+    value: "1n",
+    label: "1 night",
+  },
+  {
+    value: "2-3n",
+    label: "2–3 nights",
+  },
+  {
+    value: "4-5n",
+    label: "4–5 nights",
+  },
+  {
+    value: "1w",
+    label: "1 week",
+  },
+  {
+    value: "2w",
+    label: "2 weeks",
+  },
+  {
+    value: "1m",
+    label: "1 month",
+  },
+];
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function startOfDay(date: Date) {
+  const result = new Date(date);
+  result.setHours(0, 0, 0, 0);
+  return result;
+}
+
+function getDaysInMonth(year: number, month: number) {
+  const firstDay = new Date(year, month, 1).getDay();
+  const totalDays = new Date(year, month + 1, 0).getDate();
+
+  const days: Array<number | null> = [];
+
+  for (let i = 0; i < firstDay; i++) {
+    days.push(null);
+  }
+
+  for (let day = 1; day <= totalDays; day++) {
+    days.push(day);
+  }
+
+  return days;
+}
+
+function isSameDate(
+  first: Date | null,
+  second: Date | null
+) {
+  if (!first || !second) return false;
+
+  return (
+    first.getFullYear() === second.getFullYear() &&
+    first.getMonth() === second.getMonth() &&
+    first.getDate() === second.getDate()
+  );
+}
+
+function formatDate(date: Date | null) {
+  if (!date) return "";
+
+  return date.toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+  });
+}
+
+function formatDateForQuery(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
 export default function Hero() {
   const router = useRouter();
+  const heroRef = useRef<HTMLDivElement>(null);
 
-  const [destination, setDestination] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [guests, setGuests] = useState(2);
+  const today = startOfDay(new Date());
 
-  const [calendarOpen, setCalendarOpen] = useState(false);
-  const [calendarMonth, setCalendarMonth] = useState(new Date());
+  /* -------------------------------------------------------
+     OPEN PANEL
+  ------------------------------------------------------- */
 
-  const calendarRef = useRef<HTMLDivElement>(null);
+  const [panel, setPanel] = useState<Panel>(null);
 
-  /* =========================================
-     CLOSE CALENDAR WHEN CLICKING OUTSIDE
-  ========================================= */
+  /* -------------------------------------------------------
+     WHERE
+  ------------------------------------------------------- */
+
+  const [where, setWhere] = useState("");
+
+  /* -------------------------------------------------------
+     DATES
+  ------------------------------------------------------- */
+
+  const [checkIn, setCheckIn] =
+    useState<Date | null>(null);
+
+  const [checkOut, setCheckOut] =
+    useState<Date | null>(null);
+
+  const [dateMode, setDateMode] =
+    useState<DateMode>("calendar");
+
+  const [flexibleOption, setFlexibleOption] =
+    useState("1n");
+
+  const [calendarMonth, setCalendarMonth] =
+    useState(
+      new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1
+      )
+    );
+
+  /* -------------------------------------------------------
+     GUESTS
+  ------------------------------------------------------- */
+
+  const [guests, setGuests] = useState<Guests>({
+    adults: 2,
+    children: 0,
+    infants: 0,
+    pets: false,
+  });
+
+  /* =======================================================
+     CLOSE DROPDOWNS ON OUTSIDE CLICK
+  ======================================================= */
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    function handleOutsideClick(event: MouseEvent) {
       if (
-        calendarRef.current &&
-        !calendarRef.current.contains(event.target as Node)
+        heroRef.current &&
+        !heroRef.current.contains(
+          event.target as Node
+        )
       ) {
-        setCalendarOpen(false);
+        setPanel(null);
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener(
+      "mousedown",
+      handleOutsideClick
+    );
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener(
+        "mousedown",
+        handleOutsideClick
+      );
     };
   }, []);
 
-  /* =========================================
-     DATE HELPERS
-  ========================================= */
+  /* =======================================================
+     ESCAPE CLOSE
+  ======================================================= */
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  useEffect(() => {
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setPanel(null);
+      }
+    }
 
-  function formatDateForInput(date: Date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
+    document.addEventListener(
+      "keydown",
+      handleEscape
+    );
 
-    return `${year}-${month}-${day}`;
-  }
+    return () => {
+      document.removeEventListener(
+        "keydown",
+        handleEscape
+      );
+    };
+  }, []);
 
-  function formatSelectedDate(dateString: string) {
-    if (!dateString) return "Select date";
+  /* =======================================================
+     GUEST COUNT
+  ======================================================= */
 
-    const date = new Date(`${dateString}T00:00:00`);
+  const totalGuests =
+    guests.adults + guests.children;
 
-    return date.toLocaleDateString("en-IN", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
+  function updateGuest(
+    type: "adults" | "children" | "infants",
+    amount: number
+  ) {
+    setGuests((current) => {
+      const currentValue = current[type];
+
+      const minimum =
+        type === "adults" ? 1 : 0;
+
+      return {
+        ...current,
+        [type]: Math.max(
+          minimum,
+          currentValue + amount
+        ),
+      };
     });
   }
 
-  /* =========================================
-     CALENDAR
-  ========================================= */
+  /* =======================================================
+     DATE SELECTION
+  ======================================================= */
 
-  const year = calendarMonth.getFullYear();
-  const month = calendarMonth.getMonth();
-
-  const firstDay = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  const calendarDays = [];
-
-  for (let i = 0; i < firstDay; i++) {
-    calendarDays.push(null);
-  }
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    calendarDays.push(day);
-  }
-
-  function isPastDate(day: number) {
-    const date = new Date(year, month, day);
-    date.setHours(0, 0, 0, 0);
-
-    return date < today;
-  }
-
-  function isSelectedDate(day: number) {
-    if (!checkIn) return false;
-
-    return checkIn === formatDateForInput(new Date(year, month, day));
-  }
-
-  function selectDate(day: number) {
-    if (isPastDate(day)) return;
-
-    const selected = new Date(year, month, day);
-
-    setCheckIn(formatDateForInput(selected));
-    setCalendarOpen(false);
-  }
-
-  function previousMonth() {
-    const previous = new Date(year, month - 1, 1);
-
-    // Don't allow navigation before current month
-    const currentMonth = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      1
+  function handleDateSelect(
+    day: number,
+    month: number,
+    year: number
+  ) {
+    const selectedDate = startOfDay(
+      new Date(year, month, day)
     );
 
-    if (previous >= currentMonth) {
-      setCalendarMonth(previous);
+    if (selectedDate < today) {
+      return;
     }
+
+    /*
+      No check-in OR both dates already selected
+      => start a new selection
+    */
+    if (!checkIn || checkOut) {
+      setCheckIn(selectedDate);
+      setCheckOut(null);
+      return;
+    }
+
+    /*
+      Selecting before check-in
+      => make it new check-in
+    */
+    if (selectedDate < checkIn) {
+      setCheckIn(selectedDate);
+      setCheckOut(null);
+      return;
+    }
+
+    /*
+      Normal check-out
+    */
+    setCheckOut(selectedDate);
+  }
+
+  /* =======================================================
+     MONTH NAVIGATION
+  ======================================================= */
+
+  function previousMonth() {
+    setCalendarMonth(
+      (current) =>
+        new Date(
+          current.getFullYear(),
+          current.getMonth() - 1,
+          1
+        )
+    );
   }
 
   function nextMonth() {
-    setCalendarMonth(new Date(year, month + 1, 1));
+    setCalendarMonth(
+      (current) =>
+        new Date(
+          current.getFullYear(),
+          current.getMonth() + 1,
+          1
+        )
+    );
   }
 
-  /* =========================================
+  /* =======================================================
+     CLEAR DATES
+  ======================================================= */
+
+  function clearDates() {
+    setCheckIn(null);
+    setCheckOut(null);
+    setFlexibleOption("1n");
+  }
+
+  /* =======================================================
+     DATE DISPLAY
+  ======================================================= */
+
+  const selectedFlexible =
+    FLEXIBLE_OPTIONS.find(
+      (option) =>
+        option.value === flexibleOption
+    );
+
+  const dateText =
+    dateMode === "flexible"
+      ? selectedFlexible?.label || "Flexible"
+      : checkIn && checkOut
+        ? `${formatDate(checkIn)} – ${formatDate(
+            checkOut
+          )}`
+        : checkIn
+          ? formatDate(checkIn)
+          : "Add dates";
+
+  /* =======================================================
      SEARCH
-  ========================================= */
+  ======================================================= */
 
   function handleSearch() {
     const params = new URLSearchParams();
 
-    if (destination.trim()) {
-      params.set("query", destination.trim());
+    if (where.trim()) {
+      params.set(
+        "where",
+        where.trim()
+      );
     }
 
-    if (checkIn) {
-      params.set("checkIn", checkIn);
+    if (dateMode === "calendar") {
+      if (checkIn) {
+        params.set(
+          "checkIn",
+          formatDateForQuery(checkIn)
+        );
+      }
+
+      if (checkOut) {
+        params.set(
+          "checkOut",
+          formatDateForQuery(checkOut)
+        );
+      }
     }
 
-    params.set("guests", String(guests));
+    if (dateMode === "flexible") {
+      params.set(
+        "flexible",
+        flexibleOption
+      );
+    }
 
-    router.push(`/search?${params.toString()}`);
+    params.set(
+      "adults",
+      String(guests.adults)
+    );
+
+    params.set(
+      "children",
+      String(guests.children)
+    );
+
+    params.set(
+      "infants",
+      String(guests.infants)
+    );
+
+    if (guests.pets) {
+      params.set("pets", "true");
+    }
+
+    setPanel(null);
+
+    router.push(
+      `/stays?${params.toString()}`
+    );
   }
 
+  /* =======================================================
+     RENDER
+  ======================================================= */
+
   return (
-    <section className="bg-white">
-      <div className="mx-auto max-w-[1500px] px-4 pb-20 pt-6 sm:px-6 lg:px-10 lg:pb-28">
+    <section
+      ref={heroRef}
+      className="relative z-20 w-full"
+    >
+      {/* =================================================
+          HERO IMAGE
+      ================================================= */}
 
-        {/* =========================================
-            HERO
-        ========================================= */}
+      <div className="relative h-[330px] w-full overflow-visible">
+        <img
+          src="/images/london.jpg"
+          alt="Beautiful Vistara stay"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
 
-        <div className="relative min-h-[650px] overflow-hidden rounded-[30px]">
+        {/* IMAGE OVERLAY */}
+        <div className="absolute inset-0 bg-black/20" />
 
-          {/* IMAGE */}
+        {/* =================================================
+            HERO TITLE
+        ================================================= */}
 
-          <img
-            src="/images/download.jpg"
-            alt="Vistara destination"
-            className="absolute inset-0 h-full w-full object-cover"
-          />
+        <div className="absolute inset-x-0 top-[65px] z-10 flex justify-center px-6">
+          <h1 className="font-serif text-3xl font-medium tracking-tight text-white md:text-[42px]">
+            Entire place, just for you
+          </h1>
+        </div>
 
-          {/* OVERLAY */}
+        {/* =================================================
+            SEARCH BAR
+        ================================================= */}
 
-          <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-black/5" />
+        <div className="absolute bottom-[28px] left-1/2 z-50 w-[calc(100%-32px)] -translate-x-1/2">
+          <div className="w-full rounded-[28px] bg-white p-2 shadow-[0_12px_45px_rgba(0,0,0,0.22)]">
 
-          {/* CONTENT */}
+            <div className="grid min-h-[68px] w-full grid-cols-1 md:grid-cols-[1.5fr_1fr_0.7fr_125px]">
 
-          <div className="relative z-10 flex min-h-[650px] flex-col justify-center px-6 pb-36 sm:px-12 lg:px-16">
-
-            <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-white/90">
-              DISCOVER • STAY • EXPERIENCE
-            </p>
-
-            <h1 className="max-w-3xl font-serif text-5xl font-semibold leading-[1.02] tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Find a place
-              <br />
-              worth{" "}
-              <span className="text-white/80">
-                remembering.
-              </span>
-            </h1>
-
-            <p className="mt-6 max-w-xl text-base leading-7 text-white/85 sm:text-lg">
-              Discover stays, hidden destinations and experiences shaped
-              around the way you want to travel.
-            </p>
-          </div>
-
-          {/* =========================================
-              SEARCH BOX
-          ========================================= */}
-
-          <div className="absolute bottom-7 left-1/2 z-30 w-[calc(100%-28px)] max-w-6xl -translate-x-1/2 rounded-[26px] bg-white p-2 shadow-[0_20px_60px_rgba(0,0,0,0.20)]">
-
-            <div className="grid grid-cols-1 md:grid-cols-[1.6fr_1fr_1fr_auto]">
-
-              {/* =====================================
+              {/* =========================================
                   WHERE
-              ===================================== */}
+              ========================================= */}
 
-              <div className="flex items-center gap-3 px-4 py-4 sm:px-5">
-
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F3F1EC]">
-                  <MapPin
-                    size={18}
-                    className="text-[#292724]"
-                  />
-                </div>
-
-                <div className="min-w-0 flex-1">
-
-                  <label
-                    htmlFor="destination"
-                    className="block text-[10px] font-bold uppercase tracking-[0.15em] text-[#292724]"
-                  >
-                    Where
-                  </label>
-
-                  <input
-                    id="destination"
-                    type="text"
-                    value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        handleSearch();
-                      }
-                    }}
-                    placeholder="Search destination"
-                    className="mt-1 w-full bg-transparent text-sm font-medium text-[#171614] outline-none placeholder:text-[#9A968E]"
-                  />
-
-                </div>
-              </div>
-
-              {/* =====================================
-                  CHECK IN
-              ===================================== */}
-
-              <div
-                ref={calendarRef}
-                className="relative flex items-center gap-3 border-t border-[#E7E4DE] px-4 py-4 sm:px-5 md:border-l md:border-t-0"
+              <button
+                type="button"
+                onClick={() =>
+                  setPanel(
+                    panel === "where"
+                      ? null
+                      : "where"
+                  )
+                }
+                className="flex items-center gap-4 rounded-[21px] px-6 text-left text-[#111827] transition hover:bg-[#f6f5f2]"
               >
+                <MapPin
+                  size={20}
+                  strokeWidth={1.8}
+                />
 
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F3F1EC]">
-                  <CalendarDays
-                    size={18}
-                    className="text-[#292724]"
-                  />
+                <div className="min-w-0">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#111827]">
+                    Where
+                  </p>
+
+                  <p className="mt-1 truncate text-[14px] text-[#111827]">
+                    {where ||
+                      "City, neighbourhood or point of interest"}
+                  </p>
                 </div>
+              </button>
 
-                <div className="min-w-0 flex-1">
+              {/* =========================================
+                  WHEN
+              ========================================= */}
 
-                  <button
-                    type="button"
-                    onClick={() => setCalendarOpen((value) => !value)}
-                    className="w-full text-left"
-                  >
-                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#292724]">
-                      Check In
-                    </p>
+              <button
+                type="button"
+                onClick={() =>
+                  setPanel(
+                    panel === "when"
+                      ? null
+                      : "when"
+                  )
+                }
+                className="flex items-center gap-4 border-black/10 px-6 text-left text-[#111827] transition hover:bg-[#f6f5f2] md:border-l"
+              >
+                <CalendarDays
+                  size={20}
+                  strokeWidth={1.8}
+                />
 
-                    <p
-                      className={`mt-1 text-sm font-medium ${
-                        checkIn
-                          ? "text-[#171614]"
-                          : "text-[#9A968E]"
-                      }`}
-                    >
-                      {formatSelectedDate(checkIn)}
-                    </p>
-                  </button>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#111827]">
+                    When
+                  </p>
 
+                  <p className="mt-1 whitespace-nowrap text-[14px] text-[#111827]">
+                    {dateText}
+                  </p>
                 </div>
+              </button>
 
-                {/* =================================
-                    CUSTOM CALENDAR
-                ================================= */}
-
-                {calendarOpen && (
-                  <div className="absolute left-0 top-[calc(100%+12px)] z-50 w-[320px] rounded-[24px] border border-[#E7E4DE] bg-white p-5 shadow-[0_20px_60px_rgba(0,0,0,0.18)]">
-
-                    {/* CALENDAR HEADER */}
-
-                    <div className="flex items-center justify-between">
-
-                      <button
-                        type="button"
-                        onClick={previousMonth}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#E7E4DE] transition hover:bg-[#F5F3EE]"
-                        aria-label="Previous month"
-                      >
-                        <ChevronLeft size={16} />
-                      </button>
-
-                      <div className="text-sm font-semibold text-[#171614]">
-                        {calendarMonth.toLocaleDateString("en-IN", {
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={nextMonth}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-[#E7E4DE] transition hover:bg-[#F5F3EE]"
-                        aria-label="Next month"
-                      >
-                        <ChevronRight size={16} />
-                      </button>
-
-                    </div>
-
-                    {/* WEEK DAYS */}
-
-                    <div className="mt-5 grid grid-cols-7 text-center">
-
-                      {["S", "M", "T", "W", "T", "F", "S"].map(
-                        (day, index) => (
-                          <div
-                            key={`${day}-${index}`}
-                            className="text-[10px] font-bold uppercase text-[#9A968E]"
-                          >
-                            {day}
-                          </div>
-                        )
-                      )}
-
-                    </div>
-
-                    {/* DAYS */}
-
-                    <div className="mt-3 grid grid-cols-7 gap-y-2 text-center">
-
-                      {calendarDays.map((day, index) => {
-
-                        if (day === null) {
-                          return (
-                            <div
-                              key={`empty-${index}`}
-                              className="h-9"
-                            />
-                          );
-                        }
-
-                        const disabled = isPastDate(day);
-                        const selected = isSelectedDate(day);
-
-                        return (
-                          <button
-                            key={day}
-                            type="button"
-                            disabled={disabled}
-                            onClick={() => selectDate(day)}
-                            className={`
-                              mx-auto
-                              flex
-                              h-9
-                              w-9
-                              items-center
-                              justify-center
-                              rounded-full
-                              text-sm
-                              transition
-                              ${
-                                selected
-                                  ? "bg-[#03045E] font-semibold text-white"
-                                  : disabled
-                                  ? "cursor-not-allowed text-[#D6D1C9]"
-                                  : "text-[#292724] hover:bg-[#EEF4FF] hover:text-[#03045E]"
-                              }
-                            `}
-                          >
-                            {day}
-                          </button>
-                        );
-                      })}
-
-                    </div>
-
-                    {/* CLEAR */}
-
-                    {checkIn && (
-                      <div className="mt-4 border-t border-[#E7E4DE] pt-4">
-
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCheckIn("");
-                            setCalendarOpen(false);
-                          }}
-                          className="flex items-center gap-2 text-xs font-semibold text-[#77726A] transition hover:text-[#03045E]"
-                        >
-                          <X size={14} />
-                          Clear date
-                        </button>
-
-                      </div>
-                    )}
-
-                  </div>
-                )}
-
-              </div>
-
-              {/* =====================================
+              {/* =========================================
                   GUESTS
-              ===================================== */}
+              ========================================= */}
 
-              <div className="flex items-center gap-3 border-t border-[#E7E4DE] px-4 py-4 sm:px-5 md:border-l md:border-t-0">
+              <button
+                type="button"
+                onClick={() =>
+                  setPanel(
+                    panel === "guests"
+                      ? null
+                      : "guests"
+                  )
+                }
+                className="flex items-center gap-4 border-black/10 px-6 text-left text-[#111827] transition hover:bg-[#f6f5f2] md:border-l"
+              >
+                <Users
+                  size={20}
+                  strokeWidth={1.8}
+                />
 
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F3F1EC]">
-                  <Users
-                    size={18}
-                    className="text-[#292724]"
-                  />
-                </div>
-
-                <div className="min-w-0 flex-1">
-
-                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#292724]">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#111827]">
                     Guests
                   </p>
 
-                  <div className="mt-1 flex items-center gap-3">
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setGuests((value) => Math.max(1, value - 1))
-                      }
-                      className="flex h-7 w-7 items-center justify-center rounded-full border border-[#D9D5CE] text-[#292724] transition hover:bg-[#F3F1EC]"
-                      aria-label="Decrease guests"
-                    >
-                      <Minus size={13} />
-                    </button>
-
-                    <span className="min-w-[60px] text-center text-sm font-medium text-[#171614]">
-                      {guests} {guests === 1 ? "Guest" : "Guests"}
-                    </span>
-
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setGuests((value) => Math.min(20, value + 1))
-                      }
-                      className="flex h-7 w-7 items-center justify-center rounded-full border border-[#D9D5CE] text-[#292724] transition hover:bg-[#F3F1EC]"
-                      aria-label="Increase guests"
-                    >
-                      <Plus size={13} />
-                    </button>
-
-                  </div>
-
+                  <p className="mt-1 whitespace-nowrap text-[14px] text-[#111827]">
+                    {totalGuests}{" "}
+                    {totalGuests === 1
+                      ? "guest"
+                      : "guests"}
+                  </p>
                 </div>
-              </div>
+              </button>
 
-              {/* =====================================
+              {/* =========================================
                   SEARCH
-              ===================================== */}
+              ========================================= */}
 
               <button
                 type="button"
                 onClick={handleSearch}
-      className="
-  flex
-  items-center
-  justify-center
-  gap-2
-  rounded-full
-  bg-[#222222]
-  px-5
-  py-3
-  text-sm
-  font-semibold
-  text-white
-  transition
-  hover:bg-[#000000]
-  active:scale-[0.98]
-"        >
-                <Search size={18} />
+                className="m-1 flex items-center justify-center gap-2 rounded-[21px] bg-black px-5 text-sm font-semibold text-white transition hover:bg-[#222] active:scale-[0.98]"
+              >
+                <Search size={17} />
                 Search
               </button>
-
             </div>
           </div>
         </div>
+
+        {/* =================================================
+            WHERE DROPDOWN
+        ================================================= */}
+
+        {panel === "where" && (
+          <div className="absolute left-4 right-4 top-[calc(100%-90px)] z-[100] rounded-[26px] bg-white p-6 shadow-[0_20px_70px_rgba(0,0,0,0.2)] md:left-8 md:right-auto md:w-[480px]">
+
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-[#111827]">
+                  Where are you going?
+                </h3>
+
+                <p className="mt-1 text-sm text-[#64748B]">
+                  Search by city, neighbourhood or
+                  point of interest.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setPanel(null)}
+                className="rounded-full p-2 text-[#111827] transition hover:bg-black/5"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* INPUT */}
+
+            <div className="mt-5 flex items-center gap-3 rounded-2xl border border-black/15 px-4 py-4">
+              <MapPin
+                size={19}
+                className="shrink-0"
+              />
+
+              <input
+                autoFocus
+                value={where}
+                onChange={(event) =>
+                  setWhere(event.target.value)
+                }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+                placeholder="Patna, Kankarbagh..."
+                className="w-full bg-transparent text-sm text-[#111827] outline-none placeholder:text-[#64748B]"
+              />
+            </div>
+
+            {/* POPULAR */}
+
+            <p className="mb-2 mt-5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#64748B]">
+              Popular destinations
+            </p>
+
+            {[
+              "Patna",
+              "Kankarbagh",
+              "Boring Road",
+              "Rajendra Nagar",
+            ].map((place) => (
+              <button
+                key={place}
+                type="button"
+                onClick={() => {
+                  setWhere(place);
+                  setPanel(null);
+                }}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm text-[#111827] transition hover:bg-[#f6f5f2]"
+              >
+                <MapPin size={16} />
+                {place}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* =================================================
+            WHEN DROPDOWN
+        ================================================= */}
+
+        {panel === "when" && (
+          <div className="absolute left-1/2 top-[calc(100%-90px)] z-[100] w-[calc(100%-24px)] max-w-[900px] -translate-x-1/2 overflow-hidden rounded-[28px] bg-white text-[#111827] shadow-[0_24px_80px_rgba(0,0,0,0.22)]">
+
+            {/* TABS */}
+
+            <div className="grid grid-cols-2 border-b border-black/10">
+              <button
+                type="button"
+                onClick={() =>
+                  setDateMode("calendar")
+                }
+                className={`py-4 text-sm font-semibold ${
+                  dateMode === "calendar"
+                    ? "border-b-2 border-black"
+                    : "text-black/45"
+                }`}
+              >
+                Calendar
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setDateMode("flexible")
+                }
+                className={`py-4 text-sm font-semibold ${
+                  dateMode === "flexible"
+                    ? "border-b-2 border-black"
+                    : "text-black/45"
+                }`}
+              >
+                Flexible dates
+              </button>
+            </div>
+
+            {/* ===========================================
+                CALENDAR MODE
+            =========================================== */}
+
+            {dateMode === "calendar" && (
+              <>
+                <div className="grid gap-8 p-6 md:grid-cols-2 md:p-7">
+
+                  <Calendar
+                    year={
+                      calendarMonth.getFullYear()
+                    }
+                    month={
+                      calendarMonth.getMonth()
+                    }
+                    today={today}
+                    checkIn={checkIn}
+                    checkOut={checkOut}
+                    onSelect={handleDateSelect}
+                    onPrevious={
+                      previousMonth
+                    }
+                  />
+
+                  <Calendar
+                    year={
+                      new Date(
+                        calendarMonth.getFullYear(),
+                        calendarMonth.getMonth() + 1,
+                        1
+                      ).getFullYear()
+                    }
+                    month={
+                      new Date(
+                        calendarMonth.getFullYear(),
+                        calendarMonth.getMonth() + 1,
+                        1
+                      ).getMonth()
+                    }
+                    today={today}
+                    checkIn={checkIn}
+                    checkOut={checkOut}
+                    onSelect={handleDateSelect}
+                    onNext={nextMonth}
+                  />
+                </div>
+
+                {/* FOOTER */}
+
+                <div className="flex items-center justify-between border-t border-black/10 px-6 py-4 md:px-7">
+                  <button
+                    type="button"
+                    onClick={clearDates}
+                    className="text-sm font-semibold text-[#111827] underline underline-offset-4"
+                  >
+                    Clear
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setPanel(null)
+                    }
+                    className="rounded-full bg-black px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#222]"
+                  >
+                    Done
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* ===========================================
+                FLEXIBLE MODE
+            =========================================== */}
+
+            {dateMode === "flexible" && (
+              <div className="p-6 md:p-8">
+
+                <div className="text-center">
+                  <h3 className="font-serif text-2xl md:text-3xl">
+                    How long do you want to stay?
+                  </h3>
+
+                  <p className="mt-2 text-sm text-[#64748B]">
+                    Choose what works for your journey.
+                  </p>
+                </div>
+
+                {/* OPTIONS */}
+
+                <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+                  {FLEXIBLE_OPTIONS.map(
+                    (option) => {
+                      const active =
+                        flexibleOption ===
+                        option.value;
+
+                      return (
+                        <button
+                          key={option.value}
+                          type="button"
+                          onClick={() =>
+                            setFlexibleOption(
+                              option.value
+                            )
+                          }
+                          className={`rounded-2xl border px-3 py-4 text-sm font-medium transition ${
+                            active
+                              ? "border-black bg-black text-white"
+                              : "border-black/20 text-[#111827] hover:border-black"
+                          }`}
+                        >
+                          {option.hourly && (
+                            <Clock3
+                              size={17}
+                              className="mx-auto mb-2"
+                            />
+                          )}
+
+                          {option.label}
+                        </button>
+                      );
+                    }
+                  )}
+                </div>
+
+                {/* HOTEL ONLY INFO */}
+
+                <div className="mt-6 rounded-2xl bg-[#f6f5f2] p-4 text-xs leading-5 text-[#64748B]">
+                  <span className="font-semibold text-[#111827]">
+                    Hourly stays are hotel-only.
+                  </span>{" "}
+                  Choose 3 hours, 6 hours or 9 hours.
+                  Other accommodation types are available
+                  for overnight stays.
+                </div>
+
+                {/* DONE */}
+
+                <div className="mt-6 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setPanel(null)
+                    }
+                    className="rounded-full bg-black px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#222]"
+                  >
+                    Done
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* =================================================
+            GUESTS DROPDOWN
+        ================================================= */}
+
+        {panel === "guests" && (
+          <div className="absolute right-4 top-[calc(100%-90px)] z-[100] w-[390px] max-w-[calc(100%-24px)] rounded-[26px] bg-white p-6 text-[#111827] shadow-[0_20px_70px_rgba(0,0,0,0.22)] md:right-8">
+
+            {/* ADULTS */}
+
+            <GuestRow
+              title="Adults"
+              subtitle="Ages 18 and older"
+              value={guests.adults}
+              onMinus={() =>
+                updateGuest(
+                  "adults",
+                  -1
+                )
+              }
+              onPlus={() =>
+                updateGuest(
+                  "adults",
+                  1
+                )
+              }
+              disableMinus={
+                guests.adults <= 1
+              }
+            />
+
+            {/* CHILDREN */}
+
+            <GuestRow
+              title="Children"
+              subtitle="Ages 2 to 17"
+              value={guests.children}
+              onMinus={() =>
+                updateGuest(
+                  "children",
+                  -1
+                )
+              }
+              onPlus={() =>
+                updateGuest(
+                  "children",
+                  1
+                )
+              }
+              disableMinus={
+                guests.children <= 0
+              }
+            />
+
+            {/* INFANTS */}
+
+            <GuestRow
+              title="Infants"
+              subtitle="Ages 0 to 1"
+              value={guests.infants}
+              onMinus={() =>
+                updateGuest(
+                  "infants",
+                  -1
+                )
+              }
+              onPlus={() =>
+                updateGuest(
+                  "infants",
+                  1
+                )
+              }
+              disableMinus={
+                guests.infants <= 0
+              }
+            />
+
+            {/* PETS */}
+
+            <label className="mt-4 flex cursor-pointer gap-3 border-t border-black/10 pt-5">
+              <input
+                type="checkbox"
+                checked={guests.pets}
+                onChange={(event) =>
+                  setGuests((current) => ({
+                    ...current,
+                    pets: event.target.checked,
+                  }))
+                }
+                className="mt-1 h-5 w-5 accent-black"
+              />
+
+              <span>
+                <span className="block text-sm font-medium">
+                  I am travelling with pets
+                </span>
+
+                <span className="mt-1 block text-xs leading-5 text-[#64748B]">
+                  Only properties that allow pets
+                  will be shown.
+                </span>
+              </span>
+            </label>
+
+            {/* DONE */}
+
+            <div className="mt-6 flex justify-end">
+              <button
+                type="button"
+                onClick={() =>
+                  setPanel(null)
+                }
+                className="rounded-full bg-black px-7 py-3 text-sm font-semibold text-white transition hover:bg-[#222]"
+              >
+                Done
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </section>
+  );
+}
+
+/* =========================================================
+   CALENDAR COMPONENT
+========================================================= */
+
+function Calendar({
+  year,
+  month,
+  today,
+  checkIn,
+  checkOut,
+  onSelect,
+  onPrevious,
+  onNext,
+}: {
+  year: number;
+  month: number;
+  today: Date;
+  checkIn: Date | null;
+  checkOut: Date | null;
+  onSelect: (
+    day: number,
+    month: number,
+    year: number
+  ) => void;
+  onPrevious?: () => void;
+  onNext?: () => void;
+}) {
+  const days = getDaysInMonth(
+    year,
+    month
+  );
+
+  return (
+    <div className="min-w-0">
+
+      {/* HEADER */}
+
+      <div className="mb-5 flex items-center justify-between">
+        {onPrevious ? (
+          <button
+            type="button"
+            onClick={onPrevious}
+            className="rounded-full p-2 transition hover:bg-black/5"
+          >
+            <ChevronLeft size={19} />
+          </button>
+        ) : (
+          <div className="h-9 w-9" />
+        )}
+
+        <h3 className="text-lg font-semibold">
+          {MONTHS[month]} {year}
+        </h3>
+
+        {onNext ? (
+          <button
+            type="button"
+            onClick={onNext}
+            className="rounded-full p-2 transition hover:bg-black/5"
+          >
+            <ChevronRight size={19} />
+          </button>
+        ) : (
+          <div className="h-9 w-9" />
+        )}
+      </div>
+
+      {/* WEEK DAYS */}
+
+      <div className="grid grid-cols-7">
+        {WEEK_DAYS.map((day) => (
+          <div
+            key={day}
+            className="pb-3 text-center text-xs font-semibold text-black/40"
+          >
+            {day}
+          </div>
+        ))}
+      </div>
+
+      {/* DAYS */}
+
+      <div className="grid grid-cols-7">
+        {days.map((day, index) => {
+          if (day === null) {
+            return (
+              <div
+                key={`empty-${index}`}
+                className="h-11"
+              />
+            );
+          }
+
+          const currentDate = startOfDay(
+            new Date(year, month, day)
+          );
+
+          const disabled =
+            currentDate < today;
+
+          const isStart = isSameDate(
+            currentDate,
+            checkIn
+          );
+
+          const isEnd = isSameDate(
+            currentDate,
+            checkOut
+          );
+
+          const isBetween =
+            checkIn &&
+            checkOut &&
+            currentDate > checkIn &&
+            currentDate < checkOut;
+
+          return (
+            <button
+              key={day}
+              type="button"
+              disabled={disabled}
+              onClick={() =>
+                onSelect(
+                  day,
+                  month,
+                  year
+                )
+              }
+              className={`relative h-11 text-sm transition ${
+                disabled
+                  ? "cursor-not-allowed text-black/15"
+                  : "text-[#111827] hover:bg-black/5"
+              } ${
+                isBetween
+                  ? "bg-[#eeeae5]"
+                  : ""
+              }`}
+            >
+              <span
+                className={`mx-auto flex h-9 w-9 items-center justify-center rounded-full ${
+                  isStart || isEnd
+                    ? "bg-black font-semibold text-white"
+                    : ""
+                }`}
+              >
+                {day}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   GUEST ROW
+========================================================= */
+
+function GuestRow({
+  title,
+  subtitle,
+  value,
+  onMinus,
+  onPlus,
+  disableMinus,
+}: {
+  title: string;
+  subtitle: string;
+  value: number;
+  onMinus: () => void;
+  onPlus: () => void;
+  disableMinus: boolean;
+}) {
+  return (
+    <div className="flex items-center justify-between border-b border-black/10 py-4">
+
+      {/* TEXT */}
+
+      <div>
+        <p className="text-sm font-medium">
+          {title}
+        </p>
+
+        <p className="mt-1 text-xs text-[#64748B]">
+          {subtitle}
+        </p>
+      </div>
+
+      {/* CONTROLS */}
+
+      <div className="flex items-center gap-4">
+        <button
+          type="button"
+          disabled={disableMinus}
+          onClick={onMinus}
+          className={`flex h-9 w-9 items-center justify-center rounded-full border transition ${
+            disableMinus
+              ? "cursor-not-allowed border-black/10 text-black/20"
+              : "border-black/30 hover:border-black"
+          }`}
+        >
+          <Minus size={15} />
+        </button>
+
+        <span className="w-4 text-center text-sm">
+          {value}
+        </span>
+
+        <button
+          type="button"
+          onClick={onPlus}
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-black/30 transition hover:border-black"
+        >
+          <Plus size={15} />
+        </button>
+      </div>
+    </div>
   );
 }

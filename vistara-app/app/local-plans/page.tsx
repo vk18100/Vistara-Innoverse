@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowRight, Check, Clock3, MapPin, Sparkles } from "lucide-react";
+
 import Navbar from "@/components/navbar";
 
 type Plan = {
@@ -129,25 +130,25 @@ export default function LocalPlansPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#292524]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      {/* HERO */}
-      <section className="border-b border-[#E7E2D8] bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-10 lg:py-20">
-          <div className="max-w-3xl">
-            <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.24em] text-[#8B6F3D]">
-              <Sparkles size={14} />
+      {/* HERO — COMPACT */}
+      <section className="border-b border-neutral-200 bg-white">
+        <div className="mx-auto max-w-7xl px-5 py-8 sm:px-6 lg:px-10 lg:py-10">
+          <div className="max-w-2xl">
+            <p className="flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-[0.18em] text-neutral-500">
+              <Sparkles size={11} />
               Vistara Local Plans
             </p>
 
-            <h1 className="mt-5 font-serif text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 font-serif text-[28px] font-semibold leading-[1.05] tracking-tight sm:text-[32px]">
               Your trip,
               <br />
               planned like a local.
             </h1>
 
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-[#78716C] sm:text-base">
+            <p className="mt-3 max-w-xl text-[11px] leading-5 text-neutral-500 sm:text-xs">
               Curated places, routes, food and experiences — packed into
               simple plans you can unlock before your journey.
             </p>
@@ -156,20 +157,20 @@ export default function LocalPlansPage() {
       </section>
 
       {/* PLANS */}
-      <section className="mx-auto max-w-7xl px-5 py-12 sm:px-6 lg:px-10 lg:py-16">
-        <div className="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+      <section className="mx-auto max-w-7xl px-5 py-10 sm:px-6 lg:px-10 lg:py-12">
+        <div className="mb-6 flex flex-col gap-1.5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#A8A29E]">
-              CHOOSE YOUR JOURNEY
+            <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-neutral-400">
+              Choose your journey
             </p>
 
-            <h2 className="mt-2 font-serif text-3xl font-semibold tracking-tight">
+            <h2 className="mt-1 font-serif text-[23px] font-semibold tracking-tight">
               Local plans
             </h2>
           </div>
 
           {loading && (
-            <p className="text-xs text-[#A8A29E]">
+            <p className="text-[10px] text-neutral-400">
               Updating plans...
             </p>
           )}
@@ -184,8 +185,8 @@ export default function LocalPlansPage() {
       </section>
 
       {/* VALUE STRIP */}
-      <section className="mx-auto max-w-7xl px-5 pb-16 sm:px-6 lg:px-10">
-        <div className="overflow-hidden rounded-[28px] bg-[#292524] text-white">
+      <section className="mx-auto max-w-7xl px-5 pb-12 sm:px-6 lg:px-10">
+        <div className="overflow-hidden rounded-[22px] bg-black text-white">
           <div className="grid md:grid-cols-3">
             <ValueItem
               title="Curated locally"
@@ -211,21 +212,21 @@ export default function LocalPlansPage() {
 function PlanCard({ plan }: { plan: Plan }) {
   return (
     <article
-      className={`group relative flex flex-col overflow-hidden rounded-[26px] border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(41,37,36,0.10)] ${
+      className={`group relative flex flex-col overflow-hidden rounded-[20px] border bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(0,0,0,0.09)] ${
         plan.isFeatured
-          ? "border-[#8B6F3D]/50 shadow-[0_10px_35px_rgba(139,111,61,0.10)]"
-          : "border-[#E7E2D8]"
+          ? "border-black shadow-[0_8px_25px_rgba(0,0,0,0.07)]"
+          : "border-neutral-200"
       }`}
     >
       {/* FEATURED */}
       {plan.isFeatured && (
-        <div className="absolute left-4 top-4 z-10 rounded-full bg-[#292524] px-3 py-1.5 text-[11px] font-semibold text-white">
+        <div className="absolute left-3 top-3 z-10 rounded-full bg-black px-2.5 py-1 text-[9px] font-semibold text-white">
           Most popular
         </div>
       )}
 
       {/* IMAGE */}
-      <div className="relative h-52 overflow-hidden bg-[#F5F5F4]">
+      <div className="relative h-44 overflow-hidden bg-neutral-100">
         {plan.coverImage ? (
           <img
             src={plan.coverImage}
@@ -234,72 +235,72 @@ function PlanCard({ plan }: { plan: Plan }) {
             className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="flex h-full items-center justify-center text-sm text-[#A8A29E]">
+          <div className="flex h-full items-center justify-center text-xs text-neutral-400">
             Vistara
           </div>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/40 to-transparent" />
 
-        <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-[#292524]">
-          <Clock3 size={13} />
+        <div className="absolute bottom-3 left-3 flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-semibold text-black">
+          <Clock3 size={11} />
           {formatDuration(plan.durationHours)}
         </div>
       </div>
 
       {/* CONTENT */}
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#8B6F3D]">
-            <MapPin size={13} />
+          <div className="flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-wider text-neutral-500">
+            <MapPin size={11} />
             {plan.city}
           </div>
 
-          <h3 className="mt-2 font-serif text-2xl font-semibold tracking-tight">
+          <h3 className="mt-1.5 font-serif text-[20px] font-semibold tracking-tight">
             {plan.title}
           </h3>
 
-          <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#78716C]">
+          <p className="mt-2 line-clamp-3 text-[11px] leading-5 text-neutral-500">
             {plan.description}
           </p>
 
           {plan.area && (
-            <p className="mt-3 text-xs text-[#A8A29E]">
+            <p className="mt-2 text-[9px] text-neutral-400">
               {plan.area}
             </p>
           )}
 
           {plan.placesCount && (
-            <div className="mt-4 flex items-center gap-2 text-xs font-medium text-[#57534E]">
-              <Check size={14} className="text-[#8B6F3D]" />
+            <div className="mt-3 flex items-center gap-1.5 text-[10px] font-medium text-neutral-600">
+              <Check size={11} />
               {plan.placesCount}+ places & experiences
             </div>
           )}
         </div>
 
         {/* PRICE */}
-        <div className="mt-6 border-t border-[#E7E2D8] pt-5">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-[#A8A29E]">
+        <div className="mt-5 border-t border-neutral-200 pt-4">
+          <p className="text-[9px] font-semibold uppercase tracking-wider text-neutral-400">
             One-time price
           </p>
 
           <div className="mt-1 flex items-end justify-between gap-3">
-            <span className="font-serif text-3xl font-semibold">
+            <span className="font-serif text-[25px] font-semibold">
               {formatPrice(plan.price)}
             </span>
 
             <Link
               href={`/local-plans/${plan.slug}`}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#292524] text-white transition group-hover:bg-[#8B6F3D]"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white transition group-hover:bg-neutral-800"
               aria-label={`View ${plan.title}`}
             >
-              <ArrowRight size={17} />
+              <ArrowRight size={15} />
             </Link>
           </div>
 
           <Link
             href={`/local-plans/${plan.slug}?buy=true`}
-            className="mt-4 flex w-full items-center justify-center rounded-xl bg-[#292524] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#57534E]"
+            className="mt-3 flex w-full items-center justify-center rounded-lg bg-black px-4 py-2.5 text-[11px] font-semibold text-white transition hover:bg-neutral-800"
           >
             View & unlock
           </Link>
@@ -317,10 +318,10 @@ function ValueItem({
   description: string;
 }) {
   return (
-    <div className="border-white/10 p-6 md:border-r last:border-r-0 lg:p-8">
-      <p className="font-semibold">{title}</p>
+    <div className="border-white/10 p-5 md:border-r last:border-r-0 lg:p-6">
+      <p className="text-[12px] font-semibold">{title}</p>
 
-      <p className="mt-2 text-sm leading-6 text-white/60">
+      <p className="mt-1.5 text-[10px] leading-5 text-white/60">
         {description}
       </p>
     </div>

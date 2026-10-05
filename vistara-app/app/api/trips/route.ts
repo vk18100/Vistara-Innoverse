@@ -11,20 +11,25 @@ export async function GET(req: NextRequest) {
       return response;
     }
 
-    // --------------------------------
-    // USER'S BOOKINGS (real trips)
-    // --------------------------------
+    // ==========================================
+    // GET USER'S REAL TRIPS FROM BOOKINGS
+    // ==========================================
 
     const bookings = await prisma.booking.findMany({
       where: {
-        guestId: user.id,
+        guestId: user!.id,
+
+        // Cancelled bookings should not appear
         status: {
           not: "CANCELLED",
         },
       },
+
+      // Nearest trip first
       orderBy: {
         checkIn: "asc",
       },
+
       include: {
         property: {
           include: {
@@ -41,81 +46,84 @@ export async function GET(req: NextRequest) {
 
     const now = new Date();
 
-    const formattedTrips = bookings.map((booking) => {
+    // ==========================================
+    // FORMAT TRIPS
+    // ==========================================
+
+    const trips = bookings.map((booking) => {
       const isCompleted = booking.checkOut < now;
 
       return {
         id: String(booking.id),
+
         title: booking.property.title,
+
         destination: `${booking.property.city}, ${booking.property.country}`,
+
         startDate: booking.checkIn,
+
         endDate: booking.checkOut,
+
         nights: booking.nights,
-        status: isCompleted ? "completed" : "upcoming",
+
+        status: isCompleted
+          ? "completed"
+          : "upcoming",
+
         image:
           booking.property.images[0]?.url ??
           "/images/property-placeholder.jpg",
 
         stay: {
           name: booking.property.title,
-          pricePerNight: Number(booking.property.pricePerNight),
+
+          pricePerNight: Number(
+            booking.property.pricePerNight
+          ),
         },
       };
     });
 
-    const upcomingTrips = formattedTrips.filter(
+    // ==========================================
+    // SEPARATE UPCOMING / COMPLETED
+    // ==========================================
+
+    const upcomingTrips = trips.filter(
       (trip) => trip.status === "upcoming"
     );
 
-    const completedTrips = formattedTrips.filter(
+    const completedTrips = trips.filter(
       (trip) => trip.status === "completed"
     );
 
-    const upcomingTrip = upcomingTrips[0] ?? null;
+    // ==========================================
+    // FIRST UPCOMING TRIP
+    // ==========================================
 
-    // --------------------------------
-    // INSPIRATION (real top-rated verified properties)
-    // --------------------------------
+    const upcomingTrip =
+      upcomingTrips.length > 0
+        ? upcomingTrips[0]
+        : null;
 
-    const inspirationProperties = await prisma.property.findMany({
-      where: {
-        status: "VERIFIED",
-      },
-      orderBy: {
-        rating: "desc",
-      },
-      take: 3,
-      include: {
-        images: {
-          orderBy: {
-            isPrimary: "desc",
-          },
-          take: 1,
-        },
-      },
-    });
-
-    const inspiration = inspirationProperties.map((property) => ({
-      id: String(property.id),
-      title: property.title,
-      image:
-        property.images[0]?.url ??
-        "/images/property-placeholder.jpg",
-    }));
+    // ==========================================
+    // RESPONSE
+    // ==========================================
 
     return NextResponse.json({
       success: true,
 
       data: {
+        // Main trip shown on /trips
         upcomingTrip,
-        trips: formattedTrips,
+
+        // All user's trips
+        trips,
+
+        // Upcoming trips
+        upcomingTrips,
+
+        // Completed trips
         completedTrips,
-        // No "recently viewed" tracking exists yet in the schema,
-        // so this stays empty (the page already has a real empty state).
-        recentPlaces: [],
-        // Wishlist isn't wired to this endpoint yet — separate feature.
-        savedPlaces: [],
-        inspiration,
       },
     });
   } catch (error) {
@@ -126,7 +134,9 @@ export async function GET(req: NextRequest) {
         success: false,
         message: "Unable to load trips.",
       },
-      { status: 500 }
+      {
+        status: 500,
+      }
     );
   }
 }

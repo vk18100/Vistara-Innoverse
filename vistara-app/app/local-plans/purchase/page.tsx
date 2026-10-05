@@ -1,8 +1,28 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Clock3,
+  MapPin,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
+
 import Navbar from "@/components/navbar";
+import Footer from "@/app/footer/page";
+
+type Place = {
+  id?: number | string;
+  name: string;
+  description?: string | null;
+  image?: string | null;
+  category?: string | null;
+  area?: string | null;
+};
 
 type Plan = {
   id: number;
@@ -10,92 +30,48 @@ type Plan = {
   slug: string;
   description: string;
   city: string;
-  area: string | null;
+  area?: string | null;
   price: number | string;
   durationHours: number;
-  coverImage: string | null;
-  isFeatured?: boolean;
+  coverImage?: string | null;
+  places?: Place[];
   placesCount?: number;
+  isFeatured?: boolean;
 };
-
-const fallbackPlans: Plan[] = [
-  {
-    id: 1,
-    title: "Weekend Explorer",
-    slug: "weekend-explorer",
-    description:
-      "A compact local plan for discovering the essential experiences of a city.",
-    city: "Varanasi",
-    area: "Old City",
-    price: 499,
-    durationHours: 48,
-    coverImage:
-      "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: 2,
-    title: "3-Day City Escape",
-    slug: "3-day-city-escape",
-    description:
-      "Three days of carefully selected places, food, culture and local experiences.",
-    city: "Jaipur",
-    area: "Pink City",
-    price: 899,
-    durationHours: 72,
-    coverImage:
-      "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: 3,
-    title: "7-Day Deep Explore",
-    slug: "7-day-deep-explore",
-    description:
-      "Spend a full week exploring beyond the usual tourist route.",
-    city: "Rajasthan",
-    area: "Multiple Areas",
-    price: 1499,
-    durationHours: 168,
-    coverImage:
-      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: 4,
-    title: "14-Day Complete Journey",
-    slug: "14-day-complete-journey",
-    description:
-      "A deeper two-week local journey designed for travellers who want more.",
-    city: "India",
-    area: "Multiple Destinations",
-    price: 2499,
-    durationHours: 336,
-    coverImage:
-      "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=1200&q=80",
-  },
-];
-
-function formatDuration(hours: number) {
-  if (hours >= 336) return "2 Weeks";
-  if (hours >= 168) return "1 Week";
-  if (hours >= 72) return "3 Days";
-  return "2 Days";
-}
 
 function formatPrice(price: number | string) {
   return `₹${Number(price).toLocaleString("en-IN")}`;
 }
 
-export default function LocalPlansPage() {
-  const [plans, setPlans] = useState<Plan[]>(fallbackPlans);
+function formatDuration(hours: number) {
+  if (hours >= 336) return "14 days";
+  if (hours >= 168) return "7 days";
+  if (hours >= 72) return "3 days";
+  return "2 days";
+}
+
+export default function LocalPlanPurchasePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const [plan, setPlan] = useState<Plan | null>(null);
   const [loading, setLoading] = useState(true);
+  const [purchasing, setPurchasing] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     let active = true;
 
-    async function loadPlans() {
+    async function loadPlan() {
       try {
-        setLoading(true);
+        const { id } = await params;
 
-        const response = await fetch("/api/local-plans", {
+        if (!id) {
+          throw new Error("Invalid plan.");
+        }
+
+        const response = await fetch(`/api/local-plans/${id}`, {
           method: "GET",
           cache: "no-store",
         });
@@ -104,226 +80,401 @@ export default function LocalPlansPage() {
 
         if (!response.ok || !result.success) {
           throw new Error(
-            result.message || "Unable to load local plans."
+            result.message || "Unable to load this plan."
           );
         }
 
-        if (
-          active &&
-          Array.isArray(result.data) &&
-          result.data.length > 0
-        ) {
-          setPlans(result.data);
+        if (active) {
+          setPlan(result.data);
         }
-      } catch (error) {
-        console.error("LOCAL_PLANS_ERROR:", error);
+      } catch (err) {
+        console.error("LOCAL_PLAN_PURCHASE_LOAD_ERROR:", err);
+
+        if (active) {
+          setError(
+            err instanceof Error
+              ? err.message
+              : "Unable to load this plan."
+          );
+        }
       } finally {
-        if (active) setLoading(false);
+        if (active) {
+          setLoading(false);
+        }
       }
     }
 
-    loadPlans();
+    loadPlan();
 
     return () => {
       active = false;
     };
-  }, []);
+  }, [params]);
 
-  return (
-    <main className="min-h-screen bg-[#FCFBF8] text-[#292524]">
-      <Navbar />
+  async function handlePurchase() {
+    if (!plan || purchasing) return;
 
-      {/* HERO */}
-      <section className="border-b border-[#E7E2D8] bg-[#F5F1E9]">
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 md:py-20 lg:px-10">
-          <div className="max-w-3xl">
-            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#8B6F3D]">
-              VISTARA LOCAL PLANS
+    try {
+      setPurchasing(true);
+      setError("");
+
+      /*
+       * Connect this button to your actual purchase/payment API.
+       *
+       * Example:
+       * POST /api/local-plans/[id]/purchase
+       */
+
+      const response = await fetch(
+        `/api/local-plans/${plan.id}/purchase`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            planId: plan.id,
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.message || "Unable to purchase this plan."
+        );
+      }
+
+      /*
+       * If your API returns a payment/checkout URL,
+       * redirect the user there.
+       */
+
+      if (result.data?.checkoutUrl) {
+        window.location.href = result.data.checkoutUrl;
+        return;
+      }
+
+      /*
+       * Otherwise send the user to trips/purchases.
+       */
+      window.location.href = "/trips";
+    } catch (err) {
+      console.error("LOCAL_PLAN_PURCHASE_ERROR:", err);
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to complete purchase."
+      );
+
+      setPurchasing(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-white text-black">
+        <Navbar />
+
+        <section className="mx-auto max-w-5xl px-5 py-10 sm:px-6 lg:px-8">
+          <div className="animate-pulse">
+            <div className="h-3 w-20 rounded bg-neutral-200" />
+
+            <div className="mt-4 h-7 w-64 rounded bg-neutral-200" />
+
+            <div className="mt-3 h-4 w-96 max-w-full rounded bg-neutral-100" />
+
+            <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_320px]">
+              <div className="h-[300px] rounded-2xl bg-neutral-100" />
+              <div className="h-[360px] rounded-2xl bg-neutral-100" />
+            </div>
+          </div>
+        </section>
+
+        <Footer />
+      </main>
+    );
+  }
+
+  if (error || !plan) {
+    return (
+      <main className="min-h-screen bg-white text-black">
+        <Navbar />
+
+        <section className="flex min-h-[65vh] items-center justify-center px-5">
+          <div className="max-w-md text-center">
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-neutral-400">
+              LOCAL PLAN
             </p>
 
-            <h1 className="mt-4 font-serif text-4xl font-semibold leading-[1.08] tracking-tight text-[#292524] sm:text-5xl md:text-6xl">
-              Your city.
-              <br />
-              Your way.
+            <h1 className="mt-3 font-serif text-2xl font-semibold">
+              Plan not found
             </h1>
 
-            <p className="mt-6 max-w-xl text-sm leading-7 text-[#78716C] sm:text-base">
-              Curated local plans that help you discover food,
-              culture, hidden places and experiences without
-              spending hours planning.
+            <p className="mt-2 text-xs leading-5 text-neutral-500">
+              This local plan may no longer be available.
             </p>
+
+            <Link
+              href="/local-plans"
+              className="mt-5 inline-flex items-center gap-2 rounded-lg bg-black px-4 py-2.5 text-[10px] font-semibold text-white transition hover:bg-neutral-800"
+            >
+              <ArrowLeft size={13} />
+              Back to local plans
+            </Link>
           </div>
-        </div>
+        </section>
+
+        <Footer />
+      </main>
+    );
+  }
+
+  const places = plan.places ?? [];
+
+  return (
+    <main className="min-h-screen bg-white text-black">
+      <Navbar />
+
+      {/* BACK */}
+      <div className="mx-auto max-w-5xl px-5 pt-5 sm:px-6 lg:px-8">
+        <Link
+          href={`/local-plans/${plan.slug}`}
+          className="inline-flex items-center gap-1.5 text-[10px] font-medium text-neutral-500 transition hover:text-black"
+        >
+          <ArrowLeft size={13} />
+          Back to plan
+        </Link>
+      </div>
+
+      {/* HEADER */}
+      <section className="mx-auto max-w-5xl px-5 pb-7 pt-6 sm:px-6 lg:px-8">
+        <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-neutral-400">
+          COMPLETE YOUR PURCHASE
+        </p>
+
+        <h1 className="mt-2 max-w-2xl font-serif text-[28px] font-semibold leading-tight tracking-tight sm:text-[32px]">
+          Get your local plan.
+        </h1>
+
+        <p className="mt-2 max-w-xl text-[11px] leading-5 text-neutral-500">
+          One purchase gives you access to this curated Vistara
+          local plan and all included places.
+        </p>
       </section>
 
-      {/* PLANS */}
-      <section className="mx-auto max-w-7xl px-5 py-12 sm:px-6 md:py-16 lg:px-10">
-        {/* SECTION HEADER */}
-        <div className="mb-9 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#A8A29E]">
-              CHOOSE YOUR JOURNEY
-            </p>
-
-            <h2 className="mt-2 font-serif text-3xl font-semibold text-[#292524] md:text-4xl">
-              Local plans
-            </h2>
-          </div>
-
-          {loading && (
-            <span className="text-xs text-[#A8A29E]">
-              Updating plans...
-            </span>
-          )}
-        </div>
-
-        {/* PLAN GRID */}
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-          {plans.map((plan, index) => (
-            <article
-              key={plan.id}
-              className={`group relative flex min-h-[530px] flex-col overflow-hidden rounded-[28px] border bg-white transition-all duration-300 hover:-translate-y-1 ${
-                index === 1
-                  ? "border-[#C6A15B]/50 shadow-[0_18px_50px_rgba(139,111,61,0.12)]"
-                  : "border-[#E7E2D8] shadow-[0_10px_35px_rgba(41,37,36,0.04)] hover:shadow-[0_18px_50px_rgba(41,37,36,0.10)]"
-              }`}
-            >
-              {/* FEATURED LABEL */}
-              {index === 1 && (
-                <div className="absolute left-5 top-5 z-10 rounded-full bg-[#292524] px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                  Popular
-                </div>
-              )}
-
-              {/* IMAGE */}
-              <div className="relative h-56 overflow-hidden bg-[#F5F1E9]">
+      {/* MAIN */}
+      <section className="mx-auto max-w-5xl px-5 pb-12 sm:px-6 lg:px-8">
+        <div className="grid gap-7 lg:grid-cols-[1fr_320px]">
+          
+          {/* LEFT */}
+          <div className="space-y-6">
+            {/* PLAN CARD */}
+            <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
+              <div className="relative h-[230px] bg-neutral-100">
                 {plan.coverImage ? (
                   <img
                     src={plan.coverImage}
                     alt={plan.title}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                    className="h-full w-full object-cover"
                   />
                 ) : (
-                  <div className="flex h-full items-center justify-center text-sm text-[#78716C]">
-                    Vistara
+                  <div className="flex h-full items-center justify-center text-xs text-neutral-400">
+                    No cover image
                   </div>
                 )}
 
-                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
-
-                <div className="absolute bottom-4 left-4 rounded-full bg-white/95 px-3 py-1.5 text-xs font-semibold text-[#292524] shadow-sm">
-                  {formatDuration(plan.durationHours)}
-                </div>
-              </div>
-
-              {/* CONTENT */}
-              <div className="flex flex-1 flex-col p-6">
-                <div>
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#8B6F3D]">
-                      {plan.city}
-                    </p>
-
-                    {plan.placesCount !== undefined && (
-                      <span className="text-[11px] text-[#A8A29E]">
-                        {plan.placesCount} places
-                      </span>
-                    )}
-                  </div>
-
-                  <h3 className="mt-2 font-serif text-2xl font-semibold leading-tight text-[#292524]">
-                    {plan.title}
-                  </h3>
-
-                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#78716C]">
-                    {plan.description}
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-5">
+                  <p className="text-[8px] font-semibold uppercase tracking-[0.16em] text-white/70">
+                    VISTARA LOCAL PLAN
                   </p>
 
-                  {plan.area && (
-                    <div className="mt-4 inline-flex rounded-full bg-[#F5F1E9] px-3 py-1.5 text-xs font-medium text-[#78716C]">
-                      {plan.area}
-                    </div>
-                  )}
+                  <h2 className="mt-1 text-base font-semibold text-white">
+                    {plan.title}
+                  </h2>
+                </div>
+              </div>
+
+              <div className="p-5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[9px] font-medium">
+                    <MapPin size={11} />
+                    {plan.city}
+                  </span>
+
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[9px] font-medium">
+                    <Clock3 size={11} />
+                    {formatDuration(plan.durationHours)}
+                  </span>
+
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-neutral-200 px-2.5 py-1 text-[9px] font-medium">
+                    <Sparkles size={11} />
+                    {places.length || plan.placesCount || 0} places
+                  </span>
                 </div>
 
-                {/* PRICE */}
-                <div className="mt-auto pt-7">
-                  <div className="border-t border-[#E7E2D8] pt-5">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#A8A29E]">
-                      ONE-TIME PRICE
+                <p className="mt-4 text-[11px] leading-5 text-neutral-500">
+                  {plan.description}
+                </p>
+              </div>
+            </div>
+
+            {/* INCLUDED */}
+            <div className="rounded-2xl border border-neutral-200 p-5">
+              <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-neutral-400">
+                INCLUDED
+              </p>
+
+              <div className="mt-4 space-y-3">
+                <div className="flex gap-2.5">
+                  <Check
+                    size={14}
+                    className="mt-0.5 shrink-0"
+                  />
+
+                  <div>
+                    <p className="text-[10px] font-semibold">
+                      Curated local places
                     </p>
 
-                    <div className="mt-1 flex items-end justify-between gap-3">
-                      <div>
-                        <span className="font-serif text-3xl font-semibold text-[#292524]">
-                          {formatPrice(plan.price)}
-                        </span>
-                      </div>
+                    <p className="mt-0.5 text-[9px] leading-4 text-neutral-500">
+                      Discover selected places included in this plan.
+                    </p>
+                  </div>
+                </div>
 
-                      <Link
-                        href={`/local-plans/${plan.slug}`}
-                        className="rounded-full border border-[#D6D0C5] px-4 py-2.5 text-xs font-semibold text-[#292524] transition hover:border-[#292524] hover:bg-[#292524] hover:text-white"
-                      >
-                        Details
-                      </Link>
-                    </div>
+                <div className="flex gap-2.5">
+                  <Check
+                    size={14}
+                    className="mt-0.5 shrink-0"
+                  />
 
-                    <Link
-                      href={`/local-plans/${plan.slug}?buy=true`}
-                      className="mt-4 flex w-full items-center justify-center rounded-xl bg-[#292524] px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-[#44403C]"
-                    >
-                      Get this plan
-                    </Link>
+                  <div>
+                    <p className="text-[10px] font-semibold">
+                      Complete plan access
+                    </p>
+
+                    <p className="mt-0.5 text-[9px] leading-4 text-neutral-500">
+                      Access the full local itinerary after purchase.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2.5">
+                  <Check
+                    size={14}
+                    className="mt-0.5 shrink-0"
+                  />
+
+                  <div>
+                    <p className="text-[10px] font-semibold">
+                      One-time purchase
+                    </p>
+
+                    <p className="mt-0.5 text-[9px] leading-4 text-neutral-500">
+                      No subscription or recurring payment.
+                    </p>
                   </div>
                 </div>
               </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* BOTTOM VALUE STRIP */}
-      <section className="mx-auto max-w-7xl px-5 pb-14 sm:px-6 lg:px-10">
-        <div className="rounded-[28px] border border-[#E7E2D8] bg-white p-6 shadow-[0_8px_30px_rgba(41,37,36,0.03)] md:p-8">
-          <div className="grid gap-6 md:grid-cols-3 md:divide-x md:divide-[#E7E2D8]">
-            <Value
-              title="Curated locally"
-              text="Discover places beyond the usual tourist route."
-            />
-
-            <Value
-              title="One-time unlock"
-              text="Buy once and access your selected local plan."
-            />
-
-            <Value
-              title="Made for exploring"
-              text="Use your plan while planning and travelling."
-            />
+            </div>
           </div>
+
+          {/* RIGHT CHECKOUT */}
+          <aside>
+            <div className="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-5">
+              <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-neutral-400">
+                ORDER SUMMARY
+              </p>
+
+              <div className="mt-4">
+                <p className="text-xs font-semibold">
+                  {plan.title}
+                </p>
+
+                <p className="mt-1 text-[9px] text-neutral-500">
+                  {plan.city}
+                  {plan.area ? ` · ${plan.area}` : ""}
+                </p>
+              </div>
+
+              <div className="my-5 border-t border-neutral-200" />
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-neutral-500">
+                    Plan price
+                  </span>
+
+                  <span className="text-[10px] font-semibold">
+                    {formatPrice(plan.price)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-neutral-500">
+                    Access
+                  </span>
+
+                  <span className="text-[10px] font-semibold">
+                    Full plan
+                  </span>
+                </div>
+              </div>
+
+              <div className="my-5 border-t border-neutral-200" />
+
+              <div className="flex items-end justify-between">
+                <span className="text-[10px] text-neutral-500">
+                  Total
+                </span>
+
+                <span className="font-serif text-xl font-semibold">
+                  {formatPrice(plan.price)}
+                </span>
+              </div>
+
+              {error && (
+                <div className="mt-4 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-[9px] leading-4 text-neutral-600">
+                  {error}
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={handlePurchase}
+                disabled={purchasing}
+                className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-3 text-[10px] font-semibold text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {purchasing ? (
+                  "Processing..."
+                ) : (
+                  <>
+                    Continue to payment
+                    <ArrowRight size={13} />
+                  </>
+                )}
+              </button>
+
+              <div className="mt-4 flex gap-2 border-t border-neutral-200 pt-4">
+                <ShieldCheck
+                  size={13}
+                  className="mt-0.5 shrink-0"
+                />
+
+                <p className="text-[9px] leading-4 text-neutral-500">
+                  Secure checkout. Your local plan access will be
+                  available after successful purchase.
+                </p>
+              </div>
+            </div>
+          </aside>
         </div>
       </section>
+
+      <Footer />
     </main>
-  );
-}
-
-function Value({
-  title,
-  text,
-}: {
-  title: string;
-  text: string;
-}) {
-  return (
-    <div className="px-0 md:px-7 first:md:pl-0 last:md:pr-0">
-      <h3 className="text-sm font-semibold text-[#292524]">
-        {title}
-      </h3>
-
-      <p className="mt-2 text-sm leading-6 text-[#78716C]">
-        {text}
-      </p>
-    </div>
   );
 }

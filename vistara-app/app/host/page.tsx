@@ -414,11 +414,16 @@ export default function HostPage() {
         throw new Error("The dashboard returned an invalid response.");
       }
 
-      if (!response.ok || !result.success || !result.data) {
-        throw new Error(
-          result.message || "Unable to load the host dashboard.",
-        );
-      }
+     if (!response.ok || !result.success || !result.data) {
+  console.log("HOST DASHBOARD RESPONSE:", {
+    status: response.status,
+    result,
+  });
+
+  throw new Error(
+    result.message || "Unable to load the host dashboard.",
+  );
+}
 
       const fallback = applyDemoFallback(result.data);
 
