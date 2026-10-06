@@ -86,7 +86,9 @@ export default function StayIdPage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
-
+const [bookingLoading, setBookingLoading] = useState(false);
+const [bookingError, setBookingError] = useState("");
+const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
   const [wishlisted, setWishlisted] = useState(false);
 
   const [reviews, setReviews] =
@@ -752,31 +754,100 @@ export default function StayIdPage() {
               </div>
 
               {/* RESERVE */}
-             <button
+         <button
   type="button"
-  onClick={() => {
+  disabled={bookingLoading}
+  onClick={async () => {
+    setBookingError("");
+
     if (!checkIn || !checkOut) {
-      alert("Please select check-in and check-out dates.");
+      setBookingError("Please select check-in and check-out dates.");
       return;
     }
 
-    const query = new URLSearchParams({
-      propertyId: String(stayId),
-      checkIn,
-      checkOut,
-      guests: String(guests),
-    });
+    if (checkOut <= checkIn) {
+      setBookingError("Check-out must be after check-in.");
+      return;
+    }
 
-    window.location.href = `/bookings?${query.toString()}`;
+    try {
+      setBookingLoading(true);
+
+      const response = await fetch("/api/bookings", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          propertyId: stayId,
+          checkIn,
+          checkOut,
+          guests,
+        }),
+      });
+
+      const text = await response.text();
+
+      let result: any = {};
+
+      try {
+        result = text ? JSON.parse(text) : {};
+      } catch {
+        result = {};
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          result?.error ||
+            result?.message ||
+            "Unable to create booking."
+        );
+      }
+
+const bookingId =
+  result?.bookingId ||
+  result?.booking?.id ||
+  result?.data?.bookingId ||
+  result?.data?.booking?.id;
+
+if (!bookingId) {
+  throw new Error(
+    "Booking was created but booking ID was not returned."
+  );
+}
+     setConfirmedBooking({
+  id: bookingId,
+  totalAmount:
+    result?.booking?.totalAmount ??
+    result?.data?.booking?.totalAmount ??
+    total,
+});
+    } catch (error) {
+      setBookingError(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong."
+      );
+    } finally {
+      setBookingLoading(false);
+    }
   }}
-  className="mt-5 flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
+  className="mt-5 flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222] disabled:cursor-not-allowed disabled:opacity-50"
 >
-  Reserve this stay
+  {bookingLoading ? "Confirming..." : "Reserve this stay"}
 </button>
-              <p className="mt-3 text-center text-[11px] text-[#888]">
-                You won&apos;t be charged until you confirm
-                your booking.
-              </p>
+
+{bookingError && (
+  <p className="mt-3 text-center text-sm font-medium text-red-600">
+    {bookingError}
+  </p>
+)}
+
+<p className="mt-3 text-center text-[11px] text-[#888]">
+  You won&apos;t be charged until you confirm
+  your booking.
+</p>
 
               {/* PRICE BREAKDOWN */}
               <div className="mt-5 space-y-3 border-t border-[#E7E1D8] pt-5 text-sm">
@@ -827,7 +898,87 @@ export default function StayIdPage() {
           FOOTER
       ===================================================== */}
       <Footer />
+{confirmedBooking && (
+  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4">
+    <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-white">
+        <Check size={22} />
+      </div>
 
+      <h2 className="mt-5 text-2xl font-semibold">
+        Your booking is confirmed
+      </h2>
+
+      <p className="mt-1 text-sm text-[#777]">
+        Your stay has been successfully reserved.
+      </p>
+
+      <div className="mt-6 space-y-4 rounded-2xl bg-[#F8F8F8] p-4">
+        <div className="flex justify-between gap-4">
+          <span className="text-sm text-[#777]">Booking ID</span>
+          <span className="text-sm font-semibold">
+            #{confirmedBooking.id}
+          </span>
+        </div>
+
+        <div className="flex justify-between gap-4">
+          <span className="text-sm text-[#777]">Stay</span>
+          <span className="text-right text-sm font-semibold">
+            {stay.title}
+          </span>
+        </div>
+
+        <div className="flex justify-between gap-4">
+          <span className="text-sm text-[#777]">Check-in</span>
+          <span className="text-sm font-semibold">
+            {checkIn}
+          </span>
+        </div>
+
+        <div className="flex justify-between gap-4">
+          <span className="text-sm text-[#777]">Check-out</span>
+          <span className="text-sm font-semibold">
+            {checkOut}
+          </span>
+        </div>
+
+        <div className="flex justify-between gap-4">
+          <span className="text-sm text-[#777]">Guests</span>
+          <span className="text-sm font-semibold">
+            {guests}
+          </span>
+        </div>
+
+        <div className="flex justify-between gap-4 border-t border-[#E5E5E5] pt-4">
+          <span className="text-sm font-semibold">Total</span>
+          <span className="text-sm font-bold">
+            ₹
+            {Number(
+              confirmedBooking.totalAmount ?? total
+            ).toLocaleString("en-IN")}
+          </span>
+        </div>
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <Link
+          href={`/bookings/${confirmedBooking.id}`}
+          className="flex items-center justify-center rounded-xl bg-black px-4 py-3 text-sm font-semibold text-white"
+        >
+          View Booking
+        </Link>
+
+        <button
+          type="button"
+          onClick={() => setConfirmedBooking(null)}
+          className="rounded-xl border border-[#DCDCDC] px-4 py-3 text-sm font-semibold"
+        >
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </main>
   );
 }
