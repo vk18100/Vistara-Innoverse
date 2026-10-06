@@ -3,15 +3,32 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAuth } from "@/lib/guard";
 
+/* =========================================================
+   GET
+   Current user's bookings
+========================================================= */
+
 export async function GET(req: NextRequest) {
   try {
     const { user, response } = await requireAuth(req);
 
-    if (response) return response;
+    if (response) {
+      return response;
+    }
+
+    if (!user?.id) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
 
     const bookings = await prisma.booking.findMany({
       where: {
-        guestId: user!.id,
+        guestId: user.id,
       },
 
       orderBy: {
@@ -24,6 +41,9 @@ export async function GET(req: NextRequest) {
             images: {
               where: {
                 isPrimary: true,
+              },
+              orderBy: {
+                isPrimary: "desc",
               },
             },
           },
@@ -48,12 +68,32 @@ export async function GET(req: NextRequest) {
   }
 }
 
+/* =========================================================
+   POST
+   Create Stay / Property booking
+========================================================= */
 
 export async function POST(req: NextRequest) {
   try {
     const { user, response } = await requireAuth(req);
 
-    if (response) return response;
+    if (response) {
+      return response;
+    }
+
+    if (!user?.id) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
+
+    /* -------------------------------------------------------
+       BODY
+    ------------------------------------------------------- */
 
     const body = await req.json();
 
@@ -64,7 +104,9 @@ export async function POST(req: NextRequest) {
       guests,
     } = body;
 
-    /* ---------------- VALIDATION ---------------- */
+    /* -------------------------------------------------------
+       BASIC VALIDATION
+    ------------------------------------------------------- */
 
     if (
       propertyId === undefined ||
@@ -83,6 +125,10 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    /* -------------------------------------------------------
+       NORMALIZE VALUES
+    ------------------------------------------------------- */
 
     const propertyIdNumber = Number(propertyId);
     const guestCount = Number(guests);
@@ -113,14 +159,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* ---------------- PROPERTY ---------------- */
+    /* -------------------------------------------------------
+       PROPERTY
+    ------------------------------------------------------- */
 
-    const property =
-      await prisma.property.findUnique({
-        where: {
-          id: propertyIdNumber,
-        },
-      });
+    const property = await prisma.property.findUnique({
+      where: {
+        id: propertyIdNumber,
+      },
+    });
 
     if (!property) {
       return NextResponse.json(
@@ -131,6 +178,10 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
+
+    /* -------------------------------------------------------
+       PROPERTY STATUS
+    ------------------------------------------------------- */
 
     if (property.status !== "VERIFIED") {
       return NextResponse.json(
@@ -143,6 +194,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    /* -------------------------------------------------------
+       GUEST LIMIT
+    ------------------------------------------------------- */
+
     if (guestCount > property.guests) {
       return NextResponse.json(
         {
@@ -153,7 +208,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* ---------------- DATES ---------------- */
+    /* -------------------------------------------------------
+       DATES
+    ------------------------------------------------------- */
 
     const start = new Date(checkIn);
     const end = new Date(checkOut);
@@ -175,13 +232,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "Check-out must be after check-in",
+          message:
+            "Check-out must be after check-in",
         },
         { status: 400 }
       );
     }
 
-    if (start < new Date()) {
+    const now = new Date();
+
+    if (start < now) {
       return NextResponse.json(
         {
           success: false,
@@ -191,6 +251,10 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
+    /* -------------------------------------------------------
+       NIGHTS
+    ------------------------------------------------------- */
 
     const millisecondsPerDay =
       1000 * 60 * 60 * 24;
@@ -211,7 +275,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* ---------------- AVAILABILITY ---------------- */
+    /* -------------------------------------------------------
+       AVAILABILITY
+    ------------------------------------------------------- */
 
     const conflict =
       await prisma.booking.findFirst({
@@ -243,17 +309,38 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    /* ---------------- PRICE ---------------- */
+    /* -------------------------------------------------------
+       PRICE
+    ------------------------------------------------------- */
+
+    const pricePerNight =
+      Number(property.pricePerNight);
+
+    if (
+      !Number.isFinite(pricePerNight) ||
+      pricePerNight < 0
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "Property price is invalid",
+        },
+        { status: 400 }
+      );
+    }
 
     const totalAmount =
-      Number(property.pricePerNight) * nights;
+      pricePerNight * nights;
 
-    /* ---------------- CREATE ---------------- */
+    /* -------------------------------------------------------
+       CREATE BOOKING
+    ------------------------------------------------------- */
 
     const booking =
       await prisma.booking.create({
         data: {
-          guestId: user!.id,
+          guestId: user.id,
 
           propertyId: property.id,
 
@@ -279,20 +366,28 @@ export async function POST(req: NextRequest) {
                 where: {
                   isPrimary: true,
                 },
+                orderBy: {
+                  isPrimary: "desc",
+                },
               },
             },
           },
         },
       });
 
+    /* -------------------------------------------------------
+       RESPONSE
+    ------------------------------------------------------- */
+
     return NextResponse.json(
       {
         success: true,
 
-        message:
-          "Booking created successfully",
+        message: "Booking created successfully",
 
         booking,
+
+        bookingId: booking.id,
       },
       { status: 201 }
     );

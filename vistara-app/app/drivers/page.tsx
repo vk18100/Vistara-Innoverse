@@ -1,4 +1,5 @@
 "use client";
+
 import Navbar from "@/components/navbar";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -78,40 +79,104 @@ export default function DriversPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+
     const loadDrivers = async () => {
       try {
         const response = await fetch("/api/drivers", {
+          method: "GET",
           credentials: "include",
+          cache: "no-store",
         });
 
+        /*
+         * Do NOT throw when the API fails.
+         * The page already has fallback drivers.
+         */
         if (!response.ok) {
-          throw new Error("Unable to load drivers");
+          if (mounted) {
+            setDrivers(fallbackDrivers);
+          }
+
+          return;
         }
 
         const result = await response.json();
 
-        if (result?.success && Array.isArray(result.data)) {
-          setDrivers(result.data);
+        /*
+         * Support the expected API format:
+         *
+         * {
+         *   success: true,
+         *   data: [...]
+         * }
+         *
+         * Also supports:
+         *
+         * {
+         *   data: [...]
+         * }
+         *
+         * and:
+         *
+         * {
+         *   drivers: [...]
+         * }
+         */
+
+        const apiDrivers =
+          Array.isArray(result?.data)
+            ? result.data
+            : Array.isArray(result?.drivers)
+              ? result.drivers
+              : null;
+
+        if (
+          mounted &&
+          apiDrivers &&
+          apiDrivers.length > 0
+        ) {
+          setDrivers(apiDrivers);
+        } else if (mounted) {
+          setDrivers(fallbackDrivers);
         }
       } catch (error) {
-        console.error("DRIVERS_PAGE_ERROR:", error);
+        /*
+         * API/network failure should never break
+         * the drivers page.
+         */
+        console.error(
+          "DRIVERS_API_ERROR:",
+          error
+        );
+
+        if (mounted) {
+          setDrivers(fallbackDrivers);
+        }
       } finally {
-        setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     };
 
     loadDrivers();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return (
     <main className="min-h-screen bg-white text-black">
 
       {/* ================= NAVBAR ================= */}
-<Navbar/>
+
+      <Navbar />
+
       {/* ================= HERO ================= */}
 
       <section className="mx-auto max-w-7xl px-5 pb-8 pt-10 lg:px-8">
-
         <div className="max-w-2xl">
 
           <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-black/40">
@@ -129,7 +194,6 @@ export default function DriversPage() {
           </p>
 
         </div>
-
       </section>
 
       {/* ================= DRIVER LIST ================= */}
@@ -138,7 +202,6 @@ export default function DriversPage() {
 
         {loading ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-
             {[1, 2, 3].map((item) => (
               <div
                 key={item}
@@ -153,12 +216,15 @@ export default function DriversPage() {
                 </div>
               </div>
             ))}
-
           </div>
-        ) : drivers.length === 0 ? (
-          <div className="rounded-2xl border border-black/10 px-6 py-16 text-center">
 
-            <Car className="mx-auto" size={25} />
+        ) : drivers.length === 0 ? (
+
+          <div className="rounded-2xl border border-black/10 px-6 py-16 text-center">
+            <Car
+              className="mx-auto"
+              size={25}
+            />
 
             <h2 className="mt-4 text-base font-semibold">
               No drivers available
@@ -167,9 +233,10 @@ export default function DriversPage() {
             <p className="mt-1 text-xs text-black/45">
               Try exploring again later.
             </p>
-
           </div>
+
         ) : (
+
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
             {drivers.map((driver) => (
@@ -231,13 +298,11 @@ export default function DriversPage() {
                       </div>
 
                       <div className="mt-1 flex items-center gap-1.5 text-xs text-black/45">
-
                         <MapPin size={11} />
 
                         <span>
                           {driver.city}
                         </span>
-
                       </div>
 
                     </div>
@@ -250,7 +315,7 @@ export default function DriversPage() {
                       />
 
                       <span className="font-medium">
-                        {driver.rating.toFixed(1)}
+                        {Number(driver.rating || 0).toFixed(1)}
                       </span>
 
                     </div>
@@ -269,21 +334,17 @@ export default function DriversPage() {
                   <div className="mt-4 flex items-center gap-2">
 
                     <div className="flex items-center gap-1.5 rounded-lg bg-black/[0.035] px-2.5 py-2 text-[10px]">
-
                       <Car size={12} />
 
                       {driver.vehicle ||
                         driver.vehicleType ||
                         "Comfort"}
-
                     </div>
 
                     <div className="flex items-center gap-1.5 rounded-lg bg-black/[0.035] px-2.5 py-2 text-[10px]">
-
                       <Users size={12} />
 
                       {driver.seats || 4} seats
-
                     </div>
 
                     <div className="ml-auto text-right">
@@ -327,11 +388,10 @@ export default function DriversPage() {
                   {/* REVIEWS */}
 
                   <p className="mt-3 text-[9px] text-black/35">
-                    {driver.reviewCount} reviews · Local rides
+                    {driver.reviewCount || 0} reviews · Local rides
                   </p>
 
                 </div>
-
               </article>
 
             ))}

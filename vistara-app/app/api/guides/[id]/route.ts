@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
+import { guides } from "@/data/guides";
 
 type Params = {
   params: Promise<{
@@ -7,63 +7,26 @@ type Params = {
   }>;
 };
 
-/* =========================
-   GET /api/guides/[id]
-   Public — single guide
-========================= */
-
 export async function GET(
-  req: NextRequest,
+  _request: Request,
   { params }: Params
 ) {
   try {
     const { id } = await params;
 
-    const guideId = Number(id);
-
-    if (!Number.isInteger(guideId) || guideId <= 0) {
+    if (!id) {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid guide id.",
+          message: "Guide id is required.",
         },
         { status: 400 }
       );
     }
 
-    const guide = await prisma.guideProfile.findUnique({
-      where: {
-        id: guideId,
-      },
-
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            profile: {
-              select: {
-                avatar: true,
-              },
-            },
-          },
-        },
-
-        availability: {
-          where: {
-            isActive: true,
-            startTime: {
-              gte: new Date(),
-            },
-          },
-
-          orderBy: {
-            startTime: "asc",
-          },
-        },
-      },
-    });
+    const guide = guides.find(
+      (item) => String(item.id) === String(id)
+    );
 
     if (!guide) {
       return NextResponse.json(
@@ -77,61 +40,7 @@ export async function GET(
 
     return NextResponse.json({
       success: true,
-
-      data: {
-        id: String(guide.id),
-
-        name:
-          guide.user.name?.trim() ||
-          "Vistara Local Guide",
-
-        location: guide.city,
-
-        city: guide.city,
-
-        image:
-          guide.user.profile?.avatar ||
-          "/images/profile.jpg",
-
-        bio: guide.bio || "",
-
-        description: guide.bio || "",
-
-        languages: guide.languages || [],
-
-        specialties: guide.specialties || [],
-
-        experience: guide.experienceYears || 0,
-
-        experienceYears:
-          guide.experienceYears || 0,
-
-        price: guide.hourlyRate
-          ? Number(guide.hourlyRate)
-          : 0,
-
-        hourlyRate: guide.hourlyRate
-          ? Number(guide.hourlyRate)
-          : null,
-
-        halfDayRate: guide.halfDayRate
-          ? Number(guide.halfDayRate)
-          : null,
-
-        fullDayRate: guide.fullDayRate
-          ? Number(guide.fullDayRate)
-          : null,
-
-        rating: Number(guide.rating || 0),
-
-        reviews: guide.reviewCount || 0,
-
-        reviewCount: guide.reviewCount || 0,
-
-        verified: true,
-
-        availability: guide.availability,
-      },
+      data: guide,
     });
   } catch (error) {
     console.error("GUIDE_DETAIL_ERROR:", error);

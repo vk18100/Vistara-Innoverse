@@ -1,17 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Navbar from "@/components/navbar";
 import { useState } from "react";
+import Navbar from "@/components/navbar";
 
 const settingsItems = [
-  {
-    title: "Account",
-    description:
-      "Manage your account information and personal details.",
-    href: "/settings/account",
-    icon: "◎",
-  },
   {
     title: "Profile",
     description:
@@ -22,15 +15,15 @@ const settingsItems = [
   {
     title: "Travel preferences",
     description:
-      "Choose your travel style, interests, language and currency.",
+      "Manage your travel style, interests, language and currency.",
     href: "/settings/preferences",
     icon: "✦",
   },
   {
     title: "Privacy",
     description:
-      "Control your profile visibility, personalization and data choices.",
-    href: "/settings/privacy",
+      "Control your privacy, personalization and data choices.",
+    href: "/privacy",
     icon: "◉",
   },
   {
@@ -43,25 +36,31 @@ const settingsItems = [
   {
     title: "Payments",
     description:
-      "Manage payment methods and view your Vistara transactions.",
+      "Manage payment methods and Vistara transactions.",
     href: "/settings/payments",
     icon: "₹",
   },
   {
     title: "Notifications",
     description:
-      "Manage booking updates, trip alerts and other Vistara notifications.",
+      "Manage booking updates, trip alerts and notifications.",
     href: "/settings/notifications",
     icon: "◌",
   },
-  
- {
-  title: "Host",
-  description:
-    "Become a host, register your hosting profile, and manage your properties.",
-  href: "/host/register",
-  icon: "⌂",
-},
+  {
+    title: "Help",
+    description:
+      "Find answers and get help with your Vistara account.",
+    href: "/settings/help",
+    icon: "?",
+  },
+  {
+    title: "Host",
+    description:
+      "Become a host and manage your hosting profile and properties.",
+    href: "/host/register",
+    icon: "⌂",
+  },
 ];
 
 export default function SettingsPage() {
@@ -71,10 +70,15 @@ export default function SettingsPage() {
     try {
       setLoggingOut(true);
 
-      // Replace with your actual authentication logout logic.
-      // Example with NextAuth:
-      // await signOut({ callbackUrl: "/" });
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
 
+      if (!response.ok) {
+        throw new Error("Logout failed");
+      }
+
+      // Logout successful → home page
       window.location.href = "/";
     } catch (error) {
       console.error("Logout failed:", error);
@@ -83,121 +87,111 @@ export default function SettingsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#29231D]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      {/* ================= HEADER ================= */}
-      <section className="border-b border-[#29231D]/10 bg-[#F7F3EA]">
-        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-14 lg:px-10 lg:py-16">
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B28A45]">
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
+      <section className="border-b border-black/10">
+        <div className="mx-auto max-w-6xl px-5 py-9 sm:px-6 lg:px-8">
+          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-black/50">
             VISTARA ACCOUNT
           </p>
 
-          <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#29231D] sm:text-5xl">
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-black sm:text-3xl">
             Settings
           </h1>
 
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#756D63] sm:text-base">
-            Manage your account, profile, travel preferences, privacy,
+          <p className="mt-2 max-w-xl text-xs font-medium leading-5 text-black/55 sm:text-sm">
+            Manage your profile, preferences, privacy,
             security and other Vistara settings.
           </p>
         </div>
       </section>
 
-      {/* ================= SETTINGS ================= */}
-      <section className="mx-auto max-w-5xl px-5 py-8 sm:px-6 sm:py-12 lg:px-10">
-        <div className="overflow-hidden rounded-[28px] border border-[#29231D]/10 bg-white shadow-[0_18px_50px_rgba(41,35,29,0.06)]">
+      {/* =====================================================
+          SETTINGS
+      ===================================================== */}
+
+      <section className="mx-auto max-w-6xl px-5 py-7 sm:px-6 lg:px-8">
+
+        <div className="overflow-hidden rounded-2xl border border-black/10 bg-white">
+
           {settingsItems.map((item, index) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`group flex items-center gap-4 px-5 py-5 transition duration-200 hover:bg-[#F7F3EA] sm:gap-5 sm:px-7 sm:py-6 ${
+              className={`group flex items-center gap-3 px-4 py-4 transition-colors hover:bg-black/[0.025] sm:px-5 ${
                 index !== settingsItems.length - 1
-                  ? "border-b border-[#29231D]/10"
+                  ? "border-b border-black/[0.08]"
                   : ""
               }`}
             >
+
               {/* ICON */}
-              <div
-                className="
-                  flex h-11 w-11 shrink-0 items-center justify-center
-                  rounded-2xl
-                  bg-[#F7F3EA]
-                  text-lg font-semibold text-[#29231D]
-                  transition duration-200
-                  group-hover:bg-[#B28A45]
-                  group-hover:text-white
-                  sm:h-12 sm:w-12
-                "
-              >
+
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-black/10 bg-black/[0.025] text-sm font-bold text-black transition-colors group-hover:bg-black group-hover:text-white">
                 {item.icon}
               </div>
 
-              {/* TEXT */}
+              {/* CONTENT */}
+
               <div className="min-w-0 flex-1">
-                <h2 className="text-sm font-semibold text-[#29231D] sm:text-base">
+
+                <h2 className="text-sm font-bold tracking-tight text-black">
                   {item.title}
                 </h2>
 
-                <p className="mt-1 max-w-2xl text-xs leading-5 text-[#756D63] sm:text-sm">
+                <p className="mt-0.5 text-[11px] font-medium leading-4 text-black/55 sm:text-xs">
                   {item.description}
                 </p>
+
               </div>
 
               {/* ARROW */}
-              <span
-                className="
-                  shrink-0
-                  text-xl
-                  text-[#A49B90]
-                  transition duration-200
-                  group-hover:translate-x-1
-                  group-hover:text-[#B28A45]
-                  sm:text-2xl
-                "
-              >
+
+              <span className="shrink-0 text-base font-bold text-black/35 transition-transform group-hover:translate-x-1 group-hover:text-black">
                 →
               </span>
+
             </Link>
           ))}
+
         </div>
 
-        {/* ================= LOGOUT ================= */}
-        <div className="mt-6 rounded-[26px] border border-[#29231D]/10 bg-white p-5 shadow-[0_12px_35px_rgba(41,35,29,0.04)] sm:p-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm font-semibold text-[#29231D]">
-                Sign out of Vistara
-              </p>
+        {/* ===================================================
+            LOGOUT
+        =================================================== */}
 
-              <p className="mt-1 text-xs leading-5 text-[#756D63] sm:text-sm">
-                Sign out from your Vistara account on this device.
-              </p>
-            </div>
+        <div className="mt-5 flex items-center justify-between gap-4 border-t border-black/10 py-5">
 
-            <button
-              type="button"
-              onClick={handleLogout}
-              disabled={loggingOut}
-              className="
-                w-fit
-                rounded-xl
-                border border-[#29231D]/20
-                px-5 py-3
-                text-sm font-semibold
-                text-[#29231D]
-                transition
-                hover:border-[#29231D]
-                hover:bg-[#29231D]
-                hover:text-white
-                disabled:cursor-not-allowed
-                disabled:opacity-60
-              "
-            >
-              {loggingOut ? "Signing out..." : "Log out"}
-            </button>
+          <div>
+
+            <p className="text-sm font-bold text-black">
+              Sign out
+            </p>
+
+            <p className="mt-0.5 text-[11px] font-medium text-black/50 sm:text-xs">
+              Sign out from your Vistara account on this device.
+            </p>
+
           </div>
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={loggingOut}
+            className="shrink-0 rounded-lg border border-black px-4 py-2 text-xs font-bold text-black transition hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {loggingOut
+              ? "Signing out..."
+              : "Log out"}
+          </button>
+
         </div>
+
       </section>
     </main>
   );

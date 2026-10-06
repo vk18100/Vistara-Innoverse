@@ -14,17 +14,39 @@ export async function GET(
   { params }: RouteContext
 ) {
   try {
+    // -----------------------------------------
+    // AUTH
+    // -----------------------------------------
+
     const { user, response } = await requireAuth(req);
 
     if (response) {
       return response;
     }
 
+    if (!user?.id) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
+
+    // -----------------------------------------
+    // GET BOOKING ID
+    // -----------------------------------------
+
     const { id } = await params;
 
     const bookingId = Number(id);
 
-    if (!Number.isInteger(bookingId) || bookingId <= 0) {
+    if (
+      !id ||
+      !Number.isInteger(bookingId) ||
+      bookingId <= 0
+    ) {
       return NextResponse.json(
         {
           success: false,
@@ -34,11 +56,16 @@ export async function GET(
       );
     }
 
+    // -----------------------------------------
+    // FIND USER'S BOOKING
+    // -----------------------------------------
+
     const booking = await prisma.booking.findFirst({
       where: {
         id: bookingId,
-        guestId: user!.id,
+        guestId: user.id,
       },
+
       include: {
         property: {
           include: {
@@ -52,6 +79,10 @@ export async function GET(
       },
     });
 
+    // -----------------------------------------
+    // NOT FOUND
+    // -----------------------------------------
+
     if (!booking) {
       return NextResponse.json(
         {
@@ -62,12 +93,19 @@ export async function GET(
       );
     }
 
+    // -----------------------------------------
+    // SUCCESS
+    // -----------------------------------------
+
     return NextResponse.json({
       success: true,
       booking,
     });
   } catch (error) {
-    console.error("GET_BOOKING_BY_ID_ERROR:", error);
+    console.error(
+      "GET_BOOKING_BY_ID_ERROR:",
+      error
+    );
 
     return NextResponse.json(
       {

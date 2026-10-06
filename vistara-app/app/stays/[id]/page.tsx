@@ -28,7 +28,9 @@ import {
 } from "lucide-react";
 
 import { stays } from "@/data/stay";
-
+import CompactCalendar from "@/components/CompactCalendar";
+import Navbar from "@/components/navbar";
+import Footer from "@/app/footer/page";
 type Review = {
   id: string;
   name: string;
@@ -678,8 +680,7 @@ export default function StayIdPage() {
               </div>
 
               {/* CHECK IN / OUT */}
-              <div className="mt-5 grid grid-cols-2 overflow-hidden rounded-2xl border border-[#DCD5CB]">
-
+<div className="relative mt-5 grid grid-cols-2 overflow-visible rounded-2xl border border-[#DCD5CB]">
                 <DateField
                   label="Check in"
                   value={checkIn}
@@ -751,13 +752,27 @@ export default function StayIdPage() {
               </div>
 
               {/* RESERVE */}
-              <Link
-                href={`/booking/${stayId}`}
-                className="mt-5 flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
-              >
-                Reserve this stay
-              </Link>
+             <button
+  type="button"
+  onClick={() => {
+    if (!checkIn || !checkOut) {
+      alert("Please select check-in and check-out dates.");
+      return;
+    }
 
+    const query = new URLSearchParams({
+      propertyId: String(stayId),
+      checkIn,
+      checkOut,
+      guests: String(guests),
+    });
+
+    window.location.href = `/bookings?${query.toString()}`;
+  }}
+  className="mt-5 flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222]"
+>
+  Reserve this stay
+</button>
               <p className="mt-3 text-center text-[11px] text-[#888]">
                 You won&apos;t be charged until you confirm
                 your booking.
@@ -821,67 +836,10 @@ export default function StayIdPage() {
    NAVBAR
 ========================================================= */
 
-function Navbar() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-[#E7E1D8] bg-white/95 backdrop-blur">
-
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-
-        <Link
-          href="/"
-          className="text-xl font-bold tracking-tight"
-        >
-          Vistara
-        </Link>
-
-        <nav className="hidden items-center gap-7 text-sm text-[#555] md:flex">
-
-          <Link
-            href="/"
-            className="transition hover:text-black"
-          >
-            Home
-          </Link>
-
-          <Link
-            href="/stays"
-            className="font-semibold text-black"
-          >
-            Stays
-          </Link>
-
-          <Link
-            href="/destinations"
-            className="transition hover:text-black"
-          >
-            Destinations
-          </Link>
-
-          <Link
-            href="/experiences"
-            className="transition hover:text-black"
-          >
-            Experiences
-          </Link>
-
-        </nav>
-
-        <Link
-          href="/login"
-          className="rounded-full border border-[#D8D1C8] px-4 py-2 text-sm font-semibold transition hover:bg-black hover:text-white"
-        >
-          Login
-        </Link>
-
-      </div>
-    </header>
-  );
-}
 
 /* =========================================================
    DATE FIELD
 ========================================================= */
-
 function DateField({
   label,
   value,
@@ -894,27 +852,17 @@ function DateField({
   min?: string;
 }) {
   return (
-    <div className="relative border-r border-[#DCD5CB] p-4 last:border-r-0">
-
+    <div className="border-r border-[#DCD5CB] p-3 last:border-r-0">
       <label className="block text-[9px] font-bold uppercase tracking-[0.12em] text-[#888]">
         {label}
       </label>
 
-      <div className="relative mt-2 flex items-center">
-
-        <CalendarDays
-          size={15}
-          className="pointer-events-none absolute left-0 text-[#555]"
-        />
-
-        <input
-          type="date"
+      <div className="mt-1">
+        <CompactCalendar
           value={value}
-          min={min}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full cursor-pointer bg-transparent pl-6 text-sm font-medium text-[#111] outline-none [color-scheme:light]"
+          onChange={onChange}
+          minDate={min}
         />
-
       </div>
     </div>
   );
@@ -992,47 +940,4 @@ function DetailCard({
    FOOTER
 ========================================================= */
 
-function Footer() {
-  return (
-    <footer className="border-t border-[#E4DDD3] bg-[#F6F1E8]">
-
-      <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-10 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-
-        <div>
-          <p className="text-lg font-bold">
-            Vistara
-          </p>
-
-          <p className="mt-1 text-xs text-[#706A61]">
-            Discover stays beyond the ordinary.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap gap-5 text-xs text-[#555]">
-
-          <Link href="/about">
-            About
-          </Link>
-
-          <Link href="/contact">
-            Contact
-          </Link>
-
-          <Link href="/privacy">
-            Privacy
-          </Link>
-
-          <Link href="/terms">
-            Terms
-          </Link>
-
-        </div>
-
-        <p className="text-xs text-[#777]">
-          © {new Date().getFullYear()} Vistara
-        </p>
-
-      </div>
-    </footer>
-  );
-}
+  

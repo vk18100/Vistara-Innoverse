@@ -12,7 +12,8 @@ import {
   Heart,
   Languages,
 } from "lucide-react";
-
+import Footer from "../footer/page";
+import Navbar from "@/components/navbar";
 type Guide = {
   id: string;
   name: string;
@@ -109,72 +110,7 @@ export default function GuidesPage() {
     <main className="min-h-screen bg-white text-black">
 
       {/* ================= NAVBAR ================= */}
-
-      <header className="sticky top-0 z-50 border-b border-black/10 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5">
-
-          <Link
-            href="/"
-            className="text-xl font-semibold tracking-tight"
-          >
-            Vistara
-          </Link>
-
-          <nav className="hidden items-center gap-7 text-sm md:flex">
-            <Link
-              href="/explore"
-              className="transition hover:opacity-50"
-            >
-              Explore
-            </Link>
-
-            <Link
-              href="/trips"
-              className="transition hover:opacity-50"
-            >
-              Trips
-            </Link>
-
-            <Link
-              href="/wishlist"
-              className="transition hover:opacity-50"
-            >
-              Wishlist
-            </Link>
-
-            <Link
-              href="/guides"
-              className="font-semibold"
-            >
-              Guides
-            </Link>
-          </nav>
-
-          <div className="flex items-center gap-5 text-sm">
-            <Link
-              href="/host"
-              className="hidden sm:block hover:opacity-50"
-            >
-              List your property
-            </Link>
-
-            <Link
-              href="/login"
-              className="font-semibold hover:opacity-50"
-            >
-              Sign in
-            </Link>
-
-            <button
-              type="button"
-              className="text-lg tracking-widest"
-            >
-              •••
-            </button>
-          </div>
-        </div>
-      </header>
-
+<Navbar/>
       {/* ================= HERO ================= */}
 
       <section className="border-b border-black/10">
@@ -529,45 +465,7 @@ export default function GuidesPage() {
 
       {/* ================= FOOTER ================= */}
 
-      <footer className="border-t border-black/10">
-
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-7 sm:px-8 md:flex-row md:items-center md:justify-between lg:px-10">
-
-          <div>
-
-            <p className="text-lg font-semibold">
-              Vistara
-            </p>
-
-            <p className="mt-1 text-[11px] text-black/45">
-              Discover places. Meet locals. Travel differently.
-            </p>
-
-          </div>
-
-          <div className="flex flex-wrap gap-5 text-xs text-black/50">
-
-            <Link href="/explore" className="hover:text-black">
-              Explore
-            </Link>
-
-            <Link href="/trips" className="hover:text-black">
-              Trips
-            </Link>
-
-            <Link href="/wishlist" className="hover:text-black">
-              Wishlist
-            </Link>
-
-            <Link href="/guides" className="hover:text-black">
-              Guides
-            </Link>
-
-          </div>
-
-        </div>
-
-      </footer>
+     <Footer/>
 
     </main>
   );

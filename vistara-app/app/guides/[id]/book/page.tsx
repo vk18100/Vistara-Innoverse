@@ -3,12 +3,16 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+
 import Navbar from "@/components/navbar";
+
 import {
   ArrowLeft,
   ArrowRight,
   CalendarDays,
   Check,
+  ChevronLeft,
+  ChevronRight,
   Clock3,
   Minus,
   Plus,
@@ -36,6 +40,7 @@ const guideData: Record<
     reviews: 124,
     price: 699,
   },
+
   amit: {
     name: "Amit Singh",
     location: "Patna, Bihar",
@@ -44,6 +49,7 @@ const guideData: Record<
     reviews: 96,
     price: 599,
   },
+
   neha: {
     name: "Neha Sharma",
     location: "Patna, Bihar",
@@ -69,14 +75,128 @@ export default function GuideBookPage() {
     price: 699,
   };
 
+  /* ================= STATES ================= */
+
   const [date, setDate] = useState("");
   const [time, setTime] = useState("10:00");
   const [guests, setGuests] = useState(2);
   const [loading, setLoading] = useState(false);
 
+  /* ================= CALENDAR ================= */
+
+  const [calendarOpen, setCalendarOpen] = useState(false);
+
+  const today = new Date();
+
+  const [calendarMonth, setCalendarMonth] = useState(
+    new Date(today.getFullYear(), today.getMonth(), 1)
+  );
+
+  const selectedDate = date
+    ? new Date(`${date}T00:00:00`)
+    : null;
+
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+
+  const daysInMonth = new Date(
+    year,
+    month + 1,
+    0
+  ).getDate();
+
+  const firstDay = new Date(
+    year,
+    month,
+    1
+  ).getDay();
+
+  const calendarDays: (number | null)[] = [];
+
+  for (let i = 0; i < firstDay; i++) {
+    calendarDays.push(null);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    calendarDays.push(day);
+  }
+
+  const isPastDate = (day: number) => {
+    const current = new Date(
+      year,
+      month,
+      day
+    );
+
+    const todayStart = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    return current < todayStart;
+  };
+
+  const isSelectedDate = (day: number) => {
+    if (!selectedDate) return false;
+
+    return (
+      selectedDate.getFullYear() === year &&
+      selectedDate.getMonth() === month &&
+      selectedDate.getDate() === day
+    );
+  };
+
+  const selectDate = (day: number) => {
+    if (isPastDate(day)) return;
+
+    const selected = new Date(
+      year,
+      month,
+      day
+    );
+
+    const formatted = [
+      selected.getFullYear(),
+      String(selected.getMonth() + 1).padStart(2, "0"),
+      String(selected.getDate()).padStart(2, "0"),
+    ].join("-");
+
+    setDate(formatted);
+    setCalendarOpen(false);
+  };
+
+  const formatSelectedDate = () => {
+    if (!selectedDate) {
+      return "Select date";
+    }
+
+    return selectedDate.toLocaleDateString(
+      "en-IN",
+      {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }
+    );
+  };
+
+  const monthLabel =
+    calendarMonth.toLocaleDateString(
+      "en-IN",
+      {
+        month: "long",
+        year: "numeric",
+      }
+    );
+
+  /* ================= PRICE ================= */
+
   const serviceFee = 99;
   const subtotal = guide.price * guests;
   const total = subtotal + serviceFee;
+
+  /* ================= CONTINUE ================= */
 
   const handleContinue = () => {
     if (!date) {
@@ -85,13 +205,6 @@ export default function GuideBookPage() {
     }
 
     setLoading(true);
-
-    /*
-      Later connect this to:
-      POST /api/guides/bookings
-
-      Then redirect to confirmation page.
-    */
 
     router.push(
       `/guides/${id}/book/confirmation?date=${date}&time=${time}&guests=${guests}`
@@ -103,15 +216,13 @@ export default function GuideBookPage() {
 
       {/* ================= NAVBAR ================= */}
 
-      
-
-        <Navbar/>
+      <Navbar />
 
       {/* ================= PAGE ================= */}
 
       <section className="mx-auto max-w-6xl px-5 py-8 lg:px-8">
 
-        {/* HEADER */}
+        {/* ================= HEADER ================= */}
 
         <div className="mb-8 max-w-2xl">
 
@@ -130,15 +241,15 @@ export default function GuideBookPage() {
 
         </div>
 
-        {/* MAIN */}
+        {/* ================= MAIN ================= */}
 
         <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
 
-          {/* LEFT */}
+          {/* ================= LEFT ================= */}
 
           <div className="space-y-5">
 
-            {/* GUIDE */}
+            {/* ================= GUIDE ================= */}
 
             <div className="rounded-2xl border border-black/10 bg-white p-5">
 
@@ -193,7 +304,7 @@ export default function GuideBookPage() {
 
             </div>
 
-            {/* DATE */}
+            {/* ================= DATE ================= */}
 
             <div className="rounded-2xl border border-black/10 p-5">
 
@@ -215,17 +326,208 @@ export default function GuideBookPage() {
 
               </div>
 
-              <input
-                type="date"
-                value={date}
-                min={new Date().toISOString().split("T")[0]}
-                onChange={(e) => setDate(e.target.value)}
-                className="mt-5 h-11 w-full rounded-xl border border-black/15 bg-white px-3 text-sm outline-none transition focus:border-black"
-              />
+              <button
+                type="button"
+                onClick={() =>
+                  setCalendarOpen((prev) => !prev)
+                }
+                className="mt-5 flex h-11 w-full items-center justify-between rounded-xl border border-black/15 bg-white px-3 text-left text-sm outline-none transition hover:border-black"
+              >
+
+                <div className="flex items-center gap-3">
+
+                  <CalendarDays size={16} />
+
+                  <span
+                    className={
+                      date
+                        ? "text-black"
+                        : "text-black/40"
+                    }
+                  >
+                    {formatSelectedDate()}
+                  </span>
+
+                </div>
+
+                <ChevronRight
+                  size={16}
+                  className={`transition-transform ${
+                    calendarOpen
+                      ? "rotate-90"
+                      : ""
+                  }`}
+                />
+
+              </button>
+
+              {/* ================= CALENDAR ================= */}
+
+              {calendarOpen && (
+                <div className="relative">
+
+                  <div className="absolute left-0 right-0 top-2 z-50 rounded-2xl border border-black/10 bg-white p-4 shadow-xl">
+
+                    {/* CALENDAR HEADER */}
+
+                    <div className="flex items-center justify-between">
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setCalendarMonth(
+                            new Date(
+                              year,
+                              month - 1,
+                              1
+                            )
+                          )
+                        }
+                        className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-black hover:text-white"
+                      >
+                        <ChevronLeft size={15} />
+                      </button>
+
+                      <p className="text-sm font-semibold">
+                        {monthLabel}
+                      </p>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setCalendarMonth(
+                            new Date(
+                              year,
+                              month + 1,
+                              1
+                            )
+                          )
+                        }
+                        className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-black hover:text-white"
+                      >
+                        <ChevronRight size={15} />
+                      </button>
+
+                    </div>
+
+                    {/* WEEK DAYS */}
+
+                    <div className="mt-4 grid grid-cols-7 text-center">
+
+                      {[
+                        "S",
+                        "M",
+                        "T",
+                        "W",
+                        "T",
+                        "F",
+                        "S",
+                      ].map(
+                        (day, index) => (
+                          <span
+                            key={`${day}-${index}`}
+                            className="text-[10px] font-medium text-black/35"
+                          >
+                            {day}
+                          </span>
+                        )
+                      )}
+
+                    </div>
+
+                    {/* DAYS */}
+
+                    <div className="mt-2 grid grid-cols-7 gap-1">
+
+                      {calendarDays.map(
+                        (day, index) => {
+
+                          if (day === null) {
+                            return (
+                              <div
+                                key={`empty-${index}`}
+                                className="h-9"
+                              />
+                            );
+                          }
+
+                          const disabled =
+                            isPastDate(day);
+
+                          const selected =
+                            isSelectedDate(day);
+
+                          return (
+                            <button
+                              key={day}
+                              type="button"
+                              disabled={disabled}
+                              onClick={() =>
+                                selectDate(day)
+                              }
+                              className={`
+                                flex h-9 w-9 items-center justify-center
+                                rounded-full text-xs transition
+                                ${
+                                  selected
+                                    ? "bg-black text-white"
+                                    : disabled
+                                    ? "cursor-not-allowed text-black/20"
+                                    : "text-black hover:bg-black hover:text-white"
+                                }
+                              `}
+                            >
+                              {day}
+                            </button>
+                          );
+                        }
+                      )}
+
+                    </div>
+
+                    {/* TODAY */}
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const current =
+                          new Date();
+
+                        const formatted = [
+                          current.getFullYear(),
+                          String(
+                            current.getMonth() + 1
+                          ).padStart(2, "0"),
+                          String(
+                            current.getDate()
+                          ).padStart(2, "0"),
+                        ].join("-");
+
+                        setDate(formatted);
+
+                        setCalendarMonth(
+                          new Date(
+                            current.getFullYear(),
+                            current.getMonth(),
+                            1
+                          )
+                        );
+
+                        setCalendarOpen(false);
+                      }}
+                      className="mt-3 w-full border-t border-black/10 pt-3 text-xs font-medium hover:underline"
+                    >
+                      Today
+                    </button>
+
+                  </div>
+
+                </div>
+              )}
 
             </div>
 
-            {/* TIME */}
+            {/* ================= TIME ================= */}
 
             <div className="rounded-2xl border border-black/10 p-5">
 
@@ -249,32 +551,41 @@ export default function GuideBookPage() {
 
               <div className="mt-5 grid grid-cols-3 gap-2">
 
-                {["09:00", "10:00", "14:00"].map(
-                  (item) => {
-                    const active = time === item;
+                {[
+                  "09:00",
+                  "10:00",
+                  "14:00",
+                ].map((item) => {
 
-                    return (
-                      <button
-                        key={item}
-                        type="button"
-                        onClick={() => setTime(item)}
-                        className={`rounded-xl border px-3 py-2.5 text-xs font-medium transition ${
+                  const active =
+                    time === item;
+
+                  return (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() =>
+                        setTime(item)
+                      }
+                      className={`
+                        rounded-xl border px-3 py-2.5 text-xs font-medium transition
+                        ${
                           active
                             ? "border-black bg-black text-white"
                             : "border-black/10 hover:border-black"
-                        }`}
-                      >
-                        {item}
-                      </button>
-                    );
-                  }
-                )}
+                        }
+                      `}
+                    >
+                      {item}
+                    </button>
+                  );
+                })}
 
               </div>
 
             </div>
 
-            {/* GUESTS */}
+            {/* ================= GUESTS ================= */}
 
             <div className="rounded-2xl border border-black/10 p-5">
 
@@ -303,7 +614,12 @@ export default function GuideBookPage() {
                   <button
                     type="button"
                     onClick={() =>
-                      setGuests(Math.max(1, guests - 1))
+                      setGuests(
+                        Math.max(
+                          1,
+                          guests - 1
+                        )
+                      )
                     }
                     className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 transition hover:bg-black hover:text-white"
                   >
@@ -317,7 +633,12 @@ export default function GuideBookPage() {
                   <button
                     type="button"
                     onClick={() =>
-                      setGuests(Math.min(6, guests + 1))
+                      setGuests(
+                        Math.min(
+                          6,
+                          guests + 1
+                        )
+                      )
                     }
                     className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 transition hover:bg-black hover:text-white"
                   >
@@ -330,7 +651,7 @@ export default function GuideBookPage() {
 
             </div>
 
-            {/* INCLUDED */}
+            {/* ================= INCLUDED ================= */}
 
             <div className="rounded-2xl bg-black p-5 text-white">
 
@@ -352,6 +673,7 @@ export default function GuideBookPage() {
                   "Food & culture tips",
                   "Flexible conversation",
                 ].map((item) => (
+
                   <div
                     key={item}
                     className="flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2 text-xs"
@@ -359,6 +681,7 @@ export default function GuideBookPage() {
                     <Check size={13} />
                     {item}
                   </div>
+
                 ))}
 
               </div>
@@ -367,11 +690,13 @@ export default function GuideBookPage() {
 
           </div>
 
-          {/* RIGHT SUMMARY */}
+          {/* ================= RIGHT SUMMARY ================= */}
 
           <aside>
 
             <div className="sticky top-20 rounded-2xl border border-black/10 bg-white p-5">
+
+              {/* GUIDE SUMMARY */}
 
               <div className="flex gap-3 border-b border-black/10 pb-5">
 
@@ -407,87 +732,60 @@ export default function GuideBookPage() {
 
               </div>
 
-              {/* SELECTED */}
+              {/* ================= SELECTED DATE ================= */}
 
-              <div className="mt-5 space-y-2">
+              <div className="mt-5 rounded-xl bg-black/[0.025] p-3">
 
-                <div className="flex items-center gap-3 rounded-xl bg-black/[0.035] p-3">
+                <div className="flex items-center justify-between">
 
-                  <CalendarDays size={15} />
+                  <div className="flex items-center gap-2">
 
-                  <div>
+                    <CalendarDays size={15} />
 
-                    <p className="text-[9px] uppercase text-black/40">
+                    <span className="text-xs font-medium">
                       Date
-                    </p>
-
-                    <p className="mt-0.5 text-xs font-semibold">
-                      {date || "Select date"}
-                    </p>
+                    </span>
 
                   </div>
 
-                </div>
-
-                <div className="flex items-center gap-3 rounded-xl bg-black/[0.035] p-3">
-
-                  <Clock3 size={15} />
-
-                  <div>
-
-                    <p className="text-[9px] uppercase text-black/40">
-                      Time
-                    </p>
-
-                    <p className="mt-0.5 text-xs font-semibold">
-                      {time}
-                    </p>
-
-                  </div>
-
-                </div>
-
-                <div className="flex items-center gap-3 rounded-xl bg-black/[0.035] p-3">
-
-                  <Users size={15} />
-
-                  <div>
-
-                    <p className="text-[9px] uppercase text-black/40">
-                      Guests
-                    </p>
-
-                    <p className="mt-0.5 text-xs font-semibold">
-                      {guests}{" "}
-                      {guests === 1 ? "guest" : "guests"}
-                    </p>
-
-                  </div>
+                  <span className="text-xs">
+                    {formatSelectedDate()}
+                  </span>
 
                 </div>
 
               </div>
 
-              {/* PRICE */}
+              {/* ================= PRICE ================= */}
 
               <div className="mt-5 space-y-3 text-xs">
 
                 <div className="flex justify-between">
+
                   <span className="text-black/50">
-                    ₹{guide.price} × {guests}
+                    ₹{guide.price} ×{" "}
+                    {guests}
                   </span>
 
                   <span>
-                    ₹{subtotal.toLocaleString("en-IN")}
+                    ₹
+                    {subtotal.toLocaleString(
+                      "en-IN"
+                    )}
                   </span>
+
                 </div>
 
                 <div className="flex justify-between">
+
                   <span className="text-black/50">
                     Service fee
                   </span>
 
-                  <span>₹{serviceFee}</span>
+                  <span>
+                    ₹{serviceFee}
+                  </span>
+
                 </div>
 
                 <div className="border-t border-black/10 pt-4">
@@ -499,7 +797,10 @@ export default function GuideBookPage() {
                     </span>
 
                     <span className="text-xl font-semibold">
-                      ₹{total.toLocaleString("en-IN")}
+                      ₹
+                      {total.toLocaleString(
+                        "en-IN"
+                      )}
                     </span>
 
                   </div>
@@ -508,7 +809,7 @@ export default function GuideBookPage() {
 
               </div>
 
-              {/* CONTINUE */}
+              {/* ================= CONTINUE ================= */}
 
               <button
                 type="button"
@@ -516,11 +817,13 @@ export default function GuideBookPage() {
                 disabled={loading}
                 className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white transition hover:bg-black/80 disabled:opacity-50"
               >
+
                 {loading
                   ? "Processing..."
                   : "Continue to confirmation"}
 
                 <ArrowRight size={15} />
+
               </button>
 
               <div className="mt-4 flex items-start gap-2 border-t border-black/10 pt-4">
@@ -552,6 +855,7 @@ export default function GuideBookPage() {
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-7 text-xs text-black/45 sm:flex-row sm:items-center sm:justify-between lg:px-8">
 
           <div>
+
             <p className="font-semibold text-black">
               Vistara
             </p>
@@ -559,6 +863,7 @@ export default function GuideBookPage() {
             <p className="mt-1">
               Discover places. Meet locals. Travel differently.
             </p>
+
           </div>
 
           <div className="flex gap-5">

@@ -64,52 +64,52 @@ export default function PreferencesSettings() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FAF8F3] text-[#2C2420]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      {/* HEADER */}
-      <section className="border-b border-[#E5DED6] bg-[#FAF8F3]">
-        <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 sm:py-14 lg:px-10">
+      {/* ================= HEADER ================= */}
+      <section className="border-b border-black/10 bg-white">
+        <div className="mx-auto max-w-6xl px-5 py-8 sm:px-6 sm:py-10 lg:px-8">
           <Link
             href="/settings"
-            className="inline-flex items-center text-sm font-medium text-[#756D67] transition hover:text-[#B76545]"
+            className="text-xs font-medium text-black/50 transition hover:text-black"
           >
             ← Settings
           </Link>
 
-          <div className="mt-8 max-w-3xl sm:mt-10">
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#B76545]">
+          <div className="mt-7 max-w-2xl">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-black/45">
               YOUR TRAVEL PROFILE
             </p>
 
-            <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#2C2420] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-black sm:text-4xl">
               Travel preferences
             </h1>
 
-            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#756D67] sm:text-base">
-              Tell Vistara what feels like you. We’ll use your choices to
-              shape the stays, places and experiences you discover.
+            <p className="mt-2 max-w-xl text-sm font-medium leading-6 text-black/55">
+              Choose your travel style, interests, language and
+              currency to personalize your Vistara experience.
             </p>
           </div>
 
-          {/* Profile-style summary */}
-          <div className="mt-8 flex flex-col gap-4 rounded-[26px] border border-[#E5DED6] bg-white p-5 shadow-[0_10px_35px_rgba(44,36,32,0.05)] sm:flex-row sm:items-center sm:justify-between sm:p-6">
+          {/* PROFILE SUMMARY */}
+          <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-black/10 bg-black/[0.02] px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-[#2C2420]">
+              <p className="text-sm font-bold text-black">
                 Your Vistara profile
               </p>
 
-              <p className="mt-1 text-sm text-[#756D67]">
+              <p className="mt-0.5 text-xs font-medium text-black/50">
                 {selectedStyles.length} travel styles ·{" "}
                 {selectedInterests.length} interests selected
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               {selectedStyles.slice(0, 3).map((style) => (
                 <span
                   key={style}
-                  className="rounded-full bg-[#E8DED0] px-3 py-1.5 text-xs font-semibold text-[#68705A]"
+                  className="rounded-full border border-black/10 bg-white px-2.5 py-1 text-[11px] font-semibold text-black/65"
                 >
                   {style}
                 </span>
@@ -119,39 +119,41 @@ export default function PreferencesSettings() {
         </div>
       </section>
 
-      {/* CONTENT */}
-      <section className="mx-auto max-w-5xl px-5 py-8 sm:px-6 sm:py-12 lg:px-10">
-        <div className="space-y-6">
+      {/* ================= CONTENT ================= */}
+      <section className="mx-auto max-w-4xl px-5 py-7 sm:px-6 sm:py-9 lg:px-8">
+        <div className="space-y-4">
 
-          {/* LANGUAGE + CURRENCY */}
-          <section className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_40px_rgba(44,36,32,0.05)] sm:p-8">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
-                DISPLAY
-              </p>
+          {/* ================= DISPLAY ================= */}
+          <section className="rounded-2xl border border-black/10 bg-white p-5 sm:p-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/45">
+              DISPLAY
+            </p>
 
-              <h2 className="mt-2 font-serif text-2xl font-semibold text-[#2C2420]">
-                Language & currency
-              </h2>
+            <h2 className="mt-1.5 text-lg font-bold tracking-tight text-black">
+              Language & currency
+            </h2>
 
-              <p className="mt-2 text-sm leading-6 text-[#756D67]">
-                Choose how your Vistara experience is displayed.
-              </p>
-            </div>
+            <p className="mt-1 text-xs font-medium text-black/50">
+              Choose how your Vistara experience is displayed.
+            </p>
 
-            <div className="mt-7 grid gap-5 sm:grid-cols-2">
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <div>
-                <label className="text-sm font-semibold text-[#2C2420]">
+                <label
+                  htmlFor="language"
+                  className="text-xs font-bold text-black"
+                >
                   Language
                 </label>
 
                 <select
+                  id="language"
                   value={language}
                   onChange={(e) => {
                     setLanguage(e.target.value);
                     setSaved(false);
                   }}
-                  className="mt-2 w-full rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] px-4 py-3.5 text-sm text-[#2C2420] outline-none transition focus:border-[#B76545] focus:bg-white focus:ring-4 focus:ring-[#B76545]/10"
+                  className="mt-1.5 w-full rounded-xl border border-black/15 bg-white px-3.5 py-2.5 text-sm font-medium text-black outline-none transition focus:border-black focus:ring-2 focus:ring-black/5"
                 >
                   <option>English</option>
                   <option>Hindi</option>
@@ -159,17 +161,21 @@ export default function PreferencesSettings() {
               </div>
 
               <div>
-                <label className="text-sm font-semibold text-[#2C2420]">
+                <label
+                  htmlFor="currency"
+                  className="text-xs font-bold text-black"
+                >
                   Currency
                 </label>
 
                 <select
+                  id="currency"
                   value={currency}
                   onChange={(e) => {
                     setCurrency(e.target.value);
                     setSaved(false);
                   }}
-                  className="mt-2 w-full rounded-2xl border border-[#E5DED6] bg-[#FAF8F3] px-4 py-3.5 text-sm text-[#2C2420] outline-none transition focus:border-[#B76545] focus:bg-white focus:ring-4 focus:ring-[#B76545]/10"
+                  className="mt-1.5 w-full rounded-xl border border-black/15 bg-white px-3.5 py-2.5 text-sm font-medium text-black outline-none transition focus:border-black focus:ring-2 focus:ring-black/5"
                 >
                   <option>INR — Indian Rupee</option>
                   <option>USD — US Dollar</option>
@@ -180,21 +186,21 @@ export default function PreferencesSettings() {
             </div>
           </section>
 
-          {/* TRAVEL STYLE */}
-          <section className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_40px_rgba(44,36,32,0.05)] sm:p-8">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
+          {/* ================= TRAVEL STYLE ================= */}
+          <section className="rounded-2xl border border-black/10 bg-white p-5 sm:p-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/45">
               TRAVEL STYLE
             </p>
 
-            <h2 className="mt-2 font-serif text-2xl font-semibold text-[#2C2420]">
+            <h2 className="mt-1.5 text-lg font-bold tracking-tight text-black">
               How do you like to travel?
             </h2>
 
-            <p className="mt-2 text-sm leading-6 text-[#756D67]">
+            <p className="mt-1 text-xs font-medium text-black/50">
               Select everything that feels like your kind of journey.
             </p>
 
-            <div className="mt-7 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-2">
               {travelStyles.map((style) => {
                 const active = selectedStyles.includes(style);
 
@@ -206,10 +212,10 @@ export default function PreferencesSettings() {
                       toggleItem(style, setSelectedStyles)
                     }
                     aria-pressed={active}
-                    className={`rounded-full border px-5 py-3 text-sm font-semibold transition active:scale-[0.98] ${
+                    className={`rounded-full border px-4 py-2 text-xs font-bold transition ${
                       active
-                        ? "border-[#B76545] bg-[#B76545] text-white shadow-sm"
-                        : "border-[#E5DED6] bg-[#FAF8F3] text-[#68705A] hover:border-[#B76545] hover:bg-white hover:text-[#965039]"
+                        ? "border-black bg-black text-white"
+                        : "border-black/15 bg-white text-black hover:border-black"
                     }`}
                   >
                     {active && "✓ "}
@@ -220,21 +226,21 @@ export default function PreferencesSettings() {
             </div>
           </section>
 
-          {/* INTERESTS */}
-          <section className="rounded-[28px] border border-[#E5DED6] bg-white p-6 shadow-[0_12px_40px_rgba(44,36,32,0.05)] sm:p-8">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
+          {/* ================= INTERESTS ================= */}
+          <section className="rounded-2xl border border-black/10 bg-white p-5 sm:p-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/45">
               INTERESTS
             </p>
 
-            <h2 className="mt-2 font-serif text-2xl font-semibold text-[#2C2420]">
+            <h2 className="mt-1.5 text-lg font-bold tracking-tight text-black">
               What would you love to discover?
             </h2>
 
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[#756D67]">
+            <p className="mt-1 text-xs font-medium text-black/50">
               Pick the things you naturally look for when you travel.
             </p>
 
-            <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+            <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
               {interests.map((interest) => {
                 const active = selectedInterests.includes(interest);
 
@@ -246,23 +252,19 @@ export default function PreferencesSettings() {
                       toggleItem(interest, setSelectedInterests)
                     }
                     aria-pressed={active}
-                    className={`group min-h-[92px] rounded-2xl border p-4 text-left transition active:scale-[0.98] ${
+                    className={`rounded-xl border px-3 py-3 text-left transition ${
                       active
-                        ? "border-[#B76545] bg-[#E8DED0]"
-                        : "border-[#E5DED6] bg-[#FAF8F3] hover:border-[#B76545]/50 hover:bg-white"
+                        ? "border-black bg-black text-white"
+                        : "border-black/10 bg-white text-black hover:border-black/40"
                     }`}
                   >
                     <span
-                      className={`mb-4 block h-2.5 w-2.5 rounded-full ${
-                        active ? "bg-[#B76545]" : "bg-[#D5CDC3]"
+                      className={`mb-2 block h-1.5 w-1.5 rounded-full ${
+                        active ? "bg-white" : "bg-black/25"
                       }`}
                     />
 
-                    <span
-                      className={`text-sm font-semibold ${
-                        active ? "text-[#2C2420]" : "text-[#68705A]"
-                      }`}
-                    >
+                    <span className="text-xs font-bold">
                       {interest}
                     </span>
                   </button>
@@ -271,73 +273,69 @@ export default function PreferencesSettings() {
             </div>
           </section>
 
-          {/* PERSONALIZATION */}
-          <section className="overflow-hidden rounded-[28px] border border-[#E5DED6] bg-[#E8DED0]">
-            <div className="p-6 sm:p-8">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B76545]">
-                MADE FOR YOU
-              </p>
+          {/* ================= PERSONALIZATION ================= */}
+          <section className="rounded-2xl border border-black/10 bg-black/[0.03] p-5 sm:p-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-black/45">
+              PERSONALIZATION
+            </p>
 
-              <h2 className="mt-2 font-serif text-2xl font-semibold text-[#2C2420]">
-                Let Vistara understand your travel style.
-              </h2>
+            <h2 className="mt-1.5 text-lg font-bold tracking-tight text-black">
+              Personalized recommendations
+            </h2>
 
-              <p className="mt-3 max-w-2xl text-sm leading-7 text-[#756D67]">
-                Your preferences can help shape recommendations across stays,
-                destinations and local experiences.
-              </p>
+            <p className="mt-1 max-w-xl text-xs font-medium leading-5 text-black/50">
+              Use your preferences to improve recommendations across
+              stays, destinations and local experiences.
+            </p>
 
-              <div className="mt-7 flex flex-col gap-4 rounded-2xl border border-[#E5DED6] bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-sm font-semibold text-[#2C2420]">
-                    Personalized recommendations
-                  </p>
+            <div className="mt-4 flex items-center justify-between rounded-xl border border-black/10 bg-white px-4 py-3.5">
+              <div>
+                <p className="text-sm font-bold text-black">
+                  Use my preferences
+                </p>
 
-                  <p className="mt-1 text-xs leading-5 text-[#756D67]">
-                    Use my preferences when showing recommendations.
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setPersonalized((value) => !value);
-                    setSaved(false);
-                  }}
-                  aria-label="Toggle personalized recommendations"
-                  aria-pressed={personalized}
-                  className={`relative h-8 w-14 shrink-0 rounded-full transition ${
-                    personalized ? "bg-[#B76545]" : "bg-[#D5CDC3]"
-                  }`}
-                >
-                  <span
-                    className={`absolute top-1 h-6 w-6 rounded-full bg-white shadow transition ${
-                      personalized ? "right-1" : "left-1"
-                    }`}
-                  />
-                </button>
+                <p className="mt-0.5 text-[11px] font-medium text-black/50">
+                  Personalize what Vistara shows you.
+                </p>
               </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setPersonalized((value) => !value);
+                  setSaved(false);
+                }}
+                aria-label="Toggle personalized recommendations"
+                aria-pressed={personalized}
+                className={`relative h-7 w-12 shrink-0 rounded-full transition ${
+                  personalized ? "bg-black" : "bg-black/20"
+                }`}
+              >
+                <span
+                  className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow-sm transition ${
+                    personalized ? "right-1" : "left-1"
+                  }`}
+                />
+              </button>
             </div>
           </section>
 
-          {/* SAVE */}
-          <div className="sticky bottom-3 z-10 flex flex-col gap-3 rounded-2xl border border-[#E5DED6] bg-[#FAF8F3]/95 p-3 backdrop-blur sm:flex-row sm:items-center sm:justify-between sm:bg-transparent sm:p-0 sm:backdrop-blur-0">
-            <div className="px-2">
-              {saved ? (
-                <p className="text-sm font-semibold text-[#68705A]">
-                  ✓ Preferences saved successfully
-                </p>
-              ) : (
-                <p className="text-xs text-[#756D67]">
-                  Your choices can be changed anytime.
-                </p>
-              )}
-            </div>
+          {/* ================= SAVE ================= */}
+          <div className="flex flex-col gap-3 border-t border-black/10 pt-5 sm:flex-row sm:items-center sm:justify-between">
+            <p
+              className={`text-xs font-semibold ${
+                saved ? "text-black" : "text-black/45"
+              }`}
+            >
+              {saved
+                ? "✓ Preferences saved successfully"
+                : "Your choices can be changed anytime."}
+            </p>
 
             <button
               type="button"
               onClick={handleSave}
-              className="rounded-2xl bg-[#B76545] px-8 py-3.5 text-sm font-semibold text-white shadow-[0_8px_24px_rgba(183,101,69,0.22)] transition hover:bg-[#965039] active:scale-[0.98]"
+              className="rounded-xl bg-black px-6 py-2.5 text-xs font-bold text-white transition hover:bg-black/80 active:scale-[0.98]"
             >
               {saved ? "Saved ✓" : "Save preferences"}
             </button>

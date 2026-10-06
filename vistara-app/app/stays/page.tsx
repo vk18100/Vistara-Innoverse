@@ -15,7 +15,8 @@ import {
 } from "lucide-react";
 
 import { stays } from "@/data/stay";
-
+import Navbar from "@/components/navbar";
+import Footer from "../footer/page";
 export default function StaysPage() {
   const [where, setWhere] = useState("");
   const [checkIn, setCheckIn] = useState("");
@@ -75,52 +76,7 @@ export default function StaysPage() {
   return (
     <main className="min-h-screen bg-white text-[#111827]">
 
-      {/* ================= NAVBAR ================= */}
-      <header className="sticky top-0 z-50 border-b border-[#E2E8F0] bg-white/95 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-
-          <Link
-            href="/"
-            className="text-xl font-bold tracking-tight text-[#03045E]"
-          >
-            Vistara
-          </Link>
-
-          <nav className="hidden items-center gap-7 text-sm font-medium text-[#475569] md:flex">
-            <Link href="/" className="transition hover:text-black">
-              Home
-            </Link>
-
-            <Link
-              href="/stays"
-              className="font-semibold text-[#03045E]"
-            >
-              Stays
-            </Link>
-
-            <Link
-              href="/destinations"
-              className="transition hover:text-black"
-            >
-              Destinations
-            </Link>
-
-            <Link
-              href="/experiences"
-              className="transition hover:text-black"
-            >
-              Experiences
-            </Link>
-          </nav>
-
-          <Link
-            href="/login"
-            className="rounded-full border border-[#E2E8F0] px-4 py-2 text-sm font-semibold text-[#111827] transition hover:border-black hover:bg-black hover:text-white"
-          >
-            Login
-          </Link>
-        </div>
-      </header>
+      <Navbar />
 
       {/* ================= HEADER ================= */}
       <section className="mx-auto max-w-7xl px-4 pb-5 pt-8 sm:px-6 lg:px-8">
@@ -391,42 +347,7 @@ export default function StaysPage() {
       </section>
 
       {/* ================= FOOTER — CREAM ================= */}
-      <footer className="border-t border-[#E7E0D5] bg-[#F6F1E8]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-10 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-
-          <div>
-            <p className="text-lg font-bold text-[#111827]">
-              Vistara
-            </p>
-
-            <p className="mt-1 text-xs text-[#64748B]">
-              Discover stays beyond the ordinary.
-            </p>
-          </div>
-
-          <div className="flex gap-5 text-xs text-[#475569]">
-            <Link href="/about" className="hover:text-black">
-              About
-            </Link>
-
-            <Link href="/contact" className="hover:text-black">
-              Contact
-            </Link>
-
-            <Link href="/privacy" className="hover:text-black">
-              Privacy
-            </Link>
-
-            <Link href="/terms" className="hover:text-black">
-              Terms
-            </Link>
-          </div>
-
-          <p className="text-xs text-[#64748B]">
-            © {new Date().getFullYear()} Vistara
-          </p>
-        </div>
-      </footer>
+      <Footer />  
     </main>
   );
 }

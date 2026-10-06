@@ -70,126 +70,120 @@ export default function PaymentsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#FAFAF8] text-[#29231D]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
       {/* HEADER */}
-      <section className="border-b border-[#29231D]/10 bg-[#F7F3EA]">
-        <div className="mx-auto max-w-7xl px-5 py-12 sm:px-6 sm:py-14 lg:px-10 lg:py-16">
+      <section className="border-b border-black/10 bg-white">
+        <div className="mx-auto max-w-6xl px-5 py-8 sm:px-6 sm:py-10 lg:px-8">
           <Link
             href="/settings"
-            className="text-sm font-medium text-[#756D63] transition hover:text-[#29231D]"
+            className="text-xs font-semibold text-gray-500 transition hover:text-black"
           >
             ← Settings
           </Link>
 
-          <div className="mt-8 max-w-3xl">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#B28A45]">
-              PAYMENTS
+          <div className="mt-6">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
+              Payments
             </p>
 
-            <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#29231D] sm:text-5xl">
+            <h1 className="mt-2 text-3xl font-bold tracking-tight text-black sm:text-4xl">
               Payments
             </h1>
 
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-[#756D63] sm:text-base">
-              Manage your payment methods and review payments made for
-              your Vistara bookings.
+            <p className="mt-2 max-w-xl text-sm font-medium leading-5 text-gray-500">
+              Manage your payment methods and review payments made
+              for your Vistara bookings.
             </p>
           </div>
         </div>
       </section>
 
       {/* CONTENT */}
-      <section className="mx-auto max-w-7xl px-5 py-8 sm:px-6 sm:py-12 lg:px-10">
-        <div className="grid gap-6 lg:grid-cols-[1.45fr_0.55fr]">
+      <section className="mx-auto max-w-6xl px-5 py-6 sm:px-6 sm:py-8 lg:px-8">
+        <div className="grid gap-5 lg:grid-cols-[1.5fr_0.7fr]">
 
           {/* PAYMENT HISTORY */}
-          <div className="rounded-[28px] border border-[#29231D]/10 bg-white p-6 shadow-[0_16px_45px_rgba(41,35,29,0.05)] sm:p-8">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B28A45]">
-                  TRANSACTIONS
-                </p>
+          <div className="rounded-2xl border border-black/10 bg-white">
+            <div className="border-b border-black/10 px-5 py-5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+                Transactions
+              </p>
 
-                <h2 className="mt-2 font-serif text-2xl font-semibold text-[#29231D]">
-                  Payment history
-                </h2>
+              <div className="mt-1 flex items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-lg font-bold text-black">
+                    Payment history
+                  </h2>
 
-                <p className="mt-2 text-sm text-[#756D63]">
-                  Your recent booking payments.
-                </p>
+                  <p className="mt-1 text-xs font-medium text-gray-500">
+                    Your recent booking payments.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  className="text-xs font-bold text-black underline-offset-4 hover:underline"
+                >
+                  Download
+                </button>
               </div>
-
-              <button
-                type="button"
-                className="w-fit text-sm font-semibold text-[#8A6935] transition hover:text-[#29231D] hover:underline"
-              >
-                Download history
-              </button>
             </div>
 
-            <div className="mt-7 space-y-4">
+            <div className="divide-y divide-black/10">
               {payments.map((payment) => (
                 <div
                   key={payment.id}
-                  className="
-                    rounded-2xl
-                    border border-[#E7E1D8]
-                    bg-[#FAFAF8]
-                    p-5
-                    transition
-                    hover:border-[#B28A45]/40
-                    hover:bg-[#F7F3EA]
-                  "
+                  className="px-5 py-4 transition hover:bg-gray-50"
                 >
-                  <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-start justify-between gap-4">
 
-                    {/* PAYMENT INFO */}
-                    <div className="flex items-start gap-4">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F0E8D8] text-sm font-bold text-[#8A6935]">
+                    {/* INFO */}
+                    <div className="flex min-w-0 items-start gap-3">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-black text-xs font-bold text-white">
                         ₹
                       </div>
 
                       <div className="min-w-0">
-                        <h3 className="text-sm font-semibold text-[#29231D]">
+                        <h3 className="truncate text-sm font-bold text-black">
                           {payment.title}
                         </h3>
 
-                        <p className="mt-1 text-xs text-[#756D63]">
+                        <p className="mt-1 text-xs font-medium text-gray-500">
                           {payment.date} · {payment.method}
                         </p>
 
-                        <p className="mt-1 text-xs text-[#A49B90]">
+                        <p className="mt-1 text-[10px] font-medium text-gray-400">
                           {payment.id}
                         </p>
                       </div>
                     </div>
 
                     {/* AMOUNT */}
-                    <div className="text-left sm:text-right">
-                      <p className="text-base font-semibold text-[#29231D]">
+                    <div className="shrink-0 text-right">
+                      <p className="text-sm font-bold text-black">
                         {payment.amount}
                       </p>
 
-                      <span className="mt-1 inline-block rounded-full bg-[#EDF5ED] px-3 py-1 text-xs font-bold text-[#557A55]">
+                      <span className="mt-1 inline-block rounded-full border border-black/10 px-2 py-0.5 text-[10px] font-bold text-black">
                         {payment.status}
                       </span>
                     </div>
                   </div>
 
                   {/* FOOTER */}
-                  <div className="mt-5 flex flex-col gap-3 border-t border-[#E7E1D8] pt-4 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-xs text-[#A49B90]">
-                      Booking:{" "}
-                      <span className="font-medium text-[#756D63]">
+                  <div className="mt-3 flex items-center justify-between border-t border-black/10 pt-3">
+                    <p className="text-[10px] font-medium text-gray-400">
+                      Booking{" "}
+                      <span className="font-bold text-gray-600">
                         {payment.bookingId}
                       </span>
                     </p>
 
                     <Link
                       href={`/settings/payments/${payment.id}`}
-                      className="text-xs font-semibold text-[#8A6935] transition hover:text-[#29231D] hover:underline"
+                      className="text-[11px] font-bold text-black underline-offset-4 hover:underline"
                     >
                       View details →
                     </Link>
@@ -200,58 +194,60 @@ export default function PaymentsPage() {
           </div>
 
           {/* PAYMENT METHODS */}
-          <div className="h-fit rounded-[28px] border border-[#29231D]/10 bg-white p-6 shadow-[0_16px_45px_rgba(41,35,29,0.05)] sm:p-7">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B28A45]">
-              PAYMENT METHODS
-            </p>
+          <div className="h-fit rounded-2xl border border-black/10 bg-white">
+            <div className="border-b border-black/10 px-5 py-5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+                Payment methods
+              </p>
 
-            <h2 className="mt-2 font-serif text-2xl font-semibold text-[#29231D]">
-              Your methods
-            </h2>
+              <h2 className="mt-1 text-lg font-bold text-black">
+                Your methods
+              </h2>
 
-            <p className="mt-2 text-sm leading-6 text-[#756D63]">
-              Payment methods available for future bookings.
-            </p>
+              <p className="mt-1 text-xs font-medium leading-5 text-gray-500">
+                Methods available for future bookings.
+              </p>
+            </div>
 
-            <div className="mt-6 space-y-3">
+            <div className="space-y-3 p-5">
               {paymentMethods.length > 0 ? (
                 paymentMethods.map((method) => (
                   <div
                     key={method.id}
-                    className="rounded-2xl border border-[#E7E1D8] bg-[#FAFAF8] p-4"
+                    className="rounded-xl border border-black/10 p-3"
                   >
-                    <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#29231D] text-sm font-bold text-white">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-black text-[10px] font-bold text-white">
                           {method.type === "UPI" ? "U" : "V"}
                         </div>
 
                         <div>
-                          <p className="text-sm font-semibold text-[#29231D]">
+                          <p className="text-xs font-bold text-black">
                             {method.type}
                           </p>
 
-                          <p className="mt-1 text-xs text-[#756D63]">
+                          <p className="mt-0.5 text-[11px] font-medium text-gray-500">
                             {method.detail}
                           </p>
                         </div>
                       </div>
 
                       {method.isDefault && (
-                        <span className="rounded-full bg-[#F0E8D8] px-2.5 py-1 text-[10px] font-bold text-[#8A6935]">
+                        <span className="rounded-full border border-black px-2 py-0.5 text-[9px] font-bold text-black">
                           DEFAULT
                         </span>
                       )}
                     </div>
 
-                    <div className="mt-4 flex items-center gap-4">
+                    <div className="mt-3 flex items-center gap-4">
                       {!method.isDefault && (
                         <button
                           type="button"
                           onClick={() =>
                             setDefaultPaymentMethod(method.id)
                           }
-                          className="text-xs font-semibold text-[#8A6935] hover:underline"
+                          className="text-[11px] font-bold text-black underline-offset-4 hover:underline"
                         >
                           Make default
                         </button>
@@ -262,7 +258,7 @@ export default function PaymentsPage() {
                         onClick={() =>
                           removePaymentMethod(method.id)
                         }
-                        className="text-xs font-semibold text-[#9B5C50] hover:underline"
+                        className="text-[11px] font-bold text-gray-500 underline-offset-4 hover:text-black hover:underline"
                       >
                         Remove
                       </button>
@@ -270,65 +266,56 @@ export default function PaymentsPage() {
                   </div>
                 ))
               ) : (
-                <div className="rounded-2xl border border-dashed border-[#D8D0C5] bg-[#FAFAF8] p-6 text-center">
-                  <p className="text-sm font-semibold text-[#29231D]">
+                <div className="rounded-xl border border-dashed border-black/20 p-5 text-center">
+                  <p className="text-xs font-bold text-black">
                     No payment methods
                   </p>
 
-                  <p className="mt-1 text-xs text-[#756D63]">
+                  <p className="mt-1 text-[11px] font-medium text-gray-500">
                     Add a payment method when you are ready to book.
                   </p>
                 </div>
               )}
-            </div>
 
-            <button
-              type="button"
-              className="
-                mt-5 w-full rounded-xl
-                border border-[#29231D]/20
-                px-5 py-3
-                text-sm font-semibold
-                text-[#29231D]
-                transition
-                hover:border-[#B28A45]
-                hover:bg-[#F7F3EA]
-              "
-            >
-              + Add payment method
-            </button>
+              <button
+                type="button"
+                className="w-full rounded-xl border border-black px-4 py-2.5 text-xs font-bold text-black transition hover:bg-black hover:text-white"
+              >
+                + Add payment method
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* SECURITY NOTE */}
-        <div className="mt-6 rounded-[28px] border border-[#B28A45]/25 bg-[#F7F3EA] p-6 sm:p-8">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        {/* SECURITY */}
+        <div className="mt-5 rounded-2xl border border-black/10 bg-gray-50 px-5 py-5">
+          <div className="flex items-center gap-4">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black text-xs font-bold text-white">
+              ✓
+            </div>
+
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#B28A45]">
-                PAYMENT SECURITY
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+                Payment security
               </p>
 
-              <h2 className="mt-2 font-serif text-2xl font-semibold text-[#29231D]">
+              <h2 className="mt-1 text-sm font-bold text-black">
                 Your payment details stay protected
               </h2>
 
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#756D63]">
-                Only limited payment information is displayed here.
+              <p className="mt-1 text-xs font-medium leading-5 text-gray-500">
+                Only limited payment information is displayed.
                 Full card details are never shown on your account.
               </p>
-            </div>
-
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-lg font-semibold text-[#8A6935] shadow-sm">
-              ✓
             </div>
           </div>
         </div>
 
-        {/* BACK TO SETTINGS */}
-        <div className="mt-6">
+        {/* BACK */}
+        <div className="mt-5">
           <Link
             href="/settings"
-            className="inline-flex rounded-xl border border-[#29231D]/15 bg-white px-5 py-3 text-sm font-semibold text-[#29231D] transition hover:border-[#B28A45] hover:bg-[#F7F3EA]"
+            className="inline-flex rounded-lg border border-black/15 px-4 py-2.5 text-xs font-bold text-black transition hover:bg-black hover:text-white"
           >
             ← Back to settings
           </Link>

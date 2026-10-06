@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.10.0",
-    "@prisma/client": "^7.10.0",
+    "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
     "dotenv": "^18.0.3",
     "jose": "^6.2.12",
@@ -19,7 +19,7 @@
     "next": "16.3.5",
     "nodemailer": "^10.0.13",
     "pg": "^8.23.0",
-    "prisma": "^7.10.0",
+    "prisma": "^6.19.3",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },

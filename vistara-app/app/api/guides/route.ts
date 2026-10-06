@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-
 import { guides } from "@/data/guides";
 
 export async function GET() {

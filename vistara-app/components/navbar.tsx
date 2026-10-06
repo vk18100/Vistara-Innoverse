@@ -13,15 +13,22 @@ import {
   Car,
   Home,
   LogOut,
+  BriefcaseBusiness,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 /* =========================================================
-   THREE DOT MENU ITEMS
+   MAIN NAVIGATION
+   Desktop par center mein ye 4 rahenge:
+   All | Stay | Experience | Explore
 ========================================================= */
 
-const menuItems = [
-  // Main navigation
+const mainNavigation = [
+  {
+    href: "/",
+    title: "All",
+    icon: Home,
+  },
   {
     href: "/stays",
     title: "Stay",
@@ -37,26 +44,22 @@ const menuItems = [
     title: "Explore",
     icon: Map,
   },
+];
 
-  // Account / services
+/* =========================================================
+   MORE MENU
+   Desktop + mobile dono mein ye options rahenge
+========================================================= */
+
+const moreMenuItems = [
   {
-    href: "/profile",
-    title: "Profile",
-    icon: User,
-  },
-  {
-    href: "/bookings",
-    title: "Bookings",
+    href: "/trips",
+    title: "Trips",
     icon: CalendarDays,
   },
   {
-    href: "/wishlist",
-    title: "Wishlist",
-    icon: Heart,
-  },
-  {
     href: "/guides",
-    title: "Local Guide",
+    title: "Guides",
     icon: Map,
   },
   {
@@ -66,19 +69,25 @@ const menuItems = [
   },
   {
     href: "/drivers",
-    title: "Transport",
+    title: "Drivers",
     icon: Car,
+  },
+  {
+    href: "/wishlist",
+    title: "Wishlist",
+    icon: Heart,
   },
   {
     href: "/settings",
     title: "Settings",
     icon: Settings,
   },
+  {
+    href: "/host/register",
+    title: "Host",
+    icon: BriefcaseBusiness,
+  },
 ];
-
-/* =========================================================
-   NAVBAR
-========================================================= */
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -88,9 +97,9 @@ export default function Navbar() {
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  /* =======================================================
-     CLOSE MENU
-  ======================================================= */
+  /* =========================================================
+     CLOSE MENU ON OUTSIDE CLICK
+  ========================================================= */
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -122,9 +131,9 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  /* =======================================================
+  /* =========================================================
      ACTIVE ROUTE
-  ======================================================= */
+  ========================================================= */
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -134,133 +143,114 @@ export default function Navbar() {
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
-  /* =======================================================
-     CLOSE MENU
-  ======================================================= */
-
   const closeMenu = () => {
     setMenuOpen(false);
   };
 
-  /* =======================================================
+  /* =========================================================
      LOGOUT
-  ======================================================= */
+  ========================================================= */
 
-  const handleLogout = () => {
-    setMenuOpen(false);
-    window.location.href = "/login";
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setMenuOpen(false);
+      window.location.href = "/";
+    }
   };
 
-  /* =======================================================
-     UI
-  ======================================================= */
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-[#E5E5E5] bg-white">
-      <div className="flex h-14 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 w-full border-b border-black/10 bg-white">
+      <div className="mx-auto flex h-[62px] w-full max-w-[1600px] items-center px-4 sm:px-6 lg:px-8">
 
-        {/* =================================================
+        {/* =====================================================
             LOGO
-        ================================================= */}
+        ===================================================== */}
 
         <Link
           href="/"
           onClick={closeMenu}
           aria-label="Vistara home"
-          className="
-            shrink-0
-            text-[21px]
-            font-semibold
-            tracking-[-0.03em]
-            text-[#111111]
-            transition-opacity
-            hover:opacity-70
-          "
+          className="shrink-0 text-[21px] font-semibold tracking-[-0.04em] text-black transition-opacity hover:opacity-65"
         >
           Vistara
         </Link>
 
-        {/* =================================================
+        {/* =====================================================
+            DESKTOP CENTER NAVIGATION
+
+            All | Stay | Experience | Explore
+        ===================================================== */}
+
+        <nav
+          aria-label="Main navigation"
+          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 md:flex"
+        >
+          {mainNavigation.map((item) => {
+            const active = isActive(item.href);
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={closeMenu}
+                className={`rounded-full px-4 py-2 text-[13px] font-medium transition-all duration-200 ${
+                  active
+                    ? "bg-black text-white"
+                    : "text-black/65 hover:bg-black/[0.05] hover:text-black"
+                }`}
+              >
+                {item.title}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* =====================================================
             RIGHT SIDE
-        ================================================= */}
+        ===================================================== */}
 
-        <div className="flex items-center gap-1">
+        <div className="ml-auto flex items-center gap-1">
 
-          {/* =================================================
-              LIST YOUR PROPERTY
-          ================================================= */}
-
+          {/* List your property - Desktop */}
           <Link
             href="/host/register"
             onClick={closeMenu}
-            className="
-              hidden
-              rounded-full
-              px-3
-              py-2
-              text-[13px]
-              font-medium
-              text-[#333333]
-              transition-all
-              duration-200
-              hover:bg-[#F3F3F3]
-              hover:text-[#111111]
-              sm:inline-flex
-            "
+            className="hidden rounded-full px-3 py-2 text-[13px] font-medium text-black/75 transition-all hover:bg-black/[0.05] hover:text-black sm:inline-flex"
           >
             List your property
           </Link>
 
-          {/* =================================================
-              SIGN IN
-          ================================================= */}
-
+          {/* Sign in - Desktop */}
           <Link
             href="/login"
             onClick={closeMenu}
-            className="
-              rounded-full
-              px-3
-              py-2
-              text-[13px]
-              font-semibold
-              text-[#171717]
-              transition-all
-              duration-200
-              hover:bg-[#F3F3F3]
-            "
+            className="hidden rounded-full px-3 py-2 text-[13px] font-semibold text-black transition-all hover:bg-black/[0.05] hover:text-black sm:inline-flex"
           >
             Sign in
           </Link>
 
-          {/* =================================================
+          {/* ===================================================
               THREE DOT MENU
-          ================================================= */}
+          =================================================== */}
 
           <div className="relative" ref={menuRef}>
-
             <button
               ref={menuButtonRef}
               type="button"
               aria-label="Open more options"
               aria-expanded={menuOpen}
               onClick={() => setMenuOpen((current) => !current)}
-              className={`
-                flex
-                h-9
-                w-9
-                items-center
-                justify-center
-                rounded-full
-                transition-all
-                duration-200
-
-                ${
-                  menuOpen
-                    ? "bg-[#171717] text-white"
-                    : "text-[#333333] hover:bg-[#F3F3F3] hover:text-[#111111]"
-                }
-              `}
+              className={`flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 ${
+                menuOpen
+                  ? "bg-black text-white"
+                  : "text-black hover:bg-black/[0.06]"
+              }`}
             >
               <MoreHorizontal
                 size={20}
@@ -275,176 +265,168 @@ export default function Navbar() {
             {menuOpen && (
               <div
                 role="menu"
-                className="
-                  absolute
-                  right-0
-                  top-11
-                  z-[100]
-                  w-[255px]
-                  overflow-hidden
-                  rounded-2xl
-                  border
-                  border-[#E5E5E5]
-                  bg-white
-                  p-2
-                  shadow-[0_18px_50px_rgba(0,0,0,0.12)]
-                "
+                className="absolute right-0 top-11 z-[100] w-[270px] overflow-hidden rounded-2xl border border-black/10 bg-white p-2 shadow-[0_18px_55px_rgba(0,0,0,0.14)]"
               >
 
                 {/* =================================================
-                    MENU HEADER
+                    HEADER
                 ================================================= */}
 
                 <div className="px-3 pb-2 pt-2">
-
-                  <p
-                    className="
-                      text-[10px]
-                      font-semibold
-                      uppercase
-                      tracking-[0.18em]
-                      text-[#999999]
-                    "
-                  >
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-black/40">
                     VISTARA
                   </p>
 
-                  <p
-                    className="
-                      mt-1
-                      text-sm
-                      font-semibold
-                      text-[#171717]
-                    "
-                  >
+                  <p className="mt-1 text-sm font-semibold text-black">
                     More options
                   </p>
-
                 </div>
 
-                <div className="my-1 h-px bg-[#EEEEEE]" />
+                <div className="my-1 h-px bg-black/10" />
 
                 {/* =================================================
-                    MENU ITEMS
+                    SMALL SCREEN ONLY
+
+                    All
+                    Stay
+                    Experience
+                    Explore
                 ================================================= */}
 
-                {menuItems.map((item) => {
-                  const Icon = item.icon;
-                  const active = isActive(item.href);
+                <div className="md:hidden">
+                  {mainNavigation.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.href);
 
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      role="menuitem"
-                      onClick={closeMenu}
-                      className={`
-                        flex
-                        items-center
-                        gap-3
-                        rounded-xl
-                        px-3
-                        py-2.5
-                        text-sm
-                        transition-all
-                        duration-200
-
-                        ${
+                    return (
+                      <Link
+                        key={`mobile-${item.href}`}
+                        href={item.href}
+                        role="menuitem"
+                        onClick={closeMenu}
+                        className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all ${
                           active
-                            ? "bg-[#171717] text-white"
-                            : "text-[#444444] hover:bg-[#F4F4F4] hover:text-[#111111]"
-                        }
-                      `}
-                    >
-
-                      {/* ICON */}
-
-                      <span
-                        className={`
-                          flex
-                          h-8
-                          w-8
-                          shrink-0
-                          items-center
-                          justify-center
-                          rounded-lg
-
-                          ${
+                            ? "bg-black text-white"
+                            : "text-black/70 hover:bg-black/[0.05] hover:text-black"
+                        }`}
+                      >
+                        <span
+                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
                             active
                               ? "bg-white/15"
-                              : "bg-[#F3F3F3]"
-                          }
-                        `}
+                              : "bg-black/[0.04]"
+                          }`}
+                        >
+                          <Icon size={16} />
+                        </span>
+
+                        <span>{item.title}</span>
+                      </Link>
+                    );
+                  })}
+
+                  <div className="my-1 h-px bg-black/10" />
+                </div>
+
+                {/* =================================================
+                    TRIPS → HOST
+
+                    Desktop + Mobile
+                ================================================= */}
+
+                <div className="space-y-0.5">
+                  {moreMenuItems.map((item) => {
+                    const Icon = item.icon;
+                    const active = isActive(item.href);
+
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        role="menuitem"
+                        onClick={closeMenu}
+                        className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200 ${
+                          active
+                            ? "bg-black text-white"
+                            : "text-black/70 hover:bg-black/[0.05] hover:text-black"
+                        }`}
                       >
-                        <Icon size={16} />
-                      </span>
+                        <span
+                          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                            active
+                              ? "bg-white/15"
+                              : "bg-black/[0.04]"
+                          }`}
+                        >
+                          <Icon size={16} />
+                        </span>
 
-                      {/* TITLE */}
-
-                      <span>{item.title}</span>
-
-                    </Link>
-                  );
-                })}
+                        <span>{item.title}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
 
                 {/* =================================================
-                    DIVIDER
+                    MOBILE ONLY
+
+                    List your property
+                    Sign in
                 ================================================= */}
 
-                <div className="my-1 h-px bg-[#EEEEEE]" />
+                <div className="sm:hidden">
+                  <div className="my-1 h-px bg-black/10" />
+
+                  <Link
+                    href="/host/register"
+                    role="menuitem"
+                    onClick={closeMenu}
+                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-black/70 transition hover:bg-black/[0.05] hover:text-black"
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-black/[0.04]">
+                      <Home size={16} />
+                    </span>
+
+                    <span>List your property</span>
+                  </Link>
+
+                  <Link
+                    href="/login"
+                    role="menuitem"
+                    onClick={closeMenu}
+                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-black/70 transition hover:bg-black/[0.05] hover:text-black"
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-black/[0.04]">
+                      <User size={16} />
+                    </span>
+
+                    <span>Sign in</span>
+                  </Link>
+                </div>
 
                 {/* =================================================
-                    LOG OUT
+                    LOGOUT
                 ================================================= */}
+
+                <div className="my-1 h-px bg-black/10" />
 
                 <button
                   type="button"
                   role="menuitem"
                   onClick={handleLogout}
-                  className="
-                    flex
-                    w-full
-                    items-center
-                    gap-3
-                    rounded-xl
-                    px-3
-                    py-2.5
-                    text-left
-                    text-sm
-                    text-[#555555]
-                    transition-all
-                    duration-200
-                    hover:bg-[#F4F4F4]
-                    hover:text-[#111111]
-                  "
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-black/65 transition-all duration-200 hover:bg-black/[0.05] hover:text-black"
                 >
-
-                  <span
-                    className="
-                      flex
-                      h-8
-                      w-8
-                      shrink-0
-                      items-center
-                      justify-center
-                      rounded-lg
-                      bg-[#F3F3F3]
-                    "
-                  >
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-black/[0.04]">
                     <LogOut size={16} />
                   </span>
 
                   <span>Log out</span>
-
                 </button>
 
               </div>
             )}
-
           </div>
-
         </div>
-
       </div>
     </header>
   );

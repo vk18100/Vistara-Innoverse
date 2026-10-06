@@ -12,7 +12,8 @@ import {
   Star,
   Users,
 } from "lucide-react";
-
+import Footer from "@/app/footer/page";
+import Navbar from "@/components/navbar";
 type Driver = {
   id: number;
   name: string;
@@ -78,8 +79,7 @@ export default function DriverDetailsPage() {
   if (loading) {
     return (
       <main className="min-h-screen bg-white text-black">
-        <Header />
-
+        <Navbar />
         <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
           <div className="animate-pulse">
             <div className="h-[420px] rounded-3xl bg-black/[0.05]" />
@@ -98,7 +98,7 @@ export default function DriverDetailsPage() {
   if (error || !driver) {
     return (
       <main className="min-h-screen bg-white text-black">
-        <Header />
+        <Navbar />
 
         <div className="mx-auto max-w-6xl px-5 py-24 text-center">
           <Car className="mx-auto" size={30} />
@@ -127,7 +127,7 @@ export default function DriverDetailsPage() {
 
   return (
     <main className="min-h-screen bg-white text-black">
-      <Header />
+      <Navbar />
 
       {/* ================= CONTENT ================= */}
 
@@ -345,69 +345,7 @@ export default function DriverDetailsPage() {
 
 /* =========================
    HEADER
-========================= */
-
-function Header() {
-  return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5 lg:px-8">
-
-        <Link
-          href="/"
-          className="text-xl font-semibold tracking-tight"
-        >
-          Vistara
-        </Link>
-
-        <nav className="hidden items-center gap-7 text-xs md:flex">
-          <Link
-            href="/explore"
-            className="text-black/50 hover:text-black"
-          >
-            Explore
-          </Link>
-
-          <Link
-            href="/trips"
-            className="text-black/50 hover:text-black"
-          >
-            Trips
-          </Link>
-
-          <Link
-            href="/wishlist"
-            className="text-black/50 hover:text-black"
-          >
-            Wishlist
-          </Link>
-
-          <Link
-            href="/guides"
-            className="text-black/50 hover:text-black"
-          >
-            Guides
-          </Link>
-
-          <Link
-            href="/drivers"
-            className="font-semibold"
-          >
-            Drivers
-          </Link>
-        </nav>
-
-        <Link
-          href="/explore"
-          className="text-xs font-medium"
-        >
-          Explore
-        </Link>
-
-      </div>
-    </header>
-  );
-}
-
+==
 /* =========================
    DETAIL
 ========================= */
@@ -484,47 +422,4 @@ function InfoCard({
    FOOTER
 ========================= */
 
-function Footer() {
-  return (
-    <footer className="border-t border-black/10">
-
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-7 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-
-        <div>
-          <p className="text-sm font-semibold">
-            Vistara
-          </p>
-
-          <p className="mt-1 text-[10px] text-black/40">
-            Discover places. Meet locals. Travel differently.
-          </p>
-        </div>
-
-        <div className="flex gap-5 text-[10px] text-black/45">
-
-          <Link href="/explore">
-            Explore
-          </Link>
-
-          <Link href="/trips">
-            Trips
-          </Link>
-
-          <Link href="/guides">
-            Guides
-          </Link>
-
-          <Link
-            href="/drivers"
-            className="text-black"
-          >
-            Drivers
-          </Link>
-
-        </div>
-
-      </div>
-
-    </footer>
-  );
-}
+<Footer/>

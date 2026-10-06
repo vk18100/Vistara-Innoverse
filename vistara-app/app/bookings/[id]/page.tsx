@@ -4,18 +4,6 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import {
-  ArrowLeft,
-  ArrowRight,
-  CalendarDays,
-  Check,
-  CreditCard,
-  MapPin,
-  ShieldCheck,
-  UserRound,
-  Users,
-} from "lucide-react";
-
 import Navbar from "@/components/navbar";
 import Footer from "@/app/footer/page";
 
@@ -24,10 +12,11 @@ type Booking = {
 
   checkIn: string;
   checkOut: string;
+
   guests: number;
   nights: number;
 
-  totalAmount: number;
+  totalAmount: number | string;
 
   status: string;
   paymentStatus: string;
@@ -41,7 +30,7 @@ type Booking = {
     city?: string;
     location?: string;
 
-    pricePerNight?: number;
+    pricePerNight?: number | string;
 
     images?: {
       url?: string;
@@ -49,19 +38,15 @@ type Booking = {
       src?: string;
       isPrimary?: boolean;
     }[];
-
-    host?: {
-      name?: string;
-      image?: string;
-      avatar?: string;
-    };
   };
 };
 
-export default function BookingConfirmationPage() {
+export default function BookingIdPage() {
   const params = useParams();
 
-  const bookingId = String(params?.id ?? "");
+  const bookingId = String(
+    params?.id || ""
+  );
 
   const [booking, setBooking] =
     useState<Booking | null>(null);
@@ -72,46 +57,59 @@ export default function BookingConfirmationPage() {
   const [error, setError] =
     useState("");
 
-
-  /* =====================================================
-     FETCH BOOKING
-  ===================================================== */
-
   useEffect(() => {
-    if (!bookingId) return;
+    if (!bookingId) {
+      setError("Booking ID is missing.");
+      setLoading(false);
+      return;
+    }
 
     async function loadBooking() {
       try {
         setLoading(true);
+        setError("");
 
         const response = await fetch(
-          `/api/bookings/${bookingId}`,
+          `/api/bookings/${encodeURIComponent(
+            bookingId
+          )}`,
           {
             credentials: "include",
             cache: "no-store",
           }
         );
 
-        const result = await response.json();
+        const text = await response.text();
 
-        if (!response.ok || !result.success) {
+        let data: any = null;
+
+        try {
+          data = text ? JSON.parse(text) : null;
+        } catch {
+          data = null;
+        }
+
+        if (!response.ok || !data?.success) {
           throw new Error(
-            result.message ||
-              "Failed to load booking"
+            data?.message ||
+              "Booking not found."
           );
         }
 
-        setBooking(result.booking);
-      } catch (error) {
+        setBooking(
+          data.booking ||
+            data.data ||
+            data.order
+        );
+      } catch (err: any) {
         console.error(
-          "BOOKING_CONFIRMATION_ERROR:",
-          error
+          "BOOKING_DETAIL_ERROR:",
+          err
         );
 
         setError(
-          error instanceof Error
-            ? error.message
-            : "Failed to load booking."
+          err?.message ||
+            "Unable to load booking."
         );
       } finally {
         setLoading(false);
@@ -121,310 +119,214 @@ export default function BookingConfirmationPage() {
     loadBooking();
   }, [bookingId]);
 
-
-  /* =====================================================
+  /* -------------------------------------------------------
      LOADING
-  ===================================================== */
+  ------------------------------------------------------- */
 
   if (loading) {
     return (
       <main className="min-h-screen bg-white text-black">
-
         <Navbar />
 
-        <section className="mx-auto max-w-5xl px-5 py-12">
-
-          <div className="animate-pulse">
-
-            <div className="mx-auto h-14 w-14 rounded-full bg-slate-100" />
-
-            <div className="mx-auto mt-6 h-7 w-64 rounded bg-slate-100" />
-
-            <div className="mx-auto mt-3 h-3 w-80 rounded bg-slate-100" />
-
-            <div className="mt-10 h-80 rounded-2xl bg-slate-100" />
-
+        <div className="mx-auto max-w-4xl px-5 py-16">
+          <div className="animate-pulse space-y-5">
+            <div className="mx-auto h-10 w-48 rounded bg-neutral-100" />
+            <div className="h-64 rounded-2xl bg-neutral-100" />
+            <div className="h-40 rounded-2xl bg-neutral-100" />
           </div>
-
-        </section>
+        </div>
 
         <Footer />
-
       </main>
     );
   }
 
-
-  /* =====================================================
-     ERROR / NOT FOUND
-  ===================================================== */
+  /* -------------------------------------------------------
+     ERROR
+  ------------------------------------------------------- */
 
   if (!booking) {
     return (
       <main className="min-h-screen bg-white text-black">
-
         <Navbar />
 
-        <section className="flex min-h-[65vh] items-center justify-center px-5">
-
+        <div className="flex min-h-[65vh] items-center justify-center px-5">
           <div className="text-center">
 
-            <p className="text-[9px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-              BOOKING
-            </p>
-
-            <h1 className="mt-2 font-serif text-2xl font-semibold">
+            <h1 className="text-2xl font-bold">
               Booking not found
             </h1>
 
-            <p className="mt-2 text-xs text-slate-500">
+            <p className="mt-2 text-sm text-black/50">
               {error ||
                 "This booking could not be found."}
             </p>
 
             <Link
-              href="/profile"
-              className="mt-5 inline-flex items-center gap-2 rounded-lg bg-black px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-slate-800"
+              href="/bookings"
+              className="mt-6 inline-flex rounded-xl bg-black px-5 py-3 text-sm font-bold text-white"
             >
-              <ArrowLeft size={13} />
-              Back to profile
+              Back to bookings
             </Link>
 
           </div>
-
-        </section>
+        </div>
 
         <Footer />
-
       </main>
     );
   }
 
-
-  /* =====================================================
+  /* -------------------------------------------------------
      DATA
-  ===================================================== */
+  ------------------------------------------------------- */
 
-  const property =
-    booking.property;
-
-  const propertyName =
-    property?.name ||
-    property?.title ||
+  const title =
+    booking.property?.title ||
+    booking.property?.name ||
     "Vistara Stay";
 
   const location =
-    property?.city ||
-    property?.location ||
+    booking.property?.location ||
+    booking.property?.city ||
     "India";
 
   const image =
-    property?.images?.find(
+    booking.property?.images?.find(
       (item) => item.isPrimary
     )?.url ||
-    property?.images?.[0]?.url ||
-    property?.images?.[0]?.imageUrl ||
-    property?.images?.[0]?.src ||
-    "/images/profile.jpg";
+    booking.property?.images?.[0]?.url ||
+    booking.property?.images?.[0]?.imageUrl ||
+    booking.property?.images?.[0]?.src ||
+    "";
 
-  const hostName =
-    property?.host?.name ||
-    "Vistara Host";
-
-  const hostImage =
-    property?.host?.image ||
-    property?.host?.avatar ||
-    "/images/profile.jpg";
-
-  const total =
-    Number(booking.totalAmount) || 0;
-
-  const pricePerNight =
-    Number(property?.pricePerNight) || 0;
-
-  const checkIn =
-    new Date(
-      booking.checkIn
-    ).toLocaleDateString(
-      "en-IN",
-      {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }
-    );
-
-  const checkOut =
-    new Date(
-      booking.checkOut
-    ).toLocaleDateString(
-      "en-IN",
-      {
-        day: "2-digit",
-        month: "short",
-        year: "numeric",
-      }
-    );
-
+  const total = Number(
+    booking.totalAmount || 0
+  );
 
   const confirmed =
-    booking.status === "CONFIRMED" ||
-    booking.paymentStatus === "PAID";
-
+    booking.status === "CONFIRMED";
 
   return (
     <main className="min-h-screen bg-white text-black">
-
       <Navbar />
 
+      <section className="mx-auto max-w-4xl px-5 py-10 sm:px-6">
 
-      {/* =================================================
-          CONFIRMATION HEADER
-      ================================================= */}
+        {/* CONFIRMATION */}
 
-      <section className="border-b border-slate-200">
+        <div className="text-center">
 
-        <div className="mx-auto max-w-5xl px-5 py-10 text-center sm:px-6">
-
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-black text-white">
-
-            <Check
-              size={23}
-              strokeWidth={2.5}
-            />
-
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-black text-xl font-bold text-white">
+            ✓
           </div>
 
-          <p className="mt-5 text-[9px] font-semibold uppercase tracking-[0.22em] text-slate-400">
-            {confirmed
-              ? "BOOKING CONFIRMED"
-              : "BOOKING CREATED"}
+          <p className="mt-5 text-[9px] font-bold uppercase tracking-[0.2em] text-black/40">
+            Booking
           </p>
 
-          <h1 className="mt-2 font-serif text-2xl font-semibold tracking-tight sm:text-3xl">
-            Your journey is confirmed
+          <h1 className="mt-2 text-3xl font-bold tracking-tight">
+            {confirmed
+              ? "Your booking is confirmed"
+              : "Your booking has been created"}
           </h1>
 
-          <p className="mx-auto mt-2 max-w-md text-xs leading-5 text-slate-500">
-            Your Vistara booking has been
-            successfully created.
+          <p className="mt-2 text-sm text-black/50">
+            Your Vistara stay booking is recorded
+            successfully.
           </p>
 
           {/* BOOKING ID */}
 
-          <div className="mt-5 inline-flex items-center gap-3 rounded-full border border-slate-200 px-4 py-2">
-
-            <span className="text-[9px] uppercase tracking-[0.15em] text-slate-400">
+          <div className="mx-auto mt-5 inline-flex items-center gap-3 rounded-full border border-black/10 px-4 py-2">
+            <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-black/40">
               Booking ID
             </span>
 
-            <span className="text-xs font-semibold">
+            <span className="text-xs font-bold">
               #{booking.id}
             </span>
-
           </div>
 
         </div>
 
-      </section>
+        {/* CONTENT */}
 
+        <div className="mt-10 grid gap-5 lg:grid-cols-[1fr_320px]">
 
-      {/* =================================================
-          MAIN
-      ================================================= */}
-
-      <section className="mx-auto max-w-5xl px-5 py-8 sm:px-6 lg:px-8">
-
-        <div className="grid gap-6 lg:grid-cols-[1.35fr_0.7fr]">
-
-
-          {/* =================================================
-              LEFT
-          ================================================= */}
+          {/* LEFT */}
 
           <div className="space-y-5">
 
+            {/* STAY */}
 
-            {/* PROPERTY */}
+            <div className="overflow-hidden rounded-2xl border border-black/10">
 
-            <div className="overflow-hidden rounded-2xl border border-slate-200">
-
-              <div className="group aspect-[16/8] overflow-hidden bg-slate-100">
-
+              {image && (
                 <img
                   src={image}
-                  alt={propertyName}
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                  alt={title}
+                  className="h-64 w-full object-cover"
                 />
+              )}
 
-              </div>
+              <div className="p-5">
 
+                <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-black/40">
+                  Stay
+                </p>
 
-              <div className="p-5 sm:p-6">
+                <h2 className="mt-2 text-xl font-bold">
+                  {title}
+                </h2>
 
-                <div className="flex items-start justify-between gap-4">
-
-                  <div>
-
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                      YOUR JOURNEY
-                    </p>
-
-                    <h2 className="mt-1.5 font-serif text-xl font-semibold">
-                      {propertyName}
-                    </h2>
-
-                    <div className="mt-2 flex items-center gap-1.5 text-xs text-slate-500">
-
-                      <MapPin size={13} />
-
-                      {location}
-
-                    </div>
-
-                  </div>
-
-
-                  <span className="rounded-full bg-black px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wider text-white">
-                    Confirmed
-                  </span>
-
-                </div>
+                <p className="mt-2 text-sm text-black/50">
+                  {location}
+                </p>
 
               </div>
 
             </div>
 
+            {/* DETAILS */}
 
-            {/* DATES */}
+            <div className="rounded-2xl border border-black/10 p-5">
 
-            <div className="rounded-2xl border border-slate-200 p-5 sm:p-6">
-
-              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                TRIP DETAILS
+              <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-black/40">
+                Booking details
               </p>
 
-              <h2 className="mt-1.5 font-serif text-xl font-semibold">
+              <h2 className="mt-2 text-xl font-bold">
                 Your reservation
               </h2>
 
-
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <div className="mt-5 grid grid-cols-2 gap-3">
 
                 <Info
-                  icon={<CalendarDays size={15} />}
-                  label="Check-in"
-                  value={checkIn}
+                  label="Booking ID"
+                  value={`#${booking.id}`}
                 />
 
                 <Info
-                  icon={<CalendarDays size={15} />}
-                  label="Check-out"
-                  value={checkOut}
+                  label="Status"
+                  value={booking.status}
                 />
 
                 <Info
-                  icon={<Users size={15} />}
+                  label="Check in"
+                  value={formatDate(
+                    booking.checkIn
+                  )}
+                />
+
+                <Info
+                  label="Check out"
+                  value={formatDate(
+                    booking.checkOut
+                  )}
+                />
+
+                <Info
                   label="Guests"
                   value={`${booking.guests} ${
                     booking.guests === 1
@@ -434,7 +336,6 @@ export default function BookingConfirmationPage() {
                 />
 
                 <Info
-                  icon={<CalendarDays size={15} />}
                   label="Duration"
                   value={`${booking.nights} ${
                     booking.nights === 1
@@ -447,195 +348,80 @@ export default function BookingConfirmationPage() {
 
             </div>
 
-
-            {/* HOST */}
-
-            <div className="rounded-2xl border border-slate-200 p-5 sm:p-6">
-
-              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                YOUR HOST
-              </p>
-
-
-              <div className="mt-4 flex items-center gap-3">
-
-                <img
-                  src={hostImage}
-                  alt={hostName}
-                  className="h-11 w-11 rounded-full object-cover"
-                />
-
-                <div>
-
-                  <p className="text-xs font-semibold">
-                    {hostName}
-                  </p>
-
-                  <p className="mt-0.5 text-[10px] text-slate-500">
-                    Your Vistara host
-                  </p>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            {/* PAYMENT */}
-
-            <div className="rounded-2xl border border-slate-200 p-5 sm:p-6">
-
-              <div className="flex items-center gap-3">
-
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white">
-
-                  <CreditCard size={15} />
-
-                </div>
-
-                <div>
-
-                  <p className="text-xs font-semibold">
-                    Payment
-                  </p>
-
-                  <p className="mt-0.5 text-[10px] text-slate-500">
-                    {booking.paymentStatus}
-                  </p>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            {/* PROTECTION */}
-
-            <div className="rounded-2xl border border-slate-200 p-5">
-
-              <div className="flex gap-3">
-
-                <ShieldCheck
-                  size={18}
-                  className="shrink-0"
-                />
-
-                <div>
-
-                  <p className="text-xs font-semibold">
-                    Vistara protection
-                  </p>
-
-                  <p className="mt-1 text-[10px] leading-5 text-slate-500">
-                    Your booking details are securely
-                    connected to your Vistara account.
-                  </p>
-
-                </div>
-
-              </div>
-
-            </div>
-
           </div>
 
-
-          {/* =================================================
-              RIGHT
-          ================================================= */}
+          {/* RIGHT */}
 
           <aside className="lg:sticky lg:top-24 lg:h-fit">
 
-            <div className="rounded-2xl border border-slate-200 p-5 sm:p-6">
+            <div className="rounded-2xl border border-black/10 p-5">
 
-              <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                BOOKING SUMMARY
+              <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-black/40">
+                Order summary
               </p>
 
+              <div className="mt-5 space-y-4">
 
-              <div className="mt-5 space-y-3">
-
-                <Summary
-                  label="Booking ID"
-                  value={`#${booking.id}`}
-                />
-
-                <Summary
-                  label="Status"
-                  value={booking.status}
-                />
-
-                <Summary
-                  label="Payment"
-                  value={booking.paymentStatus}
-                />
-
-              </div>
-
-
-              <div className="mt-5 border-t border-slate-200 pt-4">
-
-                <div className="flex items-end justify-between">
-
-                  <span className="text-xs text-slate-500">
-                    Total
+                <div className="flex justify-between text-sm">
+                  <span className="text-black/50">
+                    Booking ID
                   </span>
 
-                  <span className="text-xl font-semibold">
-                    ₹{total.toLocaleString("en-IN")}
-                  </span>
-
-                </div>
-
-              </div>
-
-
-              {/* VIEW TRIP */}
-
-              <Link
-                href={`/trips/${booking.property?.id ?? ""}`}
-                className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-black px-4 py-3 text-xs font-semibold text-white transition hover:bg-slate-800"
-              >
-                View trip
-
-                <ArrowRight size={13} />
-
-              </Link>
-
-
-              <Link
-                href="/profile"
-                className="mt-2 flex w-full items-center justify-center rounded-lg border border-slate-200 px-4 py-3 text-xs font-semibold transition hover:border-black"
-              >
-                Go to profile
-              </Link>
-
-            </div>
-
-
-            {/* BOOKING REFERENCE */}
-
-            <div className="mt-4 rounded-xl border border-slate-200 p-4">
-
-              <div className="flex items-center gap-3">
-
-                <UserRound size={15} />
-
-                <div>
-
-                  <p className="text-[9px] uppercase tracking-[0.15em] text-slate-400">
-                    BOOKING REFERENCE
-                  </p>
-
-                  <p className="mt-1 text-sm font-semibold">
+                  <span className="font-bold">
                     #{booking.id}
-                  </p>
+                  </span>
+                </div>
+
+                <div className="flex justify-between text-sm">
+                  <span className="text-black/50">
+                    Payment
+                  </span>
+
+                  <span className="font-bold">
+                    {booking.paymentStatus}
+                  </span>
+                </div>
+
+                <div className="border-t border-black/10 pt-4">
+
+                  <div className="flex items-center justify-between">
+
+                    <span className="text-sm text-black/50">
+                      Total
+                    </span>
+
+                    <span className="text-2xl font-bold">
+                      ₹
+                      {total.toLocaleString(
+                        "en-IN"
+                      )}
+                    </span>
+
+                  </div>
 
                 </div>
 
               </div>
+
+              {/* VIEW STAY */}
+
+              {booking.property?.id && (
+                <Link
+                  href={`/stays/${booking.property.id}`}
+                  className="mt-6 flex w-full items-center justify-center rounded-xl bg-black px-4 py-3 text-sm font-bold text-white transition hover:bg-black/85"
+                >
+                  View stay
+                </Link>
+              )}
+
+              {/* ALL BOOKINGS */}
+
+              <Link
+                href="/bookings"
+                className="mt-2 flex w-full items-center justify-center rounded-xl border border-black/10 px-4 py-3 text-sm font-bold transition hover:border-black"
+              >
+                All bookings
+              </Link>
 
             </div>
 
@@ -643,88 +429,58 @@ export default function BookingConfirmationPage() {
 
         </div>
 
-
-        {/* BACK */}
-
-        <div className="mt-8">
-
-          <Link
-            href="/explore"
-            className="inline-flex items-center gap-2 text-[11px] text-slate-500 transition hover:text-black"
-          >
-            <ArrowLeft size={13} />
-            Back to explore
-          </Link>
-
-        </div>
-
       </section>
 
-
       <Footer />
-
     </main>
   );
 }
 
-
-/* ============================================================
+/* =========================================================
    INFO
-============================================================ */
+========================================================= */
 
 function Info({
-  icon,
   label,
   value,
 }: {
-  icon: React.ReactNode;
   label: string;
   value: string;
 }) {
   return (
-    <div className="rounded-lg bg-slate-50 p-3">
-
-      <div className="flex items-center gap-2 text-slate-400">
-
-        {icon}
-
-        <span className="text-[9px] font-semibold uppercase tracking-[0.14em]">
-          {label}
-        </span>
-
-      </div>
-
-      <p className="mt-2 text-xs font-semibold">
-        {value}
+    <div className="rounded-xl bg-black/[0.035] p-3.5">
+      <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-black/40">
+        {label}
       </p>
 
+      <p className="mt-2 text-sm font-bold">
+        {value}
+      </p>
     </div>
   );
 }
 
+/* =========================================================
+   DATE
+========================================================= */
 
-/* ============================================================
-   SUMMARY
-============================================================ */
+function formatDate(value?: string) {
+  if (!value) {
+    return "Not specified";
+  }
 
-function Summary({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-4">
+  const date = new Date(value);
 
-      <span className="text-[10px] text-slate-500">
-        {label}
-      </span>
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
 
-      <span className="text-[10px] font-semibold">
-        {value}
-      </span>
-
-    </div>
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }
   );
 }

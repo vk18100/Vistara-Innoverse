@@ -2,233 +2,322 @@
 
 import Link from "next/link";
 import Navbar from "@/components/navbar";
+import {
+  Search,
+  ChevronDown,
+  MessageCircle,
+  BookOpen,
+  ShieldCheck,
+  CreditCard,
+  CalendarDays,
+  User,
+} from "lucide-react";
 import { useState } from "react";
+
+const categories = [
+  {
+    title: "Bookings & trips",
+    description: "Bookings, cancellations and trip information.",
+    icon: CalendarDays,
+  },
+  {
+    title: "Payments & refunds",
+    description: "Payments, refunds and transaction questions.",
+    icon: CreditCard,
+  },
+  {
+    title: "Account & login",
+    description: "Login, password and account issues.",
+    icon: User,
+  },
+  {
+    title: "Safety & verification",
+    description: "Trust, verification and safety information.",
+    icon: ShieldCheck,
+  },
+];
 
 const faqs = [
   {
     question: "How do I make a booking?",
     answer:
-      "Choose a stay or experience you are interested in, select your preferred dates and continue with the booking process. Your booking details will be available from your account once the reservation is confirmed.",
-  },
-  {
-    question: "Where can I see my bookings?",
-    answer:
-      "Your confirmed and upcoming bookings can be viewed from your account. Open your profile and select My Bookings to see your trip details.",
+      "Choose a stay, experience, local plan or ride, select the required details and continue through the booking flow.",
   },
   {
     question: "Can I cancel my booking?",
     answer:
-      "Cancellation availability depends on the booking and its applicable cancellation terms. Open your booking details to review the available options before cancelling.",
+      "Cancellation availability depends on the booking and its cancellation policy. Check your booking details for the applicable terms.",
   },
   {
-    question: "How does payment work?",
+    question: "Where can I find my bookings?",
     answer:
-      "Payment information is shown during the booking process. Your final amount and applicable charges are displayed before you confirm the reservation.",
+      "You can view your upcoming and previous bookings from your Trips & Bookings section.",
   },
   {
-    question: "How can I change my account information?",
+    question: "How do I reset my password?",
     answer:
-      "You can update available personal information from your account settings. Changes made there will be reflected across your Vistara account.",
+      "Go to the Sign In page and select Forgot Password. Enter your registered email to receive reset instructions.",
   },
   {
-    question: "How do I save a place for later?",
+    question: "How do payments and refunds work?",
     answer:
-      "Use the wishlist option on a place or stay you like. Saved places can then be accessed from your Wishlist section.",
+      "Payment and refund details depend on the service you booked. Your booking information will show the applicable payment and cancellation terms.",
   },
   {
-    question: "I found an issue on the website. What should I do?",
+    question: "How can I contact Vistara support?",
     answer:
-      "If something is not working correctly, please contact the Vistara support team with a short description of the issue. Screenshots or relevant booking details can also help us understand the problem.",
-  },
-  {
-    question: "How can I contact Vistara?",
-    answer:
-      "You can contact our support team directly by email. Include your name, registered email address and a clear description of your question so that we can assist you faster.",
+      "If you cannot find an answer here, visit Support to send your issue directly to the Vistara support team.",
   },
 ];
 
 export default function HelpPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [search, setSearch] = useState("");
+
+  const filteredFaqs = faqs.filter((faq) =>
+    `${faq.question} ${faq.answer}`
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
 
   return (
-    <main className="min-h-screen bg-[#FAF9F5] text-[#292722]">
+    <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      <section className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-8 sm:py-12 lg:px-10">
+      <section className="mx-auto w-full max-w-5xl px-5 py-8 sm:px-6 sm:py-10 lg:px-8">
 
-        {/* Back */}
-        <Link
-          href="/settings"
-          className="inline-flex items-center gap-2 text-sm font-medium text-[#77736A] transition hover:text-[#292722]"
-        >
-          ← Back to settings
-        </Link>
+        {/* HEADER */}
+        <div className="border-b border-black/10 pb-7">
+          <div className="mb-4 flex items-center gap-2 text-[11px] font-medium text-black/45">
+            <Link
+              href="/settings"
+              className="hover:text-black"
+            >
+              Settings
+            </Link>
 
-        {/* Header */}
-        <div className="mt-9 max-w-3xl">
-          <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#A47B35]">
-            SUPPORT
+            <span>/</span>
+
+            <span className="text-black">Help</span>
+          </div>
+
+          <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-black/45">
+            VISTARA HELP CENTRE
           </p>
 
-          <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-[#292722] sm:text-5xl">
+          <h1 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
             How can we help?
           </h1>
 
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-[#77736A] sm:text-base">
-            Find answers to common questions about your Vistara account,
-            bookings, payments and trips.
+          <p className="mt-2 max-w-xl text-xs font-medium leading-5 text-black/55 sm:text-sm">
+            Find quick answers about bookings, payments, your account,
+            trips and using Vistara.
           </p>
+
+          {/* SEARCH */}
+          <div className="relative mt-5 max-w-2xl">
+            <Search
+              size={16}
+              strokeWidth={2}
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-black/40"
+            />
+
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search for help..."
+              className="
+                h-11
+                w-full
+                rounded-lg
+                border
+                border-black/15
+                bg-white
+                pl-10
+                pr-4
+                text-xs
+                font-medium
+                text-black
+                outline-none
+                placeholder:text-black/35
+                focus:border-black
+              "
+            />
+          </div>
         </div>
 
-        {/* FAQ */}
-        <section className="mt-10">
-          <div className="mb-5">
-            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#A47B35]">
-              COMMON QUESTIONS
-            </p>
-
-            <h2 className="mt-2 font-serif text-3xl font-semibold text-[#292722]">
-              Frequently asked questions
+        {/* CATEGORIES */}
+        <section className="py-7">
+          <div className="mb-4">
+            <h2 className="text-base font-bold">
+              Browse by topic
             </h2>
+
+            <p className="mt-1 text-xs font-medium text-black/50">
+              Choose a category to find relevant information.
+            </p>
           </div>
 
-          <div className="overflow-hidden rounded-[26px] border border-[#292722]/10 bg-white">
-            {faqs.map((faq, index) => {
-              const isOpen = openIndex === index;
+          <div className="grid grid-cols-1 overflow-hidden rounded-xl border border-black/10 sm:grid-cols-2">
+            {categories.map((category, index) => {
+              const Icon = category.icon;
 
               return (
-                <div
-                  key={faq.question}
-                  className="border-b border-[#292722]/10 last:border-b-0"
-                >
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setOpenIndex(isOpen ? null : index)
+                <Link
+                  key={category.title}
+                  href="/support"
+                  className={`
+                    group flex items-center gap-3 p-4
+                    transition hover:bg-black/[0.025]
+                    ${
+                      index < 2
+                        ? "border-b border-black/10 sm:border-b"
+                        : ""
                     }
-                    className="flex w-full items-center justify-between gap-5 px-5 py-5 text-left transition hover:bg-[#FCFAF5] sm:px-6"
-                  >
-                    <span className="text-sm font-semibold text-[#292722] sm:text-base">
-                      {faq.question}
-                    </span>
+                    ${
+                      index % 2 === 0
+                        ? "sm:border-r sm:border-black/10"
+                        : ""
+                    }
+                  `}
+                >
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-black/10">
+                    <Icon size={16} strokeWidth={2} />
+                  </div>
 
-                    <span
-                      className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#F3EBDD] text-[#8A672E] transition-transform duration-200 ${
-                        isOpen ? "rotate-45" : ""
-                      }`}
-                    >
-                      +
-                    </span>
-                  </button>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-xs font-bold">
+                      {category.title}
+                    </h3>
 
-                  {isOpen && (
-                    <div className="px-5 pb-5 sm:px-6 sm:pb-6">
-                      <p className="max-w-3xl text-sm leading-7 text-[#77736A]">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  )}
-                </div>
+                    <p className="mt-0.5 text-[11px] font-medium leading-4 text-black/50">
+                      {category.description}
+                    </p>
+                  </div>
+                </Link>
               );
             })}
           </div>
         </section>
 
-        {/* Contact */}
-        <section className="mt-10">
-          <div className="overflow-hidden rounded-[28px] bg-[#292722] p-7 text-white sm:p-9 lg:p-10">
-            <div className="max-w-2xl">
-              <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#D5B879]">
-                NEED MORE HELP?
-              </p>
+        {/* FAQ */}
+        <section>
+          <div className="mb-4">
+            <h2 className="text-base font-bold">
+              Frequently asked questions
+            </h2>
 
-              <h2 className="mt-3 font-serif text-3xl font-semibold sm:text-4xl">
-                Talk to our support team.
-              </h2>
+            <p className="mt-1 text-xs font-medium text-black/50">
+              Quick answers to common questions.
+            </p>
+          </div>
 
-              <p className="mt-3 text-sm leading-7 text-white/65">
-                Couldn't find the answer you were looking for? Send us an
-                email and tell us what you need help with. Our team will get
-                back to you.
-              </p>
+          <div className="overflow-hidden rounded-xl border border-black/10">
+            {filteredFaqs.length > 0 ? (
+              filteredFaqs.map((faq, index) => {
+                const isOpen = openFaq === index;
 
-              {/* Email box */}
-              <div className="mt-7 rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5">
-                <p className="text-xs uppercase tracking-[0.18em] text-white/45">
-                  EMAIL SUPPORT
+                return (
+                  <div
+                    key={faq.question}
+                    className={
+                      index !== filteredFaqs.length - 1
+                        ? "border-b border-black/10"
+                        : ""
+                    }
+                  >
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setOpenFaq(isOpen ? null : index)
+                      }
+                      className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left transition hover:bg-black/[0.02] sm:px-5"
+                    >
+                      <span className="text-xs font-bold sm:text-sm">
+                        {faq.question}
+                      </span>
+
+                      <ChevronDown
+                        size={16}
+                        strokeWidth={2}
+                        className={`shrink-0 transition-transform ${
+                          isOpen ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {isOpen && (
+                      <div className="px-4 pb-4 sm:px-5">
+                        <p className="max-w-3xl text-xs font-medium leading-5 text-black/55">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            ) : (
+              <div className="px-5 py-8 text-center">
+                <p className="text-xs font-bold">
+                  No results found
                 </p>
 
-                <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <a
-                    href="mailto:support@vistara.com"
-                    className="break-all text-base font-semibold text-white transition hover:text-[#D5B879]"
-                  >
-                    support@vistara.com
-                  </a>
-
-                  <a
-                    href="mailto:support@vistara.com?subject=Vistara%20Support%20Request"
-                    className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-[#292722] transition hover:bg-[#F3EBDD]"
-                  >
-                    Email us
-                    <span>→</span>
-                  </a>
-                </div>
+                <p className="mt-1 text-[11px] text-black/45">
+                  Try searching with different words.
+                </p>
               </div>
-            </div>
+            )}
           </div>
         </section>
 
-        {/* Direct options */}
-        <section className="mt-8 grid gap-4 sm:grid-cols-2">
-          <Link
-            href="/profile"
-            className="group rounded-[22px] border border-[#292722]/10 bg-white p-6 transition hover:-translate-y-0.5 hover:bg-[#FCFAF5]"
-          >
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#A47B35]">
-              ACCOUNT
-            </p>
+        {/* SUPPORT */}
+        <section className="mt-7 border-t border-black/10 pt-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-black/10">
+                <MessageCircle size={16} strokeWidth={2} />
+              </div>
 
-            <h3 className="mt-3 text-base font-semibold text-[#292722]">
-              Manage your account
-            </h3>
+              <div>
+                <h2 className="text-xs font-bold sm:text-sm">
+                  Still need help?
+                </h2>
 
-            <p className="mt-2 text-sm leading-6 text-[#77736A]">
-              Update your profile and account information.
-            </p>
+                <p className="mt-1 text-[11px] font-medium text-black/50">
+                  Contact Vistara support for help with your issue.
+                </p>
+              </div>
+            </div>
 
-            <span className="mt-4 inline-block text-sm font-semibold text-[#8A672E] transition group-hover:translate-x-1">
-              Open profile →
-            </span>
-          </Link>
-
-          <Link
-            href="/trips"
-            className="group rounded-[22px] border border-[#292722]/10 bg-white p-6 transition hover:-translate-y-0.5 hover:bg-[#FCFAF5]"
-          >
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#A47B35]">
-              YOUR JOURNEY
-            </p>
-
-            <h3 className="mt-3 text-base font-semibold text-[#292722]">
-              View your trips
-            </h3>
-
-            <p className="mt-2 text-sm leading-6 text-[#77736A]">
-              Continue planning and manage your saved journeys.
-            </p>
-
-            <span className="mt-4 inline-block text-sm font-semibold text-[#8A672E] transition group-hover:translate-x-1">
-              View trips →
-            </span>
-          </Link>
+            <Link
+              href="/support"
+              className="
+                inline-flex
+                items-center
+                justify-center
+                rounded-lg
+                bg-black
+                px-4
+                py-2.5
+                text-xs
+                font-bold
+                text-white
+                transition
+                hover:bg-black/80
+              "
+            >
+              Contact Support
+            </Link>
+          </div>
         </section>
 
-        {/* Footer note */}
-        <div className="py-10 text-center">
-          <p className="text-xs text-[#9A968E]">
-            Vistara Support · We're here to help with your journey.
-          </p>
+        {/* FOOTER NOTE */}
+        <div className="mt-7 border-t border-black/10 pt-5">
+          <div className="flex items-center gap-2 text-[11px] font-medium text-black/40">
+            <BookOpen size={14} />
+            <span>Vistara Help Centre</span>
+          </div>
         </div>
       </section>
     </main>
