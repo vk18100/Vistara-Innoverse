@@ -6,53 +6,31 @@ import { ArrowUpRight, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Stay = {
-  id: number;
+  id: string;
   title: string;
   location: string;
-  price: string;
+  city: string;
+  country: string;
   image: string;
+  price: number;
+  currency: string;
+  rating: number;
+  guests: number;
+  verified: boolean;
 };
 
 type WishlistItem = {
-  propertyId: number;
+  propertyId: string;
 };
 
-const stays: Stay[] = [
-  {
-    id: 1,
-    title: "The Forest House",
-    location: "Shimla, Himachal Pradesh",
-    price: "₹8,500",
-    image: "/images/blackhouse.jpg",
-  },
-  {
-    id: 2,
-    title: "Heritage Villa",
-    location: "Jaipur, Rajasthan",
-    price: "₹6,800",
-    image: "/images/beachhouse.jpg.jpg",
-  },
-  {
-    id: 3,
-    title: "The Lake Retreat",
-    location: "Udaipur, Rajasthan",
-    price: "₹7,200",
-    image: "/images/pag1 (22).jpg",
-  },
-  {
-    id: 4,
-    title: "Modern Escape",
-    location: "Goa, India",
-    price: "₹5,900",
-    image: "/images/pag1 (30).jpg",
-  },
-  {
-    id: 5,
-    title: "Valley View Home",
-    location: "Manali, Himachal Pradesh",
-    price: "₹9,400",
-    image: "/images/pag1 (35).jpg",
-  },
+import { stays } from "@/data/stay";
+
+const featuredStays = [
+  "forest-house",
+  "heritage-villa",
+  "lake-retreat",
+  "modern-escape",
+  "valley-view-home",
 ];
 
 const journeyCards = [
@@ -77,14 +55,15 @@ const journeyCards = [
 ];
 
 export default function HomePage() {
-  const [wishlist, setWishlist] = useState<number[]>([]);
-  const [wishlistLoading, setWishlistLoading] = useState<number | null>(null);
+  const [wishlist, setWishlist] = useState<string[]>([]);
+  const [wishlistLoading, setWishlistLoading] = useState<string | null>(null);
 
   /*
    * =========================================================
    * LOAD EXISTING WISHLIST
    * =========================================================
    */
+
   useEffect(() => {
     const loadWishlist = async () => {
       try {
@@ -119,7 +98,8 @@ export default function HomePage() {
    * ADD / REMOVE WISHLIST
    * =========================================================
    */
-  const toggleWishlist = async (propertyId: number) => {
+
+  const toggleWishlist = async (propertyId: string) => {
     if (wishlistLoading === propertyId) {
       return;
     }
@@ -170,6 +150,7 @@ export default function HomePage() {
       {/* =====================================================
           STAYS
       ===================================================== */}
+
       <section className="px-4 py-7 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1450px]">
 
@@ -186,7 +167,15 @@ export default function HomePage() {
 
           {/* STAY CARDS */}
           <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide sm:grid sm:grid-cols-2 sm:overflow-visible lg:grid-cols-4 xl:grid-cols-5">
-            {stays.map((stay) => {
+
+            {/* ONLY THESE 5 HOMEPAGE STAYS */}
+            {featuredStays.map((stayId) => {
+              const stay = stays.find((item) => item.id === stayId);
+
+              if (!stay) {
+                return null;
+              }
+
               const isSaved = wishlist.includes(stay.id);
               const isLoading = wishlistLoading === stay.id;
 
@@ -203,8 +192,8 @@ export default function HomePage() {
                       src={stay.image}
                       alt={stay.title}
                       fill
-                      priority={stay.id === 1}
-                    sizes="(max-width: 639px) 235px, (max-width: 1023px) 45vw, (max-width: 1279px) 23vw, 19vw"
+                      priority={stay.id === "forest-house"}
+                      sizes="(max-width: 639px) 235px, (max-width: 1023px) 45vw, (max-width: 1279px) 23vw, 19vw"
                       className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
                     />
 
@@ -250,12 +239,13 @@ export default function HomePage() {
                   {/* INFO */}
                   <div className="pt-2.5">
                     <div className="flex items-center justify-between gap-2">
+
                       <h3 className="truncate text-[12px] font-semibold text-[#222]">
                         {stay.title}
                       </h3>
 
                       <span className="shrink-0 text-[10px] text-[#444]">
-                        ★ 4.8
+                        ★ {stay.rating}
                       </span>
                     </div>
 
@@ -265,7 +255,7 @@ export default function HomePage() {
 
                     <p className="mt-1 text-[10.5px] text-[#444]">
                       <span className="font-semibold">
-                        {stay.price}
+                        ₹{stay.price.toLocaleString("en-IN")}
                       </span>{" "}
                       / night
                     </p>
@@ -280,6 +270,7 @@ export default function HomePage() {
       {/* =====================================================
           EXPLORE / EXPERIENCES / TRIPS
       ===================================================== */}
+
       <section className="px-4 py-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1450px]">
 
@@ -349,6 +340,7 @@ export default function HomePage() {
       {/* =====================================================
           BUILD YOUR JOURNEY
       ===================================================== */}
+
       <section className="px-4 pb-10 pt-3 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1450px]">
 

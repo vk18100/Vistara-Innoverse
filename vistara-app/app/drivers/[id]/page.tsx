@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+
 import {
   ArrowLeft,
   ArrowRight,
@@ -12,128 +14,510 @@ import {
   Star,
   Users,
 } from "lucide-react";
+
 import Footer from "@/app/footer/page";
 import Navbar from "@/components/navbar";
+
 type Driver = {
   id: number;
   name: string;
   city: string;
-  bio?: string | null;
-  image?: string | null;
-  vehicle?: string | null;
-  vehicleType?: string | null;
+  bio: string;
+  image: string | null;
+  vehicle: string;
+  vehicleType: string;
   rating: number;
   reviewCount: number;
-  price?: number | null;
-  seats?: number | null;
-  verified?: boolean;
-  experienceYears?: number | null;
-  languages?: string[];
-  services?: string[];
+  price: number;
+  seats: number;
+  verified: boolean;
+  experienceYears: number;
+  languages: string[];
+  services: string[];
+  status: string;
 };
 
+/*
+|--------------------------------------------------------------------------
+| SAME DEMO DRIVERS AS /drivers PAGE
+|--------------------------------------------------------------------------
+*/
+
+const demoDrivers: Driver[] = [
+  {
+    id: 1,
+    name: "Rajiv Kumar",
+    city: "Patna, Bihar",
+    bio: "Local driver for city rides, airport transfers and nearby destinations.",
+    image: "/images/profile.jpg",
+    vehicle: "Sedan",
+    vehicleType: "Comfort",
+    rating: 4.9,
+    reviewCount: 124,
+    price: 699,
+    seats: 4,
+    verified: true,
+    experienceYears: 5,
+    languages: ["Hindi", "English"],
+    services: [
+      "City rides",
+      "Airport transfers",
+      "Local sightseeing",
+      "Nearby destinations",
+    ],
+    status: "AVAILABLE",
+  },
+
+  {
+    id: 2,
+    name: "Amit Singh",
+    city: "Patna, Bihar",
+    bio: "Friendly local driver for flexible city trips and destination transfers.",
+    image: "/images/profile.jpg",
+    vehicle: "SUV",
+    vehicleType: "Comfort",
+    rating: 4.8,
+    reviewCount: 96,
+    price: 799,
+    seats: 6,
+    verified: true,
+    experienceYears: 7,
+    languages: ["Hindi", "English"],
+    services: [
+      "City rides",
+      "Airport transfers",
+      "Outstation",
+      "Nearby destinations",
+    ],
+    status: "AVAILABLE",
+  },
+
+  {
+    id: 3,
+    name: "Neha Sharma",
+    city: "Patna, Bihar",
+    bio: "Reliable driver for local sightseeing and comfortable rides.",
+    image: "/images/profile.jpg",
+    vehicle: "Hatchback",
+    vehicleType: "Economy",
+    rating: 4.9,
+    reviewCount: 87,
+    price: 599,
+    seats: 4,
+    verified: true,
+    experienceYears: 4,
+    languages: ["Hindi", "English"],
+    services: [
+      "City rides",
+      "Local sightseeing",
+      "Airport transfers",
+      "Nearby destinations",
+    ],
+    status: "AVAILABLE",
+  },
+];
+
+/*
+|--------------------------------------------------------------------------
+| API DRIVER NORMALIZER
+|--------------------------------------------------------------------------
+*/
+
+function normalizeApiDriver(
+  data: any
+): Driver | null {
+  if (!data || data.id == null) {
+    return null;
+  }
+
+  const vehicle =
+    Array.isArray(data.vehicles) &&
+    data.vehicles.length > 0
+      ? data.vehicles[0]
+      : null;
+
+  return {
+    id: Number(data.id),
+
+    name:
+      data.name ||
+      data.user?.name ||
+      "Local Driver",
+
+    city:
+      data.city ||
+      data.user?.city ||
+      "Patna, Bihar",
+
+    bio:
+      data.bio ||
+      "A trusted local driver helping you travel comfortably around the city and nearby destinations.",
+
+    image:
+      data.avatar ||
+      data.image ||
+      data.user?.profile?.avatar ||
+      null,
+
+    vehicle:
+      vehicle?.model ||
+      data.vehicle ||
+      "Local Vehicle",
+
+    vehicleType:
+      vehicle?.type ||
+      data.vehicleType ||
+      "Comfort",
+
+    rating:
+      Number(data.rating) || 0,
+
+    reviewCount:
+      Number(
+        data.reviewCount ??
+          data.reviewsCount ??
+          0
+      ),
+
+    price:
+      Number(
+        data.pricePerRide ??
+          data.price ??
+          0
+      ),
+
+    seats:
+      Number(
+        vehicle?.seats ??
+          vehicle?.capacity ??
+          data.seats ??
+          4
+      ),
+
+    verified:
+      Boolean(
+        data.isVerified ??
+          data.verified
+      ),
+
+    experienceYears:
+      Number(
+        data.experienceYears ?? 0
+      ),
+
+    languages:
+      Array.isArray(data.languages)
+        ? data.languages
+        : ["Hindi", "English"],
+
+    services:
+      Array.isArray(data.services)
+        ? data.services
+        : [
+            "City rides",
+            "Airport transfers",
+            "Local sightseeing",
+            "Nearby destinations",
+          ],
+
+    status:
+      data.status ||
+      "AVAILABLE",
+  };
+}
+
 export default function DriverDetailsPage() {
-  const [driver, setDriver] = useState<Driver | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const params = useParams();
+
+  const driverId = String(
+    params?.id ?? ""
+  ).trim();
+
+  const [driver, setDriver] =
+    useState<Driver | null>(null);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
+
+  /*
+  |--------------------------------------------------------------------------
+  | LOAD DRIVER
+  |--------------------------------------------------------------------------
+  */
 
   useEffect(() => {
-    const id = window.location.pathname.split("/")[2];
+    let cancelled = false;
 
-    if (!id) {
-      setError("Driver not found.");
-      setLoading(false);
-      return;
-    }
+    async function loadDriver() {
+      if (!driverId) {
+        setError("Invalid driver ID.");
+        setLoading(false);
+        return;
+      }
 
-    const loadDriver = async () => {
       try {
-        const response = await fetch(`/api/drivers/${id}`, {
-          credentials: "include",
-        });
+        setLoading(true);
+        setError("");
 
-        const result = await response.json();
+        /*
+        |--------------------------------------------------------------------------
+        | FIRST: TRY REAL API
+        |--------------------------------------------------------------------------
+        */
 
-        if (!response.ok || !result?.success) {
+        const response = await fetch(
+          `/api/drivers/${encodeURIComponent(
+            driverId
+          )}`,
+          {
+            method: "GET",
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
+
+        const raw =
+          await response.text();
+
+        let result: any = {};
+
+        try {
+          result = raw
+            ? JSON.parse(raw)
+            : {};
+        } catch {
+          result = {};
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | API SUCCESS
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+          response.ok &&
+          result?.success &&
+          result?.data
+        ) {
+          const apiDriver =
+            normalizeApiDriver(
+              result.data
+            );
+
+          if (apiDriver) {
+            if (!cancelled) {
+              setDriver(apiDriver);
+            }
+
+            return;
+          }
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | API FAILED
+        |
+        | Use SAME demo driver that exists
+        | on /drivers page.
+        |--------------------------------------------------------------------------
+        */
+
+        const demoDriver =
+          demoDrivers.find(
+            (item) =>
+              String(item.id) ===
+              String(driverId)
+          );
+
+        if (!demoDriver) {
           throw new Error(
-            result?.message || "Unable to load driver."
+            "Driver not found."
           );
         }
 
-        setDriver(result.data?.driver || result.data);
+        if (!cancelled) {
+          setDriver(demoDriver);
+        }
       } catch (err) {
-        console.error("DRIVER_DETAILS_ERROR:", err);
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Unable to load driver."
+        console.error(
+          "DRIVER_DETAILS_ERROR:",
+          err
         );
+
+        /*
+        |--------------------------------------------------------------------------
+        | FALLBACK TO SAME DEMO DATA
+        |--------------------------------------------------------------------------
+        */
+
+        const demoDriver =
+          demoDrivers.find(
+            (item) =>
+              String(item.id) ===
+              String(driverId)
+          );
+
+        if (demoDriver) {
+          if (!cancelled) {
+            setDriver(demoDriver);
+            setError("");
+          }
+        } else {
+          if (!cancelled) {
+            setDriver(null);
+
+            setError(
+              err instanceof Error
+                ? err.message
+                : "Unable to load driver."
+            );
+          }
+        }
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
-    };
+    }
 
     loadDriver();
-  }, []);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [driverId]);
+
+  /*
+  |--------------------------------------------------------------------------
+  | LOADING
+  |--------------------------------------------------------------------------
+  */
 
   if (loading) {
     return (
       <main className="min-h-screen bg-white text-black">
         <Navbar />
-        <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8">
+
+        <section className="mx-auto max-w-6xl px-5 py-10 lg:px-8">
           <div className="animate-pulse">
-            <div className="h-[420px] rounded-3xl bg-black/[0.05]" />
+            <div className="h-4 w-24 rounded bg-black/[0.05]" />
 
-            <div className="mt-6 h-7 w-56 rounded bg-black/[0.06]" />
+            <div className="mt-6 grid gap-7 lg:grid-cols-[1.15fr_.85fr]">
+              <div className="h-[430px] rounded-3xl bg-black/[0.05]" />
 
-            <div className="mt-3 h-4 w-80 rounded bg-black/[0.05]" />
+              <div className="space-y-4">
+                <div className="h-3 w-28 rounded bg-black/[0.05]" />
+                <div className="h-10 w-64 rounded bg-black/[0.06]" />
+                <div className="h-4 w-40 rounded bg-black/[0.05]" />
+                <div className="h-20 w-full rounded bg-black/[0.05]" />
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="h-16 rounded-xl bg-black/[0.05]" />
+                  <div className="h-16 rounded-xl bg-black/[0.05]" />
+                  <div className="h-16 rounded-xl bg-black/[0.05]" />
+                  <div className="h-16 rounded-xl bg-black/[0.05]" />
+                </div>
+
+                <div className="h-12 rounded-xl bg-black/[0.05]" />
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
 
         <Footer />
       </main>
     );
   }
 
-  if (error || !driver) {
+  /*
+  |--------------------------------------------------------------------------
+  | DRIVER NOT FOUND
+  |--------------------------------------------------------------------------
+  */
+
+  if (!driver) {
     return (
       <main className="min-h-screen bg-white text-black">
         <Navbar />
 
-        <div className="mx-auto max-w-6xl px-5 py-24 text-center">
-          <Car className="mx-auto" size={30} />
+        <section className="mx-auto flex min-h-[70vh] max-w-6xl items-center justify-center px-5">
+          <div className="max-w-md text-center">
 
-          <h1 className="mt-4 text-lg font-semibold">
-            Driver not found
-          </h1>
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-black/[0.04]">
+              <Car size={30} />
+            </div>
 
-          <p className="mt-2 text-xs text-black/45">
-            {error || "This driver is currently unavailable."}
-          </p>
+            <h1 className="mt-5 text-xl font-semibold">
+              Driver not found
+            </h1>
 
-          <Link
-            href="/drivers"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-black px-5 py-2.5 text-xs font-semibold text-white"
-          >
-            <ArrowLeft size={13} />
-            Back to drivers
-          </Link>
-        </div>
+            <p className="mt-2 text-sm text-black/45">
+              {error ||
+                "This driver is currently unavailable."}
+            </p>
+
+            <div className="mt-7 flex justify-center gap-3">
+
+              <Link
+                href="/drivers"
+                className="inline-flex items-center gap-2 rounded-xl bg-black px-5 py-3 text-xs font-semibold text-white"
+              >
+                <ArrowLeft size={14} />
+                Back to drivers
+              </Link>
+
+              <button
+                type="button"
+                onClick={() =>
+                  window.location.reload()
+                }
+                className="rounded-xl border border-black/10 px-5 py-3 text-xs font-semibold"
+              >
+                Try again
+              </button>
+
+            </div>
+          </div>
+        </section>
 
         <Footer />
       </main>
     );
   }
 
+  /*
+  |--------------------------------------------------------------------------
+  | VALUES
+  |--------------------------------------------------------------------------
+  */
+
+  const price =
+    Number(driver.price) || 0;
+
+  const seats =
+    Number(driver.seats) || 4;
+
+  const rating =
+    Number(driver.rating) || 0;
+
+  /*
+  |--------------------------------------------------------------------------
+  | MAIN PAGE
+  |--------------------------------------------------------------------------
+  */
+
   return (
     <main className="min-h-screen bg-white text-black">
-      <Navbar />
 
-      {/* ================= CONTENT ================= */}
+      <Navbar />
 
       <section className="mx-auto max-w-6xl px-5 pb-14 pt-7 lg:px-8">
 
-        {/* Back */}
+        {/* BACK */}
 
         <Link
           href="/drivers"
@@ -143,14 +527,13 @@ export default function DriverDetailsPage() {
           All drivers
         </Link>
 
-        {/* ================= HERO ================= */}
+        {/* HERO */}
 
         <div className="grid gap-7 lg:grid-cols-[1.15fr_.85fr]">
 
           {/* IMAGE */}
 
           <div className="overflow-hidden rounded-3xl bg-black/[0.04]">
-
             <div className="relative h-[360px] sm:h-[430px]">
 
               <img
@@ -160,20 +543,23 @@ export default function DriverDetailsPage() {
                 }
                 alt={driver.name}
                 className="h-full w-full object-cover"
+                onError={(event) => {
+                  event.currentTarget.src =
+                    "/images/profile.jpg";
+                }}
               />
 
               {driver.verified && (
-                <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-semibold">
+                <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-semibold shadow-sm">
                   <ShieldCheck size={12} />
                   Verified driver
                 </div>
               )}
 
             </div>
-
           </div>
 
-          {/* INFO */}
+          {/* INFORMATION */}
 
           <div className="flex flex-col justify-center">
 
@@ -190,7 +576,7 @@ export default function DriverDetailsPage() {
               {driver.city}
             </div>
 
-            {/* Rating */}
+            {/* RATING */}
 
             <div className="mt-4 flex items-center gap-3">
 
@@ -199,25 +585,24 @@ export default function DriverDetailsPage() {
                   size={13}
                   fill="currentColor"
                 />
+
                 <span className="font-semibold">
-                  {Number(driver.rating || 0).toFixed(1)}
+                  {rating.toFixed(1)}
                 </span>
               </div>
 
               <span className="text-xs text-black/40">
-                {driver.reviewCount || 0} reviews
+                {driver.reviewCount} reviews
               </span>
-
             </div>
 
-            {/* Bio */}
+            {/* BIO */}
 
             <p className="mt-5 max-w-lg text-sm leading-6 text-black/55">
-              {driver.bio ||
-                "A trusted local driver helping you travel comfortably around the city and nearby destinations."}
+              {driver.bio}
             </p>
 
-            {/* Quick details */}
+            {/* DETAILS */}
 
             <div className="mt-6 grid grid-cols-2 gap-2">
 
@@ -226,25 +611,23 @@ export default function DriverDetailsPage() {
                 label="Vehicle"
                 value={
                   driver.vehicle ||
-                  driver.vehicleType ||
-                  "Comfort"
+                  driver.vehicleType
                 }
               />
 
               <Detail
                 icon={<Users size={14} />}
                 label="Capacity"
-                value={`${driver.seats || 4} seats`}
+                value={`${seats} seats`}
               />
 
-              {driver.experienceYears !== undefined &&
-                driver.experienceYears !== null && (
-                  <Detail
-                    icon={<CheckCircle2 size={14} />}
-                    label="Experience"
-                    value={`${driver.experienceYears} years`}
-                  />
-                )}
+              <Detail
+                icon={
+                  <CheckCircle2 size={14} />
+                }
+                label="Experience"
+                value={`${driver.experienceYears} years`}
+              />
 
               <Detail
                 icon={<MapPin size={14} />}
@@ -254,7 +637,7 @@ export default function DriverDetailsPage() {
 
             </div>
 
-            {/* Price */}
+            {/* PRICE */}
 
             <div className="mt-6 border-t border-black/10 pt-5">
 
@@ -266,9 +649,9 @@ export default function DriverDetailsPage() {
 
                 <span className="text-2xl font-semibold">
                   ₹
-                  {Number(
-                    driver.price || 0
-                  ).toLocaleString("en-IN")}
+                  {price.toLocaleString(
+                    "en-IN"
+                  )}
                 </span>
 
                 <span className="mb-1 text-xs text-black/40">
@@ -279,13 +662,13 @@ export default function DriverDetailsPage() {
 
             </div>
 
-            {/* CTA */}
+            {/* BOOK */}
 
-            <div className="mt-5 flex gap-2">
+            <div className="mt-5">
 
               <Link
                 href={`/drivers/${driver.id}/book`}
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-black px-4 py-3 text-xs font-semibold text-white transition hover:bg-black/80"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-black px-4 py-3 text-xs font-semibold text-white transition hover:bg-black/80"
               >
                 Book this ride
                 <ArrowRight size={14} />
@@ -294,17 +677,16 @@ export default function DriverDetailsPage() {
             </div>
 
           </div>
-
         </div>
 
-        {/* ================= DETAILS ================= */}
+        {/* INFORMATION */}
 
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
 
           <InfoCard
             title="What you can book"
             items={
-              driver.services?.length
+              driver.services.length > 0
                 ? driver.services
                 : [
                     "City rides",
@@ -328,7 +710,7 @@ export default function DriverDetailsPage() {
           <InfoCard
             title="Languages"
             items={
-              driver.languages?.length
+              driver.languages.length > 0
                 ? driver.languages
                 : ["Hindi", "English"]
             }
@@ -343,12 +725,11 @@ export default function DriverDetailsPage() {
   );
 }
 
-/* =========================
-   HEADER
-==
-/* =========================
-   DETAIL
-========================= */
+/*
+|--------------------------------------------------------------------------
+| DETAIL CARD
+|--------------------------------------------------------------------------
+*/
 
 function Detail({
   icon,
@@ -378,9 +759,11 @@ function Detail({
   );
 }
 
-/* =========================
-   INFO CARD
-========================= */
+/*
+|--------------------------------------------------------------------------
+| INFO CARD
+|--------------------------------------------------------------------------
+*/
 
 function InfoCard({
   title,
@@ -408,7 +791,7 @@ function InfoCard({
               className="shrink-0"
             />
 
-            {item}
+            <span>{item}</span>
           </div>
         ))}
 
@@ -417,9 +800,3 @@ function InfoCard({
     </div>
   );
 }
-
-/* =========================
-   FOOTER
-========================= */
-
-<Footer/>

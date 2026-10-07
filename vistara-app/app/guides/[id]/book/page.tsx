@@ -1,13 +1,12 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 
 import Navbar from "@/components/navbar";
 
 import {
-  ArrowLeft,
   ArrowRight,
   CalendarDays,
   Check,
@@ -21,17 +20,20 @@ import {
   Users,
 } from "lucide-react";
 
-const guideData: Record<
-  string,
-  {
-    name: string;
-    location: string;
-    image: string;
-    rating: number;
-    reviews: number;
-    price: number;
-  }
-> = {
+/* =========================================================
+   GUIDE DATA
+========================================================= */
+
+type Guide = {
+  name: string;
+  location: string;
+  image: string;
+  rating: number;
+  reviews: number;
+  price: number;
+};
+
+const guideData: Record<string, Guide> = {
   rajiv: {
     name: "Rajiv Kumar",
     location: "Patna, Bihar",
@@ -60,36 +62,45 @@ const guideData: Record<
   },
 };
 
+/* =========================================================
+   PAGE
+========================================================= */
+
 export default function GuideBookPage() {
   const params = useParams();
   const router = useRouter();
 
   const id = String(params.id);
 
-  const guide = guideData[id] || {
-    name: "Rajiv Kumar",
-    location: "Patna, Bihar",
-    image: "/images/profile.jpg",
-    rating: 4.9,
-    reviews: 124,
-    price: 699,
-  };
+  const guide =
+    guideData[id] ??
+    guideData.rajiv;
 
-  /* ================= STATES ================= */
+  /* =======================================================
+     STATES
+  ======================================================= */
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("10:00");
   const [guests, setGuests] = useState(2);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  /* ================= CALENDAR ================= */
-
-  const [calendarOpen, setCalendarOpen] = useState(false);
+  /* =======================================================
+     CALENDAR
+  ======================================================= */
 
   const today = new Date();
 
+  today.setHours(0, 0, 0, 0);
+
   const [calendarMonth, setCalendarMonth] = useState(
-    new Date(today.getFullYear(), today.getMonth(), 1)
+    () =>
+      new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1
+      )
   );
 
   const selectedDate = date
@@ -111,7 +122,7 @@ export default function GuideBookPage() {
     1
   ).getDay();
 
-  const calendarDays: (number | null)[] = [];
+  const calendarDays: Array<number | null> = [];
 
   for (let i = 0; i < firstDay; i++) {
     calendarDays.push(null);
@@ -128,13 +139,9 @@ export default function GuideBookPage() {
       day
     );
 
-    const todayStart = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    );
+    current.setHours(0, 0, 0, 0);
 
-    return current < todayStart;
+    return current < today;
   };
 
   const isSelectedDate = (day: number) => {
@@ -158,8 +165,14 @@ export default function GuideBookPage() {
 
     const formatted = [
       selected.getFullYear(),
-      String(selected.getMonth() + 1).padStart(2, "0"),
-      String(selected.getDate()).padStart(2, "0"),
+      String(selected.getMonth() + 1).padStart(
+        2,
+        "0"
+      ),
+      String(selected.getDate()).padStart(
+        2,
+        "0"
+      ),
     ].join("-");
 
     setDate(formatted);
@@ -190,13 +203,104 @@ export default function GuideBookPage() {
       }
     );
 
-  /* ================= PRICE ================= */
+  /* =======================================================
+     PRICE
+     
+     Same booking calculation style:
+     subtotal + 5% service fee
+  ======================================================= */
 
-  const serviceFee = 99;
-  const subtotal = guide.price * guests;
-  const total = subtotal + serviceFee;
+  const subtotal =
+    guide.price * guests;
 
-  /* ================= CONTINUE ================= */
+  const serviceFee =
+    Math.round(subtotal * 0.05);
+
+  const total =
+    subtotal + serviceFee;
+
+  /* =======================================================
+     CENTRAL BOOKING URL
+     
+     IMPORTANT:
+     Do NOT use:
+       /guides/${id}/book/confirmation
+
+     Use the common:
+       /bookings
+  ======================================================= */
+
+  const bookingUrl = useMemo(() => {
+    const query = new URLSearchParams();
+
+    query.set(
+      "bookingType",
+      "GUIDE"
+    );
+
+    query.set(
+      "guideId",
+      id
+    );
+
+    query.set(
+      "guideName",
+      guide.name
+    );
+
+    query.set(
+      "price",
+      String(guide.price)
+    );
+
+    query.set(
+      "guests",
+      String(guests)
+    );
+
+    query.set(
+      "time",
+      time
+    );
+
+    query.set(
+      "subtotal",
+      String(subtotal)
+    );
+
+    query.set(
+      "serviceFee",
+      String(serviceFee)
+    );
+
+    query.set(
+      "total",
+      String(total)
+    );
+
+    if (date) {
+      query.set(
+        "date",
+        date
+      );
+    }
+
+    return `/bookings?${query.toString()}`;
+  }, [
+    id,
+    guide.name,
+    guide.price,
+    guests,
+    time,
+    subtotal,
+    serviceFee,
+    total,
+    date,
+  ]);
+
+  /* =======================================================
+     CONTINUE TO CENTRAL BOOKING
+  ======================================================= */
 
   const handleContinue = () => {
     if (!date) {
@@ -204,25 +308,37 @@ export default function GuideBookPage() {
       return;
     }
 
+    if (guests < 1 || guests > 6) {
+      alert("Please select between 1 and 6 guests.");
+      return;
+    }
+
     setLoading(true);
 
-    router.push(
-      `/guides/${id}/book/confirmation?date=${date}&time=${time}&guests=${guests}`
-    );
+    router.push(bookingUrl);
   };
+
+  /* =======================================================
+     RENDER
+  ======================================================= */
 
   return (
     <main className="min-h-screen bg-white text-black">
-
-      {/* ================= NAVBAR ================= */}
+      {/* ===================================================
+          NAVBAR
+      =================================================== */}
 
       <Navbar />
 
-      {/* ================= PAGE ================= */}
+      {/* ===================================================
+          PAGE
+      =================================================== */}
 
       <section className="mx-auto max-w-6xl px-5 py-8 lg:px-8">
 
-        {/* ================= HEADER ================= */}
+        {/* =================================================
+            HEADER
+        ================================================= */}
 
         <div className="mb-8 max-w-2xl">
 
@@ -241,15 +357,21 @@ export default function GuideBookPage() {
 
         </div>
 
-        {/* ================= MAIN ================= */}
+        {/* =================================================
+            MAIN GRID
+        ================================================= */}
 
         <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
 
-          {/* ================= LEFT ================= */}
+          {/* =================================================
+              LEFT
+          ================================================= */}
 
           <div className="space-y-5">
 
-            {/* ================= GUIDE ================= */}
+            {/* ===============================================
+                GUIDE
+            =============================================== */}
 
             <div className="rounded-2xl border border-black/10 bg-white p-5">
 
@@ -273,7 +395,9 @@ export default function GuideBookPage() {
                       {guide.name}
                     </h2>
 
-                    <ShieldCheck size={14} />
+                    <ShieldCheck
+                      size={14}
+                    />
 
                   </div>
 
@@ -304,13 +428,17 @@ export default function GuideBookPage() {
 
             </div>
 
-            {/* ================= DATE ================= */}
+            {/* ===============================================
+                DATE
+            =============================================== */}
 
             <div className="rounded-2xl border border-black/10 p-5">
 
               <div className="flex items-start gap-3">
 
-                <CalendarDays size={18} />
+                <CalendarDays
+                  size={18}
+                />
 
                 <div>
 
@@ -326,17 +454,24 @@ export default function GuideBookPage() {
 
               </div>
 
+              {/* DATE BUTTON */}
+
               <button
                 type="button"
                 onClick={() =>
-                  setCalendarOpen((prev) => !prev)
+                  setCalendarOpen(
+                    (previous) =>
+                      !previous
+                  )
                 }
                 className="mt-5 flex h-11 w-full items-center justify-between rounded-xl border border-black/15 bg-white px-3 text-left text-sm outline-none transition hover:border-black"
               >
 
                 <div className="flex items-center gap-3">
 
-                  <CalendarDays size={16} />
+                  <CalendarDays
+                    size={16}
+                  />
 
                   <span
                     className={
@@ -361,7 +496,9 @@ export default function GuideBookPage() {
 
               </button>
 
-              {/* ================= CALENDAR ================= */}
+              {/* =============================================
+                  CALENDAR
+              ============================================= */}
 
               {calendarOpen && (
                 <div className="relative">
@@ -385,7 +522,9 @@ export default function GuideBookPage() {
                         }
                         className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-black hover:text-white"
                       >
-                        <ChevronLeft size={15} />
+                        <ChevronLeft
+                          size={15}
+                        />
                       </button>
 
                       <p className="text-sm font-semibold">
@@ -405,7 +544,9 @@ export default function GuideBookPage() {
                         }
                         className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-black hover:text-white"
                       >
-                        <ChevronRight size={15} />
+                        <ChevronRight
+                          size={15}
+                        />
                       </button>
 
                     </div>
@@ -423,7 +564,10 @@ export default function GuideBookPage() {
                         "F",
                         "S",
                       ].map(
-                        (day, index) => (
+                        (
+                          day,
+                          index
+                        ) => (
                           <span
                             key={`${day}-${index}`}
                             className="text-[10px] font-medium text-black/35"
@@ -440,9 +584,14 @@ export default function GuideBookPage() {
                     <div className="mt-2 grid grid-cols-7 gap-1">
 
                       {calendarDays.map(
-                        (day, index) => {
+                        (
+                          day,
+                          index
+                        ) => {
 
-                          if (day === null) {
+                          if (
+                            day === null
+                          ) {
                             return (
                               <div
                                 key={`empty-${index}`}
@@ -452,18 +601,26 @@ export default function GuideBookPage() {
                           }
 
                           const disabled =
-                            isPastDate(day);
+                            isPastDate(
+                              day
+                            );
 
                           const selected =
-                            isSelectedDate(day);
+                            isSelectedDate(
+                              day
+                            );
 
                           return (
                             <button
                               key={day}
                               type="button"
-                              disabled={disabled}
+                              disabled={
+                                disabled
+                              }
                               onClick={() =>
-                                selectDate(day)
+                                selectDate(
+                                  day
+                                )
                               }
                               className={`
                                 flex h-9 w-9 items-center justify-center
@@ -472,8 +629,8 @@ export default function GuideBookPage() {
                                   selected
                                     ? "bg-black text-white"
                                     : disabled
-                                    ? "cursor-not-allowed text-black/20"
-                                    : "text-black hover:bg-black hover:text-white"
+                                      ? "cursor-not-allowed text-black/20"
+                                      : "text-black hover:bg-black hover:text-white"
                                 }
                               `}
                             >
@@ -490,20 +647,31 @@ export default function GuideBookPage() {
                     <button
                       type="button"
                       onClick={() => {
+
                         const current =
                           new Date();
 
-                        const formatted = [
-                          current.getFullYear(),
-                          String(
-                            current.getMonth() + 1
-                          ).padStart(2, "0"),
-                          String(
-                            current.getDate()
-                          ).padStart(2, "0"),
-                        ].join("-");
+                        const formatted =
+                          [
+                            current.getFullYear(),
+                            String(
+                              current.getMonth() +
+                                1
+                            ).padStart(
+                              2,
+                              "0"
+                            ),
+                            String(
+                              current.getDate()
+                            ).padStart(
+                              2,
+                              "0"
+                            ),
+                          ].join("-");
 
-                        setDate(formatted);
+                        setDate(
+                          formatted
+                        );
 
                         setCalendarMonth(
                           new Date(
@@ -513,7 +681,9 @@ export default function GuideBookPage() {
                           )
                         );
 
-                        setCalendarOpen(false);
+                        setCalendarOpen(
+                          false
+                        );
                       }}
                       className="mt-3 w-full border-t border-black/10 pt-3 text-xs font-medium hover:underline"
                     >
@@ -527,13 +697,17 @@ export default function GuideBookPage() {
 
             </div>
 
-            {/* ================= TIME ================= */}
+            {/* ===============================================
+                TIME
+            =============================================== */}
 
             <div className="rounded-2xl border border-black/10 p-5">
 
               <div className="flex items-center gap-3">
 
-                <Clock3 size={18} />
+                <Clock3
+                  size={18}
+                />
 
                 <div>
 
@@ -555,37 +729,44 @@ export default function GuideBookPage() {
                   "09:00",
                   "10:00",
                   "14:00",
-                ].map((item) => {
+                ].map(
+                  (item) => {
 
-                  const active =
-                    time === item;
+                    const active =
+                      time === item;
 
-                  return (
-                    <button
-                      key={item}
-                      type="button"
-                      onClick={() =>
-                        setTime(item)
-                      }
-                      className={`
-                        rounded-xl border px-3 py-2.5 text-xs font-medium transition
-                        ${
-                          active
-                            ? "border-black bg-black text-white"
-                            : "border-black/10 hover:border-black"
+                    return (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() =>
+                          setTime(
+                            item
+                          )
                         }
-                      `}
-                    >
-                      {item}
-                    </button>
-                  );
-                })}
+                        className={`
+                          rounded-xl border px-3 py-2.5
+                          text-xs font-medium transition
+                          ${
+                            active
+                              ? "border-black bg-black text-white"
+                              : "border-black/10 hover:border-black"
+                          }
+                        `}
+                      >
+                        {item}
+                      </button>
+                    );
+                  }
+                )}
 
               </div>
 
             </div>
 
-            {/* ================= GUESTS ================= */}
+            {/* ===============================================
+                GUESTS
+            =============================================== */}
 
             <div className="rounded-2xl border border-black/10 p-5">
 
@@ -593,7 +774,9 @@ export default function GuideBookPage() {
 
                 <div className="flex items-center gap-3">
 
-                  <Users size={18} />
+                  <Users
+                    size={18}
+                  />
 
                   <div>
 
@@ -613,17 +796,23 @@ export default function GuideBookPage() {
 
                   <button
                     type="button"
+                    disabled={
+                      guests <= 1
+                    }
                     onClick={() =>
                       setGuests(
-                        Math.max(
-                          1,
-                          guests - 1
-                        )
+                        (current) =>
+                          Math.max(
+                            1,
+                            current - 1
+                          )
                       )
                     }
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 transition hover:bg-black hover:text-white"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 transition hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    <Minus size={13} />
+                    <Minus
+                      size={13}
+                    />
                   </button>
 
                   <span className="w-5 text-center text-sm font-semibold">
@@ -632,17 +821,23 @@ export default function GuideBookPage() {
 
                   <button
                     type="button"
+                    disabled={
+                      guests >= 6
+                    }
                     onClick={() =>
                       setGuests(
-                        Math.min(
-                          6,
-                          guests + 1
-                        )
+                        (current) =>
+                          Math.min(
+                            6,
+                            current + 1
+                          )
                       )
                     }
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 transition hover:bg-black hover:text-white"
+                    className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 transition hover:bg-black hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    <Plus size={13} />
+                    <Plus
+                      size={13}
+                    />
                   </button>
 
                 </div>
@@ -651,7 +846,9 @@ export default function GuideBookPage() {
 
             </div>
 
-            {/* ================= INCLUDED ================= */}
+            {/* ===============================================
+                INCLUDED
+            =============================================== */}
 
             <div className="rounded-2xl bg-black p-5 text-white">
 
@@ -672,17 +869,19 @@ export default function GuideBookPage() {
                   "Hidden places",
                   "Food & culture tips",
                   "Flexible conversation",
-                ].map((item) => (
-
-                  <div
-                    key={item}
-                    className="flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2 text-xs"
-                  >
-                    <Check size={13} />
-                    {item}
-                  </div>
-
-                ))}
+                ].map(
+                  (item) => (
+                    <div
+                      key={item}
+                      className="flex items-center gap-2 rounded-lg bg-white/10 px-3 py-2 text-xs"
+                    >
+                      <Check
+                        size={13}
+                      />
+                      {item}
+                    </div>
+                  )
+                )}
 
               </div>
 
@@ -690,7 +889,9 @@ export default function GuideBookPage() {
 
           </div>
 
-          {/* ================= RIGHT SUMMARY ================= */}
+          {/* =================================================
+              RIGHT SUMMARY
+          ================================================= */}
 
           <aside>
 
@@ -709,12 +910,14 @@ export default function GuideBookPage() {
                 <div>
 
                   <p className="text-[9px] uppercase tracking-[0.18em] text-black/40">
-                    EXPERIENCE
+                    LOCAL GUIDE
                   </p>
 
                   <h2 className="mt-1 text-sm font-semibold">
                     Patna with{" "}
-                    {guide.name.split(" ")[0]}
+                    {guide.name.split(
+                      " "
+                    )[0]}
                   </h2>
 
                   <div className="mt-1 flex items-center gap-1 text-xs">
@@ -732,7 +935,7 @@ export default function GuideBookPage() {
 
               </div>
 
-              {/* ================= SELECTED DATE ================= */}
+              {/* SELECTED DATE */}
 
               <div className="mt-5 rounded-xl bg-black/[0.025] p-3">
 
@@ -740,7 +943,9 @@ export default function GuideBookPage() {
 
                   <div className="flex items-center gap-2">
 
-                    <CalendarDays size={15} />
+                    <CalendarDays
+                      size={15}
+                    />
 
                     <span className="text-xs font-medium">
                       Date
@@ -748,7 +953,13 @@ export default function GuideBookPage() {
 
                   </div>
 
-                  <span className="text-xs">
+                  <span
+                    className={
+                      date
+                        ? "text-xs"
+                        : "text-xs text-black/40"
+                    }
+                  >
                     {formatSelectedDate()}
                   </span>
 
@@ -756,7 +967,59 @@ export default function GuideBookPage() {
 
               </div>
 
-              {/* ================= PRICE ================= */}
+              {/* TIME */}
+
+              <div className="mt-3 rounded-xl bg-black/[0.025] p-3">
+
+                <div className="flex items-center justify-between">
+
+                  <div className="flex items-center gap-2">
+
+                    <Clock3
+                      size={15}
+                    />
+
+                    <span className="text-xs font-medium">
+                      Time
+                    </span>
+
+                  </div>
+
+                  <span className="text-xs">
+                    {time}
+                  </span>
+
+                </div>
+
+              </div>
+
+              {/* GUESTS */}
+
+              <div className="mt-3 rounded-xl bg-black/[0.025] p-3">
+
+                <div className="flex items-center justify-between">
+
+                  <div className="flex items-center gap-2">
+
+                    <Users
+                      size={15}
+                    />
+
+                    <span className="text-xs font-medium">
+                      Guests
+                    </span>
+
+                  </div>
+
+                  <span className="text-xs">
+                    {guests}
+                  </span>
+
+                </div>
+
+              </div>
+
+              {/* PRICE */}
 
               <div className="mt-5 space-y-3 text-xs">
 
@@ -783,7 +1046,10 @@ export default function GuideBookPage() {
                   </span>
 
                   <span>
-                    ₹{serviceFee}
+                    ₹
+                    {serviceFee.toLocaleString(
+                      "en-IN"
+                    )}
                   </span>
 
                 </div>
@@ -809,22 +1075,30 @@ export default function GuideBookPage() {
 
               </div>
 
-              {/* ================= CONTINUE ================= */}
+              {/* =============================================
+                  CENTRAL BOOKING BUTTON
+              ============================================= */}
 
               <button
                 type="button"
-                onClick={handleContinue}
+                onClick={
+                  handleContinue
+                }
                 disabled={loading}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white transition hover:bg-black/80 disabled:opacity-50"
+                className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white transition hover:bg-black/80 disabled:cursor-not-allowed disabled:opacity-50"
               >
 
                 {loading
-                  ? "Processing..."
-                  : "Continue to confirmation"}
+                  ? "Opening booking..."
+                  : "Continue to booking"}
 
-                <ArrowRight size={15} />
+                <ArrowRight
+                  size={15}
+                />
 
               </button>
+
+              {/* SECURITY */}
 
               <div className="mt-4 flex items-start gap-2 border-t border-black/10 pt-4">
 
@@ -834,8 +1108,9 @@ export default function GuideBookPage() {
                 />
 
                 <p className="text-[10px] leading-4 text-black/45">
-                  Your booking will only be confirmed after
-                  the required confirmation step.
+                  Your guide booking will continue
+                  through Vistara&apos;s central booking
+                  flow.
                 </p>
 
               </div>
@@ -848,7 +1123,9 @@ export default function GuideBookPage() {
 
       </section>
 
-      {/* ================= FOOTER ================= */}
+      {/* ===================================================
+          FOOTER
+      =================================================== */}
 
       <footer className="mt-10 border-t border-black/10">
 

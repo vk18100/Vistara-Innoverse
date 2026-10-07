@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+
 import {
   ArrowLeft,
   Bath,
   BedDouble,
-  CalendarDays,
-  Car,
   Check,
+  Clock,
+  Coffee,
   Heart,
   Home,
   MapPin,
@@ -20,17 +21,25 @@ import {
   Tv,
   Users,
   Utensils,
+  Waves,
   Wifi,
   Wind,
-  Waves,
-  Coffee,
-  Clock,
+  X,
+  Car,
 } from "lucide-react";
 
+import type { ElementType, ReactNode } from "react";
+
 import { stays } from "@/data/stay";
+
 import CompactCalendar from "@/components/CompactCalendar";
 import Navbar from "@/components/navbar";
 import Footer from "@/app/footer/page";
+
+/* =========================================================
+   TYPES
+========================================================= */
+
 type Review = {
   id: string;
   name: string;
@@ -38,6 +47,19 @@ type Review = {
   comment: string;
   date: string;
 };
+
+type BookingDraft = {
+  stayId: string;
+  stayTitle: string;
+  checkIn: string;
+  checkOut: string;
+  guests: number;
+  total: number;
+};
+
+/* =========================================================
+   REVIEWS
+========================================================= */
 
 const initialReviews: Review[] = [
   {
@@ -66,80 +88,105 @@ const initialReviews: Review[] = [
   },
 ];
 
+/* =========================================================
+   AMENITIES
+========================================================= */
+
 const amenities = [
-  { name: "Wi-Fi", icon: Wifi },
-  { name: "Air conditioning", icon: Wind },
-  { name: "Private bathroom", icon: Bath },
-  { name: "Free parking", icon: Car },
-  { name: "TV", icon: Tv },
-  { name: "Breakfast", icon: Coffee },
-  { name: "Kitchen", icon: Utensils },
-  { name: "Swimming pool", icon: Waves },
+  {
+    name: "Wi-Fi",
+    icon: Wifi,
+  },
+  {
+    name: "Air conditioning",
+    icon: Wind,
+  },
+  {
+    name: "Private bathroom",
+    icon: Bath,
+  },
+  {
+    name: "Free parking",
+    icon: Car,
+  },
+  {
+    name: "TV",
+    icon: Tv,
+  },
+  {
+    name: "Breakfast",
+    icon: Coffee,
+  },
+  {
+    name: "Kitchen",
+    icon: Utensils,
+  },
+  {
+    name: "Swimming pool",
+    icon: Waves,
+  },
 ];
+
+/* =========================================================
+   PAGE
+========================================================= */
 
 export default function StayIdPage() {
   const params = useParams();
-  const id = params?.id as string;
 
-  const stay = stays.find((item) => item.id === id);
+  const id = String(params?.id ?? "").trim();
 
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState(1);
-const [bookingLoading, setBookingLoading] = useState(false);
-const [bookingError, setBookingError] = useState("");
-const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
-  const [wishlisted, setWishlisted] = useState(false);
+  /*
+   * IMPORTANT
+   *
+   * Stay IDs are STRING SLUGS.
+   *
+   * Example:
+   *
+   * /stays/heritage-villa
+   *
+   * So DO NOT use Number(id).
+   */
 
-  const [reviews, setReviews] =
-    useState<Review[]>(initialReviews);
-
-  const [reviewText, setReviewText] = useState("");
-  const [reviewRating, setReviewRating] = useState(5);
-
-  useEffect(() => {
-    if (!stay) return;
-
-    const savedWishlist = localStorage.getItem(
-      `vistara-wishlist-${stay.id}`
-    );
-
-    setWishlisted(savedWishlist === "true");
-
-    const savedReviews = localStorage.getItem(
-      `vistara-reviews-${stay.id}`
-    );
-
-    if (savedReviews) {
-      try {
-        setReviews(JSON.parse(savedReviews));
-      } catch {
-        setReviews(initialReviews);
-      }
-    }
-  }, [stay]);
+  const stay = stays.find(
+    (item) => String(item.id) === id
+  );
 
   if (!stay) {
     return (
-      <main className="min-h-screen bg-white text-[#111]">
+      <main className="min-h-screen bg-white text-black">
         <Navbar />
 
         <div className="flex min-h-[70vh] items-center justify-center px-5">
           <div className="text-center">
-            <h1 className="text-2xl font-semibold">
+
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-black text-white">
+              <Home size={22} />
+            </div>
+
+            <h1 className="mt-5 text-2xl font-black">
               Stay not found
             </h1>
 
-            <p className="mt-2 text-sm text-[#777]">
+            <p className="mt-2 text-sm text-black/50">
               This stay does not exist.
+            </p>
+
+            <p className="mt-1 text-xs text-black/35">
+              Requested stay: {id || "unknown"}
             </p>
 
             <Link
               href="/stays"
-              className="mt-6 inline-flex rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white"
+              className="mt-6 inline-flex items-center rounded-xl bg-black px-5 py-3 text-sm font-bold text-white transition hover:bg-neutral-800"
             >
+              <ArrowLeft
+                size={16}
+                className="mr-2"
+              />
               Back to stays
             </Link>
+
           </div>
         </div>
 
@@ -148,25 +195,170 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
     );
   }
 
-  const stayId = stay.id;
+  return (
+    <StayDetails stay={stay} />
+  );
+}
 
-  const nightlyPrice = stay.price;
-  const serviceFee = Math.round(nightlyPrice * 0.05);
-  const total = nightlyPrice + serviceFee;
+/* =========================================================
+   STAY DETAILS
+========================================================= */
+
+function StayDetails({
+  stay,
+}: {
+  stay: (typeof stays)[number];
+}) {
+  const router = useRouter();
+
+  /* =======================================================
+     BOOKING
+  ======================================================= */
+
+  const [checkIn, setCheckIn] =
+    useState("");
+
+  const [checkOut, setCheckOut] =
+    useState("");
+
+  const [guests, setGuests] =
+    useState(1);
+
+  const [bookingPopup, setBookingPopup] =
+    useState(false);
+
+  /* =======================================================
+     WISHLIST
+  ======================================================= */
+
+  const [wishlisted, setWishlisted] =
+    useState(false);
+
+  /* =======================================================
+     REVIEWS
+  ======================================================= */
+
+  const [reviews, setReviews] =
+    useState<Review[]>(initialReviews);
+
+  const [reviewText, setReviewText] =
+    useState("");
+
+  const [reviewRating, setReviewRating] =
+    useState(5);
+
+  /* =======================================================
+     LOCAL STORAGE
+  ======================================================= */
+
+  useEffect(() => {
+    try {
+      const savedWishlist =
+        localStorage.getItem(
+          `vistara-wishlist-${stay.id}`
+        );
+
+      setWishlisted(
+        savedWishlist === "true"
+      );
+
+      const savedReviews =
+        localStorage.getItem(
+          `vistara-reviews-${stay.id}`
+        );
+
+      if (savedReviews) {
+        const parsed =
+          JSON.parse(savedReviews);
+
+        if (Array.isArray(parsed)) {
+          setReviews(parsed);
+        }
+      }
+    } catch {
+      setWishlisted(false);
+      setReviews(initialReviews);
+    }
+  }, [stay.id]);
+
+  /* =======================================================
+     PRICE
+  ======================================================= */
+
+  const nightlyPrice =
+    Number(stay.price) || 0;
+
+  const serviceFee =
+    Math.round(nightlyPrice * 0.05);
+
+  const numberOfNights = useMemo(() => {
+    if (!checkIn || !checkOut) {
+      return 1;
+    }
+
+    const start = new Date(
+      `${checkIn}T00:00:00`
+    );
+
+    const end = new Date(
+      `${checkOut}T00:00:00`
+    );
+
+    if (
+      Number.isNaN(start.getTime()) ||
+      Number.isNaN(end.getTime())
+    ) {
+      return 1;
+    }
+
+    const difference =
+      end.getTime() -
+      start.getTime();
+
+    const nights = Math.ceil(
+      difference /
+        (1000 * 60 * 60 * 24)
+    );
+
+    return nights > 0 ? nights : 1;
+  }, [checkIn, checkOut]);
+
+  const accommodationTotal =
+    nightlyPrice * numberOfNights;
+
+  const total =
+    accommodationTotal + serviceFee;
+
+  const maximumGuests =
+    Number(stay.guests) || 1;
+
+  /* =======================================================
+     WISHLIST
+  ======================================================= */
 
   function toggleWishlist() {
     const next = !wishlisted;
 
     setWishlisted(next);
 
-    localStorage.setItem(
-      `vistara-wishlist-${stayId}`,
-      String(next)
-    );
+    try {
+      localStorage.setItem(
+        `vistara-wishlist-${stay.id}`,
+        String(next)
+      );
+    } catch {
+      // ignore
+    }
   }
 
+  /* =======================================================
+     REVIEW
+  ======================================================= */
+
   function submitReview() {
-    if (!reviewText.trim()) return;
+    if (!reviewText.trim()) {
+      return;
+    }
 
     const newReview: Review = {
       id: `review-${Date.now()}`,
@@ -176,156 +368,291 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
       date: "Just now",
     };
 
-    const updated = [newReview, ...reviews];
+    const updated = [
+      newReview,
+      ...reviews,
+    ];
 
     setReviews(updated);
     setReviewText("");
     setReviewRating(5);
 
-    localStorage.setItem(
-      `vistara-reviews-${stayId}`,
-      JSON.stringify(updated)
+    try {
+      localStorage.setItem(
+        `vistara-reviews-${stay.id}`,
+        JSON.stringify(updated)
+      );
+    } catch {
+      // ignore
+    }
+  }
+
+  /* =======================================================
+     SHARE
+  ======================================================= */
+
+  async function shareStay() {
+    const url = window.location.href;
+
+    try {
+      if (
+        typeof navigator !== "undefined" &&
+        navigator.share
+      ) {
+        await navigator.share({
+          title: stay.title,
+          text: `Check out ${stay.title} on Vistara.`,
+          url,
+        });
+
+        return;
+      }
+
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(url);
+      }
+    } catch {
+      // user cancelled share
+    }
+  }
+
+  /* =======================================================
+     OPEN BOOKING POPUP
+  ======================================================= */
+
+  function openBookingPopup() {
+    if (!checkIn || !checkOut) {
+      alert(
+        "Please select check-in and check-out dates."
+      );
+      return;
+    }
+
+    if (checkOut <= checkIn) {
+      alert(
+        "Check-out must be after check-in."
+      );
+      return;
+    }
+
+    if (
+      guests < 1 ||
+      guests > maximumGuests
+    ) {
+      alert(
+        `Guests must be between 1 and ${maximumGuests}.`
+      );
+      return;
+    }
+
+    setBookingPopup(true);
+  }
+
+  /* =======================================================
+     CONTINUE TO BOOKING PAGE
+  ======================================================= */
+
+  function continueToBooking() {
+    /*
+     * We intentionally DO NOT call /api/bookings here.
+     *
+     * This page only prepares the booking.
+     *
+     * The actual booking page will create the booking.
+     */
+
+    const query =
+      new URLSearchParams({
+        stayId: String(stay.id),
+        stayTitle: stay.title,
+        checkIn,
+        checkOut,
+        guests: String(guests),
+      });
+
+    setBookingPopup(false);
+
+    router.push(
+      `/bookings?${query.toString()}`
     );
   }
+
+  /* =======================================================
+     MAP
+  ======================================================= */
 
   const mapQuery = encodeURIComponent(
     `${stay.location}, ${stay.city}, ${stay.country}`
   );
 
-  return (
-    <main className="min-h-screen bg-white text-[#111]">
+  /* =======================================================
+     RENDER
+  ======================================================= */
 
-      {/* =====================================================
-          NAVBAR
-      ===================================================== */}
+  return (
+    <main className="min-h-screen bg-white text-black">
+
       <Navbar />
 
-      {/* =====================================================
-          PAGE
-      ===================================================== */}
       <div className="mx-auto max-w-7xl px-4 pb-20 pt-5 sm:px-6 lg:px-8">
 
-        {/* BACK + WISHLIST */}
+        {/* =================================================
+            TOP BAR
+        ================================================= */}
+
         <div className="mb-5 flex items-center justify-between">
 
           <Link
             href="/stays"
-            className="flex items-center gap-2 text-sm font-medium text-[#666] transition hover:text-black"
+            className="flex items-center gap-2 text-sm font-semibold text-black/55 transition hover:text-black"
           >
             <ArrowLeft size={16} />
             Back to stays
           </Link>
 
           <button
+            type="button"
             onClick={toggleWishlist}
             className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
               wishlisted
                 ? "border-black bg-black text-white"
-                : "border-[#DDD7CE] bg-white text-[#333] hover:border-black"
+                : "border-black/10 bg-white text-black hover:border-black"
             }`}
           >
             <Heart
               size={16}
-              fill={wishlisted ? "currentColor" : "none"}
+              fill={
+                wishlisted
+                  ? "currentColor"
+                  : "none"
+              }
             />
 
-            {wishlisted ? "Saved" : "Wishlist"}
+            {wishlisted
+              ? "Saved"
+              : "Wishlist"}
           </button>
+
         </div>
 
-        {/* =====================================================
-            MAIN IMAGE + BOOKING
-        ===================================================== */}
+        {/* =================================================
+            MAIN GRID
+        ================================================= */}
+
         <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
 
-          {/* LEFT CONTENT */}
+          {/* =================================================
+              LEFT
+          ================================================= */}
+
           <div>
 
-            {/* SINGLE IMAGE */}
-            <div className="relative overflow-hidden rounded-3xl bg-[#F2EEE7]">
+            {/* HERO */}
+
+            <div className="relative overflow-hidden rounded-3xl bg-neutral-100">
 
               <img
                 src={stay.image}
                 alt={stay.title}
-                className="h-[320px] w-full object-cover sm:h-[430px] lg:h-[500px]"
+                className="h-80 w-full object-cover sm:h-[430px] lg:h-[500px]"
               />
 
-              <div className="absolute left-5 top-5 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] shadow-sm">
-                <ShieldCheck size={13} />
-                Verified stay
-              </div>
+              {stay.verified && (
+                <div className="absolute left-5 top-5 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-black shadow-sm">
+                  <ShieldCheck size={13} />
+                  Verified stay
+                </div>
+              )}
+
             </div>
 
             {/* TITLE */}
-            <div className="border-b border-[#E7E1D8] py-7">
+
+            <div className="border-b border-black/10 py-7">
 
               <div className="flex items-start justify-between gap-5">
 
                 <div>
-                  <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+
+                  <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
                     {stay.title}
                   </h1>
 
-                  <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[#666]">
+                  <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-black/55">
 
                     <span className="flex items-center gap-1.5">
                       <MapPin size={15} />
                       {stay.location}
                     </span>
 
-                    <span className="flex items-center gap-1.5 font-semibold text-black">
+                    <span className="flex items-center gap-1.5 font-bold text-black">
                       <Star
                         size={14}
                         fill="currentColor"
                       />
-                      {stay.rating.toFixed(1)}
+                      {Number(
+                        stay.rating || 0
+                      ).toFixed(1)}
                     </span>
 
                     <span>
                       {reviews.length} reviews
                     </span>
+
                   </div>
+
                 </div>
 
                 <button
+                  type="button"
                   onClick={toggleWishlist}
-                  className="hidden rounded-full border border-[#DDD7CE] p-3 transition hover:bg-[#F6F1E8] sm:flex"
+                  className={`hidden rounded-full border p-3 transition sm:flex ${
+                    wishlisted
+                      ? "border-black bg-black text-white"
+                      : "border-black/10 hover:bg-black hover:text-white"
+                  }`}
                 >
                   <Heart
                     size={18}
                     fill={
-                      wishlisted ? "currentColor" : "none"
+                      wishlisted
+                        ? "currentColor"
+                        : "none"
                     }
                   />
                 </button>
+
               </div>
+
             </div>
 
-            {/* =================================================
-                ABOUT
-            ================================================= */}
-            <section className="border-b border-[#E7E1D8] py-8">
+            {/* ABOUT */}
+
+            <section className="border-b border-black/10 py-8">
 
               <SectionLabel>
                 About this stay
               </SectionLabel>
 
-              <h2 className="mt-2 text-xl font-semibold">
+              <h2 className="mt-2 text-xl font-black">
                 A comfortable place to call your own
               </h2>
 
-              <p className="mt-3 max-w-3xl text-sm leading-7 text-[#5F5A53]">
-                {stay.title} is a thoughtfully selected Vistara
-                stay in {stay.location}. Enjoy a comfortable space,
-                convenient location and everything you need for a
-                relaxed stay in {stay.city}.
+              <p className="mt-3 max-w-3xl text-sm leading-7 text-black/55">
+                {stay.title} is a thoughtfully
+                selected Vistara stay in{" "}
+                {stay.location}. Enjoy a
+                comfortable space, convenient
+                location and everything you need
+                for a relaxed stay in{" "}
+                {stay.city}.
               </p>
+
             </section>
 
-            {/* =================================================
-                PROPERTY INFO
-            ================================================= */}
-            <section className="border-b border-[#E7E1D8] py-8">
+            {/* PROPERTY DETAILS */}
+
+            <section className="border-b border-black/10 py-8">
 
               <SectionLabel>
                 Property details
@@ -342,7 +669,7 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
                 <InfoCard
                   icon={Users}
                   label="Guests"
-                  value={`Up to ${stay.guests}`}
+                  value={`Up to ${maximumGuests}`}
                 />
 
                 <InfoCard
@@ -358,55 +685,58 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
                 />
 
               </div>
+
             </section>
 
-            {/* =================================================
-                AMENITIES
-            ================================================= */}
-            <section className="border-b border-[#E7E1D8] py-8">
+            {/* AMENITIES */}
+
+            <section className="border-b border-black/10 py-8">
 
               <SectionLabel>
                 Amenities
               </SectionLabel>
 
-              <h2 className="mt-2 text-xl font-semibold">
+              <h2 className="mt-2 text-xl font-black">
                 What this place offers
               </h2>
 
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
 
-                {amenities.map((amenity) => {
-                  const Icon = amenity.icon;
+                {amenities.map(
+                  (amenity) => {
+                    const Icon =
+                      amenity.icon;
 
-                  return (
-                    <div
-                      key={amenity.name}
-                      className="flex items-center gap-3 rounded-xl border border-[#E7E1D8] px-4 py-3.5 transition hover:bg-[#FAF8F4]"
-                    >
-                      <Icon
-                        size={18}
-                        strokeWidth={1.7}
-                      />
+                    return (
+                      <div
+                        key={amenity.name}
+                        className="flex items-center gap-3 rounded-xl border border-black/10 px-4 py-3.5 transition hover:bg-neutral-50"
+                      >
+                        <Icon
+                          size={18}
+                          strokeWidth={1.7}
+                        />
 
-                      <span className="text-sm font-medium text-[#444]">
-                        {amenity.name}
-                      </span>
+                        <span className="text-sm font-semibold text-black/70">
+                          {amenity.name}
+                        </span>
 
-                      <Check
-                        size={14}
-                        className="ml-auto text-[#777]"
-                      />
-                    </div>
-                  );
-                })}
+                        <Check
+                          size={14}
+                          className="ml-auto text-black/50"
+                        />
+                      </div>
+                    );
+                  }
+                )}
 
               </div>
+
             </section>
 
-            {/* =================================================
-                STAY DETAILS
-            ================================================= */}
-            <section className="border-b border-[#E7E1D8] py-8">
+            {/* STAY DETAILS */}
+
+            <section className="border-b border-black/10 py-8">
 
               <SectionLabel>
                 Stay details
@@ -429,7 +759,7 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
                 <DetailCard
                   icon={Users}
                   label="Maximum guests"
-                  value={`${stay.guests} guests`}
+                  value={`${maximumGuests} guests`}
                 />
 
                 <DetailCard
@@ -439,18 +769,18 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
                 />
 
               </div>
+
             </section>
 
-            {/* =================================================
-                HOST
-            ================================================= */}
-            <section className="border-b border-[#E7E1D8] py-8">
+            {/* HOST */}
+
+            <section className="border-b border-black/10 py-8">
 
               <SectionLabel>
                 Your host
               </SectionLabel>
 
-              <div className="mt-5 flex flex-col gap-5 rounded-2xl border border-[#E7E1D8] p-5 sm:flex-row sm:items-center">
+              <div className="mt-5 flex flex-col gap-5 rounded-2xl border border-black/10 p-5 sm:flex-row sm:items-center">
 
                 <img
                   src="/profile.jpg"
@@ -460,15 +790,16 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
 
                 <div className="flex-1">
 
-                  <h3 className="font-semibold">
+                  <h3 className="font-black">
                     Vistara Host
                   </h3>
 
-                  <p className="mt-1 text-sm text-[#777]">
+                  <p className="mt-1 text-sm text-black/50">
                     Hosting on Vistara
                   </p>
 
-                  <div className="mt-2 flex items-center gap-3 text-xs text-[#666]">
+                  <div className="mt-2 flex items-center gap-3 text-xs text-black/55">
+
                     <span className="flex items-center gap-1">
                       <Star
                         size={13}
@@ -482,39 +813,40 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
                     <span>
                       Experienced host
                     </span>
+
                   </div>
 
                 </div>
 
-                {/* HOST.TSX ROUTE */}
                 <Link
-                  href={`/host/${stayId}`}
-                  className="rounded-xl border border-black px-4 py-2.5 text-center text-sm font-semibold transition hover:bg-black hover:text-white"
+                  href={`/host/${stay.id}`}
+                  className="rounded-xl border border-black px-4 py-2.5 text-center text-sm font-bold transition hover:bg-black hover:text-white"
                 >
                   View profile
                 </Link>
 
               </div>
+
             </section>
 
-            {/* =================================================
-                MAP
-            ================================================= */}
-            <section className="border-b border-[#E7E1D8] py-8">
+            {/* LOCATION */}
+
+            <section className="border-b border-black/10 py-8">
 
               <SectionLabel>
                 Location
               </SectionLabel>
 
-              <h2 className="mt-2 text-xl font-semibold">
-                Where you&apos;ll be
+              <h2 className="mt-2 text-xl font-black">
+                Where you'll be
               </h2>
 
-              <p className="mt-2 text-sm text-[#666]">
-                {stay.location}, {stay.city}
+              <p className="mt-2 text-sm text-black/55">
+                {stay.location},{" "}
+                {stay.city}
               </p>
 
-              <div className="mt-5 overflow-hidden rounded-2xl border border-[#E2DCD2]">
+              <div className="mt-5 overflow-hidden rounded-2xl border border-black/10">
 
                 <iframe
                   title={`${stay.title} location map`}
@@ -528,120 +860,139 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
 
             </section>
 
-            {/* =================================================
-                REVIEWS
-            ================================================= */}
+            {/* REVIEWS */}
+
             <section className="py-8">
 
               <div className="flex items-end justify-between gap-4">
 
                 <div>
+
                   <SectionLabel>
                     Guest reviews
                   </SectionLabel>
 
-                  <h2 className="mt-2 text-xl font-semibold">
+                  <h2 className="mt-2 text-xl font-black">
                     What guests say
                   </h2>
+
                 </div>
 
-                <div className="flex items-center gap-1 text-sm font-semibold">
+                <div className="flex items-center gap-1 text-sm font-bold">
                   <Star
                     size={15}
                     fill="currentColor"
                   />
-                  {stay.rating.toFixed(1)}
+                  {Number(
+                    stay.rating || 0
+                  ).toFixed(1)}
                 </div>
 
               </div>
 
-              {/* REVIEW LIST */}
               <div className="mt-5 space-y-3">
 
-                {reviews.map((review) => (
-                  <article
-                    key={review.id}
-                    className="rounded-2xl border border-[#E7E1D8] p-5"
-                  >
+                {reviews.map(
+                  (review) => (
+                    <article
+                      key={review.id}
+                      className="rounded-2xl border border-black/10 p-5"
+                    >
 
-                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex items-start justify-between gap-4">
 
-                      <div>
-                        <h3 className="text-sm font-semibold">
-                          {review.name}
-                        </h3>
+                        <div>
 
-                        <p className="mt-1 text-xs text-[#999]">
-                          {review.date}
-                        </p>
+                          <h3 className="text-sm font-bold">
+                            {review.name}
+                          </h3>
+
+                          <p className="mt-1 text-xs text-black/35">
+                            {review.date}
+                          </p>
+
+                        </div>
+
+                        <span className="flex items-center gap-1 text-xs font-bold">
+                          <Star
+                            size={12}
+                            fill="currentColor"
+                          />
+                          {review.rating.toFixed(1)}
+                        </span>
+
                       </div>
 
-                      <span className="flex items-center gap-1 text-xs font-semibold">
-                        <Star
-                          size={12}
-                          fill="currentColor"
-                        />
-                        {review.rating.toFixed(1)}
-                      </span>
+                      <p className="mt-3 text-sm leading-6 text-black/60">
+                        {review.comment}
+                      </p>
 
-                    </div>
-
-                    <p className="mt-3 text-sm leading-6 text-[#555]">
-                      {review.comment}
-                    </p>
-
-                  </article>
-                ))}
+                    </article>
+                  )
+                )}
 
               </div>
 
-              {/* WRITE REVIEW */}
-              <div className="mt-5 rounded-2xl bg-[#F6F1E8] p-5">
+              {/* REVIEW FORM */}
+
+              <div className="mt-5 rounded-2xl bg-neutral-100 p-5">
 
                 <div className="flex items-center gap-2">
+
                   <MessageCircle size={17} />
 
-                  <h3 className="text-sm font-semibold">
+                  <h3 className="text-sm font-bold">
                     Leave a review
                   </h3>
+
                 </div>
 
                 <div className="mt-4 flex gap-1">
-                  {[1, 2, 3, 4, 5].map((number) => (
-                    <button
-                      key={number}
-                      type="button"
-                      onClick={() =>
-                        setReviewRating(number)
-                      }
-                      className="p-1"
-                    >
-                      <Star
-                        size={18}
-                        fill={
-                          number <= reviewRating
-                            ? "currentColor"
-                            : "none"
+
+                  {[1, 2, 3, 4, 5].map(
+                    (number) => (
+                      <button
+                        key={number}
+                        type="button"
+                        onClick={() =>
+                          setReviewRating(
+                            number
+                          )
                         }
-                      />
-                    </button>
-                  ))}
+                        className="p-1"
+                      >
+                        <Star
+                          size={18}
+                          fill={
+                            number <=
+                            reviewRating
+                              ? "currentColor"
+                              : "none"
+                          }
+                        />
+                      </button>
+                    )
+                  )}
+
                 </div>
 
                 <textarea
                   value={reviewText}
-                  onChange={(e) =>
-                    setReviewText(e.target.value)
+                  onChange={(event) =>
+                    setReviewText(
+                      event.target.value
+                    )
                   }
                   rows={4}
                   placeholder="Share your experience..."
-                  className="mt-3 w-full resize-none rounded-xl border border-[#DDD5CA] bg-white px-4 py-3 text-sm outline-none focus:border-black"
+                  className="mt-3 w-full resize-none rounded-xl border border-black/10 bg-white px-4 py-3 text-sm outline-none focus:border-black"
                 />
 
                 <button
+                  type="button"
                   onClick={submitReview}
                   disabled={!reviewText.trim()}
-                  className="mt-3 rounded-xl bg-black px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#222] disabled:cursor-not-allowed disabled:opacity-40"
+                  className="mt-3 rounded-xl bg-black px-5 py-2.5 text-sm font-bold text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Submit review
                 </button>
@@ -649,40 +1000,52 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
               </div>
 
             </section>
+
           </div>
 
           {/* =================================================
               BOOKING CARD
           ================================================= */}
+
           <aside className="lg:sticky lg:top-24 lg:self-start">
 
-            <div className="rounded-3xl border border-[#DDD7CE] bg-white p-5 shadow-[0_12px_35px_rgba(0,0,0,0.06)] sm:p-6">
+            <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-[0_12px_35px_rgba(0,0,0,0.06)] sm:p-6">
 
               {/* PRICE */}
-              <div className="flex items-center justify-between border-b border-[#E7E1D8] pb-5">
+
+              <div className="flex items-center justify-between border-b border-black/10 pb-5">
 
                 <div>
-                  <span className="text-2xl font-semibold">
-                    ₹{nightlyPrice.toLocaleString("en-IN")}
+
+                  <span className="text-2xl font-black">
+                    ₹
+                    {nightlyPrice.toLocaleString(
+                      "en-IN"
+                    )}
                   </span>
 
-                  <span className="ml-1 text-sm text-[#777]">
+                  <span className="ml-1 text-sm text-black/45">
                     / night
                   </span>
+
                 </div>
 
-                <span className="flex items-center gap-1 text-sm font-semibold">
+                <span className="flex items-center gap-1 text-sm font-bold">
                   <Star
                     size={14}
                     fill="currentColor"
                   />
-                  {stay.rating.toFixed(1)}
+                  {Number(
+                    stay.rating || 0
+                  ).toFixed(1)}
                 </span>
 
               </div>
 
-              {/* CHECK IN / OUT */}
-<div className="relative mt-5 grid grid-cols-2 overflow-visible rounded-2xl border border-[#DCD5CB]">
+              {/* DATES */}
+
+              <div className="relative mt-5 grid grid-cols-2 overflow-visible rounded-2xl border border-black/10">
+
                 <DateField
                   label="Check in"
                   value={checkIn}
@@ -699,46 +1062,56 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
               </div>
 
               {/* GUESTS */}
-              <div className="mt-3 rounded-2xl border border-[#DCD5CB] p-4">
 
-                <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-[#888]">
+              <div className="mt-3 rounded-2xl border border-black/10 p-4">
+
+                <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-black/45">
                   Guests
                 </p>
 
                 <div className="mt-2 flex items-center justify-between">
 
                   <div className="flex items-center gap-2">
+
                     <Users size={17} />
 
-                    <span className="text-sm font-medium">
+                    <span className="text-sm font-semibold">
                       {guests}{" "}
-                      {guests === 1 ? "guest" : "guests"}
+                      {guests === 1
+                        ? "guest"
+                        : "guests"}
                     </span>
+
                   </div>
 
                   <div className="flex items-center gap-2">
 
                     <button
+                      type="button"
                       onClick={() =>
                         setGuests(
-                          Math.max(1, guests - 1)
+                          Math.max(
+                            1,
+                            guests - 1
+                          )
                         )
                       }
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-[#D6D0C7] text-lg"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 text-lg transition hover:bg-black hover:text-white"
                     >
                       −
                     </button>
 
                     <button
+                      type="button"
                       onClick={() =>
                         setGuests(
                           Math.min(
-                            stay.guests,
+                            maximumGuests,
                             guests + 1
                           )
                         )
                       }
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-[#D6D0C7] text-lg"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-black/15 text-lg transition hover:bg-black hover:text-white"
                     >
                       +
                     </button>
@@ -747,250 +1120,271 @@ const [confirmedBooking, setConfirmedBooking] = useState<any>(null);
 
                 </div>
 
-                <p className="mt-2 text-[11px] text-[#888]">
-                  Up to {stay.guests} guests
+                <p className="mt-2 text-[11px] text-black/40">
+                  Up to {maximumGuests} guests
                 </p>
 
               </div>
 
               {/* RESERVE */}
-         <button
-  type="button"
-  disabled={bookingLoading}
-  onClick={async () => {
-    setBookingError("");
 
-    if (!checkIn || !checkOut) {
-      setBookingError("Please select check-in and check-out dates.");
-      return;
-    }
+              <button
+                type="button"
+                onClick={openBookingPopup}
+                className="mt-5 flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 text-sm font-bold text-white transition hover:bg-neutral-800"
+              >
+                Reserve this stay
+              </button>
 
-    if (checkOut <= checkIn) {
-      setBookingError("Check-out must be after check-in.");
-      return;
-    }
+              <p className="mt-3 text-center text-[11px] text-black/40">
+                You will review your booking before confirming.
+              </p>
 
-    try {
-      setBookingLoading(true);
+              {/* PRICE */}
 
-      const response = await fetch("/api/bookings", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          propertyId: stayId,
-          checkIn,
-          checkOut,
-          guests,
-        }),
-      });
-
-      const text = await response.text();
-
-      let result: any = {};
-
-      try {
-        result = text ? JSON.parse(text) : {};
-      } catch {
-        result = {};
-      }
-
-      if (!response.ok) {
-        throw new Error(
-          result?.error ||
-            result?.message ||
-            "Unable to create booking."
-        );
-      }
-
-const bookingId =
-  result?.bookingId ||
-  result?.booking?.id ||
-  result?.data?.bookingId ||
-  result?.data?.booking?.id;
-
-if (!bookingId) {
-  throw new Error(
-    "Booking was created but booking ID was not returned."
-  );
-}
-     setConfirmedBooking({
-  id: bookingId,
-  totalAmount:
-    result?.booking?.totalAmount ??
-    result?.data?.booking?.totalAmount ??
-    total,
-});
-    } catch (error) {
-      setBookingError(
-        error instanceof Error
-          ? error.message
-          : "Something went wrong."
-      );
-    } finally {
-      setBookingLoading(false);
-    }
-  }}
-  className="mt-5 flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#222] disabled:cursor-not-allowed disabled:opacity-50"
->
-  {bookingLoading ? "Confirming..." : "Reserve this stay"}
-</button>
-
-{bookingError && (
-  <p className="mt-3 text-center text-sm font-medium text-red-600">
-    {bookingError}
-  </p>
-)}
-
-<p className="mt-3 text-center text-[11px] text-[#888]">
-  You won&apos;t be charged until you confirm
-  your booking.
-</p>
-
-              {/* PRICE BREAKDOWN */}
-              <div className="mt-5 space-y-3 border-t border-[#E7E1D8] pt-5 text-sm">
+              <div className="mt-5 space-y-3 border-t border-black/10 pt-5 text-sm">
 
                 <div className="flex justify-between">
-                  <span className="text-[#666]">
-                    ₹{nightlyPrice.toLocaleString("en-IN")} ×
-                    1 night
+
+                  <span className="text-black/50">
+                    ₹
+                    {nightlyPrice.toLocaleString(
+                      "en-IN"
+                    )}{" "}
+                    × {numberOfNights}{" "}
+                    {numberOfNights === 1
+                      ? "night"
+                      : "nights"}
                   </span>
 
                   <span>
-                    ₹{nightlyPrice.toLocaleString("en-IN")}
+                    ₹
+                    {accommodationTotal.toLocaleString(
+                      "en-IN"
+                    )}
                   </span>
+
                 </div>
 
                 <div className="flex justify-between">
-                  <span className="text-[#666]">
+
+                  <span className="text-black/50">
                     Service fee
                   </span>
 
                   <span>
-                    ₹{serviceFee.toLocaleString("en-IN")}
+                    ₹
+                    {serviceFee.toLocaleString(
+                      "en-IN"
+                    )}
                   </span>
+
                 </div>
 
-                <div className="flex justify-between border-t border-[#E7E1D8] pt-4 font-semibold">
+                <div className="flex justify-between border-t border-black/10 pt-4 font-bold">
+
                   <span>Total</span>
 
                   <span>
-                    ₹{total.toLocaleString("en-IN")}
+                    ₹
+                    {total.toLocaleString(
+                      "en-IN"
+                    )}
                   </span>
+
                 </div>
 
               </div>
+
             </div>
 
             {/* SHARE */}
-            <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-[#DDD7CE] px-4 py-3 text-sm font-semibold transition hover:bg-[#F6F1E8]">
+
+            <button
+              type="button"
+              onClick={shareStay}
+              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-black/10 px-4 py-3 text-sm font-bold transition hover:bg-black hover:text-white"
+            >
               <Share2 size={15} />
               Share this stay
             </button>
 
           </aside>
+
         </div>
+
       </div>
+
+      <Footer />
 
       {/* =====================================================
-          FOOTER
+          BOOKING POPUP
       ===================================================== */}
-      <Footer />
-{confirmedBooking && (
-  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4">
-    <div className="w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black text-white">
-        <Check size={22} />
-      </div>
 
-      <h2 className="mt-5 text-2xl font-semibold">
-        Your booking is confirmed
-      </h2>
+      {bookingPopup && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
 
-      <p className="mt-1 text-sm text-[#777]">
-        Your stay has been successfully reserved.
-      </p>
+          <div className="max-h-[92vh] w-full max-w-[500px] overflow-y-auto rounded-[28px] bg-white shadow-2xl">
 
-      <div className="mt-6 space-y-4 rounded-2xl bg-[#F8F8F8] p-4">
-        <div className="flex justify-between gap-4">
-          <span className="text-sm text-[#777]">Booking ID</span>
-          <span className="text-sm font-semibold">
-            #{confirmedBooking.id}
-          </span>
+            {/* HEADER */}
+
+            <div className="relative bg-black px-6 py-7 text-white">
+
+              <button
+                type="button"
+                onClick={() =>
+                  setBookingPopup(false)
+                }
+                className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
+              >
+                <X size={18} />
+              </button>
+
+              <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/45">
+                VISTARA STAY
+              </p>
+
+              <h2 className="mt-2 text-2xl font-black">
+                Review your booking
+              </h2>
+
+              <p className="mt-2 text-xs text-white/50">
+                Check your stay details before continuing.
+              </p>
+
+            </div>
+
+            {/* BODY */}
+
+            <div className="p-6">
+
+              {/* STAY */}
+
+              <div className="rounded-2xl border border-black/10 p-4">
+
+                <div className="flex gap-4">
+
+                  <img
+                    src={stay.image}
+                    alt={stay.title}
+                    className="h-20 w-20 shrink-0 rounded-xl object-cover"
+                  />
+
+                  <div className="min-w-0">
+
+                    <p className="text-[8px] font-bold uppercase tracking-[0.16em] text-black/35">
+                      Stay
+                    </p>
+
+                    <h3 className="mt-1 text-sm font-black">
+                      {stay.title}
+                    </h3>
+
+                    <p className="mt-1 text-xs text-black/45">
+                      {stay.location},{" "}
+                      {stay.city}
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* BOOKING DETAILS */}
+
+              <div className="mt-3 grid grid-cols-2 gap-2">
+
+                <ModalInfo
+                  label="Check-in"
+                  value={checkIn}
+                />
+
+                <ModalInfo
+                  label="Check-out"
+                  value={checkOut}
+                />
+
+                <ModalInfo
+                  label="Guests"
+                  value={`${guests} ${
+                    guests === 1
+                      ? "Guest"
+                      : "Guests"
+                  }`}
+                />
+
+                <ModalInfo
+                  label="Nights"
+                  value={`${numberOfNights} ${
+                    numberOfNights === 1
+                      ? "Night"
+                      : "Nights"
+                  }`}
+                />
+
+              </div>
+
+              {/* TOTAL */}
+
+              <div className="mt-3 rounded-2xl bg-black p-4 text-white">
+
+                <div className="flex items-center justify-between">
+
+                  <span className="text-xs text-white/50">
+                    Total
+                  </span>
+
+                  <span className="text-lg font-black">
+                    ₹
+                    {total.toLocaleString(
+                      "en-IN"
+                    )}
+                  </span>
+
+                </div>
+
+                <p className="mt-2 text-[9px] text-white/35">
+                  No payment required at this MVP stage.
+                </p>
+
+              </div>
+
+              {/* CONTINUE */}
+
+              <button
+                type="button"
+                onClick={continueToBooking}
+                className="mt-4 flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 text-sm font-bold text-white transition hover:bg-neutral-800"
+              >
+                Continue to booking
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  setBookingPopup(false)
+                }
+                className="mt-2 flex w-full items-center justify-center rounded-xl border border-black/10 bg-white px-5 py-3.5 text-sm font-bold transition hover:border-black"
+              >
+                Go back
+              </button>
+
+            </div>
+
+          </div>
+
         </div>
+      )}
 
-        <div className="flex justify-between gap-4">
-          <span className="text-sm text-[#777]">Stay</span>
-          <span className="text-right text-sm font-semibold">
-            {stay.title}
-          </span>
-        </div>
-
-        <div className="flex justify-between gap-4">
-          <span className="text-sm text-[#777]">Check-in</span>
-          <span className="text-sm font-semibold">
-            {checkIn}
-          </span>
-        </div>
-
-        <div className="flex justify-between gap-4">
-          <span className="text-sm text-[#777]">Check-out</span>
-          <span className="text-sm font-semibold">
-            {checkOut}
-          </span>
-        </div>
-
-        <div className="flex justify-between gap-4">
-          <span className="text-sm text-[#777]">Guests</span>
-          <span className="text-sm font-semibold">
-            {guests}
-          </span>
-        </div>
-
-        <div className="flex justify-between gap-4 border-t border-[#E5E5E5] pt-4">
-          <span className="text-sm font-semibold">Total</span>
-          <span className="text-sm font-bold">
-            ₹
-            {Number(
-              confirmedBooking.totalAmount ?? total
-            ).toLocaleString("en-IN")}
-          </span>
-        </div>
-      </div>
-
-      <div className="mt-6 grid grid-cols-2 gap-3">
-        <Link
-          href={`/bookings/${confirmedBooking.id}`}
-          className="flex items-center justify-center rounded-xl bg-black px-4 py-3 text-sm font-semibold text-white"
-        >
-          View Booking
-        </Link>
-
-        <button
-          type="button"
-          onClick={() => setConfirmedBooking(null)}
-          className="rounded-xl border border-[#DCDCDC] px-4 py-3 text-sm font-semibold"
-        >
-          Done
-        </button>
-      </div>
-    </div>
-  </div>
-)}
     </main>
   );
 }
 
 /* =========================================================
-   NAVBAR
-========================================================= */
-
-
-/* =========================================================
    DATE FIELD
 ========================================================= */
+
 function DateField({
   label,
   value,
@@ -1003,84 +1397,106 @@ function DateField({
   min?: string;
 }) {
   return (
-    <div className="border-r border-[#DCD5CB] p-3 last:border-r-0">
-      <label className="block text-[9px] font-bold uppercase tracking-[0.12em] text-[#888]">
+    <div className="border-r border-black/10 p-3 last:border-r-0">
+
+      <label className="block text-[9px] font-bold uppercase tracking-[0.12em] text-black/45">
         {label}
       </label>
 
       <div className="mt-1">
+
         <CompactCalendar
           value={value}
           onChange={onChange}
           minDate={min}
         />
+
       </div>
+
     </div>
   );
 }
 
 /* =========================================================
-   SMALL COMPONENTS
+   SECTION LABEL
 ========================================================= */
 
 function SectionLabel({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
-    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#8A8175]">
+    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-black/40">
       {children}
     </p>
   );
 }
+
+/* =========================================================
+   INFO CARD
+========================================================= */
 
 function InfoCard({
   icon: Icon,
   label,
   value,
 }: {
-  icon: React.ElementType;
+  icon: ElementType;
   label: string;
   value: string;
 }) {
   return (
-    <div className="rounded-2xl border border-[#E7E1D8] p-4">
-      <Icon size={18} />
+    <div className="rounded-2xl border border-black/10 p-4">
 
-      <p className="mt-3 text-[10px] text-[#888]">
+      <Icon
+        size={18}
+        strokeWidth={1.7}
+      />
+
+      <p className="mt-3 text-[10px] text-black/40">
         {label}
       </p>
 
-      <p className="mt-1 text-sm font-semibold">
+      <p className="mt-1 text-sm font-bold">
         {value}
       </p>
+
     </div>
   );
 }
+
+/* =========================================================
+   DETAIL CARD
+========================================================= */
 
 function DetailCard({
   icon: Icon,
   label,
   value,
 }: {
-  icon: React.ElementType;
+  icon: ElementType;
   label: string;
   value: string;
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-[#E7E1D8] p-4">
+    <div className="flex items-center gap-3 rounded-xl border border-black/10 p-4">
 
-      <Icon size={18} />
+      <Icon
+        size={18}
+        strokeWidth={1.7}
+      />
 
       <div>
-        <p className="text-xs text-[#888]">
+
+        <p className="text-xs text-black/40">
           {label}
         </p>
 
-        <p className="mt-1 text-sm font-semibold">
+        <p className="mt-1 text-sm font-bold">
           {value}
         </p>
+
       </div>
 
     </div>
@@ -1088,7 +1504,27 @@ function DetailCard({
 }
 
 /* =========================================================
-   FOOTER
+   MODAL INFO
 ========================================================= */
 
-  
+function ModalInfo({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-xl bg-neutral-100 p-3">
+
+      <p className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/35">
+        {label}
+      </p>
+
+      <p className="mt-1 text-xs font-black">
+        {value || "—"}
+      </p>
+
+    </div>
+  );
+}

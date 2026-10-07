@@ -1,10 +1,12 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
   id                 Int                    @id @default(autoincrement())
   name               String
@@ -787,40 +789,55 @@ model TransportFareRule {
 }
 
 model Ride {
-  id                   Int                 @id @default(autoincrement())
-  userId               Int
-  driverId             Int?
-  vehicleId            Int?
-  journeyId            Int?
-  transportType        TransportType
-  status               RideStatus          @default(REQUESTED)
-  pickupAddress        String
-  pickupLatitude       Decimal?            @db.Decimal(10, 7)
-  pickupLongitude      Decimal?            @db.Decimal(10, 7)
+  id            Int           @id @default(autoincrement())
+  userId        Int
+  driverId      Int?
+  vehicleId     Int?
+  journeyId     Int?
+  transportType TransportType
+  status        RideStatus    @default(REQUESTED)
+
+  pickupAddress   String
+  pickupLatitude  Decimal? @db.Decimal(10, 7)
+  pickupLongitude Decimal? @db.Decimal(10, 7)
+
   destination          String
-  destinationLatitude  Decimal?            @db.Decimal(10, 7)
-  destinationLongitude Decimal?            @db.Decimal(10, 7)
-  estimatedFare        Decimal?            @db.Decimal(10, 2)
-  finalFare            Decimal?            @db.Decimal(10, 2)
-  distanceKm           Decimal?            @db.Decimal(10, 2)
-  otp                  String?
-  requestedAt          DateTime            @default(now())
-  acceptedAt           DateTime?
-  startedAt            DateTime?
-  completedAt          DateTime?
-  cancelledAt          DateTime?
-  cancellationReason   String?
-  payment              PaymentTransaction?
-  driver               DriverProfile?      @relation(fields: [driverId], references: [id])
-  journey              Journey?            @relation(fields: [journeyId], references: [id])
-  user                 User                @relation("PassengerRides", fields: [userId], references: [id])
-  vehicle              Vehicle?            @relation(fields: [vehicleId], references: [id])
-  stops                RideStop[]
+  destinationLatitude  Decimal? @db.Decimal(10, 7)
+  destinationLongitude Decimal? @db.Decimal(10, 7)
+
+  // NEW
+  bookingDate DateTime?
+  bookingTime DateTime?
+  passengers  Int       @default(1)
+  notes       String?
+
+  estimatedFare Decimal? @db.Decimal(10, 2)
+  finalFare     Decimal? @db.Decimal(10, 2)
+
+  distanceKm Decimal? @db.Decimal(10, 2)
+
+  otp String?
+
+  requestedAt        DateTime  @default(now())
+  acceptedAt         DateTime?
+  startedAt          DateTime?
+  completedAt        DateTime?
+  cancelledAt        DateTime?
+  cancellationReason String?
+
+  payment PaymentTransaction?
+
+  driver  DriverProfile? @relation(fields: [driverId], references: [id])
+  journey Journey?       @relation(fields: [journeyId], references: [id])
+  user    User           @relation("PassengerRides", fields: [userId], references: [id])
+  vehicle Vehicle?       @relation(fields: [vehicleId], references: [id])
+  stops   RideStop[]
 
   @@index([userId])
   @@index([driverId])
   @@index([status])
   @@index([journeyId])
+  @@index([bookingDate])
 }
 
 model RideStop {
@@ -1104,6 +1121,7 @@ model ContactMessage {
   @@index([email])
   @@index([createdAt])
 }
+
 enum UserRole {
   GUEST
   HOST

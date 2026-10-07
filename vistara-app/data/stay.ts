@@ -13,6 +13,10 @@ export type Stay = {
 };
 
 export const stays: Stay[] = [
+  // =========================
+  // PATNA STAYS
+  // =========================
+
   {
     id: "blue-courtyard",
     title: "The Blue Courtyard",
@@ -432,7 +436,8 @@ export const stays: Stay[] = [
     guests: 10,
     verified: true,
   },
-    {
+
+  {
     id: "ganga-heritage-villa",
     title: "Ganga Heritage Villa",
     location: "Gandhi Ghat, Patna",
@@ -459,4 +464,106 @@ export const stays: Stay[] = [
     guests: 4,
     verified: true,
   },
+
+  // =========================
+  // FEATURED / OTHER CITIES
+  // =========================
+
+  {
+    id: "forest-house",
+    title: "The Forest House",
+    location: "Shimla, Himachal Pradesh",
+    city: "Shimla",
+    country: "India",
+    image: "/images/pag1 (30).jpg",
+    price: 8500,
+    currency: "INR",
+    rating: 4.8,
+    guests: 6,
+    verified: true,
+  },
+
+  {
+    id: "heritage-villa",
+    title: "Heritage Villa",
+    location: "Jaipur, Rajasthan",
+    city: "Jaipur",
+    country: "India",
+    image: "/images/pag1 (16).jpg",
+    price: 6800,
+    currency: "INR",
+    rating: 4.8,
+    guests: 6,
+    verified: true,
+  },
+
+  {
+    id: "lake-retreat",
+    title: "The Lake Retreat",
+    location: "Udaipur, Rajasthan",
+    city: "Udaipur",
+    country: "India",
+    image: "/images/pag1 (22).jpg",
+    price: 7200,
+    currency: "INR",
+    rating: 4.8,
+    guests: 6,
+    verified: true,
+  },
+
+  {
+    id: "modern-escape",
+    title: "Modern Escape",
+    location: "Goa, India",
+    city: "Goa",
+    country: "India",
+    image: "/images/pag1 (59).jpg",
+    price: 5900,
+    currency: "INR",
+    rating: 4.8,
+    guests: 5,
+    verified: true,
+  },
+
+  {
+    id: "valley-view-home",
+    title: "Valley View Home",
+    location: "Manali, Himachal Pradesh",
+    city: "Manali",
+    country: "India",
+    image: "/images/pag1 (58).jpg",
+    price: 9400,
+    currency: "INR",
+    rating: 4.8,
+    guests: 8,
+    verified: true,
+  },
 ];
+
+// ======================================================
+// HOME PAGE — ONLY 5 FEATURED STAYS
+// ======================================================
+
+export const featuredStays: Stay[] = [
+  "forest-house",
+  "heritage-villa",
+  "lake-retreat",
+  "modern-escape",
+  "valley-view-home",
+]
+  .map((id) => stays.find((stay) => stay.id === id))
+  .filter((stay): stay is Stay => Boolean(stay));
+
+// ======================================================
+// HELPERS
+// ======================================================
+
+export function getStayById(id: string): Stay | undefined {
+  return stays.find((stay) => stay.id === id);
+}
+
+export function getStaysByCity(city: string): Stay[] {
+  return stays.filter(
+    (stay) => stay.city.toLowerCase() === city.toLowerCase()
+  );
+}

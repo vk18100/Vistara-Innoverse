@@ -6,7 +6,8 @@ import { requireAuth } from "@/lib/guard";
 /*
 |--------------------------------------------------------------------------
 | GET /api/local-plans/purchases
-| Logged-in user's purchased local plans
+|
+| Logged-in user's Local Plan purchases
 |--------------------------------------------------------------------------
 */
 
@@ -18,23 +19,24 @@ export async function GET(req: NextRequest) {
       return response;
     }
 
-    const purchases = await prisma.localPlanPurchase.findMany({
-      where: {
-        userId: user!.id,
-      },
+    const purchases =
+      await prisma.localPlanPurchase.findMany({
+        where: {
+          userId: user!.id,
+        },
 
-      orderBy: {
-        createdAt: "desc",
-      },
+        orderBy: {
+          createdAt: "desc",
+        },
 
-      include: {
-        plan: {
-          include: {
-            places: true,
+        include: {
+          plan: {
+            include: {
+              places: true,
+            },
           },
         },
-      },
-    });
+      });
 
     return NextResponse.json({
       success: true,
@@ -49,7 +51,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to load purchased plans.",
+        message: "Unable to load purchased local plans.",
       },
       { status: 500 }
     );
@@ -59,7 +61,14 @@ export async function GET(req: NextRequest) {
 /*
 |--------------------------------------------------------------------------
 | POST /api/local-plans/purchases
-| Create local plan purchase
+|
+| MVP Local Plan purchase
+|
+| No Razorpay
+| No checkout
+| No external payment
+|
+| Purchase is immediately confirmed.
 |--------------------------------------------------------------------------
 */
 
@@ -70,6 +79,10 @@ export async function POST(req: NextRequest) {
     if (response) {
       return response;
     }
+
+    /* ======================================================
+       READ BODY
+    ====================================================== */
 
     let body: unknown;
 
@@ -99,54 +112,92 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { planId } = body as {
+    const data = body as {
       planId?: unknown;
+      date?: unknown;
     };
 
-    const id = Number(planId);
+    /* ======================================================
+       PLAN ID
+    ====================================================== */
 
-    if (!Number.isInteger(id) || id <= 0) {
+    const planId = Number(data.planId);
+
+    if (
+      !Number.isInteger(planId) ||
+      planId <= 0
+    ) {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid plan id.",
+          message: "Invalid local plan.",
         },
         { status: 400 }
       );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Find published plan
-    |--------------------------------------------------------------------------
-    */
+    /* ======================================================
+       DATE
+    ====================================================== */
 
-    const plan = await prisma.localPlan.findFirst({
-      where: {
-        id,
-        status: "PUBLISHED",
-      },
+    if (!data.date) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Please select an experience date.",
+        },
+        { status: 400 }
+      );
+    }
 
-      include: {
-        places: true,
-      },
-    });
+    const selectedDate = new Date(
+      String(data.date)
+    );
+
+    if (
+      Number.isNaN(
+        selectedDate.getTime()
+      )
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid experience date.",
+        },
+        { status: 400 }
+      );
+    }
+
+    /* ======================================================
+       FIND PUBLISHED PLAN
+    ====================================================== */
+
+    const plan =
+      await prisma.localPlan.findFirst({
+        where: {
+          id: planId,
+          status: "PUBLISHED",
+        },
+
+        include: {
+          places: true,
+        },
+      });
 
     if (!plan) {
       return NextResponse.json(
         {
           success: false,
-          message: "Local plan not found or unavailable.",
+          message:
+            "Local plan not found or unavailable.",
         },
         { status: 404 }
       );
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Prevent duplicate purchase
-    |--------------------------------------------------------------------------
-    */
+    /* ======================================================
+       CHECK EXISTING PURCHASE
+    ====================================================== */
 
     const existingPurchase =
       await prisma.localPlanPurchase.findUnique({
@@ -158,36 +209,51 @@ export async function POST(req: NextRequest) {
         },
 
         include: {
-          plan: true,
+          plan: {
+            include: {
+              places: true,
+            },
+          },
         },
       });
 
+    /*
+     * Already purchased
+     */
+
     if (existingPurchase) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "You have already purchased this plan.",
-          data: {
-            purchase: existingPurchase,
-          },
+      return NextResponse.json({
+        success: true,
+
+        alreadyPurchased: true,
+
+        message:
+          "You already have access to this local plan.",
+
+        data: {
+          purchase: existingPurchase,
         },
-        { status: 409 }
-      );
+      });
     }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Create purchase
-    |--------------------------------------------------------------------------
-    */
+    /* ======================================================
+       CREATE CONFIRMED PURCHASE
+       
+       No payment.
+       No checkout.
+       No Razorpay.
+    ====================================================== */
 
     const purchase =
       await prisma.localPlanPurchase.create({
         data: {
           userId: user!.id,
+
           planId: plan.id,
+
           amount: plan.price,
-          status: "PENDING",
+
+          status: "PAID",
         },
 
         include: {
@@ -199,12 +265,41 @@ export async function POST(req: NextRequest) {
         },
       });
 
+    /* ======================================================
+       RESPONSE
+    ====================================================== */
+
     return NextResponse.json(
       {
         success: true,
-        message: "Local plan purchase created successfully.",
+
+        message:
+          "Local plan purchased successfully.",
+
         data: {
           purchase,
+
+          plan: {
+            id: plan.id,
+            title: plan.title,
+            slug: plan.slug,
+            city: plan.city,
+            area: plan.area,
+            price: plan.price,
+            durationHours:
+              plan.durationHours,
+            places: plan.places,
+          },
+
+          experienceDate:
+            selectedDate.toISOString(),
+
+          status: "CONFIRMED",
+
+          unlockStatus: "UNLOCKED",
+
+          paymentStatus:
+            "NOT_REQUIRED",
         },
       },
       { status: 201 }
@@ -218,7 +313,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to create local plan purchase.",
+        message:
+          "Unable to confirm local plan purchase.",
       },
       { status: 500 }
     );

@@ -1,8 +1,14 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import {
+  use,
+  useEffect,
+  useMemo,
+  useState,
+  type ElementType,
+  type ReactNode,
+} from "react";
 import Link from "next/link";
-
 import {
   ArrowLeft,
   CalendarDays,
@@ -20,16 +26,19 @@ import {
   Users,
   Camera,
   Utensils,
+  X,
 } from "lucide-react";
 
 import Navbar from "@/components/navbar";
-import { experiences } from "@/data/experience";
+import { experiences } from "@/data/explore";
 
-type ExperiencePageProps = {
+type Props = {
   params: Promise<{
     id: string;
   }>;
 };
+
+type ExploreItem = (typeof experiences)[number];
 
 type Review = {
   id: string;
@@ -39,13 +48,15 @@ type Review = {
   date: string;
 };
 
+const MAX_GUESTS = 10;
+
 const defaultReviews: Review[] = [
   {
     id: "1",
     name: "Priya",
     rating: 5,
     comment:
-      "A wonderful local experience. The host was friendly and showed us places we would never have found ourselves.",
+      "A wonderful local experience. It showed us places we would never have found ourselves.",
     date: "Recently",
   },
   {
@@ -58,24 +69,66 @@ const defaultReviews: Review[] = [
   },
 ];
 
-export default function ExperienceDetailsPage({
-  params,
-}: ExperiencePageProps) {
+export default function ExploreIdPage({ params }: Props) {
   const { id } = use(params);
 
-  const experience = experiences.find(
-    (item) => String(item.id) === String(id)
+  const explore = experiences.find(
+    (item) => String(item.id) === String(id),
   );
 
+  if (!explore) {
+    return <ExploreNotFound />;
+  }
+
+  return <ExploreDetails explore={explore} />;
+}
+
+/* =========================================================
+   NOT FOUND
+========================================================= */
+
+function ExploreNotFound() {
+  return (
+    <main className="min-h-screen bg-white text-black">
+      <Navbar />
+
+      <section className="flex min-h-[70vh] items-center justify-center px-6">
+        <div className="text-center">
+          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-400">
+            VISTARA EXPLORE
+          </p>
+
+          <h1 className="mt-3 text-2xl font-semibold">
+            Explore not found
+          </h1>
+
+          <p className="mt-2 text-sm text-gray-500">
+            This Explore option does not exist.
+          </p>
+
+          <Link
+            href="/explore"
+            className="mt-6 inline-flex rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800"
+          >
+            Back to Explore
+          </Link>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+/* =========================================================
+   EXPLORE DETAILS
+========================================================= */
+
+function ExploreDetails({
+  explore,
+}: {
+  explore: ExploreItem;
+}) {
   const [date, setDate] = useState("");
-
   const [calendarOpen, setCalendarOpen] = useState(false);
-
-  const [calendarMonth, setCalendarMonth] = useState(() => {
-    const today = new Date();
-    return new Date(today.getFullYear(), today.getMonth(), 1);
-  });
-
   const [guests, setGuests] = useState(1);
 
   const [wishlisted, setWishlisted] = useState(false);
@@ -84,57 +137,57 @@ export default function ExperienceDetailsPage({
     useState<Review[]>(defaultReviews);
 
   const [reviewText, setReviewText] = useState("");
-
   const [reviewRating, setReviewRating] = useState(5);
 
-  useEffect(() => {
-    if (!experience) return;
+  const [bookingPopupOpen, setBookingPopupOpen] =
+    useState(false);
 
+  const [bookingLoading, setBookingLoading] =
+    useState(false);
+
+  const [bookingError, setBookingError] = useState("");
+
+  const [calendarMonth, setCalendarMonth] = useState(() => {
+    const now = new Date();
+
+    return new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      1,
+    );
+  });
+
+  /* =========================================================
+     LOAD LOCAL DATA
+  ========================================================= */
+
+  useEffect(() => {
     const savedWishlist = localStorage.getItem(
-      `experience-wishlist-${experience.id}`
+      `explore-wishlist-${explore.id}`,
     );
 
     setWishlisted(savedWishlist === "true");
 
     const savedReviews = localStorage.getItem(
-      `experience-reviews-${experience.id}`
+      `explore-reviews-${explore.id}`,
     );
 
     if (savedReviews) {
       try {
-        setReviews(JSON.parse(savedReviews));
+        const parsed = JSON.parse(savedReviews);
+
+        if (Array.isArray(parsed)) {
+          setReviews(parsed);
+        }
       } catch {
         setReviews(defaultReviews);
       }
     }
-  }, [experience]);
+  }, [explore.id]);
 
-  if (!experience) {
-    return (
-      <main className="min-h-screen bg-white text-black">
-        <Navbar />
-
-        <div className="flex min-h-[70vh] items-center justify-center px-6">
-          <div className="text-center">
-            <h1 className="text-2xl font-semibold">
-              Experience not found
-            </h1>
-
-            <p className="mt-2 text-sm text-gray-500">
-              This experience does not exist.
-            </p>
-
-            <Link
-              href="/experiences"
-              className="mt-6 inline-flex rounded-xl bg-black px-5 py-3 text-sm font-semibold text-white"
-            >
-              Back to Experiences
-            </Link>
-          </div>
-        </div>
-      </main>
-    );
-  }
+  /* =========================================================
+     WISHLIST
+  ========================================================= */
 
   const toggleWishlist = () => {
     const nextValue = !wishlisted;
@@ -142,10 +195,14 @@ export default function ExperienceDetailsPage({
     setWishlisted(nextValue);
 
     localStorage.setItem(
-      `experience-wishlist-${experience.id}`,
-      String(nextValue)
+      `explore-wishlist-${explore.id}`,
+      String(nextValue),
     );
   };
+
+  /* =========================================================
+     REVIEWS
+  ========================================================= */
 
   const submitReview = () => {
     if (!reviewText.trim()) return;
@@ -166,39 +223,46 @@ export default function ExperienceDetailsPage({
     setReviews(updatedReviews);
 
     localStorage.setItem(
-      `experience-reviews-${experience.id}`,
-      JSON.stringify(updatedReviews)
+      `explore-reviews-${explore.id}`,
+      JSON.stringify(updatedReviews),
     );
 
     setReviewText("");
     setReviewRating(5);
   };
 
-  // -----------------------------
-  // MODERN CALENDAR
-  // -----------------------------
+  /* =========================================================
+     CALENDAR
+  ========================================================= */
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+  const today = useMemo(() => {
+    const value = new Date();
+
+    value.setHours(0, 0, 0, 0);
+
+    return value;
+  }, []);
 
   const daysInMonth = new Date(
     calendarMonth.getFullYear(),
     calendarMonth.getMonth() + 1,
-    0
+    0,
   ).getDate();
 
   const firstDay = new Date(
     calendarMonth.getFullYear(),
     calendarMonth.getMonth(),
-    1
+    1,
   ).getDay();
 
   const calendarDays = Array.from(
-    { length: firstDay + daysInMonth },
+    {
+      length: firstDay + daysInMonth,
+    },
     (_, index) =>
       index < firstDay
         ? null
-        : index - firstDay + 1
+        : index - firstDay + 1,
   );
 
   const selectedDate = date
@@ -209,8 +273,10 @@ export default function ExperienceDetailsPage({
     const selected = new Date(
       calendarMonth.getFullYear(),
       calendarMonth.getMonth(),
-      day
+      day,
     );
+
+    selected.setHours(0, 0, 0, 0);
 
     if (selected < today) return;
 
@@ -222,46 +288,244 @@ export default function ExperienceDetailsPage({
 
     setDate(formatted);
     setCalendarOpen(false);
+    setBookingError("");
+  };
+
+  const previousMonth = () => {
+    const previous = new Date(
+      calendarMonth.getFullYear(),
+      calendarMonth.getMonth() - 1,
+      1,
+    );
+
+    const currentMonth = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      1,
+    );
+
+    if (previous >= currentMonth) {
+      setCalendarMonth(previous);
+    }
+  };
+
+  const nextMonth = () => {
+    setCalendarMonth(
+      new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + 1,
+        1,
+      ),
+    );
   };
 
   const monthName =
-    calendarMonth.toLocaleDateString("en-US", {
+    calendarMonth.toLocaleDateString("en-IN", {
       month: "long",
       year: "numeric",
     });
 
+  /* =========================================================
+     PRICE
+  ========================================================= */
+
+  const subtotal = explore.price * guests;
+
   const serviceFee = Math.round(
-    experience.price * guests * 0.05
+    subtotal * 0.05,
   );
 
-  const subtotal =
-    experience.price * guests;
-
   const total = subtotal + serviceFee;
+
+  /* =========================================================
+     BOOKING URL
+  ========================================================= */
+
+  const bookingUrl = useMemo(() => {
+    const query = new URLSearchParams();
+
+    query.set("bookingType", "EXPLORE");
+    query.set(
+      "exploreId",
+      String(explore.id),
+    );
+    query.set(
+      "exploreName",
+      explore.title,
+    );
+    query.set(
+      "price",
+      String(explore.price),
+    );
+    query.set(
+      "guests",
+      String(guests),
+    );
+    query.set(
+      "subtotal",
+      String(subtotal),
+    );
+    query.set(
+      "serviceFee",
+      String(serviceFee),
+    );
+    query.set(
+      "total",
+      String(total),
+    );
+
+    if (date) {
+      query.set("date", date);
+    }
+
+    return `/bookings?${query.toString()}`;
+  }, [
+    explore.id,
+    explore.title,
+    explore.price,
+    guests,
+    subtotal,
+    serviceFee,
+    total,
+    date,
+  ]);
+
+  /* =========================================================
+     OPEN BOOKING POPUP
+  ========================================================= */
+
+  const openBookingPopup = () => {
+    setBookingError("");
+
+    if (!date) {
+      setBookingError(
+        "Please select a date before continuing.",
+      );
+      return;
+    }
+
+    if (
+      guests < 1 ||
+      guests > MAX_GUESTS
+    ) {
+      setBookingError(
+        `Guests must be between 1 and ${MAX_GUESTS}.`,
+      );
+      return;
+    }
+
+    setBookingPopupOpen(true);
+  };
+
+  /* =========================================================
+     CONFIRM EXPLORE
+  ========================================================= */
+
+  const confirmExplore = async () => {
+    setBookingError("");
+
+    if (!date) {
+      setBookingError(
+        "Please select a date.",
+      );
+      return;
+    }
+
+    if (
+      guests < 1 ||
+      guests > MAX_GUESTS
+    ) {
+      setBookingError(
+        `Guests must be between 1 and ${MAX_GUESTS}.`,
+      );
+      return;
+    }
+
+    /*
+      IMPORTANT:
+      Explore itself is the discovery layer.
+
+      We do NOT create a fake Prisma Booking here.
+      The selected Explore information is carried
+      into the central booking flow.
+
+      Local Plan remains the unlock layer.
+    */
+
+    setBookingLoading(true);
+
+    try {
+      /*
+        Small delay only for a smooth confirmation state.
+        No payment is performed.
+      */
+      await new Promise((resolve) =>
+        setTimeout(resolve, 350),
+      );
+
+      window.location.href = bookingUrl;
+    } catch (error) {
+      console.error(
+        "EXPLORE_BOOKING_ERROR:",
+        error,
+      );
+
+      setBookingError(
+        "Unable to continue. Please try again.",
+      );
+
+      setBookingLoading(false);
+    }
+  };
+
+  /* =========================================================
+     SHARE
+  ========================================================= */
+
+  const shareExplore = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: explore.title,
+          text: `Discover ${explore.title} with Vistara.`,
+          url: window.location.href,
+        });
+      } else {
+        await navigator.clipboard.writeText(
+          window.location.href,
+        );
+      }
+    } catch {
+      // User cancelled sharing.
+    }
+  };
 
   return (
     <main className="min-h-screen bg-white text-black">
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-4 pb-20 pt-5 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
 
-        {/* TOP BAR */}
+        {/* =================================================
+            TOP
+        ================================================= */}
 
-        <div className="mb-5 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-between">
           <Link
-            href="/experiences"
+            href="/explore"
             className="flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-black"
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={17} />
             Back to Explore
           </Link>
 
           <button
+            type="button"
             onClick={toggleWishlist}
             className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
               wishlisted
                 ? "border-black bg-black text-white"
-                : "border-gray-300 bg-white text-black hover:bg-gray-50"
+                : "border-gray-300 bg-white text-black hover:border-black"
             }`}
           >
             <Heart
@@ -273,47 +537,53 @@ export default function ExperienceDetailsPage({
               }
             />
 
-            {wishlisted ? "Saved" : "Wishlist"}
+            {wishlisted
+              ? "Saved"
+              : "Wishlist"}
           </button>
         </div>
 
-        {/* TWO COLUMN */}
+        {/* =================================================
+            MAIN
+        ================================================= */}
 
-        <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_390px]">
 
-          {/* LEFT */}
+          {/* =================================================
+              LEFT
+          ================================================= */}
 
           <div>
 
-            {/* IMAGE */}
+            {/* HERO */}
 
-            <div className="relative overflow-hidden rounded-3xl bg-gray-100">
+            <div className="relative overflow-hidden rounded-[28px] bg-gray-100">
               <img
-                src={experience.image}
-                alt={experience.title}
-                className="h-[330px] w-full object-cover sm:h-[430px] lg:h-[500px]"
+                src={explore.image}
+                alt={explore.title}
+                className="h-80 w-full object-cover sm:h-[450px] lg:h-[510px]"
               />
 
-              <div className="absolute left-5 top-5 flex items-center gap-1.5 rounded-full bg-white px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] shadow-sm">
-                <ShieldCheck size={13} />
-                Verified Experience
+              <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest shadow-sm">
+                <ShieldCheck size={14} />
+                Vistara Explore
               </div>
             </div>
 
             {/* TITLE */}
 
-            <div className="border-b border-gray-200 py-7">
+            <section className="border-b border-gray-200 py-7">
               <div className="flex items-start justify-between gap-5">
                 <div>
                   <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-                    {experience.title}
+                    {explore.title}
                   </h1>
 
                   <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-gray-600">
+
                     <span className="flex items-center gap-1.5">
                       <MapPin size={15} />
-                      {experience.location},{" "}
-                      {experience.city}
+                      {explore.location}
                     </span>
 
                     <span className="flex items-center gap-1.5 font-semibold text-black">
@@ -321,18 +591,20 @@ export default function ExperienceDetailsPage({
                         size={14}
                         fill="currentColor"
                       />
-                      {experience.rating}
+                      {explore.rating}
                     </span>
 
                     <span>
-                      {reviews.length} reviews
+                      {explore.reviews} reviews
                     </span>
+
                   </div>
                 </div>
 
                 <button
+                  type="button"
                   onClick={toggleWishlist}
-                  className="hidden rounded-full border border-gray-300 p-3 transition hover:bg-gray-50 sm:flex"
+                  className="hidden rounded-full border border-gray-300 p-3 transition hover:border-black sm:flex"
                 >
                   <Heart
                     size={19}
@@ -344,54 +616,79 @@ export default function ExperienceDetailsPage({
                   />
                 </button>
               </div>
-            </div>
+            </section>
 
             {/* ABOUT */}
 
             <section className="border-b border-gray-200 py-8">
               <SmallLabel>
-                About this experience
+                About this Explore
               </SmallLabel>
 
               <h2 className="mt-2 text-xl font-semibold">
-                Discover the destination like a local
+                Discover this part of the city like a local
               </h2>
 
               <p className="mt-3 max-w-3xl text-sm leading-7 text-gray-600">
-                {experience.description}
+                {explore.description}
               </p>
+
+              <div className="mt-5 rounded-2xl border border-gray-200 bg-gray-50 p-4">
+                <div className="flex gap-3">
+                  <Compass
+                    size={20}
+                    className="mt-0.5 shrink-0"
+                  />
+
+                  <div>
+                    <p className="text-sm font-semibold">
+                      Explore preview
+                    </p>
+
+                    <p className="mt-1 text-xs leading-5 text-gray-600">
+                      {explore.preview}
+                    </p>
+
+                    <p className="mt-2 text-xs leading-5 text-gray-500">
+                      Exact locations, maps and route
+                      details become available after
+                      the relevant Local Plan is unlocked.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </section>
 
-            {/* EXPERIENCE DETAILS */}
+            {/* DETAILS */}
 
             <section className="border-b border-gray-200 py-8">
               <SmallLabel>
-                Experience details
+                Explore details
               </SmallLabel>
 
               <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
                 <InfoCard
                   icon={Compass}
                   label="Category"
-                  value={experience.category}
+                  value={explore.category}
                 />
 
                 <InfoCard
                   icon={Clock}
                   label="Duration"
-                  value={experience.duration}
+                  value={explore.duration}
                 />
 
                 <InfoCard
-                  icon={Users}
-                  label="Guests"
-                  value={`Up to ${experience.guests}`}
+                  icon={MapPin}
+                  label="Location"
+                  value={explore.city}
                 />
 
                 <InfoCard
                   icon={ShieldCheck}
                   label="Status"
-                  value="Verified"
+                  value="Vistara Explore"
                 />
               </div>
             </section>
@@ -400,30 +697,52 @@ export default function ExperienceDetailsPage({
 
             <section className="border-b border-gray-200 py-8">
               <SmallLabel>
-                Highlights
+                Explore highlights
               </SmallLabel>
 
               <h2 className="mt-2 text-xl font-semibold">
-                What you&apos;ll experience
+                What you&apos;ll discover
               </h2>
 
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {experience.highlights.map(
-                  (highlight) => (
-                    <div
-                      key={highlight}
-                      className="flex items-center gap-3 rounded-xl border border-gray-200 px-4 py-3.5"
-                    >
-                      <Check
-                        size={17}
-                        className="shrink-0"
-                      />
-
-                      <span className="text-sm font-medium text-gray-700">
-                        {highlight}
-                      </span>
+                {explore.tags.map((tag) => (
+                  <div
+                    key={tag}
+                    className="flex items-center gap-3 rounded-xl border border-gray-200 px-4 py-4"
+                  >
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gray-100">
+                      <Check size={16} />
                     </div>
-                  )
+
+                    <span className="text-sm font-medium text-gray-700">
+                      {tag}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* INTERESTS */}
+
+            <section className="border-b border-gray-200 py-8">
+              <SmallLabel>
+                Explore interests
+              </SmallLabel>
+
+              <h2 className="mt-2 text-xl font-semibold">
+                This Explore is ideal for
+              </h2>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                {explore.interests.map(
+                  (interest) => (
+                    <span
+                      key={interest}
+                      className="rounded-full border border-gray-200 px-4 py-2 text-sm text-gray-700"
+                    >
+                      {interest}
+                    </span>
+                  ),
                 )}
               </div>
             </section>
@@ -438,77 +757,27 @@ export default function ExperienceDetailsPage({
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 <DetailCard
                   icon={Utensils}
-                  label="Local experience"
-                  value="Curated activity"
+                  label="Local discovery"
+                  value="Curated local options"
                 />
 
                 <DetailCard
                   icon={ShieldCheck}
-                  label="Verified host"
-                  value="Vistara verified"
+                  label="Vistara"
+                  value="Curated discovery"
                 />
 
                 <DetailCard
                   icon={Users}
-                  label="Group size"
-                  value={`Up to ${experience.guests} guests`}
+                  label="Group"
+                  value="Flexible guest count"
                 />
 
                 <DetailCard
                   icon={Camera}
-                  label="Guidance"
-                  value="Local host guidance"
+                  label="Explore"
+                  value="Local discovery guidance"
                 />
-              </div>
-            </section>
-
-            {/* HOST */}
-
-            <section className="border-b border-gray-200 py-8">
-              <SmallLabel>
-                Hosted by
-              </SmallLabel>
-
-              <div className="mt-5 flex flex-col gap-5 rounded-2xl border border-gray-200 p-5 sm:flex-row sm:items-center">
-                <img
-                  src="/profile.jpg"
-                  alt={experience.hostName}
-                  className="h-16 w-16 shrink-0 rounded-full object-cover"
-                />
-
-                <div className="flex-1">
-                  <h3 className="font-semibold">
-                    {experience.hostName}
-                  </h3>
-
-                  <p className="mt-1 text-sm text-gray-500">
-                    Experience host on Vistara
-                  </p>
-
-                  <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-gray-600">
-                    <span className="flex items-center gap-1">
-                      <Star
-                        size={13}
-                        fill="currentColor"
-                      />
-                      {experience.rating} rating
-                    </span>
-
-                    <span>•</span>
-
-                    <span className="flex items-center gap-1">
-                      <ShieldCheck size={13} />
-                      Verified host
-                    </span>
-                  </div>
-                </div>
-
-                <Link
-                  href={`/host/${experience.hostId}`}
-                  className="rounded-xl border border-black px-5 py-2.5 text-center text-sm font-semibold transition hover:bg-black hover:text-white"
-                >
-                  View Profile ↗
-                </Link>
               </div>
             </section>
 
@@ -516,31 +785,32 @@ export default function ExperienceDetailsPage({
 
             <section className="border-b border-gray-200 py-8">
               <SmallLabel>
-                Location
+                Explore location
               </SmallLabel>
 
               <h2 className="mt-2 text-xl font-semibold">
-                Where the experience happens
+                Explore around {explore.city}
               </h2>
 
               <p className="mt-2 text-sm text-gray-600">
-                {experience.location},{" "}
-                {experience.city}
+                {explore.location}
               </p>
 
               <div className="mt-5 overflow-hidden rounded-2xl border border-gray-200">
-                <div className="flex h-[280px] flex-col items-center justify-center bg-[#EEF4FF] sm:h-[340px]">
+                <div className="flex h-[280px] flex-col items-center justify-center bg-gray-50 sm:h-[340px]">
                   <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-sm">
-                    <MapPin size={22} />
+                    <MapPin size={23} />
                   </div>
 
                   <p className="mt-4 text-sm font-semibold">
-                    {experience.city}
+                    {explore.city}
                   </p>
 
-                  <p className="mt-1 px-5 text-center text-xs text-gray-500">
-                    Exact meeting location will be
-                    shared after booking.
+                  <p className="mt-1 max-w-sm px-5 text-center text-xs leading-5 text-gray-500">
+                    Approximate area preview only.
+                    Exact locations and route details
+                    become available after the relevant
+                    Local Plan is unlocked.
                   </p>
                 </div>
               </div>
@@ -565,7 +835,7 @@ export default function ExperienceDetailsPage({
                     size={15}
                     fill="currentColor"
                   />
-                  {experience.rating}
+                  {explore.rating}
                 </div>
               </div>
 
@@ -573,7 +843,7 @@ export default function ExperienceDetailsPage({
                 {reviews.map((review) => (
                   <div
                     key={review.id}
-                    className="rounded-2xl bg-[#F7F8FA] p-5"
+                    className="rounded-2xl bg-gray-50 p-5"
                   >
                     <div className="flex items-center gap-1">
                       {[1, 2, 3, 4, 5].map(
@@ -584,13 +854,13 @@ export default function ExperienceDetailsPage({
                             fill={
                               star <=
                               Math.round(
-                                review.rating
+                                review.rating,
                               )
                                 ? "currentColor"
                                 : "none"
                             }
                           />
-                        )
+                        ),
                       )}
                     </div>
 
@@ -600,6 +870,10 @@ export default function ExperienceDetailsPage({
 
                     <p className="mt-4 text-xs font-semibold">
                       {review.name} · Guest
+                    </p>
+
+                    <p className="mt-1 text-[11px] text-gray-400">
+                      {review.date}
                     </p>
                   </div>
                 ))}
@@ -636,17 +910,19 @@ export default function ExperienceDetailsPage({
                           }
                         />
                       </button>
-                    )
+                    ),
                   )}
                 </div>
 
                 <textarea
                   value={reviewText}
-                  onChange={(e) =>
-                    setReviewText(e.target.value)
+                  onChange={(event) =>
+                    setReviewText(
+                      event.target.value,
+                    )
                   }
-                  placeholder="Write about your experience..."
-                  className="mt-3 min-h-[100px] w-full resize-none rounded-xl border border-gray-200 bg-white p-3 text-sm outline-none focus:border-black"
+                  placeholder="Write about your Explore..."
+                  className="mt-3 min-h-25 w-full resize-none rounded-xl border border-gray-200 bg-white p-3 text-sm outline-none focus:border-black"
                 />
 
                 <button
@@ -660,7 +936,9 @@ export default function ExperienceDetailsPage({
             </section>
           </div>
 
-          {/* RIGHT BOOKING CARD */}
+          {/* =================================================
+              BOOKING CARD
+          ================================================= */}
 
           <aside className="lg:sticky lg:top-24">
             <div className="rounded-3xl border border-gray-200 bg-white p-7 shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
@@ -671,8 +949,8 @@ export default function ExperienceDetailsPage({
                 <div>
                   <span className="text-2xl font-bold">
                     ₹
-                    {experience.price.toLocaleString(
-                      "en-IN"
+                    {explore.price.toLocaleString(
+                      "en-IN",
                     )}
                   </span>
 
@@ -686,14 +964,14 @@ export default function ExperienceDetailsPage({
                     size={14}
                     fill="currentColor"
                   />
-                  {experience.rating}
+                  {explore.rating}
                 </div>
               </div>
 
               {/* DATE */}
 
               <div className="mt-6 rounded-2xl border border-gray-200 p-4">
-                <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-gray-500">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-gray-500">
                   Date
                 </p>
 
@@ -702,7 +980,7 @@ export default function ExperienceDetailsPage({
                     type="button"
                     onClick={() =>
                       setCalendarOpen(
-                        (open) => !open
+                        (open) => !open,
                       )
                     }
                     className="flex w-full items-center gap-2 text-left"
@@ -723,45 +1001,34 @@ export default function ExperienceDetailsPage({
                               day: "2-digit",
                               month: "short",
                               year: "numeric",
-                            }
+                            },
                           )
                         : "Select date"}
                     </span>
+
+                    {calendarOpen ? (
+                      <ChevronLeft
+                        size={15}
+                        className="-rotate-90"
+                      />
+                    ) : (
+                      <ChevronRight
+                        size={15}
+                        className="rotate-90"
+                      />
+                    )}
                   </button>
 
-                  {calendarOpen && (
-                    <div className="absolute left-0 top-full z-50 mt-3 w-full min-w-[300px] rounded-2xl border border-gray-200 bg-white p-4 shadow-[0_12px_35px_rgba(0,0,0,0.12)]">
+                  {/* CALENDAR */}
 
-                      {/* CALENDAR HEADER */}
+                  {calendarOpen && (
+                    <div className="absolute left-0 top-full z-50 mt-3 w-full min-w-75 rounded-2xl border border-gray-200 bg-white p-4 shadow-[0_12px_35px_rgba(0,0,0,0.12)]">
 
                       <div className="mb-4 flex items-center justify-between">
                         <button
                           type="button"
-                          onClick={() => {
-                            const previous =
-                              new Date(
-                                calendarMonth.getFullYear(),
-                                calendarMonth.getMonth() - 1,
-                                1
-                              );
-
-                            const current =
-                              new Date(
-                                today.getFullYear(),
-                                today.getMonth(),
-                                1
-                              );
-
-                            if (
-                              previous >=
-                              current
-                            ) {
-                              setCalendarMonth(
-                                previous
-                              );
-                            }
-                          }}
-                          className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-gray-100"
+                          onClick={previousMonth}
+                          className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100"
                         >
                           <ChevronLeft size={16} />
                         </button>
@@ -772,22 +1039,12 @@ export default function ExperienceDetailsPage({
 
                         <button
                           type="button"
-                          onClick={() =>
-                            setCalendarMonth(
-                              new Date(
-                                calendarMonth.getFullYear(),
-                                calendarMonth.getMonth() + 1,
-                                1
-                              )
-                            )
-                          }
-                          className="flex h-8 w-8 items-center justify-center rounded-full transition hover:bg-gray-100"
+                          onClick={nextMonth}
+                          className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-gray-100"
                         >
                           <ChevronRight size={16} />
                         </button>
                       </div>
-
-                      {/* WEEK DAYS */}
 
                       <div className="mb-2 grid grid-cols-7 text-center">
                         {[
@@ -806,11 +1063,9 @@ export default function ExperienceDetailsPage({
                             >
                               {day}
                             </div>
-                          )
+                          ),
                         )}
                       </div>
-
-                      {/* DATES */}
 
                       <div className="grid grid-cols-7 gap-1">
                         {calendarDays.map(
@@ -827,14 +1082,21 @@ export default function ExperienceDetailsPage({
                               new Date(
                                 calendarMonth.getFullYear(),
                                 calendarMonth.getMonth(),
-                                day
+                                day,
                               );
+
+                            currentDate.setHours(
+                              0,
+                              0,
+                              0,
+                              0,
+                            );
 
                             const isPast =
                               currentDate < today;
 
                             const isSelected =
-                              selectedDate &&
+                              selectedDate !== null &&
                               currentDate.getTime() ===
                                 selectedDate.getTime();
 
@@ -868,11 +1130,9 @@ export default function ExperienceDetailsPage({
                                 {day}
                               </button>
                             );
-                          }
+                          },
                         )}
                       </div>
-
-                      {/* CLEAR */}
 
                       {date && (
                         <button
@@ -883,7 +1143,7 @@ export default function ExperienceDetailsPage({
                           }}
                           className="mt-4 w-full border-t border-gray-200 pt-3 text-left text-xs font-medium hover:underline"
                         >
-                          Clear
+                          Clear date
                         </button>
                       )}
                     </div>
@@ -894,7 +1154,7 @@ export default function ExperienceDetailsPage({
               {/* GUESTS */}
 
               <div className="mt-3 rounded-2xl border border-gray-200 p-4">
-                <p className="text-[9px] font-bold uppercase tracking-[0.12em] text-gray-500">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-gray-500">
                   Guests
                 </p>
 
@@ -913,30 +1173,34 @@ export default function ExperienceDetailsPage({
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
+                      disabled={guests <= 1}
                       onClick={() =>
                         setGuests(
                           Math.max(
                             1,
-                            guests - 1
-                          )
+                            guests - 1,
+                          ),
                         )
                       }
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-lg"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-lg disabled:opacity-40"
                     >
                       −
                     </button>
 
                     <button
                       type="button"
+                      disabled={
+                        guests >= MAX_GUESTS
+                      }
                       onClick={() =>
                         setGuests(
                           Math.min(
-                            experience.guests,
-                            guests + 1
-                          )
+                            MAX_GUESTS,
+                            guests + 1,
+                          ),
                         )
                       }
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-lg"
+                      className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-lg disabled:opacity-40"
                     >
                       +
                     </button>
@@ -944,22 +1208,30 @@ export default function ExperienceDetailsPage({
                 </div>
 
                 <p className="mt-2 text-[11px] text-gray-500">
-                  Up to {experience.guests} guests
+                  Up to {MAX_GUESTS} guests
                 </p>
               </div>
 
-              {/* BOOK */}
+              {/* ERROR */}
 
-              <Link
-                href={`/booking/${experience.id}`}
+              {bookingError && (
+                <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                  {bookingError}
+                </div>
+              )}
+
+              {/* BOOK NOW */}
+
+              <button
+                type="button"
+                onClick={openBookingPopup}
                 className="mt-5 flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800"
               >
                 Book Now ↗
-              </Link>
+              </button>
 
               <p className="mt-3 text-center text-[11px] text-gray-500">
-                You won&apos;t be charged until you
-                confirm your booking.
+                No payment is required for this MVP.
               </p>
 
               {/* PRICE */}
@@ -968,17 +1240,19 @@ export default function ExperienceDetailsPage({
                 <div className="flex justify-between">
                   <span className="text-gray-600">
                     ₹
-                    {experience.price.toLocaleString(
-                      "en-IN"
+                    {explore.price.toLocaleString(
+                      "en-IN",
                     )}{" "}
-                    × {guests} guest
-                    {guests > 1 ? "s" : ""}
+                    × {guests}{" "}
+                    {guests === 1
+                      ? "guest"
+                      : "guests"}
                   </span>
 
                   <span>
                     ₹
                     {subtotal.toLocaleString(
-                      "en-IN"
+                      "en-IN",
                     )}
                   </span>
                 </div>
@@ -991,7 +1265,7 @@ export default function ExperienceDetailsPage({
                   <span>
                     ₹
                     {serviceFee.toLocaleString(
-                      "en-IN"
+                      "en-IN",
                     )}
                   </span>
                 </div>
@@ -1003,7 +1277,7 @@ export default function ExperienceDetailsPage({
                     <span>
                       ₹
                       {total.toLocaleString(
-                        "en-IN"
+                        "en-IN",
                       )}
                     </span>
                   </div>
@@ -1015,21 +1289,242 @@ export default function ExperienceDetailsPage({
 
             <button
               type="button"
+              onClick={shareExplore}
               className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-gray-200 bg-white px-5 py-3.5 text-sm font-semibold transition hover:bg-gray-50"
             >
               <Share2 size={16} />
-              Share this explore
+              Share this Explore
             </button>
           </aside>
         </div>
       </div>
 
-      {/* FOOTER */}
+      {/* =====================================================
+          BOOKING CONFIRMATION POPUP
+      ===================================================== */}
+
+      {bookingPopupOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4 py-6 backdrop-blur-sm">
+
+          <div className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-[28px] bg-white shadow-2xl">
+
+            {/* CLOSE */}
+
+            <button
+              type="button"
+              onClick={() => {
+                if (!bookingLoading) {
+                  setBookingPopupOpen(false);
+                  setBookingError("");
+                }
+              }}
+              className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black text-white transition hover:bg-gray-800"
+            >
+              <X size={17} />
+            </button>
+
+            {/* HEADER */}
+
+            <div className="bg-black px-6 pb-7 pt-10 text-center text-white">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white text-black">
+                <Compass size={28} />
+              </div>
+
+              <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">
+                VISTARA EXPLORE
+              </p>
+
+              <h2 className="mt-2 text-2xl font-bold">
+                Ready to explore?
+              </h2>
+
+              <p className="mt-2 text-sm text-gray-400">
+                Review your Explore selection before continuing.
+              </p>
+            </div>
+
+            {/* CONTENT */}
+
+            <div className="p-6">
+
+              {/* EXPLORE */}
+
+              <div className="flex gap-4 rounded-2xl border border-gray-200 p-4">
+                <img
+                  src={explore.image}
+                  alt={explore.title}
+                  className="h-24 w-24 shrink-0 rounded-xl object-cover"
+                />
+
+                <div className="min-w-0">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                    Explore
+                  </p>
+
+                  <h3 className="mt-1 truncate text-lg font-semibold">
+                    {explore.title}
+                  </h3>
+
+                  <div className="mt-2 flex items-center gap-1 text-sm text-gray-500">
+                    <MapPin size={14} />
+                    {explore.location}
+                  </div>
+                </div>
+              </div>
+
+              {/* DETAILS */}
+
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="rounded-xl bg-gray-50 p-4">
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">
+                    Date
+                  </p>
+
+                  <p className="mt-2 text-sm font-semibold">
+                    {selectedDate
+                      ? selectedDate.toLocaleDateString(
+                          "en-IN",
+                          {
+                            day: "2-digit",
+                            month: "short",
+                            year: "numeric",
+                          },
+                        )
+                      : "Not selected"}
+                  </p>
+                </div>
+
+                <div className="rounded-xl bg-gray-50 p-4">
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">
+                    Guests
+                  </p>
+
+                  <p className="mt-2 text-sm font-semibold">
+                    {guests}{" "}
+                    {guests === 1
+                      ? "Guest"
+                      : "Guests"}
+                  </p>
+                </div>
+              </div>
+
+              {/* PRICE */}
+
+              <div className="mt-4 rounded-2xl border border-gray-200 p-5">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">
+                    Explore
+                  </span>
+
+                  <span>
+                    ₹
+                    {subtotal.toLocaleString(
+                      "en-IN",
+                    )}
+                  </span>
+                </div>
+
+                <div className="mt-3 flex justify-between text-sm">
+                  <span className="text-gray-600">
+                    Service fee
+                  </span>
+
+                  <span>
+                    ₹
+                    {serviceFee.toLocaleString(
+                      "en-IN",
+                    )}
+                  </span>
+                </div>
+
+                <div className="mt-4 border-t border-gray-200 pt-4">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold">
+                      Total
+                    </span>
+
+                    <span className="text-xl font-bold">
+                      ₹
+                      {total.toLocaleString(
+                        "en-IN",
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* ARCHITECTURE NOTE */}
+
+              <div className="mt-4 rounded-2xl bg-gray-50 p-4">
+                <div className="flex gap-3">
+                  <ShieldCheck
+                    size={18}
+                    className="mt-0.5 shrink-0"
+                  />
+
+                  <div>
+                    <p className="text-sm font-semibold">
+                      Explore preview
+                    </p>
+
+                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                      Exact locations, maps, directions
+                      and route details are unlocked
+                      through the relevant Local Plan.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* ERROR */}
+
+              {bookingError && (
+                <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+                  {bookingError}
+                </div>
+              )}
+
+              {/* ACTION */}
+
+              <button
+                type="button"
+                onClick={confirmExplore}
+                disabled={bookingLoading}
+                className="mt-5 flex w-full items-center justify-center rounded-xl bg-black px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {bookingLoading
+                  ? "Opening booking..."
+                  : "Continue to Booking"}
+              </button>
+
+              <button
+                type="button"
+                disabled={bookingLoading}
+                onClick={() => {
+                  setBookingPopupOpen(false);
+                  setBookingError("");
+                }}
+                className="mt-3 flex w-full items-center justify-center rounded-xl border border-gray-200 px-5 py-3.5 text-sm font-semibold transition hover:bg-gray-50 disabled:opacity-50"
+              >
+                Continue Exploring
+              </button>
+
+              <p className="mt-4 text-center text-[11px] text-gray-400">
+                No payment is required for this MVP.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================
+          FOOTER
+      ===================================================== */}
 
       <footer className="border-t border-gray-200">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
           <div>
-            <p className="font-serif text-lg font-semibold">
+            <p className="text-lg font-semibold">
               Vistara
             </p>
 
@@ -1047,24 +1542,32 @@ export default function ExperienceDetailsPage({
   );
 }
 
+/* =========================================================
+   SMALL LABEL
+========================================================= */
+
 function SmallLabel({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
-    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+    <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
       {children}
     </p>
   );
 }
+
+/* =========================================================
+   INFO CARD
+========================================================= */
 
 function InfoCard({
   icon: Icon,
   label,
   value,
 }: {
-  icon: React.ElementType;
+  icon: ElementType;
   label: string;
   value: string;
 }) {
@@ -1075,7 +1578,7 @@ function InfoCard({
         strokeWidth={1.7}
       />
 
-      <p className="mt-3 text-[10px] uppercase tracking-[0.1em] text-gray-500">
+      <p className="mt-3 text-[10px] uppercase tracking-widest text-gray-500">
         {label}
       </p>
 
@@ -1086,24 +1589,30 @@ function InfoCard({
   );
 }
 
+/* =========================================================
+   DETAIL CARD
+========================================================= */
+
 function DetailCard({
   icon: Icon,
   label,
   value,
 }: {
-  icon: React.ElementType;
+  icon: ElementType;
   label: string;
   value: string;
 }) {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-gray-200 px-4 py-4">
-      <Icon
-        size={19}
-        strokeWidth={1.7}
-      />
+      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100">
+        <Icon
+          size={18}
+          strokeWidth={1.7}
+        />
+      </div>
 
       <div>
-        <p className="text-[10px] uppercase tracking-[0.1em] text-gray-500">
+        <p className="text-[10px] uppercase tracking-widest text-gray-500">
           {label}
         </p>
 

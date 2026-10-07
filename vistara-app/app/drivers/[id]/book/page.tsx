@@ -2,8 +2,8 @@
 
 import Navbar from "@/components/navbar";
 import Footer from "@/app/footer/page";
-
 import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
 import {
   FormEvent,
   ReactNode,
@@ -28,73 +28,40 @@ import {
   X,
 } from "lucide-react";
 
+/* -------------------------------------------------------------------------- */
+/* TYPES                                                                      */
+/* -------------------------------------------------------------------------- */
+
+type ApiVehicle = {
+  id?: number | string;
+  model?: string | null;
+  name?: string | null;
+  make?: string | null;
+  type?: string | null;
+  seats?: number | null;
+  capacity?: number | null;
+};
+
 type Driver = {
   id: number;
   name: string;
-  city: string;
-  bio?: string | null;
-  image?: string | null;
-  vehicle?: string | null;
-  vehicleType?: string | null;
+  image: string | null;
+  vehicle: string;
+  vehicleType: string;
   rating: number;
-  reviewCount: number;
-  price?: number | null;
-  seats?: number | null;
-  verified?: boolean;
+  totalTrips: number;
+  experienceYears: number;
+  price: number;
+  seats: number;
+  verified: boolean;
+  status: string;
+  languages: string[];
+  services: string[];
 };
 
-/* =========================================================
-   DEMO FALLBACK
-========================================================= */
-
-const fallbackDrivers: Driver[] = [
-  {
-    id: 1,
-    name: "Rajiv Kumar",
-    city: "Patna, Bihar",
-    bio: "Local driver for city rides, airport transfers and nearby destinations.",
-    image: "/images/profile.jpg",
-    vehicle: "Sedan",
-    vehicleType: "Comfort",
-    rating: 4.9,
-    reviewCount: 124,
-    price: 699,
-    seats: 4,
-    verified: true,
-  },
-  {
-    id: 2,
-    name: "Amit Singh",
-    city: "Patna, Bihar",
-    bio: "Friendly local driver for flexible city trips and destination transfers.",
-    image: "/images/profile.jpg",
-    vehicle: "SUV",
-    vehicleType: "Comfort",
-    rating: 4.8,
-    reviewCount: 96,
-    price: 799,
-    seats: 6,
-    verified: true,
-  },
-  {
-    id: 3,
-    name: "Neha Sharma",
-    city: "Patna, Bihar",
-    bio: "Reliable driver for local sightseeing and comfortable rides.",
-    image: "/images/profile.jpg",
-    vehicle: "Hatchback",
-    vehicleType: "Economy",
-    rating: 4.9,
-    reviewCount: 87,
-    price: 599,
-    seats: 4,
-    verified: true,
-  },
-];
-
-/* =========================================================
-   HELPERS
-========================================================= */
+/* -------------------------------------------------------------------------- */
+/* HELPERS                                                                    */
+/* -------------------------------------------------------------------------- */
 
 function getLocalDateString(date = new Date()) {
   const year = date.getFullYear();
@@ -107,89 +74,223 @@ function getLocalDateString(date = new Date()) {
 function formatDate(value: string) {
   if (!value) return "Select a date";
 
-  try {
-    return new Date(`${value}T00:00:00`).toLocaleDateString("en-IN", {
+  return new Date(`${value}T00:00:00`).toLocaleDateString(
+    "en-IN",
+    {
       weekday: "short",
       day: "numeric",
       month: "short",
       year: "numeric",
-    });
-  } catch {
-    return value;
-  }
+    }
+  );
 }
 
 function formatTime(value: string) {
   if (!value) return "Select time";
 
-  try {
-    return new Date(`2000-01-01T${value}`).toLocaleTimeString("en-IN", {
-      hour: "numeric",
-      minute: "2-digit",
-    });
-  } catch {
-    return value;
-  }
+  return new Date(
+    `2000-01-01T${value}:00`
+  ).toLocaleTimeString("en-IN", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
 }
 
-/* =========================================================
-   MAIN PAGE
-========================================================= */
+/* -------------------------------------------------------------------------- */
+/* NORMALIZE DRIVER                                                           */
+/* -------------------------------------------------------------------------- */
+
+function normalizeDriver(
+  apiDriver: any
+): Driver | null {
+  if (
+    !apiDriver ||
+    apiDriver.id === undefined ||
+    apiDriver.id === null
+  ) {
+    return null;
+  }
+
+  const numericId = Number(apiDriver.id);
+
+  if (
+    !Number.isInteger(numericId) ||
+    numericId <= 0
+  ) {
+    return null;
+  }
+
+  const vehicles: ApiVehicle[] =
+    Array.isArray(apiDriver.vehicles)
+      ? apiDriver.vehicles
+      : [];
+
+  const vehicle =
+    vehicles.length > 0
+      ? vehicles[0]
+      : null;
+
+  return {
+    id: numericId,
+
+    name:
+      apiDriver.name ??
+      apiDriver.user?.name ??
+      "Local Driver",
+
+    image:
+      apiDriver.image ??
+      apiDriver.avatar ??
+      apiDriver.profileImage ??
+      apiDriver.user?.image ??
+      apiDriver.user?.profile?.avatar ??
+      null,
+
+    vehicle:
+      vehicle?.model ??
+      vehicle?.name ??
+      vehicle?.make ??
+      apiDriver.vehicle ??
+      "Local Vehicle",
+
+    vehicleType:
+      vehicle?.type ??
+      apiDriver.vehicleType ??
+      "Comfort",
+
+    rating:
+      Number(apiDriver.rating ?? 0) || 0,
+
+    totalTrips:
+      Number(
+        apiDriver.totalTrips ??
+          apiDriver.trips ??
+          0
+      ) || 0,
+
+    experienceYears:
+      Number(
+        apiDriver.experienceYears ??
+          apiDriver.experience ??
+          0
+      ) || 0,
+
+    price:
+      Number(
+        apiDriver.pricePerRide ??
+          apiDriver.price ??
+          0
+      ) || 0,
+
+    seats:
+      Number(
+        vehicle?.seats ??
+          vehicle?.capacity ??
+          apiDriver.seats ??
+          4
+      ) || 4,
+
+    verified: Boolean(
+      apiDriver.isVerified ??
+        apiDriver.verified ??
+        false
+    ),
+
+    status:
+      apiDriver.status ??
+      "AVAILABLE",
+
+    languages:
+      Array.isArray(apiDriver.languages)
+        ? apiDriver.languages
+        : [],
+
+    services:
+      Array.isArray(apiDriver.services)
+        ? apiDriver.services
+        : [],
+  };
+}
+
+/* -------------------------------------------------------------------------- */
+/* PAGE                                                                       */
+/* -------------------------------------------------------------------------- */
 
 export default function DriverBookPage() {
-  const [driver, setDriver] = useState<Driver | null>(null);
+  const params = useParams();
+  const router = useRouter();
 
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const driverId = String(
+    params?.id ?? ""
+  ).trim();
 
-  const [pickup, setPickup] = useState("");
-  const [destination, setDestination] = useState("");
-  const [passengers, setPassengers] = useState("1");
+  const [driver, setDriver] =
+    useState<Driver | null>(null);
 
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  const [loading, setLoading] =
+    useState(true);
 
-  /* =======================================================
-     DATE / TIME PICKER STATE
-  ======================================================= */
+  const [submitting, setSubmitting] =
+    useState(false);
 
-  const [calendarOpen, setCalendarOpen] = useState(false);
-  const [timeOpen, setTimeOpen] = useState(false);
+  const [error, setError] =
+    useState("");
 
-  const [viewDate, setViewDate] = useState(() => new Date());
+  const [date, setDate] =
+    useState("");
+
+  const [time, setTime] =
+    useState("");
+
+  const [pickup, setPickup] =
+    useState("");
+
+  const [destination, setDestination] =
+    useState("");
+
+  const [passengers, setPassengers] =
+    useState("1");
+
+  const [calendarOpen, setCalendarOpen] =
+    useState(false);
+
+  const [timeOpen, setTimeOpen] =
+    useState(false);
+
+  const [viewDate, setViewDate] =
+    useState(() => new Date());
+
+  /* ------------------------------------------------------------------------ */
+  /* TODAY                                                                    */
+  /* ------------------------------------------------------------------------ */
 
   const today = useMemo(() => {
     const value = new Date();
-    value.setHours(0, 0, 0, 0);
+
+    value.setHours(
+      0,
+      0,
+      0,
+      0
+    );
+
     return value;
   }, []);
 
-  const todayString = getLocalDateString(today);
+  const todayString =
+    getLocalDateString(today);
 
-  /* =======================================================
-     DRIVER ID
-  ======================================================= */
-
-  const driverId =
-    typeof window !== "undefined"
-      ? window.location.pathname.split("/")[2] || ""
-      : "";
-
-  /* =======================================================
-     LOAD DRIVER
-  ======================================================= */
+  /* ------------------------------------------------------------------------ */
+  /* LOAD EXACT DRIVER                                                        */
+  /* ------------------------------------------------------------------------ */
 
   useEffect(() => {
-    let mounted = true;
+    let cancelled = false;
 
     async function loadDriver() {
       if (!driverId) {
-        if (mounted) {
-          setError("Invalid driver.");
-          setLoading(false);
-        }
-
+        setError("Invalid driver ID.");
+        setLoading(false);
         return;
       }
 
@@ -197,79 +298,83 @@ export default function DriverBookPage() {
         setLoading(true);
         setError("");
 
-        const response = await fetch("/api/drivers", {
-          method: "GET",
-          credentials: "include",
-          cache: "no-store",
-        });
+        /*
+         * IMPORTANT:
+         * We intentionally call the SINGLE DRIVER endpoint.
+         *
+         * /api/drivers
+         * is NOT used here.
+         */
 
-        let result: any = null;
+        const response = await fetch(
+          `/api/drivers/${encodeURIComponent(
+            driverId
+          )}`,
+          {
+            method: "GET",
+            credentials: "include",
+            cache: "no-store",
+          }
+        );
+
+        const raw =
+          await response.text();
+
+        let result: any = {};
 
         try {
-          result = await response.json();
+          result = raw
+            ? JSON.parse(raw)
+            : {};
         } catch {
-          result = null;
+          result = {};
         }
+
+        if (!response.ok) {
+          throw new Error(
+            result?.message ??
+              result?.error ??
+              `Unable to load driver. HTTP ${response.status}`
+          );
+        }
+
+        const apiDriver =
+          result?.data ??
+          result?.driver ??
+          result;
 
         if (
-          response.ok &&
-          result?.success &&
-          Array.isArray(result.data)
+          !apiDriver ||
+          String(apiDriver.id) !==
+            String(driverId)
         ) {
-          const foundDriver = result.data.find(
-            (item: Driver) =>
-              String(item.id) === String(driverId)
+          throw new Error(
+            `Driver ${driverId} not found.`
           );
-
-          if (foundDriver) {
-            if (mounted) {
-              setDriver({
-                ...foundDriver,
-                rating: Number(foundDriver.rating || 0),
-                reviewCount: Number(foundDriver.reviewCount || 0),
-                price:
-                  foundDriver.price !== null &&
-                  foundDriver.price !== undefined
-                    ? Number(foundDriver.price)
-                    : 0,
-                seats:
-                  foundDriver.seats !== null &&
-                  foundDriver.seats !== undefined
-                    ? Number(foundDriver.seats)
-                    : 4,
-              });
-            }
-
-            return;
-          }
         }
 
-        const fallbackDriver = fallbackDrivers.find(
-          (item) => String(item.id) === String(driverId)
-        );
+        const normalized =
+          normalizeDriver(apiDriver);
 
-        if (fallbackDriver) {
-          if (mounted) {
-            setDriver(fallbackDriver);
-          }
-
-          return;
+        if (!normalized) {
+          throw new Error(
+            "Invalid driver data."
+          );
         }
 
-        throw new Error(
-          result?.message || "Driver not found."
-        );
-      } catch (err) {
-        console.error("DRIVER_BOOK_LOAD_ERROR:", err);
-
-        const fallbackDriver = fallbackDrivers.find(
-          (item) => String(item.id) === String(driverId)
-        );
-
-        if (mounted && fallbackDriver) {
-          setDriver(fallbackDriver);
+        if (!cancelled) {
+          setDriver(normalized);
           setError("");
-        } else if (mounted) {
+        }
+      } catch (err) {
+        console.error(
+          "DRIVER_BOOK_LOAD_ERROR:",
+          err
+        );
+
+        if (!cancelled) {
+          setDriver(null);
+
           setError(
             err instanceof Error
               ? err.message
@@ -277,7 +382,7 @@ export default function DriverBookPage() {
           );
         }
       } finally {
-        if (mounted) {
+        if (!cancelled) {
           setLoading(false);
         }
       }
@@ -286,37 +391,41 @@ export default function DriverBookPage() {
     loadDriver();
 
     return () => {
-      mounted = false;
+      cancelled = true;
     };
   }, [driverId]);
 
-  /* =======================================================
-     PRICING
-  ======================================================= */
-
-  const price = Number(driver?.price || 0);
+  /* ------------------------------------------------------------------------ */
+  /* PASSENGERS / PRICE                                                       */
+  /* ------------------------------------------------------------------------ */
 
   const passengerCount = Math.max(
     1,
     Number(passengers) || 1
   );
 
+  const basePrice =
+    Number(driver?.price) || 0;
+
   const total = useMemo(() => {
-    if (!price) return 0;
+    if (!basePrice) return 0;
 
     if (passengerCount <= 4) {
-      return price;
+      return basePrice;
     }
 
     return (
-      price +
-      Math.max(0, passengerCount - 4) * 150
+      basePrice +
+      (passengerCount - 4) * 150
     );
-  }, [price, passengerCount]);
+  }, [
+    basePrice,
+    passengerCount,
+  ]);
 
-  /* =======================================================
-     CALENDAR
-  ======================================================= */
+  /* ------------------------------------------------------------------------ */
+  /* CALENDAR                                                                 */
+  /* ------------------------------------------------------------------------ */
 
   const monthStart = new Date(
     viewDate.getFullYear(),
@@ -330,24 +439,58 @@ export default function DriverBookPage() {
     0
   ).getDate();
 
-  const firstDayOfMonth = monthStart.getDay();
+  const firstDayOfMonth =
+    monthStart.getDay();
 
-  const monthName = viewDate.toLocaleString("en-US", {
-    month: "long",
-    year: "numeric",
-  });
-
-  const goPreviousMonth = () => {
-    setViewDate(
-      new Date(
-        viewDate.getFullYear(),
-        viewDate.getMonth() - 1,
-        1
-      )
+  const monthName =
+    viewDate.toLocaleString(
+      "en-US",
+      {
+        month: "long",
+        year: "numeric",
+      }
     );
-  };
 
-  const goNextMonth = () => {
+  function buildDateValue(
+    day: number
+  ) {
+    return `${viewDate.getFullYear()}-${String(
+      viewDate.getMonth() + 1
+    ).padStart(2, "0")}-${String(
+      day
+    ).padStart(2, "0")}`;
+  }
+
+  function selectDate(
+    value: string
+  ) {
+    setDate(value);
+    setCalendarOpen(false);
+    setTimeOpen(false);
+  }
+
+  function previousMonth() {
+    const previous = new Date(
+      viewDate.getFullYear(),
+      viewDate.getMonth() - 1,
+      1
+    );
+
+    const currentMonth =
+      new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1
+      );
+
+    if (previous < currentMonth) {
+      return;
+    }
+
+    setViewDate(previous);
+  }
+
+  function nextMonth() {
     setViewDate(
       new Date(
         viewDate.getFullYear(),
@@ -355,22 +498,11 @@ export default function DriverBookPage() {
         1
       )
     );
-  };
+  }
 
-  const selectDate = (selected: string) => {
-    setDate(selected);
-    setCalendarOpen(false);
-  };
-
-  const buildDateValue = (day: number) => {
-    return `${viewDate.getFullYear()}-${String(
-      viewDate.getMonth() + 1
-    ).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-  };
-
-  /* =======================================================
-     TIME SLOTS
-  ======================================================= */
+  /* ------------------------------------------------------------------------ */
+  /* TIME                                                                     */
+  /* ------------------------------------------------------------------------ */
 
   const timeSlots = [
     "06:00",
@@ -408,121 +540,217 @@ export default function DriverBookPage() {
     "22:00",
   ];
 
-  /* =======================================================
-     SUBMIT
-  ======================================================= */
+  /* ------------------------------------------------------------------------ */
+  /* SUBMIT BOOKING                                                           */
+  /* ------------------------------------------------------------------------ */
 
   async function handleSubmit(
     event: FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
 
-    if (!driverId || !driver) {
-      setError("Driver information is unavailable.");
+    if (!driver) {
+      setError(
+        "Driver information is unavailable."
+      );
       return;
     }
 
     setError("");
 
-    if (!date || !time) {
-      setError("Please select date and time.");
+    if (!date) {
+      setError(
+        "Please select a date."
+      );
+      return;
+    }
+
+    if (!time) {
+      setError(
+        "Please select a pickup time."
+      );
       return;
     }
 
     if (!pickup.trim()) {
-      setError("Please enter your pickup location.");
+      setError(
+        "Please enter your pickup location."
+      );
       return;
     }
 
     if (!destination.trim()) {
-      setError("Please enter your destination.");
-      return;
-    }
-
-    if (passengerCount < 1) {
-      setError("Please enter a valid passenger count.");
+      setError(
+        "Please enter your destination."
+      );
       return;
     }
 
     if (
-      driver.seats &&
+      passengerCount < 1 ||
+      !Number.isFinite(
+        passengerCount
+      )
+    ) {
+      setError(
+        "Please enter a valid passenger count."
+      );
+      return;
+    }
+
+    if (
+      driver.seats > 0 &&
       passengerCount > driver.seats
     ) {
       setError(
         `This vehicle can carry up to ${driver.seats} passengers.`
       );
-
       return;
+    }
+
+    if (date < todayString) {
+      setError(
+        "Please select today or a future date."
+      );
+      return;
+    }
+
+    if (date === todayString) {
+      const now = new Date();
+
+      const [hours, minutes] =
+        time.split(":").map(Number);
+
+      const selectedTime =
+        new Date();
+
+      selectedTime.setHours(
+        hours,
+        minutes,
+        0,
+        0
+      );
+
+      if (selectedTime <= now) {
+        setError(
+          "Please select a future pickup time."
+        );
+        return;
+      }
     }
 
     try {
       setSubmitting(true);
 
-      const response = await fetch(
-        `/api/drivers/${driverId}/book`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            driverId: Number(driverId),
-            pickup: pickup.trim(),
-            destination: destination.trim(),
-            date,
-            time,
-            passengers: passengerCount,
-            price: total,
-          }),
-        }
-      );
+      const realDriverId =
+        Number(driver.id);
 
-      let result: any = null;
-
-      try {
-        result = await response.json();
-      } catch {
-        result = null;
+      if (
+        !Number.isInteger(
+          realDriverId
+        ) ||
+        realDriverId <= 0
+      ) {
+        throw new Error(
+          "Invalid driver ID."
+        );
       }
 
-      if (!response.ok || !result?.success) {
+      const response =
+        await fetch(
+          "/api/bookings",
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+
+            body: JSON.stringify({
+              bookingType: "DRIVER",
+
+              driverId:
+                realDriverId,
+
+              pickup:
+                pickup.trim(),
+
+              destination:
+                destination.trim(),
+
+              date,
+
+              time,
+
+              passengers:
+                passengerCount,
+
+              notes:
+                `Driver: ${driver.name}`,
+
+              price: total,
+            }),
+          }
+        );
+
+      const raw =
+        await response.text();
+
+      let result: any = {};
+
+      try {
+        result = raw
+          ? JSON.parse(raw)
+          : {};
+      } catch {
+        result = {};
+      }
+
+      if (!response.ok) {
         throw new Error(
-          result?.message ||
-            "Unable to create ride booking."
+          result?.error ??
+            result?.message ??
+            `Unable to create ride booking. HTTP ${response.status}`
         );
       }
 
       const bookingId =
-        result?.data?.booking?.id ||
-        result?.booking?.id ||
-        result?.data?.id ||
-        result?.bookingId;
+        result?.bookingId ??
+        result?.booking?.id ??
+        result?.data?.bookingId ??
+        result?.data?.booking?.id ??
+        result?.data?.id ??
+        result?.id;
 
-      if (bookingId) {
-        window.location.href =
-          `/driver-bookings/${bookingId}`;
-
-        return;
+      if (!bookingId) {
+        throw new Error(
+          "Booking was created but booking ID was not returned."
+        );
       }
 
-      window.location.href = "/trips";
+      router.push(
+        `/bookings/${bookingId}`
+      );
     } catch (err) {
-      console.error("DRIVER_BOOK_ERROR:", err);
+      console.error(
+        "DRIVER_BOOKING_ERROR:",
+        err
+      );
 
       setError(
         err instanceof Error
           ? err.message
-          : "Unable to book this ride."
+          : "Unable to create this ride booking."
       );
     } finally {
       setSubmitting(false);
     }
   }
 
-  /* =======================================================
-     LOADING
-  ======================================================= */
+  /* ------------------------------------------------------------------------ */
+  /* LOADING                                                                  */
+  /* ------------------------------------------------------------------------ */
 
   if (loading) {
     return (
@@ -531,11 +759,12 @@ export default function DriverBookPage() {
 
         <div className="mx-auto max-w-6xl px-5 py-12 lg:px-8">
           <div className="animate-pulse">
-            <div className="h-5 w-28 rounded bg-black/[0.06]" />
+            <div className="h-5 w-28 rounded bg-black/5" />
 
             <div className="mt-7 grid gap-7 lg:grid-cols-[1fr_380px]">
-              <div className="h-[500px] rounded-3xl bg-black/[0.05]" />
-              <div className="h-[500px] rounded-3xl bg-black/[0.05]" />
+              <div className="h-[650px] rounded-3xl bg-black/5" />
+
+              <div className="h-[650px] rounded-3xl bg-black/5" />
             </div>
           </div>
         </div>
@@ -545,36 +774,48 @@ export default function DriverBookPage() {
     );
   }
 
-  /* =======================================================
-     DRIVER ERROR
-  ======================================================= */
+  /* ------------------------------------------------------------------------ */
+  /* DRIVER ERROR                                                             */
+  /* ------------------------------------------------------------------------ */
 
-  if (error && !driver) {
+  if (!driver) {
     return (
       <main className="min-h-screen bg-white text-black">
         <Navbar />
 
         <div className="mx-auto max-w-6xl px-5 py-24 text-center lg:px-8">
-          <Car
-            className="mx-auto"
-            size={30}
-          />
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-black/5">
+            <Car size={26} />
+          </div>
 
-          <h1 className="mt-4 text-lg font-semibold">
+          <h1 className="mt-5 text-xl font-semibold">
             Driver unavailable
           </h1>
 
-          <p className="mt-2 text-xs text-black/45">
-            {error}
+          <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-black/45">
+            {error ||
+              "Driver information is unavailable."}
           </p>
 
-          <Link
-            href="/drivers"
-            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-black px-5 py-2.5 text-xs font-semibold text-white"
-          >
-            <ArrowLeft size={13} />
-            Back to drivers
-          </Link>
+          <div className="mt-7 flex justify-center gap-3">
+            <Link
+              href="/drivers"
+              className="inline-flex items-center gap-2 rounded-xl bg-black px-5 py-3 text-xs font-semibold text-white transition hover:bg-black/80"
+            >
+              <ArrowLeft size={14} />
+              Back to drivers
+            </Link>
+
+            <button
+              type="button"
+              onClick={() =>
+                window.location.reload()
+              }
+              className="rounded-xl border border-black/10 px-5 py-3 text-xs font-semibold transition hover:bg-black/5"
+            >
+              Try again
+            </button>
+          </div>
         </div>
 
         <Footer />
@@ -582,22 +823,15 @@ export default function DriverBookPage() {
     );
   }
 
-  if (!driver) {
-    return null;
-  }
-
-  /* =======================================================
-     PAGE
-  ======================================================= */
+  /* ------------------------------------------------------------------------ */
+  /* MAIN UI                                                                  */
+  /* ------------------------------------------------------------------------ */
 
   return (
     <main className="min-h-screen bg-white text-black">
       <Navbar />
 
       <section className="mx-auto max-w-6xl px-5 pb-14 pt-7 lg:px-8">
-
-        {/* BACK */}
-
         <Link
           href={`/drivers/${driver.id}`}
           className="inline-flex items-center gap-2 text-xs text-black/50 transition hover:text-black"
@@ -606,48 +840,45 @@ export default function DriverBookPage() {
           Back to driver
         </Link>
 
-        {/* TITLE */}
-
-        <div className="mt-6">
-          <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-black/40">
+        <div className="mt-7">
+          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-black/40">
             BOOK A LOCAL RIDE
           </p>
 
-          <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight">
+          <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
             Ride with {driver.name}
           </h1>
 
-          <p className="mt-2 text-xs text-black/45">
-            Plan your ride around {driver.city}.
+          <p className="mt-2 max-w-xl text-xs leading-5 text-black/45">
+            Choose your date, pickup location,
+            destination and passengers to
+            request your Vistara local ride.
           </p>
         </div>
 
-        <div className="mt-7 grid gap-7 lg:grid-cols-[1fr_380px]">
-
-          {/* =================================================
-              FORM
-          ================================================= */}
-
+        <div className="mt-8 grid gap-7 lg:grid-cols-[1fr_380px]">
           <form
             onSubmit={handleSubmit}
             className="rounded-3xl border border-black/10 p-5 sm:p-7"
           >
-
-            {/* DRIVER */}
+            {/* DRIVER HEADER */}
 
             <div className="flex items-center gap-3 border-b border-black/10 pb-5">
-              <div className="h-12 w-12 overflow-hidden rounded-xl bg-black/[0.05]">
-                <img
-                  src={
-                    driver.image ||
-                    "/images/profile.jpg"
-                  }
-                  alt={driver.name}
-                  className="h-full w-full object-cover"
-                />
+              <div className="h-12 w-12 overflow-hidden rounded-xl bg-black/5">
+                {driver.image ? (
+                  <img
+                    src={driver.image}
+                    alt={driver.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <Users size={20} />
+                  </div>
+                )}
               </div>
 
-              <div>
+              <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <h2 className="text-sm font-semibold">
                     {driver.name}
@@ -655,47 +886,50 @@ export default function DriverBookPage() {
 
                   {driver.verified && (
                     <ShieldCheck
-                      size={12}
-                      className="text-[#023E8A]"
+                      size={13}
                     />
                   )}
                 </div>
 
-                <div className="mt-1 flex items-center gap-2 text-[10px] text-black/45">
+                <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] text-black/45">
                   <span className="flex items-center gap-1">
                     <Star
                       size={10}
                       fill="currentColor"
                     />
-                    {Number(driver.rating).toFixed(1)}
+                    {driver.rating.toFixed(
+                      1
+                    )}
                   </span>
 
                   <span>·</span>
 
                   <span>
-                    {driver.vehicle ||
-                      driver.vehicleType ||
-                      "Comfort ride"}
+                    {driver.vehicle}
+                  </span>
+
+                  <span>·</span>
+
+                  <span>
+                    {driver.seats} seats
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* =================================================
-                DATE + TIME
-            ================================================= */}
+            {/* DATE + TIME */}
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
-
-              {/* DATE */}
-
               <Field label="Date">
                 <div className="relative">
-
                   <button
                     type="button"
                     onClick={() => {
-                      setCalendarOpen((value) => !value);
+                      setCalendarOpen(
+                        (value) =>
+                          !value
+                      );
+
                       setTimeOpen(false);
 
                       if (date) {
@@ -706,31 +940,31 @@ export default function DriverBookPage() {
                         );
                       }
                     }}
-                    className="group flex h-[52px] w-full items-center justify-between rounded-2xl border border-black/10 bg-white px-3.5 text-left transition-all hover:border-[#023E8A]/35 hover:shadow-[0_8px_25px_rgba(3,4,94,0.06)]"
+                    className="flex h-13 w-full items-center justify-between rounded-2xl border border-black/10 bg-white px-3.5 text-left transition hover:border-black/30"
                   >
                     <div className="flex items-center gap-3">
-
-                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#EEF4FF]">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-black/5">
                         <CalendarDays
                           size={16}
-                          className="text-[#023E8A]"
                         />
                       </div>
 
                       <div>
-                        <p className="text-[8px] font-semibold uppercase tracking-[0.16em] text-black/35">
+                        <p className="text-[8px] font-semibold uppercase tracking-widest text-black/35">
                           Travel date
                         </p>
 
                         <p
                           className={`mt-1 text-xs ${
                             date
-                              ? "font-semibold text-[#111827]"
+                              ? "font-semibold text-black"
                               : "text-black/35"
                           }`}
                         >
                           {date
-                            ? formatDate(date)
+                            ? formatDate(
+                                date
+                              )
                             : "Choose your date"}
                         </p>
                       </div>
@@ -738,44 +972,43 @@ export default function DriverBookPage() {
 
                     <ChevronRight
                       size={15}
-                      className={`text-black/25 transition-transform ${
+                      className={
                         calendarOpen
-                          ? "rotate-90"
-                          : ""
-                      }`}
+                          ? "rotate-90 text-black/25"
+                          : "text-black/25"
+                      }
                     />
                   </button>
 
-                  {/* CALENDAR */}
-
                   {calendarOpen && (
-                    <div className="absolute left-0 top-[calc(100%+10px)] z-[100] w-[330px] max-w-[calc(100vw-40px)] rounded-[26px] border border-black/10 bg-white p-4 shadow-[0_25px_70px_rgba(3,4,94,0.15)]">
-
-                      {/* HEADER */}
-
+                    <div className="absolute left-0 top-[calc(100%+10px)] z-50 w-[330px] max-w-[calc(100vw-40px)] rounded-3xl border border-black/10 bg-white p-4 shadow-2xl">
                       <div className="flex items-center justify-between">
                         <button
                           type="button"
-                          onClick={goPreviousMonth}
-                          className="flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-[#EEF4FF] hover:text-[#023E8A]"
+                          onClick={
+                            previousMonth
+                          }
+                          className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-black/5"
                         >
-                          <ChevronLeft size={17} />
+                          <ChevronLeft
+                            size={17}
+                          />
                         </button>
 
-                        <div className="text-sm font-bold text-[#03045E]">
+                        <div className="text-sm font-bold">
                           {monthName}
                         </div>
 
                         <button
                           type="button"
-                          onClick={goNextMonth}
-                          className="flex h-9 w-9 items-center justify-center rounded-full transition hover:bg-[#EEF4FF] hover:text-[#023E8A]"
+                          onClick={nextMonth}
+                          className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-black/5"
                         >
-                          <ChevronRight size={17} />
+                          <ChevronRight
+                            size={17}
+                          />
                         </button>
                       </div>
-
-                      {/* WEEK DAYS */}
 
                       <div className="mt-5 grid grid-cols-7">
                         {[
@@ -786,98 +1019,115 @@ export default function DriverBookPage() {
                           "T",
                           "F",
                           "S",
-                        ].map((day, index) => (
-                          <div
-                            key={`${day}-${index}`}
-                            className="text-center text-[9px] font-bold uppercase tracking-wide text-black/30"
-                          >
-                            {day}
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* DAYS */}
-
-                      <div className="mt-3 grid grid-cols-7 gap-y-1">
-
-                        {Array.from({
-                          length: firstDayOfMonth,
-                        }).map((_, index) => (
-                          <div
-                            key={`empty-${index}`}
-                            className="h-9"
-                          />
-                        ))}
-
-                        {Array.from({
-                          length: daysInMonth,
-                        }).map((_, index) => {
-                          const day = index + 1;
-
-                          const value =
-                            buildDateValue(day);
-
-                          const currentDate =
-                            new Date(
-                              viewDate.getFullYear(),
-                              viewDate.getMonth(),
-                              day
-                            );
-
-                          currentDate.setHours(
-                            0,
-                            0,
-                            0,
-                            0
-                          );
-
-                          const isPast =
-                            currentDate < today;
-
-                          const isSelected =
-                            value === date;
-
-                          const isToday =
-                            value === todayString;
-
-                          return (
-                            <button
-                              key={value}
-                              type="button"
-                              disabled={isPast}
-                              onClick={() =>
-                                selectDate(value)
-                              }
-                              className={`mx-auto flex h-9 w-9 items-center justify-center rounded-full text-xs transition-all ${
-                                isSelected
-                                  ? "bg-[#03045E] font-bold text-white shadow-[0_5px_15px_rgba(3,4,94,0.25)]"
-                                  : isPast
-                                  ? "cursor-not-allowed text-black/15"
-                                  : "text-[#111827] hover:bg-[#EEF4FF] hover:text-[#023E8A]"
-                              } ${
-                                isToday &&
-                                !isSelected
-                                  ? "font-bold text-[#0D21A1] ring-1 ring-[#0D21A1]/30"
-                                  : ""
-                              }`}
+                        ].map(
+                          (
+                            day,
+                            index
+                          ) => (
+                            <div
+                              key={`${day}-${index}`}
+                              className="text-center text-[9px] font-bold uppercase text-black/30"
                             >
                               {day}
-                            </button>
-                          );
-                        })}
+                            </div>
+                          )
+                        )}
                       </div>
 
-                      {/* FOOTER */}
+                      <div className="mt-3 grid grid-cols-7 gap-y-1">
+                        {Array.from({
+                          length:
+                            firstDayOfMonth,
+                        }).map(
+                          (_, index) => (
+                            <div
+                              key={`empty-${index}`}
+                              className="h-9"
+                            />
+                          )
+                        )}
+
+                        {Array.from({
+                          length:
+                            daysInMonth,
+                        }).map(
+                          (_, index) => {
+                            const day =
+                              index + 1;
+
+                            const value =
+                              buildDateValue(
+                                day
+                              );
+
+                            const currentDate =
+                              new Date(
+                                viewDate.getFullYear(),
+                                viewDate.getMonth(),
+                                day
+                              );
+
+                            currentDate.setHours(
+                              0,
+                              0,
+                              0,
+                              0
+                            );
+
+                            const isPast =
+                              currentDate <
+                              today;
+
+                            const isSelected =
+                              value ===
+                              date;
+
+                            const isToday =
+                              value ===
+                              todayString;
+
+                            return (
+                              <button
+                                key={value}
+                                type="button"
+                                disabled={
+                                  isPast
+                                }
+                                onClick={() =>
+                                  selectDate(
+                                    value
+                                  )
+                                }
+                                className={`mx-auto flex h-9 w-9 items-center justify-center rounded-full text-xs transition ${
+                                  isSelected
+                                    ? "bg-black font-bold text-white"
+                                    : isPast
+                                      ? "cursor-not-allowed text-black/15"
+                                      : "text-black hover:bg-black/5"
+                                } ${
+                                  isToday &&
+                                  !isSelected
+                                    ? "font-bold ring-1 ring-black"
+                                    : ""
+                                }`}
+                              >
+                                {day}
+                              </button>
+                            );
+                          }
+                        )}
+                      </div>
 
                       <div className="mt-4 flex items-center justify-between border-t border-black/5 pt-3">
-
                         <button
                           type="button"
                           onClick={() => {
                             setDate("");
-                            setCalendarOpen(false);
+                            setCalendarOpen(
+                              false
+                            );
                           }}
-                          className="text-[10px] font-semibold text-black/40 transition hover:text-[#03045E]"
+                          className="text-[10px] font-semibold text-black/40 hover:text-black"
                         >
                           Clear
                         </button>
@@ -888,15 +1138,21 @@ export default function DriverBookPage() {
                             const current =
                               new Date();
 
-                            setViewDate(current);
+                            setViewDate(
+                              current
+                            );
+
                             setDate(
                               getLocalDateString(
                                 current
                               )
                             );
-                            setCalendarOpen(false);
+
+                            setCalendarOpen(
+                              false
+                            );
                           }}
-                          className="rounded-full bg-[#EEF4FF] px-3 py-1.5 text-[10px] font-bold text-[#023E8A] transition hover:bg-[#023E8A] hover:text-white"
+                          className="rounded-full bg-black px-3 py-1.5 text-[10px] font-bold text-white"
                         >
                           Today
                         </button>
@@ -906,42 +1162,45 @@ export default function DriverBookPage() {
                 </div>
               </Field>
 
-              {/* TIME */}
-
               <Field label="Pickup time">
                 <div className="relative">
-
                   <button
                     type="button"
                     onClick={() => {
-                      setTimeOpen((value) => !value);
-                      setCalendarOpen(false);
+                      setTimeOpen(
+                        (value) =>
+                          !value
+                      );
+
+                      setCalendarOpen(
+                        false
+                      );
                     }}
-                    className="group flex h-[52px] w-full items-center justify-between rounded-2xl border border-black/10 bg-white px-3.5 text-left transition-all hover:border-[#023E8A]/35 hover:shadow-[0_8px_25px_rgba(3,4,94,0.06)]"
+                    className="flex h-13 w-full items-center justify-between rounded-2xl border border-black/10 bg-white px-3.5 text-left transition hover:border-black/30"
                   >
                     <div className="flex items-center gap-3">
-
-                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#EEF4FF]">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-black/5">
                         <Clock3
                           size={16}
-                          className="text-[#023E8A]"
                         />
                       </div>
 
                       <div>
-                        <p className="text-[8px] font-semibold uppercase tracking-[0.16em] text-black/35">
+                        <p className="text-[8px] font-semibold uppercase tracking-widest text-black/35">
                           Pickup time
                         </p>
 
                         <p
                           className={`mt-1 text-xs ${
                             time
-                              ? "font-semibold text-[#111827]"
+                              ? "font-semibold text-black"
                               : "text-black/35"
                           }`}
                         >
                           {time
-                            ? formatTime(time)
+                            ? formatTime(
+                                time
+                              )
                             : "Choose pickup time"}
                         </p>
                       </div>
@@ -949,26 +1208,23 @@ export default function DriverBookPage() {
 
                     <ChevronRight
                       size={15}
-                      className={`text-black/25 transition-transform ${
+                      className={
                         timeOpen
-                          ? "rotate-90"
-                          : ""
-                      }`}
+                          ? "rotate-90 text-black/25"
+                          : "text-black/25"
+                      }
                     />
                   </button>
 
-                  {/* TIME PICKER */}
-
                   {timeOpen && (
-                    <div className="absolute right-0 top-[calc(100%+10px)] z-[100] w-[300px] max-w-[calc(100vw-40px)] rounded-[26px] border border-black/10 bg-white p-4 shadow-[0_25px_70px_rgba(3,4,94,0.15)]">
-
+                    <div className="absolute right-0 top-[calc(100%+10px)] z-50 w-[300px] max-w-[calc(100vw-40px)] rounded-3xl border border-black/10 bg-white p-4 shadow-2xl">
                       <div className="flex items-start justify-between border-b border-black/5 pb-4">
                         <div>
-                          <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-black/35">
+                          <p className="text-[9px] font-bold uppercase tracking-widest text-black/35">
                             Pickup time
                           </p>
 
-                          <p className="mt-1 text-sm font-bold text-[#03045E]">
+                          <p className="mt-1 text-sm font-bold">
                             When should we pick you up?
                           </p>
                         </div>
@@ -976,11 +1232,15 @@ export default function DriverBookPage() {
                         <button
                           type="button"
                           onClick={() =>
-                            setTimeOpen(false)
+                            setTimeOpen(
+                              false
+                            )
                           }
-                          className="flex h-7 w-7 items-center justify-center rounded-full text-black/30 transition hover:bg-[#EEF4FF] hover:text-[#023E8A]"
+                          className="flex h-7 w-7 items-center justify-center rounded-full text-black/30 hover:bg-black/5"
                         >
-                          <X size={14} />
+                          <X
+                            size={14}
+                          />
                         </button>
                       </div>
 
@@ -989,27 +1249,78 @@ export default function DriverBookPage() {
                           {timeSlots.map(
                             (slot) => {
                               const selected =
-                                time === slot;
+                                time ===
+                                slot;
+
+                              let disabled =
+                                false;
+
+                              if (
+                                date ===
+                                todayString
+                              ) {
+                                const now =
+                                  new Date();
+
+                                const [
+                                  hours,
+                                  minutes,
+                                ] =
+                                  slot
+                                    .split(
+                                      ":"
+                                    )
+                                    .map(
+                                      Number
+                                    );
+
+                                const slotTime =
+                                  new Date();
+
+                                slotTime.setHours(
+                                  hours,
+                                  minutes,
+                                  0,
+                                  0
+                                );
+
+                                disabled =
+                                  slotTime <=
+                                  now;
+                              }
 
                               return (
                                 <button
                                   key={slot}
                                   type="button"
+                                  disabled={
+                                    disabled
+                                  }
                                   onClick={() => {
-                                    setTime(slot);
-                                    setTimeOpen(false);
+                                    setTime(
+                                      slot
+                                    );
+                                    setTimeOpen(
+                                      false
+                                    );
                                   }}
-                                  className={`relative rounded-xl border px-2 py-2.5 text-[11px] font-semibold transition-all ${
-                                    selected
-                                      ? "border-[#03045E] bg-[#03045E] text-white shadow-md"
-                                      : "border-black/[0.08] bg-white text-black/60 hover:border-[#023E8A]/30 hover:bg-[#EEF4FF] hover:text-[#023E8A]"
+                                  className={`relative rounded-xl border px-2 py-2.5 text-[11px] font-semibold transition ${
+                                    disabled
+                                      ? "cursor-not-allowed border-black/5 bg-black/[0.02] text-black/15"
+                                      : selected
+                                        ? "border-black bg-black text-white"
+                                        : "border-black/10 bg-white text-black/60 hover:bg-black/5 hover:text-black"
                                   }`}
                                 >
-                                  {formatTime(slot)}
+                                  {formatTime(
+                                    slot
+                                  )}
 
                                   {selected && (
                                     <Check
-                                      size={11}
+                                      size={
+                                        11
+                                      }
                                       className="absolute right-1.5 top-1.5"
                                     />
                                   )}
@@ -1025,9 +1336,11 @@ export default function DriverBookPage() {
                           type="button"
                           onClick={() => {
                             setTime("");
-                            setTimeOpen(false);
+                            setTimeOpen(
+                              false
+                            );
                           }}
-                          className="text-[10px] font-semibold text-black/40 hover:text-[#03045E]"
+                          className="text-[10px] font-semibold text-black/40 hover:text-black"
                         >
                           Clear time
                         </button>
@@ -1042,14 +1355,11 @@ export default function DriverBookPage() {
               </Field>
             </div>
 
-            {/* =================================================
-                PICKUP
-            ================================================= */}
+            {/* PICKUP */}
 
             <div className="mt-5">
               <Field label="Pickup location">
                 <div className="relative">
-
                   <MapPin
                     size={14}
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40"
@@ -1058,8 +1368,10 @@ export default function DriverBookPage() {
                   <input
                     type="text"
                     value={pickup}
-                    onChange={(e) =>
-                      setPickup(e.target.value)
+                    onChange={(event) =>
+                      setPickup(
+                        event.target.value
+                      )
                     }
                     placeholder="Where should the driver pick you up?"
                     className="input pl-9"
@@ -1069,14 +1381,11 @@ export default function DriverBookPage() {
               </Field>
             </div>
 
-            {/* =================================================
-                DESTINATION
-            ================================================= */}
+            {/* DESTINATION */}
 
             <div className="mt-5">
               <Field label="Destination">
                 <div className="relative">
-
                   <MapPin
                     size={14}
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40"
@@ -1085,8 +1394,10 @@ export default function DriverBookPage() {
                   <input
                     type="text"
                     value={destination}
-                    onChange={(e) =>
-                      setDestination(e.target.value)
+                    onChange={(event) =>
+                      setDestination(
+                        event.target.value
+                      )
                     }
                     placeholder="Where are you going?"
                     className="input pl-9"
@@ -1096,14 +1407,11 @@ export default function DriverBookPage() {
               </Field>
             </div>
 
-            {/* =================================================
-                PASSENGERS
-            ================================================= */}
+            {/* PASSENGERS */}
 
             <div className="mt-5">
               <Field label="Passengers">
                 <div className="relative">
-
                   <Users
                     size={14}
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-black/40"
@@ -1112,21 +1420,32 @@ export default function DriverBookPage() {
                   <input
                     type="number"
                     min="1"
-                    max={driver.seats || 20}
+                    max={
+                      driver.seats ||
+                      20
+                    }
                     value={passengers}
-                    onChange={(e) =>
-                      setPassengers(e.target.value)
+                    onChange={(event) =>
+                      setPassengers(
+                        event.target.value
+                      )
                     }
                     className="input pl-9"
                     required
                   />
                 </div>
+
+                <p className="mt-1.5 text-[9px] text-black/35">
+                  Vehicle capacity:{" "}
+                  {driver.seats} passengers
+                </p>
               </Field>
             </div>
-sh
+
+            {/* ERROR */}
 
             {error && (
-              <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs text-red-700">
+              <div className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs leading-5 text-red-700">
                 {error}
               </div>
             )}
@@ -1136,7 +1455,7 @@ sh
             <button
               type="submit"
               disabled={submitting}
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-black px-5 py-3.5 text-xs font-semibold text-white transition hover:bg-[#023E8A] disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-black px-5 py-3.5 text-xs font-semibold text-white transition hover:bg-black/80 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting
                 ? "Confirming ride..."
@@ -1147,18 +1466,18 @@ sh
               )}
             </button>
 
-            <p className="mt-3 text-center text-[9px] text-black/35">
-              You can review your ride details before
-              completing the booking.
+            <p className="mt-3 text-center text-[9px] leading-4 text-black/35">
+              Your ride request will be
+              recorded in your Vistara
+              bookings.
             </p>
           </form>
 
-          {/* =================================================
-              SUMMARY
-          ================================================= */}
+          {/* ---------------------------------------------------------------- */}
+          {/* SUMMARY                                                          */}
+          {/* ---------------------------------------------------------------- */}
 
           <aside className="h-fit rounded-3xl border border-black/10 p-5 sm:p-6 lg:sticky lg:top-20">
-
             <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-black/40">
               RIDE SUMMARY
             </p>
@@ -1167,19 +1486,19 @@ sh
               Your local ride
             </h2>
 
-            {/* DRIVER */}
-
             <div className="mt-5 flex items-center gap-3 border-b border-black/10 pb-5">
-
-              <div className="h-11 w-11 overflow-hidden rounded-xl">
-                <img
-                  src={
-                    driver.image ||
-                    "/images/profile.jpg"
-                  }
-                  alt={driver.name}
-                  className="h-full w-full object-cover"
-                />
+              <div className="h-11 w-11 overflow-hidden rounded-xl bg-black/5">
+                {driver.image ? (
+                  <img
+                    src={driver.image}
+                    alt={driver.name}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <Users size={18} />
+                  </div>
+                )}
               </div>
 
               <div className="min-w-0">
@@ -1188,22 +1507,16 @@ sh
                 </p>
 
                 <p className="mt-1 text-[10px] text-black/45">
-                  {driver.vehicle ||
-                    driver.vehicleType ||
-                    "Local ride"}
+                  {driver.vehicle}
                 </p>
               </div>
             </div>
 
-            {/* DETAILS */}
-
             <div className="space-y-4 py-5">
-
               <SummaryRow
                 icon={
                   <CalendarDays
                     size={14}
-                    className="text-[#023E8A]"
                   />
                 }
                 label="Date"
@@ -1216,10 +1529,7 @@ sh
 
               <SummaryRow
                 icon={
-                  <Clock3
-                    size={14}
-                    className="text-[#023E8A]"
-                  />
+                  <Clock3 size={14} />
                 }
                 label="Time"
                 value={
@@ -1231,14 +1541,12 @@ sh
 
               <SummaryRow
                 icon={
-                  <MapPin
-                    size={14}
-                    className="text-[#023E8A]"
-                  />
+                  <MapPin size={14} />
                 }
                 label="Route"
                 value={
-                  pickup && destination
+                  pickup &&
+                  destination
                     ? `${pickup} → ${destination}`
                     : "Add your route"
                 }
@@ -1246,62 +1554,139 @@ sh
 
               <SummaryRow
                 icon={
-                  <Users
-                    size={14}
-                    className="text-[#023E8A]"
-                  />
+                  <Users size={14} />
                 }
                 label="Passengers"
                 value={`${passengerCount}`}
               />
             </div>
 
-            {/* PRICE */}
-
             <div className="border-t border-black/10 pt-5">
-
               <div className="flex items-center justify-between">
-
                 <span className="text-xs text-black/50">
                   Ride fare
                 </span>
 
                 <span className="text-base font-semibold">
-                  ₹{total.toLocaleString("en-IN")}
+                  ₹
+                  {total.toLocaleString(
+                    "en-IN"
+                  )}
                 </span>
               </div>
 
               <p className="mt-2 text-[9px] leading-4 text-black/35">
-                Final fare may depend on the selected
-                route and ride details.
+                Final fare may depend on
+                the selected route and ride
+                details.
               </p>
             </div>
 
-            {/* TRUST */}
+            <div className="mt-5 rounded-xl bg-black/5 px-3 py-3">
+              <div className="flex items-center gap-2">
+                <ShieldCheck
+                  size={14}
+                />
 
-            <div className="mt-5 flex items-center gap-2 rounded-xl bg-[#EEF4FF] px-3 py-3">
+                <p className="text-[9px] leading-4 text-black/60">
+                  {driver.verified
+                    ? "Vistara verified local driver"
+                    : "Vistara local driver"}
+                </p>
+              </div>
 
-              <ShieldCheck
-                size={14}
-                className="text-[#023E8A]"
-              />
+              <div className="mt-2 flex items-center justify-between text-[9px] text-black/40">
+                <span>
+                  {driver.totalTrips}+
+                  trips
+                </span>
 
-              <p className="text-[9px] leading-4 text-[#023E8A]">
-                Vistara verified local driver
-              </p>
+                <span>
+                  {driver.experienceYears}{" "}
+                  years experience
+                </span>
+              </div>
             </div>
+
+            {driver.services.length >
+              0 && (
+              <div className="mt-5 border-t border-black/10 pt-5">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-black/35">
+                  SERVICES
+                </p>
+
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {driver.services
+                    .slice(0, 6)
+                    .map(
+                      (service) => (
+                        <span
+                          key={service}
+                          className="rounded-full bg-black/5 px-2.5 py-1 text-[9px] text-black/55"
+                        >
+                          {service}
+                        </span>
+                      )
+                    )}
+                </div>
+              </div>
+            )}
           </aside>
         </div>
       </section>
 
       <Footer />
+
+      <style jsx>{`
+        .input {
+          width: 100%;
+          border: 1px solid
+            rgba(0, 0, 0, 0.12);
+          border-radius: 1rem;
+          background: white;
+          padding: 0.82rem 0.875rem;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: #111827;
+          outline: none;
+          transition:
+            border-color 0.2s,
+            box-shadow 0.2s;
+        }
+
+        .input:focus {
+          border-color: rgba(
+            0,
+            0,
+            0,
+            0.4
+          );
+          box-shadow:
+            0 0 0 3px
+            rgba(0, 0, 0, 0.05);
+        }
+
+        .input::placeholder {
+          color: rgba(
+            0,
+            0,
+            0,
+            0.35
+          );
+        }
+
+        .input[type="number"]::-webkit-inner-spin-button,
+        .input[type="number"]::-webkit-outer-spin-button {
+          opacity: 0.5;
+        }
+      `}</style>
     </main>
   );
 }
 
-/* =========================================================
-   FIELD
-========================================================= */
+/* -------------------------------------------------------------------------- */
+/* FIELD                                                                      */
+/* -------------------------------------------------------------------------- */
 
 function Field({
   label,
@@ -1317,45 +1702,13 @@ function Field({
       </span>
 
       {children}
-
-      <style jsx>{`
-        .input {
-          width: 100%;
-          border: 1px solid rgba(0, 0, 0, 0.12);
-          border-radius: 1rem;
-          background: white;
-          padding: 0.82rem 0.875rem;
-          font-size: 0.75rem;
-          font-weight: 500;
-          color: #111827;
-          outline: none;
-          transition:
-            border-color 0.2s,
-            box-shadow 0.2s;
-        }
-
-        .input:focus {
-          border-color: rgba(2, 62, 138, 0.45);
-          box-shadow:
-            0 0 0 3px rgba(37, 99, 235, 0.08);
-        }
-
-        .input::placeholder {
-          color: rgba(0, 0, 0, 0.35);
-        }
-
-        .input[type="number"]::-webkit-inner-spin-button,
-        .input[type="number"]::-webkit-outer-spin-button {
-          opacity: 0.5;
-        }
-      `}</style>
     </label>
   );
 }
 
-/* =========================================================
-   SUMMARY ROW
-========================================================= */
+/* -------------------------------------------------------------------------- */
+/* SUMMARY ROW                                                                */
+/* -------------------------------------------------------------------------- */
 
 function SummaryRow({
   icon,
@@ -1368,13 +1721,11 @@ function SummaryRow({
 }) {
   return (
     <div className="flex gap-3">
-
       <div className="mt-0.5 shrink-0">
         {icon}
       </div>
 
       <div className="min-w-0">
-
         <p className="text-[9px] uppercase tracking-wide text-black/35">
           {label}
         </p>

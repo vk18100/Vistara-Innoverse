@@ -7,15 +7,8 @@ type Context = {
   }>;
 };
 
-/*
-|--------------------------------------------------------------------------
-| GET /api/drivers/[id]
-| Public — single driver
-|--------------------------------------------------------------------------
-*/
-
 export async function GET(
-  _req: NextRequest,
+  _request: NextRequest,
   { params }: Context
 ) {
   try {
@@ -44,10 +37,6 @@ export async function GET(
         totalTrips: true,
         isVerified: true,
         status: true,
-        pricePerRide: true,
-        experienceYears: true,
-        languages: true,
-        services: true,
 
         user: {
           select: {
@@ -63,77 +52,131 @@ export async function GET(
         },
 
         vehicles: {
+          where: {
+            status: "ACTIVE",
+          },
+
           select: {
             id: true,
             model: true,
+            make: true,
             type: true,
-            seats: true,
             capacity: true,
           },
         },
       },
     });
 
-    if (!driver || !driver.isVerified) {
+    if (!driver) {
       return NextResponse.json(
         {
           success: false,
-          message: "Driver not found.",
+          message: `Driver ${id} not found.`,
         },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({
-      success: true,
+    const vehicle = driver.vehicles[0] ?? null;
 
-      data: {
-        id: driver.id,
+    const data = {
+      id: driver.id,
 
-        name: driver.user?.name ?? "Driver",
+      name:
+        driver.user?.name ??
+        "Local Driver",
 
-        avatar: driver.user?.profile?.avatar ?? null,
+      image:
+        driver.user?.profile?.avatar ??
+        null,
 
-        rating: Number(driver.rating ?? 0),
+      rating: Number(driver.rating ?? 0),
 
-        totalTrips: driver.totalTrips ?? 0,
+      totalTrips: Number(
+        driver.totalTrips ?? 0
+      ),
 
-        isVerified: driver.isVerified,
+      experienceYears: 0,
 
-        status: driver.status,
+      price: 0,
 
-        pricePerRide:
-          driver.pricePerRide !== null &&
-          driver.pricePerRide !== undefined
-            ? Number(driver.pricePerRide)
-            : 0,
+      pricePerRide: 0,
 
-        experienceYears:
-          driver.experienceYears ?? 0,
+      seats: Number(
+        vehicle?.capacity ?? 4
+      ),
 
-        languages: Array.isArray(driver.languages)
-          ? driver.languages
-          : [],
+      verified: Boolean(
+        driver.isVerified
+      ),
 
-        services: Array.isArray(driver.services)
-          ? driver.services
-          : [],
+      isVerified: Boolean(
+        driver.isVerified
+      ),
 
-        vehicles: driver.vehicles.map((vehicle) => ({
-          id: vehicle.id,
-          model: vehicle.model,
-          type: vehicle.type,
-          seats: vehicle.seats ?? vehicle.capacity ?? null,
-        })),
+      status: driver.status,
+
+      languages: [],
+
+      services: [],
+
+      vehicle:
+        vehicle?.model ??
+        vehicle?.make ??
+        "Local Vehicle",
+
+      vehicleType:
+        vehicle?.type ??
+        "Comfort",
+
+      vehicles: driver.vehicles.map(
+        (item) => ({
+          id: String(item.id),
+
+          model:
+            item.model ??
+            item.make ??
+            "Local Vehicle",
+
+          type: String(item.type),
+
+          seats: Number(
+            item.capacity ?? 1
+          ),
+
+          capacity: Number(
+            item.capacity ?? 1
+          ),
+        })
+      ),
+    };
+
+    return NextResponse.json(
+      {
+        success: true,
+        data,
       },
-    });
+      {
+        status: 200,
+        headers: {
+          "Cache-Control":
+            "no-store, no-cache, must-revalidate",
+        },
+      }
+    );
   } catch (error) {
-    console.error("DRIVER_DETAIL_ERROR:", error);
+    console.error(
+      "DRIVER_DETAIL_ERROR:",
+      error
+    );
 
     return NextResponse.json(
       {
         success: false,
-        message: "Unable to load driver.",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Unable to load driver.",
       },
       { status: 500 }
     );

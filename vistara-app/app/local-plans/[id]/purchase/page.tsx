@@ -1,9 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type ElementType,
+} from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-
 import {
   ArrowLeft,
   ArrowRight,
@@ -12,9 +16,11 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock3,
+  LockKeyhole,
   MapPin,
   ShieldCheck,
   Sparkles,
+  X,
 } from "lucide-react";
 
 import Navbar from "@/components/navbar";
@@ -33,7 +39,7 @@ type Place = {
   area?: string | null;
 };
 
-type Plan = {
+type LocalPlan = {
   id: number;
   title: string;
   slug: string;
@@ -48,37 +54,34 @@ type Plan = {
   isFeatured?: boolean;
 };
 
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function formatPrice(price: number | string) {
-  return `₹${Number(price).toLocaleString("en-IN")}`;
-}
-
-function formatDuration(hours: number) {
-  if (hours >= 336) return "14 days";
-  if (hours >= 168) return "7 days";
-  if (hours >= 72) return "3 days";
-
-  return "2 days";
-}
-
-function formatSelectedDate(date: Date | null) {
-  if (!date) return "Select date";
-
-  return date.toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
+type LocalPlanBooking = {
+  id: string;
+  bookingId: string;
+  type: "LOCAL_PLAN";
+  planId: string;
+  planSlug: string;
+  planTitle: string;
+  city: string;
+  area: string;
+  date: string;
+  guests: number;
+  pricePerPerson: number;
+  subtotal: number;
+  serviceFee: number;
+  totalAmount: number;
+  status: "CONFIRMED";
+  paymentStatus: "NOT_REQUIRED";
+  unlockStatus: "UNLOCKED";
+  createdAt: string;
+  places: Place[];
+  placesCount: number;
+};
 
 /* =========================================================
    FALLBACK DATA
 ========================================================= */
 
-const fallbackPlans: Plan[] = [
+const fallbackPlans: LocalPlan[] = [
   {
     id: 1,
     title: "Weekend Explorer",
@@ -95,7 +98,6 @@ const fallbackPlans: Plan[] = [
     isFeatured: true,
     places: [],
   },
-
   {
     id: 2,
     title: "3-Day City Escape",
@@ -111,7 +113,6 @@ const fallbackPlans: Plan[] = [
     placesCount: 24,
     places: [],
   },
-
   {
     id: 3,
     title: "7-Day Deep Explore",
@@ -127,7 +128,6 @@ const fallbackPlans: Plan[] = [
     placesCount: 40,
     places: [],
   },
-
   {
     id: 4,
     title: "14-Day Complete Journey",
@@ -146,6 +146,40 @@ const fallbackPlans: Plan[] = [
 ];
 
 /* =========================================================
+   HELPERS
+========================================================= */
+
+function formatPrice(price: number | string) {
+  return `₹${Number(price).toLocaleString("en-IN")}`;
+}
+
+function formatDuration(hours: number) {
+  if (hours >= 336) return "14 days";
+  if (hours >= 168) return "7 days";
+  if (hours >= 72) return "3 days";
+  if (hours >= 48) return "2 days";
+  return `${hours} hours`;
+}
+
+function formatDate(date: Date | null) {
+  if (!date) return "Select date";
+
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function toLocalDateString(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+/* =========================================================
    PAGE
 ========================================================= */
 
@@ -154,45 +188,46 @@ export default function LocalPlanPurchasePage() {
 
   const id = String(params?.id ?? "").trim();
 
-  const [plan, setPlan] = useState<Plan | null>(null);
+  /* =======================================================
+     PLAN
+  ======================================================= */
 
+  const [plan, setPlan] = useState<LocalPlan | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const [error, setError] = useState("");
   const [purchasing, setPurchasing] = useState(false);
 
-  const [error, setError] = useState("");
+  /* =======================================================
+     CONFIRMATION
+  ======================================================= */
+
+  const [confirmedBooking, setConfirmedBooking] =
+    useState<LocalPlanBooking | null>(null);
 
   /* =======================================================
-     CALENDAR
+     DATE
   ======================================================= */
 
   const today = useMemo(() => {
-    const date = new Date();
-
-    date.setHours(0, 0, 0, 0);
-
-    return date;
+    const value = new Date();
+    value.setHours(0, 0, 0, 0);
+    return value;
   }, []);
-
-  const [calendarOpen, setCalendarOpen] = useState(false);
-
-  const [calendarMonth, setCalendarMonth] =
-    useState<Date>(() => {
-      const date = new Date();
-
-      date.setDate(1);
-
-      return date;
-    });
 
   const [selectedDate, setSelectedDate] =
     useState<Date | null>(null);
 
-  const calendarYear =
-    calendarMonth.getFullYear();
+  const [calendarOpen, setCalendarOpen] = useState(false);
 
-  const calendarMonthIndex =
-    calendarMonth.getMonth();
+  const [calendarMonth, setCalendarMonth] = useState(() => {
+    const value = new Date();
+    value.setDate(1);
+    value.setHours(0, 0, 0, 0);
+    return value;
+  });
+
+  const calendarYear = calendarMonth.getFullYear();
+  const calendarMonthIndex = calendarMonth.getMonth();
 
   const daysInMonth = new Date(
     calendarYear,
@@ -206,9 +241,9 @@ export default function LocalPlanPurchasePage() {
     1
   ).getDay();
 
-  const calendarDays: (number | null)[] = [];
+  const calendarDays: Array<number | null> = [];
 
-  for (let i = 0; i < firstDay; i++) {
+  for (let index = 0; index < firstDay; index++) {
     calendarDays.push(null);
   }
 
@@ -223,6 +258,8 @@ export default function LocalPlanPurchasePage() {
       day
     );
 
+    date.setHours(0, 0, 0, 0);
+
     return date < today;
   }
 
@@ -231,8 +268,7 @@ export default function LocalPlanPurchasePage() {
 
     return (
       selectedDate.getFullYear() === calendarYear &&
-      selectedDate.getMonth() ===
-        calendarMonthIndex &&
+      selectedDate.getMonth() === calendarMonthIndex &&
       selectedDate.getDate() === day
     );
   }
@@ -246,12 +282,14 @@ export default function LocalPlanPurchasePage() {
       day
     );
 
-    setSelectedDate(date);
+    date.setHours(0, 0, 0, 0);
 
+    setSelectedDate(date);
     setCalendarOpen(false);
+    setError("");
   }
 
-  function goPreviousMonth() {
+  function previousMonth() {
     const previous = new Date(calendarMonth);
 
     previous.setMonth(previous.getMonth() - 1);
@@ -267,7 +305,7 @@ export default function LocalPlanPurchasePage() {
     }
   }
 
-  function goNextMonth() {
+  function nextMonth() {
     const next = new Date(calendarMonth);
 
     next.setMonth(next.getMonth() + 1);
@@ -290,13 +328,9 @@ export default function LocalPlanPurchasePage() {
     async function loadPlan() {
       if (!id) {
         if (active) {
-          setError(
-            "Local plan identifier is missing."
-          );
-
+          setError("Local plan identifier is missing.");
           setLoading(false);
         }
-
         return;
       }
 
@@ -304,46 +338,40 @@ export default function LocalPlanPurchasePage() {
         setLoading(true);
         setError("");
 
-        const slug = String(id).trim();
-
-        /* ---------------------------------------------------
-           SINGLE PLAN API
-        --------------------------------------------------- */
+        /* -----------------------------------------------
+           1. SINGLE PLAN API
+        ----------------------------------------------- */
 
         try {
           const response = await fetch(
-            `/api/local-plans/${encodeURIComponent(
-              slug
-            )}`,
+            `/api/local-plans/${encodeURIComponent(id)}`,
             {
               method: "GET",
               cache: "no-store",
             }
           );
 
-          const result = await response.json();
+          if (response.ok) {
+            const result = await response.json();
 
-          if (
-            response.ok &&
-            result?.success &&
-            result?.data
-          ) {
-            if (active) {
-              setPlan(result.data);
+            if (result?.success && result?.data) {
+              if (active) {
+                setPlan(result.data);
+              }
+
+              return;
             }
-
-            return;
           }
         } catch (apiError) {
           console.warn(
-            "LOCAL_PLAN_DETAIL_API_ERROR:",
+            "LOCAL_PLAN_DETAIL_ERROR:",
             apiError
           );
         }
 
-        /* ---------------------------------------------------
-           LIST API
-        --------------------------------------------------- */
+        /* -----------------------------------------------
+           2. LIST API
+        ----------------------------------------------- */
 
         try {
           const response = await fetch(
@@ -354,48 +382,48 @@ export default function LocalPlanPurchasePage() {
             }
           );
 
-          const result = await response.json();
+          if (response.ok) {
+            const result = await response.json();
 
-          if (
-            response.ok &&
-            result?.success &&
-            Array.isArray(result?.data)
-          ) {
-            const foundPlan = result.data.find(
-              (item: Plan) =>
-                String(item.slug).trim() === slug ||
-                String(item.id) === slug
-            );
+            if (
+              result?.success &&
+              Array.isArray(result?.data)
+            ) {
+              const found = result.data.find(
+                (item: LocalPlan) =>
+                  String(item.slug).trim() === id ||
+                  String(item.id) === id
+              );
 
-            if (foundPlan) {
-              if (active) {
-                setPlan(foundPlan);
+              if (found) {
+                if (active) {
+                  setPlan(found);
+                }
+
+                return;
               }
-
-              return;
             }
           }
         } catch (listError) {
           console.warn(
-            "LOCAL_PLANS_LIST_API_ERROR:",
+            "LOCAL_PLANS_LIST_ERROR:",
             listError
           );
         }
 
-        /* ---------------------------------------------------
-           FALLBACK
-        --------------------------------------------------- */
+        /* -----------------------------------------------
+           3. FALLBACK
+        ----------------------------------------------- */
 
-        const fallbackPlan =
-          fallbackPlans.find(
-            (item) =>
-              String(item.slug).trim() === slug ||
-              String(item.id) === slug
-          );
+        const fallback = fallbackPlans.find(
+          (item) =>
+            String(item.slug).trim() === id ||
+            String(item.id) === id
+        );
 
-        if (fallbackPlan) {
+        if (fallback) {
           if (active) {
-            setPlan(fallbackPlan);
+            setPlan(fallback);
           }
 
           return;
@@ -406,7 +434,7 @@ export default function LocalPlanPurchasePage() {
         }
       } catch (err) {
         console.error(
-          "LOCAL_PLAN_PURCHASE_LOAD_ERROR:",
+          "LOCAL_PLAN_LOAD_ERROR:",
           err
         );
 
@@ -414,7 +442,7 @@ export default function LocalPlanPurchasePage() {
           setError(
             err instanceof Error
               ? err.message
-              : "Unable to load this local plan."
+              : "Unable to load local plan."
           );
         }
       } finally {
@@ -432,132 +460,236 @@ export default function LocalPlanPurchasePage() {
   }, [id]);
 
   /* =======================================================
-     PURCHASE
+     PLAN DATA
   ======================================================= */
-async function handlePurchase() {
-  if (!plan || purchasing) return;
 
-  if (!selectedDate) {
-    setError("Please select your date before continuing.");
-    setCalendarOpen(true);
-    return;
-  }
+  const places = plan?.places ?? [];
 
-  try {
-    setPurchasing(true);
-    setError("");
+  const placesCount =
+    places.length || plan?.placesCount || 0;
 
-    const response = await fetch(
-      "/api/local-plans/purchases",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          planId: plan.id,
+  const planPrice = Number(plan?.price ?? 0);
 
-          // date abhi UI se selected hai
-          // API mein later save kar sakte hain
-          date: selectedDate.toISOString(),
-        }),
-      }
-    );
+  /* =======================================================
+     PURCHASE
+     
+     MVP:
+     - No Razorpay
+     - No real payment
+     - Purchase = confirmed booking + unlock
+  ======================================================= */
 
-    /*
-    -------------------------------------------------------
-    IMPORTANT:
-    Pehle text read karo.
-    Empty response hone par response.json() crash nahi karega.
-    -------------------------------------------------------
-    */
+  function handlePurchase() {
+    if (!plan || purchasing) return;
 
-    const rawResponse = await response.text();
-
-    let result: any = null;
-
-    if (rawResponse.trim()) {
-      try {
-        result = JSON.parse(rawResponse);
-      } catch {
-        console.error(
-          "PURCHASE API NON-JSON RESPONSE:",
-          rawResponse
-        );
-
-        throw new Error(
-          `Purchase API returned an invalid response (${response.status}).`
-        );
-      }
-    }
-
-    /*
-    -------------------------------------------------------
-    EMPTY RESPONSE
-    -------------------------------------------------------
-    */
-
-    if (!rawResponse.trim()) {
-      console.error(
-        "PURCHASE API EMPTY RESPONSE:",
-        response.status,
-        response.statusText
-      );
-
-      throw new Error(
-        `Purchase request failed (${response.status} ${response.statusText}).`
-      );
-    }
-
-    /*
-    -------------------------------------------------------
-    API ERROR
-    -------------------------------------------------------
-    */
-
-    if (!response.ok || !result?.success) {
-      throw new Error(
-        result?.message ||
-          `Unable to purchase this plan (${response.status}).`
-      );
-    }
-
-    /*
-    -------------------------------------------------------
-    PAYMENT / CHECKOUT URL
-    -------------------------------------------------------
-    */
-
-    if (result?.data?.checkoutUrl) {
-      window.location.href =
-        result.data.checkoutUrl;
-
+    if (!selectedDate) {
+      setError("Please select your experience date.");
+      setCalendarOpen(true);
       return;
     }
 
-    /*
-    -------------------------------------------------------
-    SUCCESS
-    -------------------------------------------------------
-    */
+    try {
+      setPurchasing(true);
+      setError("");
 
-    window.location.href = "/trips";
+      const now = Date.now();
 
-  } catch (err) {
-    console.error(
-      "LOCAL_PLAN_PURCHASE_ERROR:",
-      err
-    );
+      const bookingId =
+        `VST-LP-${new Date().getFullYear()}-${String(
+          now
+        ).slice(-6)}`;
 
-    setError(
-      err instanceof Error
-        ? err.message
-        : "Unable to complete purchase."
-    );
+      const subtotal = planPrice;
+      const serviceFee = 0;
+      const total = subtotal + serviceFee;
 
-    setPurchasing(false);
+      const booking: LocalPlanBooking = {
+        id: `local-plan-booking-${now}`,
+        bookingId,
+
+        type: "LOCAL_PLAN",
+
+        planId: String(plan.id),
+        planSlug: plan.slug,
+        planTitle: plan.title,
+
+        city: plan.city,
+        area: plan.area ?? "",
+
+        date: selectedDate.toISOString(),
+
+        guests: 1,
+
+        pricePerPerson: subtotal,
+        subtotal,
+        serviceFee,
+        totalAmount: total,
+
+        status: "CONFIRMED",
+        paymentStatus: "NOT_REQUIRED",
+        unlockStatus: "UNLOCKED",
+
+        createdAt: new Date().toISOString(),
+
+        places: plan.places ?? [],
+        placesCount,
+      };
+
+      /* =================================================
+         1. COMMON VISTARA BOOKINGS
+      ================================================= */
+
+      let commonBookings: LocalPlanBooking[] = [];
+
+      try {
+        const saved =
+          localStorage.getItem(
+            "vistara-bookings"
+          );
+
+        if (saved) {
+          const parsed = JSON.parse(saved);
+
+          if (Array.isArray(parsed)) {
+            commonBookings = parsed;
+          }
+        }
+      } catch {
+        commonBookings = [];
+      }
+
+      commonBookings = commonBookings.filter(
+        (item) =>
+          item?.bookingId !== bookingId
+      );
+
+      commonBookings.unshift(booking);
+
+      localStorage.setItem(
+        "vistara-bookings",
+        JSON.stringify(commonBookings)
+      );
+
+      /* =================================================
+         2. LOCAL PLAN BOOKINGS
+      ================================================= */
+
+      let localPlanBookings: LocalPlanBooking[] = [];
+
+      try {
+        const saved =
+          localStorage.getItem(
+            "vistara-local-plan-bookings"
+          );
+
+        if (saved) {
+          const parsed = JSON.parse(saved);
+
+          if (Array.isArray(parsed)) {
+            localPlanBookings = parsed;
+          }
+        }
+      } catch {
+        localPlanBookings = [];
+      }
+
+      localPlanBookings = localPlanBookings.filter(
+        (item) =>
+          item?.bookingId !== bookingId
+      );
+
+      localPlanBookings.unshift(booking);
+
+      localStorage.setItem(
+        "vistara-local-plan-bookings",
+        JSON.stringify(localPlanBookings)
+      );
+
+      /* =================================================
+         3. UNLOCK LOCAL PLAN
+      ================================================= */
+
+      let unlockedPlans: any[] = [];
+
+      try {
+        const saved =
+          localStorage.getItem(
+            "vistara-unlocked-local-plans"
+          );
+
+        if (saved) {
+          const parsed = JSON.parse(saved);
+
+          if (Array.isArray(parsed)) {
+            unlockedPlans = parsed;
+          }
+        }
+      } catch {
+        unlockedPlans = [];
+      }
+
+      const unlockedPlan = {
+        planId: String(plan.id),
+        planSlug: plan.slug,
+        planTitle: plan.title,
+
+        city: plan.city,
+        area: plan.area ?? "",
+
+        purchaseDate:
+          new Date().toISOString(),
+
+        experienceDate:
+          selectedDate.toISOString(),
+
+        status: "UNLOCKED",
+
+        bookingId,
+
+        places: plan.places ?? [],
+        placesCount,
+      };
+
+      unlockedPlans = unlockedPlans.filter(
+        (item) =>
+          String(item?.planId) !==
+          String(plan.id)
+      );
+
+      unlockedPlans.unshift(unlockedPlan);
+
+      localStorage.setItem(
+        "vistara-unlocked-local-plans",
+        JSON.stringify(unlockedPlans)
+      );
+
+      /* =================================================
+         4. SAVE CURRENT LOCAL PLAN
+      ================================================= */
+
+      localStorage.setItem(
+        "vistara-last-local-plan",
+        JSON.stringify(booking)
+      );
+
+      /* =================================================
+         5. SHOW CONFIRMATION MODAL
+      ================================================= */
+
+      setConfirmedBooking(booking);
+    } catch (err) {
+      console.error(
+        "LOCAL_PLAN_BOOKING_ERROR:",
+        err
+      );
+
+      setError(
+        "Unable to confirm your local plan. Please try again."
+      );
+    } finally {
+      setPurchasing(false);
+    }
   }
-}
 
   /* =======================================================
      LOADING
@@ -568,23 +700,22 @@ async function handlePurchase() {
       <main className="min-h-screen bg-white text-black">
         <Navbar />
 
-        <section className="mx-auto max-w-6xl px-5 py-8 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-6xl px-5 py-10 sm:px-6 lg:px-8">
           <div className="animate-pulse">
+            <div className="h-3 w-28 rounded bg-neutral-200" />
 
-            <div className="h-3 w-20 rounded bg-neutral-200" />
+            <div className="mt-5 h-10 w-80 rounded bg-neutral-200" />
 
-            <div className="mt-4 h-8 w-72 rounded bg-neutral-200" />
+            <div className="mt-3 h-4 w-full max-w-xl rounded bg-neutral-100" />
 
-            <div className="mt-3 h-4 w-96 max-w-full rounded bg-neutral-100" />
+            <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_360px]">
+              <div className="space-y-5">
+                <div className="h-72 rounded-3xl bg-neutral-100" />
+                <div className="h-80 rounded-3xl bg-neutral-100" />
+              </div>
 
-            <div className="mt-7 grid gap-6 lg:grid-cols-[1fr_360px]">
-
-              <div className="h-[380px] rounded-2xl bg-neutral-100" />
-
-              <div className="h-[380px] rounded-2xl bg-neutral-100" />
-
+              <div className="h-[520px] rounded-3xl bg-neutral-100" />
             </div>
-
           </div>
         </section>
 
@@ -597,38 +728,34 @@ async function handlePurchase() {
      ERROR
   ======================================================= */
 
-  if (error && !plan) {
+  if (!plan) {
     return (
       <main className="min-h-screen bg-white text-black">
         <Navbar />
 
-        <section className="flex min-h-[65vh] items-center justify-center px-5">
+        <section className="mx-auto flex min-h-[70vh] max-w-6xl items-center justify-center px-5">
+          <div className="w-full max-w-md rounded-3xl border border-black/10 bg-white p-8 text-center shadow-sm">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-black text-white">
+              <MapPin size={24} />
+            </div>
 
-          <div className="max-w-md text-center">
-
-            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-neutral-400">
-              LOCAL PLAN
-            </p>
-
-            <h1 className="mt-3 font-serif text-2xl font-semibold">
-              Plan not found
+            <h1 className="mt-5 text-2xl font-black">
+              Local plan unavailable
             </h1>
 
-            <p className="mt-2 text-xs leading-5 text-neutral-500">
-              This local plan may no longer be
-              available.
+            <p className="mt-2 text-sm leading-6 text-black/50">
+              {error ||
+                "We couldn't find this local plan."}
             </p>
 
             <Link
-              href="/local-plans"
-              className="mt-5 inline-flex items-center gap-2 rounded-xl bg-black px-5 py-3 text-[10px] font-semibold text-white"
+              href="/explore"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-black px-6 py-3 text-sm font-bold text-white transition hover:bg-black/80"
             >
-              <ArrowLeft size={13} />
-              Back to local plans
+              <ArrowLeft size={16} />
+              Back to Explore
             </Link>
-
           </div>
-
         </section>
 
         <Footer />
@@ -636,105 +763,72 @@ async function handlePurchase() {
     );
   }
 
-  if (!plan) return null;
-
-  const places = plan.places ?? [];
-
-  const placeCount =
-    places.length || plan.placesCount || 0;
-
   /* =======================================================
-     MAIN PURCHASE PAGE
+     MAIN PAGE
   ======================================================= */
 
   return (
     <main className="min-h-screen bg-white text-black">
-
       <Navbar />
 
-      {/* ===================================================
-          BACK
-      =================================================== */}
+      <div className="mx-auto max-w-7xl px-4 pb-20 pt-6 sm:px-6 lg:px-8">
+        {/* =================================================
+            TOP BAR
+        ================================================= */}
 
-      <div className="mx-auto max-w-6xl px-5 pt-5 sm:px-6 lg:px-8">
+        <div className="mb-7 flex items-center justify-between">
+          <Link
+            href={`/local-plans/${id}`}
+            className="flex items-center gap-2 text-sm font-semibold text-black/55 transition hover:text-black"
+          >
+            <ArrowLeft size={17} />
+            Back to Local Plan
+          </Link>
 
-        <Link
-          href={`/local-plans/${plan.slug}`}
-          className="inline-flex items-center gap-1.5 text-[10px] font-medium text-neutral-500 transition hover:text-black"
-        >
-          <ArrowLeft size={13} />
-          Back to plan
-        </Link>
+          <div className="flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2">
+            <ShieldCheck size={15} />
 
-      </div>
-
-      {/* ===================================================
-          HEADER
-      =================================================== */}
-
-      <section className="mx-auto max-w-6xl px-5 pb-5 pt-5 sm:px-6 lg:px-8">
-
-        <div className="flex flex-wrap items-end justify-between gap-4">
-
-          <div>
-
-            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-neutral-400">
-              COMPLETE YOUR PURCHASE
-            </p>
-
-            <h1 className="mt-1.5 font-serif text-[28px] font-semibold leading-tight tracking-tight sm:text-[32px]">
-              Plan your experience
-            </h1>
-
-            <p className="mt-1.5 max-w-xl text-[11px] leading-5 text-neutral-500">
-              Choose your preferred date and review your
-              local plan before continuing.
-            </p>
-
-          </div>
-
-          {/* PRICE */}
-
-          <div className="flex items-center gap-3">
-
-            <span className="text-[9px] uppercase tracking-[0.15em] text-neutral-400">
-              Total
+            <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-black/55">
+              Secure booking
             </span>
-
-            <span className="font-serif text-2xl font-semibold">
-              {formatPrice(plan.price)}
-            </span>
-
           </div>
-
         </div>
 
-      </section>
+        {/* =================================================
+            HEADER
+        ================================================= */}
 
-      {/* ===================================================
-          MAIN
-      =================================================== */}
+        <div className="max-w-3xl">
+          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-black/40">
+            COMPLETE YOUR LOCAL PLAN
+          </p>
 
-      <section className="mx-auto max-w-6xl px-5 pb-10 sm:px-6 lg:px-8">
+          <h1 className="mt-2 text-3xl font-black tracking-tight sm:text-4xl">
+            Plan your experience
+          </h1>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_350px]">
+          <p className="mt-3 text-sm leading-6 text-black/50">
+            Choose your preferred date and confirm
+            your Local Plan. Your plan will be unlocked
+            immediately for this MVP.
+          </p>
+        </div>
 
+        {/* =================================================
+            MAIN GRID
+        ================================================= */}
+
+        <div className="mt-9 grid gap-7 lg:grid-cols-[minmax(0,1fr)_370px]">
           {/* =================================================
-              LEFT — COMPACT PLAN + DATE
+              LEFT
           ================================================= */}
 
-          <div className="space-y-5">
+          <div className="space-y-6">
+            {/* PLAN CARD */}
 
-            {/* PLAN SUMMARY */}
-
-            <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white">
-
-              <div className="flex gap-4 p-4">
-
-                {/* IMAGE */}
-
-                <div className="h-24 w-32 shrink-0 overflow-hidden rounded-xl bg-neutral-100 sm:h-28 sm:w-40">
-
+            <section className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm">
+              <div className="grid md:grid-cols-[280px_1fr]">
+                <div className="relative h-64 md:h-full md:min-h-[300px]">
                   {plan.coverImage ? (
                     <img
                       src={plan.coverImage}
@@ -742,162 +836,148 @@ async function handlePurchase() {
                       className="h-full w-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-[9px] text-neutral-400">
-                      No image
+                    <div className="flex h-full min-h-[260px] items-center justify-center bg-neutral-100">
+                      <MapPin
+                        size={38}
+                        className="text-black/20"
+                      />
                     </div>
                   )}
 
+                  {plan.isFeatured && (
+                    <div className="absolute left-4 top-4 flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-[9px] font-black uppercase tracking-wider shadow-sm">
+                      <Sparkles size={12} />
+                      Featured
+                    </div>
+                  )}
                 </div>
 
-                {/* DETAILS */}
+                <div className="p-6 sm:p-7">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-black/35">
+                    LOCAL PLAN
+                  </p>
 
-                <div className="min-w-0 flex-1">
-
-                  <div className="flex items-center gap-2">
-
-                    <p className="text-[8px] font-bold uppercase tracking-[0.15em] text-neutral-400">
-                      VISTARA LOCAL PLAN
-                    </p>
-
-                    {plan.isFeatured && (
-                      <span className="rounded-full bg-black px-2 py-0.5 text-[7px] font-semibold uppercase tracking-wider text-white">
-                        Featured
-                      </span>
-                    )}
-
-                  </div>
-
-                  <h2 className="mt-1 font-serif text-lg font-semibold">
+                  <h2 className="mt-2 text-2xl font-black">
                     {plan.title}
                   </h2>
 
-                  <div className="mt-2 flex flex-wrap gap-2">
-
-                    <span className="inline-flex items-center gap-1 text-[9px] text-neutral-500">
-                      <MapPin size={10} />
-                      {plan.city}
-                    </span>
-
-                    <span className="inline-flex items-center gap-1 text-[9px] text-neutral-500">
-                      <Clock3 size={10} />
-                      {formatDuration(
-                        plan.durationHours
-                      )}
-                    </span>
-
-                    <span className="inline-flex items-center gap-1 text-[9px] text-neutral-500">
-                      <Sparkles size={10} />
-                      {placeCount} places
-                    </span>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* =================================================
-                DATE SELECTOR
-            ================================================= */}
-
-            <div className="rounded-2xl border border-neutral-200 bg-white p-4 sm:p-5">
-
-              <div className="flex items-center justify-between">
-
-                <div>
-
-                  <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-neutral-400">
-                    EXPERIENCE DATE
+                  <p className="mt-2 text-sm text-black/45">
+                    {plan.city}
+                    {plan.area
+                      ? ` · ${plan.area}`
+                      : ""}
                   </p>
 
-                  <h2 className="mt-1 text-sm font-semibold">
-                    When are you exploring?
+                  <p className="mt-5 text-sm leading-6 text-black/60">
+                    {plan.description}
+                  </p>
+
+                  <div className="mt-6 grid grid-cols-2 gap-3">
+                    <InfoCard
+                      icon={Clock3}
+                      label="Duration"
+                      value={formatDuration(
+                        plan.durationHours
+                      )}
+                    />
+
+                    <InfoCard
+                      icon={MapPin}
+                      label="Places"
+                      value={`${placesCount} places`}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* DATE SECTION */}
+
+            <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm sm:p-7">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <SmallLabel>
+                    EXPERIENCE DATE
+                  </SmallLabel>
+
+                  <h2 className="mt-1 text-xl font-black">
+                    When do you want to explore?
                   </h2>
 
+                  <p className="mt-2 text-sm text-black/45">
+                    Select the date for your local
+                    exploration.
+                  </p>
                 </div>
 
-                {selectedDate && (
-                  <span className="text-[10px] font-medium text-neutral-500">
-                    {formatSelectedDate(
-                      selectedDate
-                    )}
-                  </span>
-                )}
-
+                <CalendarDays
+                  size={22}
+                  className="shrink-0"
+                />
               </div>
 
-              {/* DATE INPUT */}
+              {/* DATE BUTTON */}
 
               <button
                 type="button"
                 onClick={() =>
                   setCalendarOpen(
-                    !calendarOpen
+                    (value) => !value
                   )
                 }
-                className={`mt-4 flex w-full items-center justify-between rounded-xl border px-4 py-3 text-left transition ${
+                className={`mt-6 flex w-full items-center justify-between rounded-2xl border px-4 py-4 text-left transition ${
                   selectedDate
-                    ? "border-black"
-                    : "border-neutral-200 hover:border-neutral-400"
+                    ? "border-black bg-black/[0.02]"
+                    : "border-black/10 bg-white hover:border-black/30"
                 }`}
               >
-
                 <div className="flex items-center gap-3">
-
-                  <CalendarDays size={17} />
-
-                  <div>
-
-                    <p className="text-[8px] font-semibold uppercase tracking-[0.12em] text-neutral-400">
-                      DATE
-                    </p>
-
-                    <p
-                      className={`mt-0.5 text-xs font-medium ${
-                        selectedDate
-                          ? "text-black"
-                          : "text-neutral-400"
-                      }`}
-                    >
-                      {formatSelectedDate(
-                        selectedDate
-                      )}
-                    </p>
-
+                  <div
+                    className={`flex h-10 w-10 items-center justify-center rounded-xl ${
+                      selectedDate
+                        ? "bg-black text-white"
+                        : "bg-black/5 text-black"
+                    }`}
+                  >
+                    <CalendarDays size={18} />
                   </div>
 
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-black/40">
+                      Selected date
+                    </p>
+
+                    <p className="mt-1 text-sm font-bold">
+                      {formatDate(selectedDate)}
+                    </p>
+                  </div>
                 </div>
 
-                <ArrowRight size={14} />
-
+                <ChevronRight
+                  size={18}
+                  className={
+                    calendarOpen
+                      ? "rotate-90 transition"
+                      : "transition"
+                  }
+                />
               </button>
 
-              {/* =================================================
-                  COMPACT CALENDAR
-              ================================================= */}
+              {/* CALENDAR */}
 
               {calendarOpen && (
-
-                <div className="mt-3 rounded-2xl border border-neutral-200 bg-white p-4 shadow-[0_15px_40px_rgba(0,0,0,0.08)]">
-
-                  {/* CALENDAR HEADER */}
-
+                <div className="mt-4 rounded-2xl border border-black/10 bg-neutral-50 p-4">
                   <div className="flex items-center justify-between">
-
                     <button
                       type="button"
-                      onClick={
-                        goPreviousMonth
-                      }
+                      onClick={previousMonth}
                       disabled={!canGoPrevious}
-                      className="flex h-7 w-7 items-center justify-center rounded-full border border-neutral-200 transition hover:bg-neutral-50 disabled:cursor-not-allowed disabled:opacity-30"
+                      className="flex h-9 w-9 items-center justify-center rounded-xl border border-black/10 bg-white transition hover:border-black disabled:cursor-not-allowed disabled:opacity-30"
                     >
-                      <ChevronLeft size={14} />
+                      <ChevronLeft size={17} />
                     </button>
 
-                    <p className="text-xs font-semibold">
+                    <p className="text-sm font-black">
                       {calendarMonth.toLocaleDateString(
                         "en-IN",
                         {
@@ -909,18 +989,14 @@ async function handlePurchase() {
 
                     <button
                       type="button"
-                      onClick={goNextMonth}
-                      className="flex h-7 w-7 items-center justify-center rounded-full border border-neutral-200 transition hover:bg-neutral-50"
+                      onClick={nextMonth}
+                      className="flex h-9 w-9 items-center justify-center rounded-xl border border-black/10 bg-white transition hover:border-black"
                     >
-                      <ChevronRight size={14} />
+                      <ChevronRight size={17} />
                     </button>
-
                   </div>
 
-                  {/* WEEKDAYS */}
-
-                  <div className="mt-4 grid grid-cols-7 text-center">
-
+                  <div className="mt-5 grid grid-cols-7 gap-1">
                     {[
                       "S",
                       "M",
@@ -929,64 +1005,46 @@ async function handlePurchase() {
                       "T",
                       "F",
                       "S",
-                    ].map(
-                      (
-                        day,
-                        index
-                      ) => (
-                        <span
-                          key={`${day}-${index}`}
-                          className="text-[8px] font-semibold text-neutral-400"
-                        >
-                          {day}
-                        </span>
-                      )
-                    )}
-
-                  </div>
-
-                  {/* DAYS */}
-
-                  <div className="mt-2 grid grid-cols-7 gap-y-1">
+                    ].map((day, index) => (
+                      <div
+                        key={`${day}-${index}`}
+                        className="py-2 text-center text-[9px] font-bold text-black/35"
+                      >
+                        {day}
+                      </div>
+                    ))}
 
                     {calendarDays.map(
                       (day, index) => {
-
                         if (day === null) {
                           return (
                             <div
                               key={`empty-${index}`}
-                              className="h-8"
+                              className="h-10"
                             />
                           );
                         }
 
                         const past =
-                          isPastDate(
-                            day
-                          );
+                          isPastDate(day);
 
                         const selected =
-                          isSelectedDate(
-                            day
-                          );
+                          isSelectedDate(day);
 
                         return (
                           <button
                             key={day}
                             type="button"
-                            disabled={past}
                             onClick={() =>
-                              selectDate(
-                                day
-                              )
+                              selectDate(day)
                             }
-                            className={`mx-auto flex h-8 w-8 items-center justify-center rounded-full text-[10px] transition ${
+                            disabled={past}
+                            className={`h-10 rounded-xl text-xs font-semibold transition ${
                               selected
-                                ? "bg-black font-semibold text-white"
+                                ? "bg-black text-white"
                                 : past
-                                  ? "cursor-not-allowed text-neutral-200"
-                                  : "text-black hover:bg-neutral-100"
+                                ? "cursor-not-allowed text-black/15"
+                                : "text-black hover:bg-black hover:text-white"
                             }`}
                           >
                             {day}
@@ -994,254 +1052,522 @@ async function handlePurchase() {
                         );
                       }
                     )}
-
                   </div>
-
-                  <div className="mt-3 border-t border-neutral-100 pt-3 text-center">
-
-                    <p className="text-[8px] text-neutral-400">
-                      Past dates are unavailable
-                    </p>
-
-                  </div>
-
                 </div>
-
               )}
 
-            </div>
+              {error && (
+                <div className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-medium text-red-600">
+                  {error}
+                </div>
+              )}
+            </section>
 
             {/* INCLUDED */}
 
-            <div className="rounded-2xl border border-neutral-200 bg-white p-4 sm:p-5">
+            <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-sm sm:p-7">
+              <SmallLabel>
+                WHAT YOU UNLOCK
+              </SmallLabel>
 
-              <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-neutral-400">
-                INCLUDED WITH YOUR PLAN
+              <h2 className="mt-1 text-xl font-black">
+                Everything inside your plan
+              </h2>
+
+              <div className="mt-6 space-y-5">
+                <DetailCard
+                  icon={Sparkles}
+                  label="Local discoveries"
+                  value={`Access ${placesCount} selected local places`}
+                />
+
+                <DetailCard
+                  icon={MapPin}
+                  label="Maps & routes"
+                  value="Unlock exact locations and route information"
+                />
+
+                <DetailCard
+                  icon={LockKeyhole}
+                  label="Protected details"
+                  value="Full place and plan details become available"
+                />
+
+                <DetailCard
+                  icon={ShieldCheck}
+                  label="Flexible exploration"
+                  value="Choose Self Explore, Guide or Vistara Transport"
+                />
+              </div>
+            </section>
+
+            {/* AFTER PURCHASE */}
+
+            <section className="rounded-3xl bg-black p-6 text-white sm:p-7">
+              <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/45">
+                AFTER UNLOCK
               </p>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <h2 className="mt-2 text-xl font-black">
+                Choose how you want to explore
+              </h2>
 
-                <div className="flex gap-2.5">
+              <p className="mt-2 max-w-xl text-sm leading-6 text-white/55">
+                Once your Local Plan is confirmed,
+                you can continue your journey with
+                the mode that suits you.
+              </p>
 
-                  <Check
-                    size={14}
-                    className="mt-0.5 shrink-0"
-                  />
-
-                  <div>
-
-                    <p className="text-[10px] font-semibold">
-                      Curated places
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                {[
+                  {
+                    title: "Self Explore",
+                    text: "Explore on your own",
+                  },
+                  {
+                    title: "Local Guide",
+                    text: "Travel with a local",
+                  },
+                  {
+                    title: "Vistara Transport",
+                    text: "Book Bike, Auto or Car",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="rounded-2xl border border-white/10 bg-white/10 p-4"
+                  >
+                    <p className="text-sm font-bold">
+                      {item.title}
                     </p>
 
-                    <p className="mt-0.5 text-[8px] leading-4 text-neutral-500">
-                      Selected local discoveries.
+                    <p className="mt-1 text-[10px] text-white/45">
+                      {item.text}
                     </p>
-
                   </div>
-
-                </div>
-
-                <div className="flex gap-2.5">
-
-                  <Check
-                    size={14}
-                    className="mt-0.5 shrink-0"
-                  />
-
-                  <div>
-
-                    <p className="text-[10px] font-semibold">
-                      Full access
-                    </p>
-
-                    <p className="mt-0.5 text-[8px] leading-4 text-neutral-500">
-                      Complete plan after purchase.
-                    </p>
-
-                  </div>
-
-                </div>
-
-                <div className="flex gap-2.5">
-
-                  <Check
-                    size={14}
-                    className="mt-0.5 shrink-0"
-                  />
-
-                  <div>
-
-                    <p className="text-[10px] font-semibold">
-                      One-time payment
-                    </p>
-
-                    <p className="mt-0.5 text-[8px] leading-4 text-neutral-500">
-                      No recurring subscription.
-                    </p>
-
-                  </div>
-
-                </div>
-
+                ))}
               </div>
-
-            </div>
-
+            </section>
           </div>
 
           {/* =================================================
               RIGHT — ORDER SUMMARY
           ================================================= */}
 
-          <aside>
-
-            <div className="sticky top-24 rounded-2xl border border-neutral-200 bg-white p-5 shadow-[0_10px_35px_rgba(0,0,0,0.05)]">
-
-              <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-neutral-400">
-                ORDER SUMMARY
-              </p>
-
-              <h3 className="mt-2 text-sm font-semibold">
-                {plan.title}
-              </h3>
-
-              <p className="mt-1 text-[9px] text-neutral-500">
-                {plan.city}
-                {plan.area
-                  ? ` · ${plan.area}`
-                  : ""}
-              </p>
-
-              {/* SELECTED DATE */}
-
-              <div className="mt-4 rounded-xl bg-neutral-50 p-3">
-
-                <div className="flex items-center gap-2">
-
-                  <CalendarDays size={14} />
-
-                  <div>
-
-                    <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-neutral-400">
-                      EXPERIENCE DATE
-                    </p>
-
-                    <p className="mt-0.5 text-[10px] font-semibold">
-                      {formatSelectedDate(
-                        selectedDate
-                      )}
-                    </p>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-              {/* PRICE */}
-
-              <div className="my-5 border-t border-neutral-200" />
-
-              <div className="space-y-3">
-
-                <div className="flex items-center justify-between">
-
-                  <span className="text-[10px] text-neutral-500">
-                    Plan price
-                  </span>
-
-                  <span className="text-[10px] font-semibold">
-                    {formatPrice(
-                      plan.price
-                    )}
-                  </span>
-
-                </div>
-
-                <div className="flex items-center justify-between">
-
-                  <span className="text-[10px] text-neutral-500">
-                    Access
-                  </span>
-
-                  <span className="text-[10px] font-semibold">
-                    Full plan
-                  </span>
-
-                </div>
-
-              </div>
-
-              <div className="my-5 border-t border-neutral-200" />
-
-              <div className="flex items-end justify-between">
-
-                <span className="text-[10px] text-neutral-500">
-                  Total
-                </span>
-
-                <span className="font-serif text-2xl font-semibold">
-                  {formatPrice(
-                    plan.price
-                  )}
-                </span>
-
-              </div>
-
-              {/* ERROR */}
-
-              {error && (
-                <div className="mt-4 rounded-xl border border-neutral-200 bg-neutral-50 px-3 py-2.5 text-[9px] leading-4 text-neutral-600">
-                  {error}
-                </div>
-              )}
-
-              {/* BUTTON */}
-
-              <button
-                type="button"
-                onClick={handlePurchase}
-                disabled={purchasing}
-                className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-black px-4 py-3.5 text-xs font-semibold text-white transition hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {purchasing ? (
-                  "Processing..."
-                ) : (
-                  <>
-                    Continue to payment
-                    <ArrowRight size={14} />
-                  </>
-                )}
-              </button>
-
-              {/* TRUST */}
-
-              <div className="mt-4 flex gap-2 border-t border-neutral-200 pt-4">
-
-                <ShieldCheck
-                  size={14}
-                  className="mt-0.5 shrink-0"
-                />
-
-                <p className="text-[8px] leading-4 text-neutral-500">
-                  Secure checkout. Your selected
-                  local plan will be available after
-                  successful purchase.
+          <aside className="lg:sticky lg:top-24 lg:self-start">
+            <div className="overflow-hidden rounded-3xl border border-black/10 bg-white shadow-sm">
+              <div className="bg-black p-6 text-white">
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/45">
+                  ORDER SUMMARY
                 </p>
 
+                <h2 className="mt-2 text-xl font-black">
+                  {plan.title}
+                </h2>
+
+                <p className="mt-1 text-xs text-white/45">
+                  {plan.city}
+                  {plan.area
+                    ? ` · ${plan.area}`
+                    : ""}
+                </p>
               </div>
 
+              <div className="p-6">
+                {/* DATE */}
+
+                <div className="rounded-2xl bg-neutral-50 p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <CalendarDays size={16} />
+
+                      <span className="text-xs font-semibold">
+                        Date
+                      </span>
+                    </div>
+
+                    <span className="text-xs font-bold">
+                      {formatDate(selectedDate)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* DURATION */}
+
+                <div className="mt-3 rounded-2xl bg-neutral-50 p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Clock3 size={16} />
+
+                      <span className="text-xs font-semibold">
+                        Duration
+                      </span>
+                    </div>
+
+                    <span className="text-xs font-bold">
+                      {formatDuration(
+                        plan.durationHours
+                      )}
+                    </span>
+                  </div>
+                </div>
+
+                {/* PRICE */}
+
+                <div className="mt-6 space-y-3 text-sm">
+                  <div className="flex items-center justify-between">
+                    <span className="text-black/45">
+                      Local Plan
+                    </span>
+
+                    <span className="font-semibold">
+                      {formatPrice(plan.price)}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-black/45">
+                      Service fee
+                    </span>
+
+                    <span className="font-semibold">
+                      ₹0
+                    </span>
+                  </div>
+
+                  <div className="border-t border-black/10 pt-4">
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold">
+                        Total
+                      </span>
+
+                      <span className="text-2xl font-black">
+                        {formatPrice(plan.price)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* BUTTON */}
+
+                <button
+                  type="button"
+                  onClick={handlePurchase}
+                  disabled={purchasing}
+                  className="mt-6 flex w-full items-center justify-center gap-2 rounded-2xl bg-black px-5 py-4 text-sm font-bold text-white transition hover:bg-black/80 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {purchasing
+                    ? "Confirming..."
+                    : "Confirm Local Plan"}
+
+                  {!purchasing && (
+                    <ArrowRight size={16} />
+                  )}
+                </button>
+
+                <div className="mt-4 flex items-start gap-2 border-t border-black/10 pt-4">
+                  <ShieldCheck
+                    size={15}
+                    className="mt-0.5 shrink-0"
+                  />
+
+                  <p className="text-[10px] leading-4 text-black/45">
+                    Demo booking — no payment is
+                    required. Your Local Plan will
+                    be marked as confirmed and
+                    unlocked immediately.
+                  </p>
+                </div>
+              </div>
             </div>
-
           </aside>
-
         </div>
-
-      </section>
+      </div>
 
       <Footer />
 
+      {/* =====================================================
+          CONFIRMATION MODAL
+      ===================================================== */}
+
+      {confirmedBooking && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+          <div className="max-h-[92vh] w-full max-w-[480px] overflow-y-auto rounded-[28px] bg-white shadow-2xl">
+            {/* HEADER */}
+
+            <div className="relative bg-black px-6 py-8 text-center text-white">
+              <button
+                type="button"
+                onClick={() =>
+                  setConfirmedBooking(null)
+                }
+                className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+              >
+                <X size={18} />
+              </button>
+
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white text-black">
+                <Check
+                  size={28}
+                  strokeWidth={3}
+                />
+              </div>
+
+              <p className="mt-5 text-[9px] font-bold uppercase tracking-[0.25em] text-white/45">
+                VISTARA LOCAL PLAN
+              </p>
+
+              <h2 className="mt-2 text-2xl font-black">
+                Booking confirmed
+              </h2>
+
+              <p className="mt-2 text-xs text-white/50">
+                Your Local Plan has been confirmed
+                and unlocked successfully.
+              </p>
+            </div>
+
+            {/* BODY */}
+
+            <div className="p-6">
+              {/* BOOKING ID */}
+
+              <div className="rounded-2xl border border-black/10 bg-white p-4">
+                <p className="text-[8px] font-bold uppercase tracking-[0.18em] text-black/35">
+                  Booking ID
+                </p>
+
+                <p className="mt-1.5 text-sm font-black tracking-wide">
+                  {confirmedBooking.bookingId}
+                </p>
+              </div>
+
+              {/* PLAN */}
+
+              <div className="mt-3 rounded-2xl border border-black/10 bg-white p-4">
+                <div className="flex gap-4">
+                  {plan.coverImage ? (
+                    <img
+                      src={plan.coverImage}
+                      alt={plan.title}
+                      className="h-20 w-20 shrink-0 rounded-xl object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-xl bg-neutral-100">
+                      <MapPin size={22} />
+                    </div>
+                  )}
+
+                  <div className="min-w-0">
+                    <p className="text-[8px] font-bold uppercase tracking-[0.16em] text-black/35">
+                      Local Plan
+                    </p>
+
+                    <h3 className="mt-1 text-sm font-black">
+                      {confirmedBooking.planTitle}
+                    </h3>
+
+                    <p className="mt-1 text-xs text-black/45">
+                      {confirmedBooking.city}
+                      {confirmedBooking.area
+                        ? ` · ${confirmedBooking.area}`
+                        : ""}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* DATE / STATUS */}
+
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <ModalInfo
+                  label="Date"
+                  value={formatDate(
+                    new Date(
+                      confirmedBooking.date
+                    )
+                  )}
+                />
+
+                <ModalInfo
+                  label="Status"
+                  value="Confirmed"
+                />
+              </div>
+
+              {/* UNLOCK */}
+
+              <div className="mt-3 rounded-2xl border border-black/10 bg-neutral-100 p-4">
+                <div className="flex items-start gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-black text-white">
+                    <LockKeyhole size={17} />
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-black">
+                      Local Plan unlocked
+                    </p>
+
+                    <p className="mt-1 text-[10px] leading-4 text-black/50">
+                      Exact places, plan details
+                      and route information are now
+                      available.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* TOTAL */}
+
+              <div className="mt-3 rounded-2xl bg-black p-4 text-white">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-white/50">
+                    Total
+                  </span>
+
+                  <span className="text-lg font-black">
+                    ₹
+                    {confirmedBooking.totalAmount.toLocaleString(
+                      "en-IN"
+                    )}
+                  </span>
+                </div>
+
+                <p className="mt-2 text-[9px] text-white/35">
+                  No payment required for this MVP.
+                </p>
+              </div>
+
+              {/* ACTIONS */}
+
+              <div className="mt-4 grid gap-2">
+                <Link
+                  href={`/bookings/${encodeURIComponent(
+                    confirmedBooking.bookingId
+                  )}`}
+                  className="flex items-center justify-center gap-2 rounded-xl bg-black px-5 py-3.5 text-sm font-bold text-white transition hover:bg-black/85"
+                >
+                  View booking
+                  <ArrowRight size={15} />
+                </Link>
+
+                <Link
+                  href="/explore"
+                  className="flex items-center justify-center rounded-xl border border-black/10 bg-white px-5 py-3.5 text-sm font-bold transition hover:border-black"
+                >
+                  Continue exploring
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
+  );
+}
+
+/* =========================================================
+   SMALL LABEL
+========================================================= */
+
+function SmallLabel({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-black/40">
+      {children}
+    </p>
+  );
+}
+
+/* =========================================================
+   INFO CARD
+========================================================= */
+
+function InfoCard({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: ElementType;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-black/10 bg-white p-4">
+      <Icon
+        size={18}
+        strokeWidth={1.7}
+      />
+
+      <p className="mt-3 text-[9px] uppercase tracking-[0.1em] text-black/40">
+        {label}
+      </p>
+
+      <p className="mt-1 text-sm font-bold">
+        {value}
+      </p>
+    </div>
+  );
+}
+
+/* =========================================================
+   DETAIL CARD
+========================================================= */
+
+function DetailCard({
+  icon: Icon,
+  label,
+  value,
+}: {
+  icon: ElementType;
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-black/10 bg-white px-4 py-4">
+      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-neutral-100">
+        <Icon
+          size={18}
+          strokeWidth={1.7}
+        />
+      </div>
+
+      <div>
+        <p className="text-[9px] uppercase tracking-[0.1em] text-black/40">
+          {label}
+        </p>
+
+        <p className="mt-1 text-sm font-bold">
+          {value}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   MODAL INFO
+========================================================= */
+
+function ModalInfo({
+  label,
+  value,
+}: {
+  label: string;
+  value: string;
+}) {
+  return (
+    <div className="rounded-xl bg-neutral-50 p-3">
+      <p className="text-[8px] font-bold uppercase tracking-[0.12em] text-black/35">
+        {label}
+      </p>
+
+      <p className="mt-1 text-xs font-black">
+        {value}
+      </p>
+    </div>
   );
 }
