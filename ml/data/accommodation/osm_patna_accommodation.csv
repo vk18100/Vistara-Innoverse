@@ -1,0 +1,66 @@
+osm_id,name,tourism,operator,latitude,longitude,accommodation_type,city,state,country,source
+way/603767547,,guest_house,,25.625344,85.1081373,guest_house,Patna,Bihar,India,OpenStreetMap
+way/960726710,Moti Dhabba,hotel,,25.5783155,85.2260112,hotel,Patna,Bihar,India,OpenStreetMap
+way/1107287401,Girls' hostel,hostel,Bit patna,25.5955453,85.0879965,hostel,Patna,Bihar,India,OpenStreetMap
+way/1107287402,Boy's hostel,hostel,,25.5969867,85.0875874,hostel,Patna,Bihar,India,OpenStreetMap
+way/1107287418,,hostel,,25.5955716,85.0887326,hostel,Patna,Bihar,India,OpenStreetMap
+way/1107287419,,hostel,,25.5952344,85.0887992,hostel,Patna,Bihar,India,OpenStreetMap
+node/1356109153,Hotel Maurya Patna,hotel,,25.6159886,85.1424472,hotel,Patna,Bihar,India,OpenStreetMap
+node/1356165325,,hostel,,25.6195991,85.1505743,hostel,Patna,Bihar,India,OpenStreetMap
+node/1358036620,Circuit House (Govt Officer's Hostel),hostel,,25.6025297,85.1264108,hostel,Patna,Bihar,India,OpenStreetMap
+node/2081737042,Hotel Chanakya,hotel,,25.6010069,85.1260295,hotel,Patna,Bihar,India,OpenStreetMap
+node/2175381288,Hotel President,hotel,,25.6123969,85.1372998,hotel,Patna,Bihar,India,OpenStreetMap
+node/4140404868,Hotel City Centre,hotel,,25.6043524,85.1383384,hotel,Patna,Bihar,India,OpenStreetMap
+node/4570474367,Gurudwara guesthouse,guest_house,,25.5966038,85.2296878,guest_house,Patna,Bihar,India,OpenStreetMap
+node/5279091121,Inderdevan Villa,apartment,,25.592172,85.1399803,apartment,Patna,Bihar,India,OpenStreetMap
+node/6086075038,Hotel Shyama,hotel,,25.6126905,85.143946,hotel,Patna,Bihar,India,OpenStreetMap
+node/6087840061,Vijay Shree Deluxe,hotel,,25.6133947,85.14405,hotel,Patna,Bihar,India,OpenStreetMap
+node/6087842548,The Panache,hotel,,25.6151919,85.143894,hotel,Patna,Bihar,India,OpenStreetMap
+node/6087845690,Hotel Bhavya Regency,hotel,,25.60403,85.1380183,hotel,Patna,Bihar,India,OpenStreetMap
+node/6351921485,Mayur Hotel,hotel,,25.6089241,85.1378919,hotel,Patna,Bihar,India,OpenStreetMap
+node/6643306785,भगवती कॉम्प्लेक्स,apartment,,25.5699226,85.0493414,apartment,Patna,Bihar,India,OpenStreetMap
+node/7197094204,Siddhartha Inn,hotel,,25.6213508,85.1236312,hotel,Patna,Bihar,India,OpenStreetMap
+node/7205986086,Hotel Abhimit,hotel,,25.601854,85.1643569,hotel,Patna,Bihar,India,OpenStreetMap
+node/7214263641,Hotel Relax Zone,hotel,,25.606927,85.1418141,hotel,Patna,Bihar,India,OpenStreetMap
+node/8835099017,ॐ रेसीडेंसी,apartment,,25.598583,85.1681408,apartment,Patna,Bihar,India,OpenStreetMap
+node/8917069761,G4,apartment,,25.6052245,85.0560681,apartment,Patna,Bihar,India,OpenStreetMap
+node/8917069762,G2,apartment,,25.6055142,85.0566396,apartment,Patna,Bihar,India,OpenStreetMap
+node/8917101049,G6,apartment,,25.6058938,85.0561783,apartment,Patna,Bihar,India,OpenStreetMap
+node/8917102155,G5,apartment,,25.6055991,85.056142,apartment,Patna,Bihar,India,OpenStreetMap
+node/8917124581,G3,apartment,,25.6051411,85.0565522,apartment,Patna,Bihar,India,OpenStreetMap
+node/8917126294,G1,apartment,,25.6058344,85.0566705,apartment,Patna,Bihar,India,OpenStreetMap
+node/10053495045,Hotel Magadh,hotel,,25.6284683,85.1041169,hotel,Patna,Bihar,India,OpenStreetMap
+node/10247014868,Capital House Hotel,hotel,,25.6089361,85.1366162,hotel,Patna,Bihar,India,OpenStreetMap
+node/10903081549,Uma Niketan,guest_house,,25.5873173,85.1662044,guest_house,Patna,Bihar,India,OpenStreetMap
+node/10903081570,Aditya Lodge,chalet,,25.5863787,85.1634749,chalet,Patna,Bihar,India,OpenStreetMap
+node/10903081572,,chalet,,25.5864121,85.1631139,chalet,Patna,Bihar,India,OpenStreetMap
+node/11691570557,aastha girls hostel,hostel,,25.5862168,85.149644,hostel,Patna,Bihar,India,OpenStreetMap
+node/11698433730,PG for boy's and girl's,hostel,,25.6066339,85.1405979,hostel,Patna,Bihar,India,OpenStreetMap
+node/11698623237,White House,hotel,,25.6198855,85.1152422,hotel,Patna,Bihar,India,OpenStreetMap
+node/11698640939,Shree Girls Cottage,hostel,,25.6201392,85.1153119,hostel,Patna,Bihar,India,OpenStreetMap
+node/11806846916,Hotel Talsons,hotel,,25.6138567,85.1444539,hotel,Patna,Bihar,India,OpenStreetMap
+node/12224099201,Welcome Palace,hotel,,25.6090689,85.143438,hotel,Patna,Bihar,India,OpenStreetMap
+node/12595591123,The Red Velvet Hotel,hotel,,25.6186406,85.0483749,hotel,Patna,Bihar,India,OpenStreetMap
+node/12595600938,Flagship The Ki&kaa,hotel,,25.6140333,85.0566055,hotel,Patna,Bihar,India,OpenStreetMap
+node/12595601060,FabHotel The Kumar Inn,hotel,,25.6167003,85.0566289,hotel,Patna,Bihar,India,OpenStreetMap
+node/12596151135,OYO Hotel crystal inn,hotel,,25.6250476,85.0555613,hotel,Patna,Bihar,India,OpenStreetMap
+node/12596167870,Hotel O Lotus Inn,hotel,,25.6258922,85.0557806,hotel,Patna,Bihar,India,OpenStreetMap
+node/12596177945,Hotel Shiwani iin Danapurcantt,hotel,,25.6389637,85.0521514,hotel,Patna,Bihar,India,OpenStreetMap
+node/12596227169,sanju Hotel,hotel,,25.6385089,85.0513259,hotel,Patna,Bihar,India,OpenStreetMap
+node/12596370722,Shri Laxminarayan Dharamshala,guest_house,,25.6420544,85.0567232,guest_house,Patna,Bihar,India,OpenStreetMap
+node/12597676051,B.S. College Hostel,hostel,,25.6456752,85.0621506,hostel,Patna,Bihar,India,OpenStreetMap
+node/12613363602,Hotel Maharaja Inn,hotel,,25.6080871,85.1438633,hotel,Patna,Bihar,India,OpenStreetMap
+node/12613421418,Hotel Dream Patna,hotel,,25.5805482,85.0850837,hotel,Patna,Bihar,India,OpenStreetMap
+node/13584517095,hotel sweta,hotel,,25.6372123,85.1086409,hotel,Patna,Bihar,India,OpenStreetMap
+node/13607660712,AB Hotel,hotel,,25.6241834,85.0968287,hotel,Patna,Bihar,India,OpenStreetMap
+node/13607660718,Hotel Jalsa,hotel,,25.6240993,85.0968146,hotel,Patna,Bihar,India,OpenStreetMap
+node/13607660720,Saira Hotel,hotel,,25.6238333,85.0967248,hotel,Patna,Bihar,India,OpenStreetMap
+node/13608663242,Laxmi Inn,hotel,,25.6213131,85.1236543,hotel,Patna,Bihar,India,OpenStreetMap
+node/13617684959,ONI Girls Living,hostel,,25.6215561,85.1156737,hostel,Patna,Bihar,India,OpenStreetMap
+node/13617730537,Mainpura Girls Hostel,hostel,,25.6216539,85.1156796,hostel,Patna,Bihar,India,OpenStreetMap
+node/13617735978,Vedanta Girls Hostel,hostel,,25.6210309,85.1155238,hostel,Patna,Bihar,India,OpenStreetMap
+node/13617749871,Nishant Girls Hostel,hostel,,25.621735,85.1156825,hostel,Patna,Bihar,India,OpenStreetMap
+node/13617755190,Vineet Boys Hostel,hostel,,25.619992,85.1155411,hostel,Patna,Bihar,India,OpenStreetMap
+node/13617779537,Khushi Girls Cottage,hostel,,25.6212821,85.1155319,hostel,Patna,Bihar,India,OpenStreetMap
+node/13672654644,Durga Guest House,hotel,,25.5768522,85.1891028,hotel,Patna,Bihar,India,OpenStreetMap
+node/13757851895,hotel Munna Ki,hotel,,25.6270837,85.1146979,hotel,Patna,Bihar,India,OpenStreetMap

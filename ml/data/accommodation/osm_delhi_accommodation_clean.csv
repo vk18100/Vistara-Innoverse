@@ -1,0 +1,626 @@
+osm_id,name,accommodation_type,city,state,country,latitude,longitude,source
+relation/325613,Faculty Guest House,Guest House,Delhi,Delhi,India,28.5455076,77.1835405,OpenStreetMap
+relation/4208445,Roseate House,Hotel,Delhi,Delhi,India,28.5507261,77.120575,OpenStreetMap
+relation/4208446,JW Marriott Hotel New Delhi Aerocity,Hotel,Delhi,Delhi,India,28.5527985,77.1215512,OpenStreetMap
+relation/4208447,"Lemon Tree Premier, Delhi Airport",Hotel,Delhi,Delhi,India,28.5519234,77.1208841,OpenStreetMap
+relation/4830573,Ganga Hostel (Women's),Hostel,Delhi,Delhi,India,28.5492121,77.1690497,OpenStreetMap
+relation/5247062,Tapti Hostel (Co-Ed),Hostel,Delhi,Delhi,India,28.5448413,77.1625755,OpenStreetMap
+relation/5247140,Haveli Dharampura,Hotel,Delhi,Delhi,India,28.6532399,77.2322984,OpenStreetMap
+relation/12824485,Ramanujan Hostel,Hostel,Delhi,Delhi,India,28.6130033,77.0347332,OpenStreetMap
+relation/12824486,Raman Hostel,Hostel,Delhi,Delhi,India,28.6132601,77.0355077,OpenStreetMap
+relation/12824487,Aryabhata Hostel,Hostel,Delhi,Delhi,India,28.6124085,77.0350854,OpenStreetMap
+relation/12824488,Bhaskara Hostel,Hostel,Delhi,Delhi,India,28.6126454,77.0357979,OpenStreetMap
+relation/12829797,Sarasvati Hostel,Hostel,Delhi,Delhi,India,28.6074377,77.0396485,OpenStreetMap
+relation/18881743,Gwyer Hall,Hostel,Delhi,Delhi,India,28.690247,77.2167161,OpenStreetMap
+relation/18881744,University Guest House,Guest House,Delhi,Delhi,India,28.6896143,77.2159894,OpenStreetMap
+relation/20445719,Centaur Hotel,Hotel,Delhi,Delhi,India,28.5489923,77.1023057,OpenStreetMap
+way/44408529,Nalanda,Hostel,Delhi,Delhi,India,28.545778,77.1832094,OpenStreetMap
+way/102522853,Crowne Plaza,Hotel,Delhi,Delhi,India,28.5286687,77.2725913,OpenStreetMap
+way/111698134,Gol Hostel,Hostel,Delhi,Delhi,India,28.6304736,77.2487201,OpenStreetMap
+way/139442357,Scholl of Planning and Architecture Hostel and Residential Complex,Hostel,Delhi,Delhi,India,28.572625,77.2713859,OpenStreetMap
+way/154108719,Boys Hostel,Hostel,Delhi,Delhi,India,28.5949616,77.0178916,OpenStreetMap
+way/154108720,Boys Hostel,Hostel,Delhi,Delhi,India,28.5949963,77.0173817,OpenStreetMap
+way/154108722,Girls Hostel,Hostel,Delhi,Delhi,India,28.5952474,77.0172367,OpenStreetMap
+way/154108724,Girls Hostel,Hostel,Delhi,Delhi,India,28.5952501,77.0177327,OpenStreetMap
+way/154186641,WelcomHotel Dwarka,Hotel,Delhi,Delhi,India,28.579363,77.0560517,OpenStreetMap
+way/154186644,Radisson BLU Dwarka,Hotel,Delhi,Delhi,India,28.59629,77.036186,OpenStreetMap
+way/154202308,Guest Room,Guest House,Delhi,Delhi,India,28.6762752,77.1122763,OpenStreetMap
+way/179723488,Avaron court yard,Hotel,Delhi,Delhi,India,28.4964729,77.1599413,OpenStreetMap
+way/190296297,The Grand New Delhi,Hotel,Delhi,Delhi,India,28.5388809,77.1518285,OpenStreetMap
+way/190345949,DeeMarks,Hotel,Delhi,Delhi,India,28.5356384,77.1136735,OpenStreetMap
+way/190358332,Mapple Emerald Hotel,Hotel,Delhi,Delhi,India,28.5219701,77.1001073,OpenStreetMap
+way/192704213,Girls Hostel,Hostel,Delhi,Delhi,India,28.628955,77.245527,OpenStreetMap
+way/221688672,Eros Hotel,Hotel,Delhi,Delhi,India,28.5501814,77.2491737,OpenStreetMap
+way/260125961,Madhyanchal,Guest House,Delhi,Delhi,India,28.5460015,77.1471379,OpenStreetMap
+way/260463353,Old Age Home,Guest House,Delhi,Delhi,India,28.6110546,77.0730908,OpenStreetMap
+way/262629851,Radisson Blu,Hotel,Delhi,Delhi,India,28.6673004,77.091195,OpenStreetMap
+way/294522177,Rail Yatri Niwas,Hotel,Delhi,Delhi,India,28.6444801,77.2226462,OpenStreetMap
+way/313541233,Pride Plaza,Hotel,Delhi,Delhi,India,28.5525139,77.1229495,OpenStreetMap
+way/313544660,ibis New Delhi Aerocity,Hotel,Delhi,Delhi,India,28.551413,77.1232779,OpenStreetMap
+way/340391149,Sutlej Hostel (Men's),Hostel,Delhi,Delhi,India,28.5483416,77.1683556,OpenStreetMap
+way/340394166,Jhelum Hostel (Men's),Hostel,Delhi,Delhi,India,28.5482662,77.1694371,OpenStreetMap
+way/340398416,Yamuna Hostel (Women's),Hostel,Delhi,Delhi,India,28.5472054,77.1700667,OpenStreetMap
+way/340398522,Aravalli International Guest House,Guest House,Delhi,Delhi,India,28.5457079,77.1693058,OpenStreetMap
+way/340402608,Sabarmati Hostel (Co-Ed),Hostel,Delhi,Delhi,India,28.545967,77.1641427,OpenStreetMap
+way/348167517,Ahuja Residency,Hotel,Delhi,Delhi,India,28.6050512,77.2407688,OpenStreetMap
+way/348286982,Kali Bari Guest House,Guest House,Delhi,Delhi,India,28.6070035,77.3019283,OpenStreetMap
+way/350005094,Mayas Nest-A Bed & Breakfast,Hostel,Delhi,Delhi,India,28.5357254,77.1495013,OpenStreetMap
+way/350006432,Hotel Alaska,Hotel,Delhi,Delhi,India,28.6462865,77.197086,OpenStreetMap
+way/350042821,Hotel Venus International,Hotel,Delhi,Delhi,India,28.6431411,77.2103768,OpenStreetMap
+way/350070312,Vivanta by TAJ,Hotel,Delhi,Delhi,India,28.557637,77.0624842,OpenStreetMap
+way/350590327,Sister Nivedita Hostel,Hostel,Delhi,Delhi,India,28.7477604,77.1182127,OpenStreetMap
+way/350590357,DTU Guest House,Guest House,Delhi,Delhi,India,28.7475953,77.1201506,OpenStreetMap
+way/350751627,Mahi-Mandavi Hostel,Hostel,Delhi,Delhi,India,28.5441713,77.1613673,OpenStreetMap
+way/350751659,Narmada Hostel,Hostel,Delhi,Delhi,India,28.5466727,77.1649849,OpenStreetMap
+way/350751676,Chandrabhaga Hostel,Hostel,Delhi,Delhi,India,28.5423181,77.1600327,OpenStreetMap
+way/350751687,Koyna Hostel,Hostel,Delhi,Delhi,India,28.5436822,77.1622482,OpenStreetMap
+way/350751697,Lohit Hostel,Hostel,Delhi,Delhi,India,28.5436515,77.1602315,OpenStreetMap
+way/350751702,Shipra Hostel,Hostel,Delhi,Delhi,India,28.542577,77.1614239,OpenStreetMap
+way/350771876,VSH-Block 4,Hostel,Delhi,Delhi,India,28.7465216,77.11783,OpenStreetMap
+way/350804848,VSH -Block 1,Hostel,Delhi,Delhi,India,28.745984,77.1185054,OpenStreetMap
+way/350804849,ABH Block 2,Hostel,Delhi,Delhi,India,28.7456239,77.1181197,OpenStreetMap
+way/350804852,VSH-Block 5,Hostel,Delhi,Delhi,India,28.7465501,77.1182442,OpenStreetMap
+way/350804854,VSH-Block 2,Hostel,Delhi,Delhi,India,28.7461646,77.1182481,OpenStreetMap
+way/350804857,VSH Block 3,Hostel,Delhi,Delhi,India,28.7463629,77.1180423,OpenStreetMap
+way/350804862,ABH Block 4,Hostel,Delhi,Delhi,India,28.7457015,77.118561,OpenStreetMap
+way/350804866,ABH Block 1,Hostel,Delhi,Delhi,India,28.7454271,77.1178956,OpenStreetMap
+way/350804877,ABH Block 3,Hostel,Delhi,Delhi,India,28.7454184,77.1182831,OpenStreetMap
+way/351082650,International Guest House,Guest House,Delhi,Delhi,India,28.6921149,77.2161779,OpenStreetMap
+way/351084628,Valentine Motel & Resorts,Hotel,Delhi,Delhi,India,28.7654375,77.146839,OpenStreetMap
+way/351118900,OYO Flagship Shri Ram Residency,Hotel,Delhi,Delhi,India,28.5157222,77.2001975,OpenStreetMap
+way/351149739,Hotel Elvilla,Hotel,Delhi,Delhi,India,28.5665257,77.1896192,OpenStreetMap
+way/351163606,Mantra Amaltas,Hotel,Delhi,Delhi,India,28.5672822,77.2613765,OpenStreetMap
+way/351163887,Rose Mallow Hotel,Hotel,Delhi,Delhi,India,28.5635077,77.2654641,OpenStreetMap
+way/351411426,Post Graduate Men's Hostel,Hostel,Delhi,Delhi,India,28.6899049,77.2163262,OpenStreetMap
+way/351414120,Park Inn by Radisson,Hotel,Delhi,Delhi,India,28.6299385,77.3145775,OpenStreetMap
+way/351847124,ICAR International Guest House,Guest House,Delhi,Delhi,India,28.6257688,77.1609265,OpenStreetMap
+way/351866119,Hotel GTC,Hotel,Delhi,Delhi,India,28.5369333,77.2394379,OpenStreetMap
+way/351868136,Himadri,Hostel,Delhi,Delhi,India,28.5452948,77.1971167,OpenStreetMap
+way/351868143,Kailash,Hostel,Delhi,Delhi,India,28.5447527,77.1968794,OpenStreetMap
+way/352248523,Private Affair,Hotel,Delhi,Delhi,India,28.5487228,77.2365389,OpenStreetMap
+way/352248551,FabHotel Cabana,Hotel,Delhi,Delhi,India,28.5479037,77.2398073,OpenStreetMap
+way/352253822,The Leela,Hotel,Delhi,Delhi,India,28.6621858,77.3020279,OpenStreetMap
+way/352541168,juST aPanchsheel Park Hotel,Hotel,Delhi,Delhi,India,28.5422836,77.2193308,OpenStreetMap
+way/353429788,Hotel Udman Panchshila Park,Hotel,Delhi,Delhi,India,28.5436809,77.2111513,OpenStreetMap
+way/353755371,"IIT Delhi Main Guest House ""Amaltas""",Guest House,Delhi,Delhi,India,28.5436498,77.198497,OpenStreetMap
+way/354825218,Fortune Park East Delhi,Hotel,Delhi,Delhi,India,28.6653987,77.3039749,OpenStreetMap
+way/354825470,Ginger Hotel - East Delhi,Hotel,Delhi,Delhi,India,28.6657027,77.3039825,OpenStreetMap
+way/357222241,Haveli Hauz Khas,Guest House,Delhi,Delhi,India,28.5476283,77.2013516,OpenStreetMap
+way/358699046,Shivalik Hostel,Hostel,Delhi,Delhi,India,28.5477557,77.1859726,OpenStreetMap
+way/358870958,Udaigiri,Hostel,Delhi,Delhi,India,28.5476467,77.1894735,OpenStreetMap
+way/358870959,Girnar,Hostel,Delhi,Delhi,India,28.5476856,77.1888543,OpenStreetMap
+way/358870961,Aravali Hostel,Hostel,Delhi,Delhi,India,28.5487199,77.1834892,OpenStreetMap
+way/358870962,Karakoram,Hostel,Delhi,Delhi,India,28.5476592,77.1830181,OpenStreetMap
+way/358870963,Nilgiri,Hostel,Delhi,Delhi,India,28.5466675,77.1823714,OpenStreetMap
+way/400541137,Hari Piorko,Hotel,Delhi,Delhi,India,28.6409609,77.2141421,OpenStreetMap
+node/438040050,"Radisson Blu Plaza Hotel,Delhi Airport",Hotel,Delhi,Delhi,India,28.5431492,77.1195279,OpenStreetMap
+node/442110900,Hotel Surya,Hotel,Delhi,Delhi,India,28.5614243,77.2697503,OpenStreetMap
+way/467108002,Maharaja Surajmal College Hostel,Hostel,Delhi,Delhi,India,28.6202781,77.0921011,OpenStreetMap
+node/496728650,Suryadev,Hotel,Delhi,Delhi,India,28.7950429,77.1444274,OpenStreetMap
+way/505667468,Holiday Inn New Delhi Int'l Airport,Hotel,Delhi,Delhi,India,28.5502204,77.1228191,OpenStreetMap
+way/543282135,Kumaon Hostel,Hostel,Delhi,Delhi,India,28.5492821,77.1855177,OpenStreetMap
+node/608435824,Master Guest House,Guest House,Delhi,Delhi,India,28.6346805,77.185038,OpenStreetMap
+node/613342452,Jaypee Vasant Continental Hotel,Hotel,Delhi,Delhi,India,28.5564529,77.1640765,OpenStreetMap
+way/625484549,Tivoli Grand Resort,Hotel,Delhi,Delhi,India,28.7883811,77.1436087,OpenStreetMap
+node/655305904,Parkland Hotel,Hotel,Delhi,Delhi,India,28.5672888,77.2281718,OpenStreetMap
+way/673905190,Le Seasons,Hotel,Delhi,Delhi,India,28.5474555,77.1256565,OpenStreetMap
+way/722512299,Amby Inn,Hotel,Delhi,Delhi,India,28.5688226,77.2479508,OpenStreetMap
+way/733579816,The Meriton,Hotel,Delhi,Delhi,India,28.553762,77.2646238,OpenStreetMap
+way/764306716,Satvik by Chhabra Farm,Hotel,Delhi,Delhi,India,28.542139,77.0704612,OpenStreetMap
+way/778473831,Park Inn,Hotel,Delhi,Delhi,India,28.5639439,77.2347957,OpenStreetMap
+way/782378316,Hyatt Regency,Hotel,Delhi,Delhi,India,28.5689952,77.1851106,OpenStreetMap
+node/821201866,Vishal Residency Hotel,Hotel,Delhi,Delhi,India,28.5426758,77.1190259,OpenStreetMap
+way/851803155,Tibtean Hostel Complex,Hostel,Delhi,Delhi,India,28.7076893,77.1294423,OpenStreetMap
+node/928488601,Yatri Guesthouse,Hotel,Delhi,Delhi,India,28.6422845,77.2053386,OpenStreetMap
+node/928550280,Hotel Metropolis,Hotel,Delhi,Delhi,India,28.6407045,77.2105994,OpenStreetMap
+way/952148795,Alaknanda Hostel,Hostel,Delhi,Delhi,India,28.6080162,77.0395425,OpenStreetMap
+way/952398066,Kaveri Hostel,Hostel,Delhi,Delhi,India,28.6137635,77.0384326,OpenStreetMap
+way/952398080,Guest House,Guest House,Delhi,Delhi,India,28.6081395,77.0381504,OpenStreetMap
+way/952398088,J. C. Bose Hostel,Hostel,Delhi,Delhi,India,28.6136282,77.0343224,OpenStreetMap
+node/956194764,Hotel Tara Palace,Hotel,Delhi,Delhi,India,28.6534876,77.2345124,OpenStreetMap
+node/974363115,Star Paradise,Hotel,Delhi,Delhi,India,28.6410897,77.2156719,OpenStreetMap
+way/997653595,South INN Green Park,Hotel,Delhi,Delhi,India,28.5590033,77.2033207,OpenStreetMap
+way/1117974333,APJ Hostel,Hostel,Delhi,Delhi,India,28.7505847,77.1119822,OpenStreetMap
+way/1123780370,Maa Katyayni PG,Hostel,Delhi,Delhi,India,28.7226811,77.0671439,OpenStreetMap
+way/1125315402,Maharani Madhvi Agarsen Block,Hostel,Delhi,Delhi,India,28.7187432,77.0660803,OpenStreetMap
+way/1125315404,Bhama Shah Block,Hostel,Delhi,Delhi,India,28.7185631,77.0659139,OpenStreetMap
+way/1174267820,Welcome Guest House,Guest House,Delhi,Delhi,India,28.7137498,77.1748718,OpenStreetMap
+node/1184434816,Vivek,Hotel,Delhi,Delhi,India,28.6410436,77.212675,OpenStreetMap
+way/1185194973,Hotel Red Saffron,Hotel,Delhi,Delhi,India,28.7242215,77.0808061,OpenStreetMap
+way/1186488779,Boys Hostel,Hostel,Delhi,Delhi,India,28.6637957,77.2994604,OpenStreetMap
+way/1211582154,Four Points by Sheraton,Hotel,Delhi,Delhi,India,28.5283356,77.0988651,OpenStreetMap
+way/1230064950,Crowne Plaza Rohini,Hotel,Delhi,Delhi,India,28.7199336,77.1097197,OpenStreetMap
+node/1241009821,Arjun Guesthouse,Guest House,Delhi,Delhi,India,28.6408235,77.2121133,OpenStreetMap
+way/1304661960,VLB Hostel,Hostel,Delhi,Delhi,India,28.7481793,77.1189699,OpenStreetMap
+node/1332266859,Tree of Life,Guest House,Delhi,Delhi,India,28.524386,77.2044421,OpenStreetMap
+way/1339045485,Premier Inn Hotel,Hotel,Delhi,Delhi,India,28.7256828,77.144081,OpenStreetMap
+way/1362333174,The Roseate Hotel New Delhi,Hotel,Delhi,Delhi,India,28.5319029,77.1034619,OpenStreetMap
+way/1368758856,Hyatt Centric,Hotel,Delhi,Delhi,India,28.6289835,77.078591,OpenStreetMap
+way/1370474881,Daulat Singh Kothari Hostel,Hostel,Delhi,Delhi,India,28.6904287,77.2177734,OpenStreetMap
+way/1370480156,Vijayendra Kasturi Ranga Varadaraja Rao Hostel,Hostel,Delhi,Delhi,India,28.6908557,77.2171844,OpenStreetMap
+way/1370508727,Jubilee Hall,Hostel,Delhi,Delhi,India,28.6920066,77.2188217,OpenStreetMap
+node/1376268076,Vishal,Hotel,Delhi,Delhi,India,28.6409016,77.2118997,OpenStreetMap
+node/1376268077,Hare Krishna Guest House,Hotel,Delhi,Delhi,India,28.6409675,77.2121571,OpenStreetMap
+node/1376268079,Anoop,Hotel,Delhi,Delhi,India,28.6409297,77.2121018,OpenStreetMap
+way/1377992111,University Hostel for Women,Hostel,Delhi,Delhi,India,28.6926613,77.2120939,OpenStreetMap
+way/1377992124,Meghdoot Hostel,Hostel,Delhi,Delhi,India,28.6923459,77.2125634,OpenStreetMap
+way/1385366195,Sheraton,Hotel,Delhi,Delhi,India,28.5265813,77.2160993,OpenStreetMap
+way/1385697211,Jwalamukhi Hostel,Hostel,Delhi,Delhi,India,28.5497154,77.1840998,OpenStreetMap
+way/1389870733,Diplomate of National Board Hostel,Hostel,Delhi,Delhi,India,28.6799891,77.3039505,OpenStreetMap
+way/1389997889,Hotel Diplomat,Hotel,Delhi,Delhi,India,28.5653561,77.2408838,OpenStreetMap
+way/1415176953,Canal Rest House,Guest House,Delhi,Delhi,India,28.6723338,77.2265159,OpenStreetMap
+way/1476349077,Palm Spring Hotel,Hotel,Delhi,Delhi,India,28.6326307,77.1375957,OpenStreetMap
+way/1476768272,Maidens Hotel,Hotel,Delhi,Delhi,India,28.6744858,77.2266771,OpenStreetMap
+way/1498980224,Round D Clock,Hotel,Delhi,Delhi,India,28.5482946,77.104759,OpenStreetMap
+way/1499473427,Hotel Abhishek,Hotel,Delhi,Delhi,India,28.7139452,77.1732673,OpenStreetMap
+node/1534482776,Hotel Florence,Hotel,Delhi,Delhi,India,28.6518872,77.191918,OpenStreetMap
+way/1551657005,Kaveri Hostel,Hostel,Delhi,Delhi,India,28.6655875,77.2326174,OpenStreetMap
+way/1551657006,Krishna Hostel,Hostel,Delhi,Delhi,India,28.6651511,77.231801,OpenStreetMap
+node/1669850556,Hotel Krishna,Hotel,Delhi,Delhi,India,28.6459152,77.2146894,OpenStreetMap
+node/1717723757,Fraser Suites,Hotel,Delhi,Delhi,India,28.5940973,77.299018,OpenStreetMap
+node/1794027306,Imperial Villa,Hotel,Delhi,Delhi,India,28.5658144,77.2481626,OpenStreetMap
+node/1940318530,Gushi International,Hotel,Delhi,Delhi,India,28.6416237,77.2133024,OpenStreetMap
+node/1940318563,Rak International,Hotel,Delhi,Delhi,India,28.6416783,77.2133717,OpenStreetMap
+node/1940318566,Sapna,Hotel,Delhi,Delhi,India,28.6406194,77.211041,OpenStreetMap
+node/2008194606,Cottage Ganga Inn,Guest House,Delhi,Delhi,India,28.6413645,77.2124645,OpenStreetMap
+node/2102480279,Ashram Dormitory,Hostel,Delhi,Delhi,India,28.5394584,77.2011381,OpenStreetMap
+node/2235501039,Ajanta,Hotel,Delhi,Delhi,India,28.6457798,77.2158487,OpenStreetMap
+node/2235501042,Shere Punjab,Guest House,Delhi,Delhi,India,28.6460535,77.2157419,OpenStreetMap
+node/2416119464,IRCTC-Ginger Rail Yatri Niwas,Hotel,Delhi,Delhi,India,28.6444996,77.2226902,OpenStreetMap
+node/2454223034,Indus Biznotel,Hotel,Delhi,Delhi,India,28.5493151,77.2428571,OpenStreetMap
+node/2465422642,Red Fox Hotel,Hotel,Delhi,Delhi,India,28.6069221,77.3329324,OpenStreetMap
+node/2474266972,Silver Ferns,Hotel,Delhi,Delhi,India,28.5229836,77.2081097,OpenStreetMap
+node/2489452021,Skyview Hostel,Hostel,Delhi,Delhi,India,28.6408933,77.2151633,OpenStreetMap
+node/2502826208,Country Inn By Carlson,Hotel,Delhi,Delhi,India,28.5278241,77.2204446,OpenStreetMap
+node/2503495534,Uppal International,Hotel,Delhi,Delhi,India,28.6464415,77.213339,OpenStreetMap
+node/2511126226,the umbro,Hotel,Delhi,Delhi,India,28.5273495,77.1005457,OpenStreetMap
+node/2566844433,sunstar heights,Hotel,Delhi,Delhi,India,28.645239,77.1834003,OpenStreetMap
+node/2569702112,Cottage Yes Please,Hotel,Delhi,Delhi,India,28.6410109,77.2104394,OpenStreetMap
+node/2591734226,Mapple Express,Hotel,Delhi,Delhi,India,28.5534058,77.2443542,OpenStreetMap
+node/2591734227,Ikhaya Hotel,Hotel,Delhi,Delhi,India,28.5481071,77.2313232,OpenStreetMap
+node/2654011317,Sri Vinayak,Hotel,Delhi,Delhi,India,28.6459004,77.2177066,OpenStreetMap
+node/2654012113,Airport City,Hotel,Delhi,Delhi,India,28.5466864,77.1264606,OpenStreetMap
+node/2749398249,Good Times,Hotel,Delhi,Delhi,India,28.6464716,77.1936868,OpenStreetMap
+node/2803462740,Shanti Home,Hotel,Delhi,Delhi,India,28.6244588,77.0689789,OpenStreetMap
+node/2803462741,b nineteen,Hotel,Delhi,Delhi,India,28.5911807,77.2521566,OpenStreetMap
+node/2833610956,Hotel Palm Greens,Guest House,Delhi,Delhi,India,28.522077,77.2154562,OpenStreetMap
+node/2916265014,Hotel Namaskar,Hotel,Delhi,Delhi,India,28.6418664,77.2147421,OpenStreetMap
+node/2959083272,Hotel Arina Inn,Hotel,Delhi,Delhi,India,28.6414568,77.2414435,OpenStreetMap
+node/2991892709,NIE Guest House,Guest House,Delhi,Delhi,India,28.5389261,77.1928283,OpenStreetMap
+node/3093865190,Maulsari,Guest House,Delhi,Delhi,India,28.5988816,77.2419381,OpenStreetMap
+node/3239523394,New Delhi City Centre,Hotel,Delhi,Delhi,India,28.6456061,77.2158483,OpenStreetMap
+node/3269379682,Raj's Cozy Inn,Hotel,Delhi,Delhi,India,28.6421194,77.2149507,OpenStreetMap
+node/3269399261,Sterling Inn,Hotel,Delhi,Delhi,India,28.6421683,77.2150151,OpenStreetMap
+node/3269399262,Glow Inn,Hotel,Delhi,Delhi,India,28.6421818,77.2149252,OpenStreetMap
+node/3269401361,Rajmahal Inn,Hotel,Delhi,Delhi,India,28.642213,77.2147442,OpenStreetMap
+node/3269439134,Gold Regency,Hotel,Delhi,Delhi,India,28.6415698,77.2169879,OpenStreetMap
+node/3269441161,Satyam,Hotel,Delhi,Delhi,India,28.6405822,77.2108389,OpenStreetMap
+node/3269450788,Aman International,Hotel,Delhi,Delhi,India,28.6414356,77.216096,OpenStreetMap
+node/3269452718,Guruvas Inn,Hotel,Delhi,Delhi,India,28.6415074,77.2161202,OpenStreetMap
+node/3304173416,Hotel Durga International Dx,Hotel,Delhi,Delhi,India,28.6445778,77.2152819,OpenStreetMap
+node/3558172051,Hotel Krishna Deluxe,Hotel,Delhi,Delhi,India,28.6458875,77.2150552,OpenStreetMap
+node/3635886968,Zanskar Hostel,Hostel,Delhi,Delhi,India,28.5467058,77.1862798,OpenStreetMap
+node/3635907905,"Faculty Guest House ""Gulmohar""",Guest House,Delhi,Delhi,India,28.5454865,77.1836133,OpenStreetMap
+node/3635907906,Nalanda Hostel,Hostel,Delhi,Delhi,India,28.5459401,77.1833417,OpenStreetMap
+node/3637466928,Kailash Hostel,Hostel,Delhi,Delhi,India,28.5446234,77.1967808,OpenStreetMap
+node/3651961086,Hotel South Gate,Hotel,Delhi,Delhi,India,28.5601082,77.2029493,OpenStreetMap
+node/3691599641,Amma House,Guest House,Delhi,Delhi,India,28.702354,77.2287996,OpenStreetMap
+node/3698521844,Stops Hostel Delhi,Hostel,Delhi,Delhi,India,28.6409405,77.2387325,OpenStreetMap
+node/3731271445,Africa Avenue,Hotel,Delhi,Delhi,India,28.557303,77.2176313,OpenStreetMap
+node/3912109223,Hotel Lal's Haveli,Hotel,Delhi,Delhi,India,28.64597,77.2112119,OpenStreetMap
+node/3993156981,Hare Rama guest house,Guest House,Delhi,Delhi,India,28.6406892,77.21244,OpenStreetMap
+node/3998894539,Clark's Inn,Hotel,Delhi,Delhi,India,28.5534271,77.2440202,OpenStreetMap
+node/4018089689,Hotel Grand Park Inn,Hotel,Delhi,Delhi,India,28.646953,77.1958002,OpenStreetMap
+node/4061081497,Hotel City Star,Hotel,Delhi,Delhi,India,28.6447365,77.214923,OpenStreetMap
+node/4076663723,White House,Hotel,Delhi,Delhi,India,28.6467605,77.2130323,OpenStreetMap
+node/4076670006,Shell Deluxe,Hotel,Delhi,Delhi,India,28.646794,77.2128902,OpenStreetMap
+node/4101512398,Amax Inn,Hotel,Delhi,Delhi,India,28.6467628,77.2135529,OpenStreetMap
+node/4109950994,Hotel S&b East Inn,Hotel,Delhi,Delhi,India,28.6444725,77.1763258,OpenStreetMap
+node/4117019216,Bloomrooms,Hotel,Delhi,Delhi,India,28.6455153,77.2177757,OpenStreetMap
+node/4208743593,Maharaja Residency ,Hotel,Delhi,Delhi,India,28.636957,77.2850794,OpenStreetMap
+node/4211994090,Hotel City Heights,Hotel,Delhi,Delhi,India,28.6410598,77.2143437,OpenStreetMap
+node/4235541419,Hotel Le Cadre,Hotel,Delhi,Delhi,India,28.5552111,77.242459,OpenStreetMap
+node/4235546804,The Madpackers Hostel,Hostel,Delhi,Delhi,India,28.5427627,77.2139946,OpenStreetMap
+node/4260460991,the spot,Hostel,Delhi,Delhi,India,28.6418257,77.2147026,OpenStreetMap
+node/4290803074,Bed&Chaï Guesthouse,Guest House,Delhi,Delhi,India,28.5483544,77.2418116,OpenStreetMap
+node/4296847910,Jugaad Hostel,Hostel,Delhi,Delhi,India,28.5653955,77.1856936,OpenStreetMap
+node/4297587289,RS.PG,Hostel,Delhi,Delhi,India,28.7019873,77.2054678,OpenStreetMap
+node/4300840035,Smyle Inn,Hotel,Delhi,Delhi,India,28.6416911,77.2147016,OpenStreetMap
+node/4305400489,the spot,Hotel,Delhi,Delhi,India,28.6417585,77.2152429,OpenStreetMap
+node/4349364611,Ajay guesthouse,Guest House,Delhi,Delhi,India,28.6410006,77.212275,OpenStreetMap
+node/4364332487,Backpacker Panda Delhi,Hostel,Delhi,Delhi,India,28.6403218,77.2102182,OpenStreetMap
+node/4367443789,Rashmi Sewa Niketan,Hostel,Delhi,Delhi,India,28.6314363,76.9717083,OpenStreetMap
+node/4384729790,Hotel Sunstar Grand,Hotel,Delhi,Delhi,India,28.6462138,77.1841285,OpenStreetMap
+node/4399050993,Santana Delhi Guesthouse,Guest House,Delhi,Delhi,India,28.64207,77.212863,OpenStreetMap
+node/4421142389,Ranjit Nagar,Hostel,Delhi,Delhi,India,28.6449745,77.1633883,OpenStreetMap
+node/4435650390,Metropolis Guest House,Hotel,Delhi,Delhi,India,28.6399645,77.2100934,OpenStreetMap
+node/4438214691,New Ashiana CGHS,Guest House,Delhi,Delhi,India,28.5968453,77.0650733,OpenStreetMap
+node/4448759791,Vishagya's house,Guest House,Delhi,Delhi,India,28.5809788,77.1728889,OpenStreetMap
+node/4466513236,Prakash Kutir B&B,Guest House,Delhi,Delhi,India,28.5514903,77.2097404,OpenStreetMap
+node/4469554189,Prakash Kutir B&B,Guest House,Delhi,Delhi,India,28.5515189,77.2097903,OpenStreetMap
+node/4472339689,Sewa Grand,Hotel,Delhi,Delhi,India,28.6912715,77.1197778,OpenStreetMap
+node/4476716889,shutter wali gulli,Hostel,Delhi,Delhi,India,28.512479,77.2306379,OpenStreetMap
+node/4483863191,Pitampura Club,Guest House,Delhi,Delhi,India,28.6892549,77.1170241,OpenStreetMap
+node/4500087992,Airbnb - Cozy apartment,Guest House,Delhi,Delhi,India,28.5773622,77.2415339,OpenStreetMap
+node/4505472993,Hotel Arch,Hotel,Delhi,Delhi,India,28.5492941,77.1285424,OpenStreetMap
+node/4508717494,Kiran Hotel,Hotel,Delhi,Delhi,India,28.6414626,77.2164508,OpenStreetMap
+node/4526598890,Ever Green,Guest House,Delhi,Delhi,India,28.6438076,77.212197,OpenStreetMap
+node/4559353989,ricky Dx,Hostel,Delhi,Delhi,India,28.6424915,77.2126401,OpenStreetMap
+node/4570798689,Hridey Inn,Hotel,Delhi,Delhi,India,28.6407431,77.2123118,OpenStreetMap
+node/4579302093,Koenig Inn Delux,,Delhi,Delhi,India,28.6501726,77.1618659,OpenStreetMap
+node/4588959990,Livasa Inn,Hotel,Delhi,Delhi,India,28.6459,77.1832113,OpenStreetMap
+node/4589452409,Hotel UK,Guest House,Delhi,Delhi,India,28.6471074,77.2105521,OpenStreetMap
+node/4616780336,ASR Guest House,Hotel,Delhi,Delhi,India,28.6205702,77.0827759,OpenStreetMap
+node/4641398181,Holiday Inn,Hotel,Delhi,Delhi,India,28.5904686,77.2983998,OpenStreetMap
+node/4641398182,क्राउन प्लाज़ा,Hotel,Delhi,Delhi,India,28.5900918,77.2979063,OpenStreetMap
+node/4646713089,City Park Hotel,Hotel,Delhi,Delhi,India,28.7056236,77.1435629,OpenStreetMap
+node/4647774562,City Park Hotel,Hotel,Delhi,Delhi,India,28.7056236,77.1435623,OpenStreetMap
+node/4676852391,Brown Bread Bakery Guest House,Guest House,Delhi,Delhi,India,28.6408006,77.2122956,OpenStreetMap
+node/4682651590,Laxmi packers and movers,Guest House,Delhi,Delhi,India,28.6121665,77.3254393,OpenStreetMap
+node/4690513890,hotel Anupam palace,Hotel,Delhi,Delhi,India,28.5472586,77.1261787,OpenStreetMap
+node/4704650306,cosmo,Hotel,Delhi,Delhi,India,28.6458511,77.1832931,OpenStreetMap
+node/4711593889,You and Me,Hotel,Delhi,Delhi,India,28.6414075,77.2165842,OpenStreetMap
+node/4713907990,Hotel Zara Grand,Hotel,Delhi,Delhi,India,28.5598136,77.2061901,OpenStreetMap
+node/4713943490,Hotel Shiv Shankara,Hotel,Delhi,Delhi,India,28.5598327,77.2060616,OpenStreetMap
+node/4720084490,Sapphire Inn Dx 379,Hotel,Delhi,Delhi,India,28.6419316,77.2171017,OpenStreetMap
+node/4721475589,Usmanpur home,Hostel,Delhi,Delhi,India,28.6838546,77.2560051,OpenStreetMap
+node/4742296921,chirag manoj hostel,Hostel,Delhi,Delhi,India,28.5375714,77.229313,OpenStreetMap
+node/4748819921,wahoe Commune,Guest House,Delhi,Delhi,India,28.6576121,77.1608172,OpenStreetMap
+node/4793870823,Zostel,Hostel,Delhi,Delhi,India,28.6456505,77.217404,OpenStreetMap
+node/4849657023,Hotel SP,Hotel,Delhi,Delhi,India,28.6521278,77.1943584,OpenStreetMap
+node/4858070723,Devna Bed & breakfast,Hotel,Delhi,Delhi,India,28.6050274,77.2412834,OpenStreetMap
+node/4859388622,Shorout villa,Hotel,Delhi,Delhi,India,28.5647596,77.1914303,OpenStreetMap
+node/4893145421,Parth Palace,Hotel,Delhi,Delhi,India,28.6409796,77.2151659,OpenStreetMap
+node/4895711068,Atrio A Boutique Hotel,Hotel,Delhi,Delhi,India,28.525761,77.091328,OpenStreetMap
+node/4895814022,Townhouse 002 OYO Rooms,Hotel,Delhi,Delhi,India,28.559429,77.2004215,OpenStreetMap
+node/4910769123,Mahesh Guesthouse,Guest House,Delhi,Delhi,India,28.6406478,77.2128693,OpenStreetMap
+node/4912564027,Ajay Guesthouse,Guest House,Delhi,Delhi,India,28.6408932,77.2124993,OpenStreetMap
+node/4972011521,Hotel Singh Sons,Hotel,Delhi,Delhi,India,28.6467365,77.1835662,OpenStreetMap
+node/5076890226,Cottage yes please,Hostel,Delhi,Delhi,India,28.6410158,77.2102394,OpenStreetMap
+node/5076890324,Cottage yes please,Hostel,Delhi,Delhi,India,28.6410349,77.21025,OpenStreetMap
+node/5235659422,OYO 7684 Hotel Repose Villa,Hotel,Delhi,Delhi,India,28.6434615,77.2115005,OpenStreetMap
+node/5244293017,Hotel Rockland,Hotel,Delhi,Delhi,India,28.5421256,77.2298224,OpenStreetMap
+node/5247558845,Cottage Lord Krishna,Guest House,Delhi,Delhi,India,28.6412381,77.2135287,OpenStreetMap
+node/5253278723,hindustan by backpackers,Hostel,Delhi,Delhi,India,28.6422691,77.211659,OpenStreetMap
+node/5258048045,Hotel Hamilton Lodge,Hotel,Delhi,Delhi,India,28.5413446,77.2114329,OpenStreetMap
+node/5277013023,Hotel Moon Palace dx,Hotel,Delhi,Delhi,India,28.6417169,77.2132653,OpenStreetMap
+node/5289216321,Soul Stay Hostel,Guest House,Delhi,Delhi,India,28.5582832,77.1998002,OpenStreetMap
+node/5306242322,Shanti Palace,Hotel,Delhi,Delhi,India,28.5491086,77.1275599,OpenStreetMap
+node/5346652925,Hotel,Hostel,Delhi,Delhi,India,28.6539573,77.1913384,OpenStreetMap
+node/5348555758,Hotel Vintage Inn,Hotel,Delhi,Delhi,India,28.6418295,77.2144552,OpenStreetMap
+node/5351323421,International Inn,Hotel,Delhi,Delhi,India,28.549904,77.1284921,OpenStreetMap
+node/5372987682,Hotel South View,Hotel,Delhi,Delhi,India,28.5471742,77.2494125,OpenStreetMap
+node/5372989290,Shervani,Hotel,Delhi,Delhi,India,28.54661,77.2496586,OpenStreetMap
+node/5373001733,The Muse,Hotel,Delhi,Delhi,India,28.5455235,77.2478958,OpenStreetMap
+node/5389380921,Tashi,Hotel,Delhi,Delhi,India,28.6419034,77.2103116,OpenStreetMap
+node/5395035823,Hotel Delhi 37,Hotel,Delhi,Delhi,India,28.5501016,77.1289221,OpenStreetMap
+node/5400472122,Gucchi's Residence,Apartment,Delhi,Delhi,India,28.7092275,77.1831234,OpenStreetMap
+node/5400515222,Gucchi’s Residence,Apartment,Delhi,Delhi,India,28.7092416,77.183149,OpenStreetMap
+node/5402775125,A57-A,Apartment,Delhi,Delhi,India,28.6177552,77.0655295,OpenStreetMap
+node/5420250021,Hotel India International Sitare - correct location!!,Hotel,Delhi,Delhi,India,28.6439885,77.2102049,OpenStreetMap
+node/5425860622,Hotel ramraj deluxe,Hotel,Delhi,Delhi,India,28.6463198,77.2141943,OpenStreetMap
+node/5428269878,EWS housing,Hostel,Delhi,Delhi,India,28.7013171,76.9920959,OpenStreetMap
+node/5429996021,Hotel Clark International,Hotel,Delhi,Delhi,India,28.6492374,77.1882461,OpenStreetMap
+node/5455135887,Shuhul Continental,Hotel,Delhi,Delhi,India,28.5588748,77.2468458,OpenStreetMap
+node/5483331222,Hotel Saket 27,Hotel,Delhi,Delhi,India,28.5194511,77.2154341,OpenStreetMap
+node/5488627654,Backpackers Heaven New King,Hostel,Delhi,Delhi,India,28.6407337,77.213089,OpenStreetMap
+node/5492518424,Nomadia Hostel,Hostel,Delhi,Delhi,India,28.5401478,77.2432582,OpenStreetMap
+node/5516245321,30 Kamadhenu,Apartment,Delhi,Delhi,India,28.5285458,77.1667015,OpenStreetMap
+node/5516245621,"Kamadhenu, IUAC",Apartment,Delhi,Delhi,India,28.5284327,77.1666122,OpenStreetMap
+node/5521986655,"76, Friends Colony",Hotel,Delhi,Delhi,India,28.5700827,77.2571343,OpenStreetMap
+node/5521986656,The Manor,Hotel,Delhi,Delhi,India,28.5704573,77.25685,OpenStreetMap
+node/5630851424,Yes Please Guest House,Hotel,Delhi,Delhi,India,28.6405886,77.21269,OpenStreetMap
+node/5630944567,Odisha Hotel,Hotel,Delhi,Delhi,India,28.519302,77.2004271,OpenStreetMap
+node/5630945107,Kehar Palace,Hotel,Delhi,Delhi,India,28.519486,77.200501,OpenStreetMap
+node/5634525781,Jaypee Siddharth,Hotel,Delhi,Delhi,India,28.6424826,77.1755884,OpenStreetMap
+node/5699933523,Hotel asian,Hostel,Delhi,Delhi,India,28.5484213,77.127785,OpenStreetMap
+node/5702455521,Gaur Associate (Akshardham Appt),Apartment,Delhi,Delhi,India,28.5854447,77.0447245,OpenStreetMap
+node/5706235123,Hotel Perfect,Hotel,Delhi,Delhi,India,28.6456337,77.1876083,OpenStreetMap
+node/5747185621,Hotel Bella Vista,Hotel,Delhi,Delhi,India,28.6405914,77.2086727,OpenStreetMap
+node/5752637222,वेलकम इन,Guest House,Delhi,Delhi,India,28.6406869,77.2151161,OpenStreetMap
+node/5783654364,J's Inn,Hotel,Delhi,Delhi,India,28.5651374,77.1607594,OpenStreetMap
+node/5816931654,Mango Hostel,Hostel,Delhi,Delhi,India,28.5384822,77.2429911,OpenStreetMap
+node/5820321453,The desire Hostel,Hotel,Delhi,Delhi,India,28.5385119,77.2119983,OpenStreetMap
+node/5834157600,Golden Grand,Hotel,Delhi,Delhi,India,28.6475007,77.1657962,OpenStreetMap
+node/5834159387,Regent Grand,Hotel,Delhi,Delhi,India,28.6431542,77.1731025,OpenStreetMap
+node/5847739585,"Tagore Park Extension, Model Town-1, 110009",Apartment,Delhi,Delhi,India,28.7039831,77.1958025,OpenStreetMap
+node/5874697788,Kelvish hotel,Guest House,Delhi,Delhi,India,28.5440968,77.1284557,OpenStreetMap
+node/5885157385,Hotel Ashoka Palace,Hotel,Delhi,Delhi,India,28.6461431,77.2136027,OpenStreetMap
+node/5893097785,Capsule Den Farmstay,Hostel,Delhi,Delhi,India,28.4984004,77.1804666,OpenStreetMap
+node/5929204674,City Hotel,Hotel,Delhi,Delhi,India,28.5850113,77.0727103,OpenStreetMap
+node/5960754386,Mannat Manzil,Apartment,Delhi,Delhi,India,28.5309419,77.2171246,OpenStreetMap
+node/5978006155,Hotel Sun International,Hotel,Delhi,Delhi,India,28.6459101,77.2158549,OpenStreetMap
+node/5986070085,ridge maidens,Hostel,Delhi,Delhi,India,28.6461835,77.1970234,OpenStreetMap
+node/5988705887,Desire hostel,Hostel,Delhi,Delhi,India,28.5385585,77.2119672,OpenStreetMap
+node/6047921385,Prínce Palace Deluxe,Hotel,Delhi,Delhi,India,28.6403897,77.2113664,OpenStreetMap
+node/6089252386,Roots,Hostel,Delhi,Delhi,India,28.4934539,77.2204186,OpenStreetMap
+node/6124477820,OYO Townhouse,Hotel,Delhi,Delhi,India,28.564053,77.2498752,OpenStreetMap
+node/6150155849,Chalet,Hotel,Delhi,Delhi,India,28.5223998,77.2064556,OpenStreetMap
+node/6153840585,Moustache Delhi,Hostel,Delhi,Delhi,India,28.5659366,77.2709541,OpenStreetMap
+node/6164754385,OM PLAZA,Guest House,Delhi,Delhi,India,28.536286,77.2968367,OpenStreetMap
+node/6174099514,Hotel Taj Princess,Hotel,Delhi,Delhi,India,28.6457601,77.1885161,OpenStreetMap
+node/6178447989,Himalayan Hostel,Hostel,Delhi,Delhi,India,28.6405712,77.2095172,OpenStreetMap
+node/6192037410,Wood Castle Hotel,Hotel,Delhi,Delhi,India,28.6444688,77.1833317,OpenStreetMap
+node/6221405085,जॉब लेस वांडरर्स नेस्ट,Guest House,Delhi,Delhi,India,28.5867182,77.0425355,OpenStreetMap
+node/6225479690,Hotel La Suite,Hotel,Delhi,Delhi,India,28.6422809,77.1744128,OpenStreetMap
+node/6226098485,"C 520, jvts garden",Apartment,Delhi,Delhi,India,28.4907211,77.1779867,OpenStreetMap
+node/6258175363,Picasso,Hotel,Delhi,Delhi,India,28.6264679,77.1352243,OpenStreetMap
+node/6261271686,Wellcome hotel,Hotel,Delhi,Delhi,India,28.5433298,77.2922764,OpenStreetMap
+node/6261321485,Hotel CityLite 2019,Hotel,Delhi,Delhi,India,28.5491998,77.1289083,OpenStreetMap
+node/6267340051,The Umrao,Hotel,Delhi,Delhi,India,28.5255432,77.0988151,OpenStreetMap
+node/6274319093,The Sentinel,Hotel,Delhi,Delhi,India,28.5397595,77.2942105,OpenStreetMap
+node/6277297296,Hotel Merry Gold,Hotel,Delhi,Delhi,India,28.6409145,77.2105408,OpenStreetMap
+node/6311069095,Metropolitan Express,Hotel,Delhi,Delhi,India,28.5476869,77.1258178,OpenStreetMap
+node/6324610190,Airport Hotell Metropolitan Express,Hotel,Delhi,Delhi,India,28.5476848,77.1256073,OpenStreetMap
+node/6344043877,Hotel Raj Villa,Hotel,Delhi,Delhi,India,28.6408602,77.2094999,OpenStreetMap
+node/6385672565,Hotel President Inn,Hotel,Delhi,Delhi,India,28.6517082,77.0937972,OpenStreetMap
+node/6389578691,Anantkoti,Hotel,Delhi,Delhi,India,28.4983845,77.18613,OpenStreetMap
+node/6397664885,Workcoh Hostel,Hotel,Delhi,Delhi,India,28.554715,77.1940995,OpenStreetMap
+node/6403601649,Hotel Rosette,Hotel,Delhi,Delhi,India,28.6446872,77.2153832,OpenStreetMap
+node/6411418993,The Crescent,Hotel,Delhi,Delhi,India,28.5246586,77.1907499,OpenStreetMap
+node/6444603685,Gracious Oyo 38425,Hotel,Delhi,Delhi,India,28.5441879,77.1283964,OpenStreetMap
+node/6444720686,6067 Santusthi Apartment,Apartment,Delhi,Delhi,India,28.5261275,77.1480966,OpenStreetMap
+node/6447238754,Narmada,Apartment,Delhi,Delhi,India,28.5258116,77.1439806,OpenStreetMap
+node/6447831886,Mohit Guest House,Hotel,Delhi,Delhi,India,28.6413569,77.2133521,OpenStreetMap
+node/6481797785,fab,Hotel,Delhi,Delhi,India,28.5494408,77.1298413,OpenStreetMap
+node/6482347585,Delight Delhi Hotel,Hotel,Delhi,Delhi,India,28.605232,77.0681814,OpenStreetMap
+node/6497137887,पंचशील आपार्टमेंट्स,Apartment,Delhi,Delhi,India,28.5867167,77.0634493,OpenStreetMap
+node/6503185286,"Vijay CGHS, Krishna Residency",Apartment,Delhi,Delhi,India,28.5912172,77.0343624,OpenStreetMap
+node/6503264685,Rose Apartments,Apartment,Delhi,Delhi,India,28.5848228,77.0323102,OpenStreetMap
+node/6503273585,Pink Apartments,Apartment,Delhi,Delhi,India,28.585962,77.0303151,OpenStreetMap
+node/6507823985,Panchsheel Apartments,Apartment,Delhi,Delhi,India,28.5993973,77.0473157,OpenStreetMap
+node/6544471385,Flagship Le Grand,Hotel,Delhi,Delhi,India,28.536729,77.2578258,OpenStreetMap
+node/6565268785,my hotel,Hotel,Delhi,Delhi,India,28.5311214,77.2103788,OpenStreetMap
+node/6578881286,OP Gupta,Apartment,Delhi,Delhi,India,28.5117178,77.2034609,OpenStreetMap
+node/6578907890,GUPTA OP,Apartment,Delhi,Delhi,India,28.5118474,77.2034122,OpenStreetMap
+node/6691176215,Hotel Almati Inn,Hotel,Delhi,Delhi,India,28.5508972,77.1308872,OpenStreetMap
+node/6697070931,OYO SilverKey,Hotel,Delhi,Delhi,India,28.5102941,77.2012843,OpenStreetMap
+node/6705210685,Hôtel viva palace,Hotel,Delhi,Delhi,India,28.5448901,77.1232405,OpenStreetMap
+node/6741707086,Hindustan Hostel By Backpackers Heaven - actual location,Hostel,Delhi,Delhi,India,28.6424676,77.2115982,OpenStreetMap
+node/6755617648,Hotel Shyama International,Hotel,Delhi,Delhi,India,28.5460006,77.1977467,OpenStreetMap
+node/6771782355,Hotel Ambica Palace,Hotel,Delhi,Delhi,India,28.568634,77.1990798,OpenStreetMap
+node/6784497485,karon Hotel,Hotel,Delhi,Delhi,India,28.5656138,77.2416422,OpenStreetMap
+node/6796490085,North Avenue Hotel,Hotel,Delhi,Delhi,India,28.6826945,77.2058207,OpenStreetMap
+node/6817191932,Tirupati Balaji Girls Hostel,Hostel,Delhi,Delhi,India,28.6333197,77.2803943,OpenStreetMap
+node/6859420398,The Hosteller New Dehli,Hostel,Delhi,Delhi,India,28.5708985,77.2599031,OpenStreetMap
+node/6875344855,Delhi tales,Hostel,Delhi,Delhi,India,28.5373025,77.1473347,OpenStreetMap
+node/6898196575,OYO Shri Krishna Palace,Guest House,Delhi,Delhi,India,28.5141234,77.2056164,OpenStreetMap
+node/6901871085,Hotel Delhi Aerocity (Purple Orchid),Hotel,Delhi,Delhi,India,28.5397285,77.1173562,OpenStreetMap
+node/6908459480,Karon Hotels,Hotel,Delhi,Delhi,India,28.5652763,77.2416682,OpenStreetMap
+node/6929383886,Clark’s Inn,Hotel,Delhi,Delhi,India,28.5465015,77.252927,OpenStreetMap
+node/6929383988,The Orion Plaza,Hotel,Delhi,Delhi,India,28.5469541,77.2537949,OpenStreetMap
+node/6929384485,The Oakland Plaza,Hotel,Delhi,Delhi,India,28.5469213,77.2540743,OpenStreetMap
+node/6964176786,Continental Plaza or Daya Continental,Hotel,Delhi,Delhi,India,28.5470823,77.1259791,OpenStreetMap
+node/6988144685,KUNDAN PALACE,Hotel,Delhi,Delhi,India,28.5459335,77.2918462,OpenStreetMap
+node/6994219485,The Singh Empire,Hotel,Delhi,Delhi,India,28.6445402,77.2154838,OpenStreetMap
+node/7014000786,Clark Inn,Hotel,Delhi,Delhi,India,28.5465156,77.2529361,OpenStreetMap
+node/7023194885,Aromatic @ city center,Hotel,Delhi,Delhi,India,28.6383447,77.210545,OpenStreetMap
+node/7035472385,Ritz hotel,Hotel,Delhi,Delhi,India,28.6453238,77.2167463,OpenStreetMap
+node/7038111685,City Backpacker Hostel,Hostel,Delhi,Delhi,India,28.6398511,77.2143288,OpenStreetMap
+node/7040095087,Hotel Shandon,Hotel,Delhi,Delhi,India,28.6385449,77.2102363,OpenStreetMap
+node/7040250686,OYO 14710 - Hotel Pallvi Palace,Hotel,Delhi,Delhi,India,28.6456241,77.2174292,OpenStreetMap
+node/7108733249,Royal Residence,Hotel,Delhi,Delhi,India,28.6471629,77.187746,OpenStreetMap
+node/7139493484,OYO Aakash Residency,Hotel,Delhi,Delhi,India,28.5128795,77.2043322,OpenStreetMap
+node/7171180188,HOG Poshtel Delhi,Hostel,Delhi,Delhi,India,28.5380073,77.2464006,OpenStreetMap
+node/7182349285,Savitrinagar,Apartment,Delhi,Delhi,India,28.5400557,77.2193569,OpenStreetMap
+node/7193086021,Hotel Richa Palace,Hotel,Delhi,Delhi,India,28.5749328,77.2390762,OpenStreetMap
+node/7389622179,"Lemon Tree Premier, Delhi Airport",Hotel,Delhi,Delhi,India,28.5516096,77.1207961,OpenStreetMap
+node/7389778158,my home,Hotel,Delhi,Delhi,India,28.7134619,77.2170459,OpenStreetMap
+node/8386264018,डी जे ए अपार्टमेंट्स,Apartment,Delhi,Delhi,India,28.599889,77.0396932,OpenStreetMap
+node/8389469389,151 - 152,Apartment,Delhi,Delhi,India,28.6851152,77.3127657,OpenStreetMap
+node/8615192752,Hotel The Cube Stay,Hotel,Delhi,Delhi,India,28.5534224,77.0737637,OpenStreetMap
+node/8823889495,Backpackers by OPO Rooms,Hostel,Delhi,Delhi,India,28.5505324,77.1313496,OpenStreetMap
+node/8985463611,Traditional Inn,,Delhi,Delhi,India,28.6821446,77.1756672,OpenStreetMap
+node/8987572725,Student's Inn,,Delhi,Delhi,India,28.679996,77.1960182,OpenStreetMap
+node/8987572726,Oyo Flagship 77674,Hotel,Delhi,Delhi,India,28.6804016,77.1967036,OpenStreetMap
+node/9209513163,Solitaire Hotel,Hotel,Delhi,Delhi,India,28.631962,77.2802101,OpenStreetMap
+node/9597425986,Indraprasth Apartment 1,Hostel,Delhi,Delhi,India,28.5468313,77.1815576,OpenStreetMap
+node/9692661617,Sai Dham,Apartment,Delhi,Delhi,India,28.6106965,77.032443,OpenStreetMap
+node/9694067517,Sai Aashray Apartment,Apartment,Delhi,Delhi,India,28.6107342,77.0322728,OpenStreetMap
+node/9694069017,Sai Apartment,Apartment,Delhi,Delhi,India,28.6109002,77.0322917,OpenStreetMap
+node/9694584317,Singla General Store,Apartment,Delhi,Delhi,India,28.6105839,77.0323694,OpenStreetMap
+node/9860208317,Major's Den,Hotel,Delhi,Delhi,India,28.6410628,77.2117303,OpenStreetMap
+node/9910772517,Jerry House,Hotel,Delhi,Delhi,India,28.5255167,77.133225,OpenStreetMap
+node/9936020117,Block q5,Hotel,Delhi,Delhi,India,28.548071,77.2043379,OpenStreetMap
+node/9941764517,Hotel Z,Hotel,Delhi,Delhi,India,28.5508858,77.1310181,OpenStreetMap
+node/9963136917,Rainbow Residency,Hotel,Delhi,Delhi,India,28.5567579,77.2026067,OpenStreetMap
+node/10039761917,The Grace House,Hotel,Delhi,Delhi,India,28.6422478,77.2104551,OpenStreetMap
+node/10125084517,Blue Pearl,Hotel,Delhi,Delhi,India,28.6452808,77.2157696,OpenStreetMap
+node/10156127117,Colonel‘s Retreat 2,Hotel,Delhi,Delhi,India,28.5738162,77.2359199,OpenStreetMap
+node/10170704718,Old Lavanya hospital,Apartment,Delhi,Delhi,India,28.4985349,77.19067,OpenStreetMap
+node/10223622517,Dev Residency,Hotel,Delhi,Delhi,India,28.5427905,77.1283298,OpenStreetMap
+node/10238057909,Silver Shine,Hotel,Delhi,Delhi,India,28.6435769,77.2126052,OpenStreetMap
+node/10239774701,The Prime Balaji Deluxe,Hotel,Delhi,Delhi,India,28.6452304,77.2175467,OpenStreetMap
+node/10266667809,Periyar Hostel,Hostel,Delhi,Delhi,India,28.5459516,77.1662223,OpenStreetMap
+node/10266667909,Godawari Hostel,Hostel,Delhi,Delhi,India,28.5447835,77.1658856,OpenStreetMap
+node/10266668009,Kaveri Hostel,Hostel,Delhi,Delhi,India,28.5451286,77.1668574,OpenStreetMap
+node/10554281693,Goodwill Hotel,Hotel,Delhi,Delhi,India,28.5508793,77.2453386,OpenStreetMap
+node/10569661609,Hotel Sky Rich International,Hotel,Delhi,Delhi,India,28.6454752,77.1894097,OpenStreetMap
+node/10574470710,Mi Casa Inn,Hotel,Delhi,Delhi,India,28.5284571,77.2086965,OpenStreetMap
+node/10574879943,Hotel Elegant,Hotel,Delhi,Delhi,India,28.6467057,77.1904595,OpenStreetMap
+node/10574897642,Hotel Paras,Hotel,Delhi,Delhi,India,28.6473569,77.1892494,OpenStreetMap
+node/10576139541,Swisston Palace,Hotel,Delhi,Delhi,India,28.6454247,77.1895733,OpenStreetMap
+node/10606496417,Girl's Hostel 3,Hostel,Delhi,Delhi,India,28.6067365,77.0370008,OpenStreetMap
+node/10661086637,Family Guest House,Hotel,Delhi,Delhi,India,28.8167691,77.1381729,OpenStreetMap
+node/10686456044,Kaushal Palace,Hotel,Delhi,Delhi,India,28.64155,77.2126352,OpenStreetMap
+node/10686468964,Le Roi Express,Hotel,Delhi,Delhi,India,28.6414534,77.2135566,OpenStreetMap
+node/10689641357,Baikunth Kutter,Guest House,Delhi,Delhi,India,28.5650606,77.1908212,OpenStreetMap
+node/10727152105,Stay book jaibalaji,Guest House,Delhi,Delhi,India,28.6471733,77.2094834,OpenStreetMap
+node/10731115035,Fabhotel f9,Hotel,Delhi,Delhi,India,28.7003247,77.1844043,OpenStreetMap
+node/10738354605,Blue Pearl Hotel,Hotel,Delhi,Delhi,India,28.6452768,77.2158468,OpenStreetMap
+node/10741318292,MS Residency,Hotel,Delhi,Delhi,India,28.7201615,77.1678892,OpenStreetMap
+node/10750406574,OYO Singh Hotel,Hotel,Delhi,Delhi,India,28.7203077,77.168615,OpenStreetMap
+node/10770594512,Comfort Lodge,Hotel,Delhi,Delhi,India,28.5895183,77.2524679,OpenStreetMap
+node/10799011770,Hotel BNB Palace,Hotel,Delhi,Delhi,India,28.7202616,77.1692366,OpenStreetMap
+node/10901615423,Oyo,Hotel,Delhi,Delhi,India,28.7408633,77.1330552,OpenStreetMap
+node/10925600007,Piyush dai House-Delhi,Apartment,Delhi,Delhi,India,28.6970231,77.14728,OpenStreetMap
+node/10977485433,Swagath,Hotel,Delhi,Delhi,India,28.5365331,77.2114081,OpenStreetMap
+node/11005320605,Room Rent Rohini Marga,Apartment,Delhi,Delhi,India,28.7166534,77.1080512,OpenStreetMap
+node/11049687906,Texas Review,Apartment,Delhi,Delhi,India,28.6482816,77.1255574,OpenStreetMap
+node/11096935405,Qutub Green Appartments,Apartment,Delhi,Delhi,India,28.5186597,77.1816395,OpenStreetMap
+node/11215970326,Ambitious PG,Hostel,Delhi,Delhi,India,28.6293935,77.2729733,OpenStreetMap
+node/11236741764,Joey's Hostel,Hostel,Delhi,Delhi,India,28.629098,77.2745485,OpenStreetMap
+node/11236764625,Toppers Girl's Hostel,Hostel,Delhi,Delhi,India,28.6295294,77.273274,OpenStreetMap
+node/11238427467,Solitaire Hotel and Restaurant,Hotel,Delhi,Delhi,India,28.6320246,77.2800687,OpenStreetMap
+node/11242142972,bharmputra hostel,Hostel,Delhi,Delhi,India,28.5334719,77.1692917,OpenStreetMap
+node/11244974937,Jyoti Mahal A Royal Heritage Hotel,Hotel,Delhi,Delhi,India,28.6419168,77.211783,OpenStreetMap
+node/11256638237,Hotel The Oak Plaza New Delhi,Hotel,Delhi,Delhi,India,28.6455507,77.2114121,OpenStreetMap
+node/11262433605,"New Boys Hostel, JMI",Hostel,Delhi,Delhi,India,28.5657851,77.281262,OpenStreetMap
+node/11265802319,Grace Home,Hotel,Delhi,Delhi,India,28.5241241,77.204222,OpenStreetMap
+node/11274649159,Office of the provost Hall of boys residence,Hostel,Delhi,Delhi,India,28.5605621,77.2801242,OpenStreetMap
+node/11278751669,Hotel Golden Tulip Essential,,Delhi,Delhi,India,28.6298062,77.1134086,OpenStreetMap
+node/11394411631,Hotel Siddharth,Hotel,Delhi,Delhi,India,28.640227,77.2138774,OpenStreetMap
+node/11400503409,ITC Welcomhotel,Hotel,Delhi,Delhi,India,28.5794639,77.0558929,OpenStreetMap
+node/11414370145,The Neem,Guest House,Delhi,Delhi,India,28.5497414,77.2327282,OpenStreetMap
+node/11420427169,Maddonna,Hotel,Delhi,Delhi,India,28.6400083,77.1827795,OpenStreetMap
+node/11510652107,Caspia Hotel - New Delhi,Hotel,Delhi,Delhi,India,28.7256794,77.1438487,OpenStreetMap
+node/11592327470,Pahadganju,Hostel,Delhi,Delhi,India,28.6450483,77.2133617,OpenStreetMap
+node/11688160129,Kailash Hotal,,Delhi,Delhi,India,28.5155598,77.1040658,OpenStreetMap
+node/11688160152,Pradhan Apartments,Apartment,Delhi,Delhi,India,28.5171772,77.1039853,OpenStreetMap
+node/11688160153,Megha Apartments,Apartment,Delhi,Delhi,India,28.516863,77.104348,OpenStreetMap
+node/11688160156,Deep Apartment,Apartment,Delhi,Delhi,India,28.517168,77.104763,OpenStreetMap
+node/11688160157,Rao Apartment,Apartment,Delhi,Delhi,India,28.5168515,77.1048021,OpenStreetMap
+node/11693523287,MILAN INN GUEST HOUSE,Guest House,Delhi,Delhi,India,28.6896902,77.2975386,OpenStreetMap
+node/11696895329,HOTEL DEV PALACE,Hotel,Delhi,Delhi,India,28.6886196,77.2921889,OpenStreetMap
+node/11696974281,GOVINDAM HOTEL,Hotel,Delhi,Delhi,India,28.6860774,77.2976723,OpenStreetMap
+node/11697090685,fabhotel fortune city,,Delhi,Delhi,India,28.5019702,77.2829091,OpenStreetMap
+node/11697913398,YD HOMESTAY,,Delhi,Delhi,India,28.4967289,77.2878545,OpenStreetMap
+node/11698419487,sahu palace,Hotel,Delhi,Delhi,India,28.6045172,77.0450117,OpenStreetMap
+node/11755533259,Mona Grand Hotel and Banquet,Hotel,Delhi,Delhi,India,28.6297079,77.2862104,OpenStreetMap
+node/11755533264,Mona International Hotel and Banquet,Hotel,Delhi,Delhi,India,28.6291815,77.2862025,OpenStreetMap
+node/11765954640,Hotel Solo Victoria,Hotel,Delhi,Delhi,India,28.5485283,77.2369688,OpenStreetMap
+node/11795928646,Amar,Hotel,Delhi,Delhi,India,28.6406162,77.2100622,OpenStreetMap
+node/11795938567,Namoh,Hotel,Delhi,Delhi,India,28.6406164,77.2101574,OpenStreetMap
+node/11818538438,Prustel Living,Hostel,Delhi,Delhi,India,28.5876372,77.1696319,OpenStreetMap
+node/11818541446,South Embassy,Hostel,Delhi,Delhi,India,28.5878827,77.1699773,OpenStreetMap
+node/11824868660,Best Western,Hotel,Delhi,Delhi,India,28.5751842,77.2632525,OpenStreetMap
+node/11853060970,"B 13, GK Transit flat approach road",Apartment,Delhi,Delhi,India,28.5455588,77.2439747,OpenStreetMap
+node/11853063769,B 13 GK TRANSIT FLAT,Apartment,Delhi,Delhi,India,28.5427686,77.2424815,OpenStreetMap
+node/11876276881,Moydom,Hotel,Delhi,Delhi,India,28.5631545,77.2689553,OpenStreetMap
+node/11882034340,Hotel Portview,Hotel,Delhi,Delhi,India,28.5463554,77.1239908,OpenStreetMap
+node/11914919424,East Inn,Hotel,Delhi,Delhi,India,28.6365898,77.2876065,OpenStreetMap
+node/11915120630,OYO Hotel Royal Residency,Hotel,Delhi,Delhi,India,28.6184025,77.0326301,OpenStreetMap
+node/11916123069,Emporio Hotel (formerly Excellency),Hotel,Delhi,Delhi,India,28.6441753,77.214868,OpenStreetMap
+node/11917140130,Hotel Grand Inn,Hotel,Delhi,Delhi,India,28.7316461,77.0873994,OpenStreetMap
+node/11935445080,Boys Hostel,Hostel,Delhi,Delhi,India,28.6062081,77.0390247,OpenStreetMap
+node/11949214777,Krishna Regency Hotel & PG,Hotel,Delhi,Delhi,India,28.5834689,77.0710452,OpenStreetMap
+node/11949467769,Shiva Enclave,Apartment,Delhi,Delhi,India,28.6769454,77.1116376,OpenStreetMap
+node/11952061880,Deventure Hotel,Hotel,Delhi,Delhi,India,28.6498922,77.1617425,OpenStreetMap
+node/11985412775,Verandah Moonshine,Hotel,Delhi,Delhi,India,28.6436747,77.2985232,OpenStreetMap
+node/12052454982,Arpit Palace,Hotel,Delhi,Delhi,India,28.6449876,77.1898486,OpenStreetMap
+node/12071864545,Minimalist Poshtel & Suites,Hotel,Delhi,Delhi,India,28.5524897,77.1940961,OpenStreetMap
+node/12093491520,Hotel R.S. Villa,Hotel,Delhi,Delhi,India,28.5399731,77.251123,OpenStreetMap
+node/12134955139,AmigosIndia,Hostel,Delhi,Delhi,India,28.5035982,77.1896185,OpenStreetMap
+node/12135517796,Swaran Palace,Hotel,Delhi,Delhi,India,28.6462638,77.1889635,OpenStreetMap
+node/12135560003,Citi Continental,Hotel,Delhi,Delhi,India,28.6467726,77.1872938,OpenStreetMap
+node/12135560005,Hotel Lucky INN,Hotel,Delhi,Delhi,India,28.6465986,77.1876316,OpenStreetMap
+node/12135560007,Hotel Magic Tree,Hotel,Delhi,Delhi,India,28.6465659,77.1878716,OpenStreetMap
+node/12135560705,Hotel Kashish Plaza,Hotel,Delhi,Delhi,India,28.6465567,77.1875329,OpenStreetMap
+node/12135560706,Golden DX,Hotel,Delhi,Delhi,India,28.6465057,77.1876219,OpenStreetMap
+node/12135560707,Goddess Acccmonodation,Hotel,Delhi,Delhi,India,28.6464564,77.1876697,OpenStreetMap
+node/12135560709,Star Palace,Hotel,Delhi,Delhi,India,28.6463905,77.1878717,OpenStreetMap
+node/12135560710,Nand Kartar Orchid Suites,Hotel,Delhi,Delhi,India,28.64638,77.1878917,OpenStreetMap
+node/12135564802,Grand President,Hotel,Delhi,Delhi,India,28.6453682,77.1891857,OpenStreetMap
+node/12210306201,Woodpacker Apartament,Hotel,Delhi,Delhi,India,28.5526515,77.2068452,OpenStreetMap
+node/12218197401,Woodpecker,Hotel,Delhi,Delhi,India,28.5518699,77.2065968,OpenStreetMap
+node/12223906533,Shraddha Residency,Hotel,Delhi,Delhi,India,28.5866071,77.0733299,OpenStreetMap
+node/12320159311,Royal Comfort,Hotel,Delhi,Delhi,India,28.6460413,77.1907977,OpenStreetMap
+node/12334507510,Home@F37,Hotel,Delhi,Delhi,India,28.555259,77.2433131,OpenStreetMap
+node/12440467190,Five Star Guest House,Hotel,Delhi,Delhi,India,28.6447128,77.2401573,OpenStreetMap
+node/12440977090,Rang Mahal Hotel,Hotel,Delhi,Delhi,India,28.6472128,77.2400088,OpenStreetMap
+node/12441100098,Hotel Oasis,Hotel,Delhi,Delhi,India,28.6475497,77.2398592,OpenStreetMap
+node/12441100411,Wall Street,Hotel,Delhi,Delhi,India,28.6460456,77.2400966,OpenStreetMap
+node/12441100412,Royal Afghan,Hotel,Delhi,Delhi,India,28.6459521,77.2401008,OpenStreetMap
+node/12466980691,Orania BnB,Hotel,Delhi,Delhi,India,28.5531829,77.2047049,OpenStreetMap
+node/12495429011,Happy Living Girl's PG,Hostel,Delhi,Delhi,India,28.6980169,77.2059683,OpenStreetMap
+node/12525417462,Treebo TMS Residency,Hotel,Delhi,Delhi,India,28.586858,77.0712031,OpenStreetMap
+node/12574674001,Hostel S B Inn Paharganj,Hostel,Delhi,Delhi,India,28.641856,77.2148777,OpenStreetMap
+node/12584379622,Air Force Station Rajokri,Guest House,Delhi,Delhi,India,28.5182189,77.1022216,OpenStreetMap
+node/12595995301,होटल ग्रान्ड रिजेन्सी (महिपालपुर),Hotel,Delhi,Delhi,India,28.5371949,77.1156343,OpenStreetMap
+node/12625466404,mahesh inn near new delhi railway station,Hotel,Delhi,Delhi,India,28.6423423,77.2171563,OpenStreetMap
+node/12645300903,Olive hotel,Hotel,Delhi,Delhi,India,28.5488852,77.1298864,OpenStreetMap
+node/12647113758,Green Lotus La Wisteria Inn,Hotel,Delhi,Delhi,India,28.5949766,77.0415169,OpenStreetMap
+node/12647123153,Sai International,Hotel,Delhi,Delhi,India,28.5935801,77.0429491,OpenStreetMap
+node/12647123168,Home Stay Dwarka,Hotel,Delhi,Delhi,India,28.5960291,77.0406286,OpenStreetMap
+node/12653017516,Hotel kabli,Hotel,Delhi,Delhi,India,28.5796022,77.2495693,OpenStreetMap
+node/12753521532,Dharamshala Rai Sahab Lala Lakshmi Narayan,Hotel,Delhi,Delhi,India,28.6583727,77.2234784,OpenStreetMap
+node/12791943401,Bloomrooms Hotel,Hotel,Delhi,Delhi,India,28.5814867,77.2395873,OpenStreetMap
+node/12802402501,Novotel New Delhi City Centre,Hotel,Delhi,Delhi,India,28.6468928,77.206444,OpenStreetMap
+node/12825691133,Hilton Garden Inn New Delhi Saket,Hotel,Delhi,Delhi,India,28.5279835,77.2174969,OpenStreetMap
+node/12851629041,Barak Hostel,Hostel,Delhi,Delhi,India,28.5416723,77.1609499,OpenStreetMap
+node/12862174322,Baljeet Lodge,Hotel,Delhi,Delhi,India,28.5666773,77.1895706,OpenStreetMap
+node/12862174325,Hotel Corporate Point,Hotel,Delhi,Delhi,India,28.5675682,77.1896659,OpenStreetMap
+node/13002028016,PG For Girls,Hostel,Delhi,Delhi,India,28.5635985,77.2366287,OpenStreetMap
+node/13110027605,Five Elements Hotel,Hotel,Delhi,Delhi,India,28.6827472,77.2058174,OpenStreetMap
+node/13110027606,Amitabh Guest House,Guest House,Delhi,Delhi,India,28.6836454,77.2041349,OpenStreetMap
+node/13141207904,Homestay AC Dormitory,Hostel,Delhi,Delhi,India,28.6668907,77.2307013,OpenStreetMap
+node/13141910149,Guruji Sweet Home Dormitory,Hostel,Delhi,Delhi,India,28.6668786,77.2306336,OpenStreetMap
+node/13146465019,Mantram Hotel And Resort,Hotel,Delhi,Delhi,India,28.822137,77.1332022,OpenStreetMap
+node/13165169272,Dream World,Hotel,Delhi,Delhi,India,28.5474511,77.1268211,OpenStreetMap
+node/13290316405,The Lodhi,Hotel,Delhi,Delhi,India,28.5915262,77.238125,OpenStreetMap
+node/13322042902,Ero by Family Hotels,Hotel,Delhi,Delhi,India,28.6418866,77.2150316,OpenStreetMap
+node/13335517901,Woodpacker Apartament,Apartment,Delhi,Delhi,India,28.5521491,77.2069069,OpenStreetMap
+node/13335518201,Leo,Hotel,Delhi,Delhi,India,28.6433768,77.2146255,OpenStreetMap
+node/13347217557,Rockland CR Park,Hotel,Delhi,Delhi,India,28.5428298,77.2428982,OpenStreetMap
+node/13350898301,Yogesh Kumar ( Kale Bhai),Guest House,Delhi,Delhi,India,28.5412972,77.185367,OpenStreetMap
+node/13351032008,Silver Inn Residency,Guest House,Delhi,Delhi,India,28.5673996,77.2694832,OpenStreetMap
+node/13351034606,Emblem Hotel,Hotel,Delhi,Delhi,India,28.5745907,77.2638311,OpenStreetMap
+node/13351079302,Shivalik Apartments,Apartment,Delhi,Delhi,India,28.6303383,77.3087599,OpenStreetMap
+node/13358572984,Parkway Deluxe,Hotel,Delhi,Delhi,India,28.6454154,77.2178155,OpenStreetMap
+node/13358572994,Church view,Hotel,Delhi,Delhi,India,28.6451947,77.2165472,OpenStreetMap
+node/13358614007,Rachna Tourist Lodge,Hotel,Delhi,Delhi,India,28.6456468,77.2166244,OpenStreetMap
+node/13358614012,Chanchal Continental,Hotel,Delhi,Delhi,India,28.6456504,77.2169385,OpenStreetMap
+node/13366216201,Gold The Royal,Hotel,Delhi,Delhi,India,28.6410327,77.2166358,OpenStreetMap
+node/13459559379,Shiv Dev,Hotel,Delhi,Delhi,India,28.6456484,77.2167941,OpenStreetMap
+node/13459559395,Legend,Hotel,Delhi,Delhi,India,28.6456237,77.2170566,OpenStreetMap
+node/13461861450,Manali Hotel,Hotel,Delhi,Delhi,India,28.7674748,77.1454504,OpenStreetMap
+node/13509898471,Chanchal Deluxe,Hotel,Delhi,Delhi,India,28.6453783,77.2171698,OpenStreetMap
+node/13568852462,Shivaay Boy's PG,Hostel,Delhi,Delhi,India,28.6826606,77.201127,OpenStreetMap
+node/13573029803,Hotel Golden Key Inn,Hotel,Delhi,Delhi,India,28.6831601,77.2017121,OpenStreetMap
+node/13584479268,Ashray Living,Hostel,Delhi,Delhi,India,28.6838917,77.2034835,OpenStreetMap
+node/13594891201,J Residency,Hotel,Delhi,Delhi,India,28.5812684,77.2532764,OpenStreetMap
+node/13599263901,Stay Villa,Hotel,Delhi,Delhi,India,28.546687,77.1267686,OpenStreetMap
+node/13640918856,RTS HOTEL & SPA,Hotel,Delhi,Delhi,India,28.5492296,77.1277563,OpenStreetMap
+node/13645264754,Nivedita Niwas,Hostel,Delhi,Delhi,India,28.6809714,77.2074027,OpenStreetMap
+node/13645264794,Prime Home Stays,Hostel,Delhi,Delhi,India,28.6807495,77.2074929,OpenStreetMap
+node/13645270910,Nandini Girls,Hostel,Delhi,Delhi,India,28.6816144,77.2065274,OpenStreetMap
+node/13668518401,Anila Hôtel,Hotel,Delhi,Delhi,India,28.6265847,77.1355799,OpenStreetMap
+node/13713826788,Caviar Stays Girl's,Hostel,Delhi,Delhi,India,28.6822893,77.2018376,OpenStreetMap
+node/13731198028,Hotel D2,Hotel,Delhi,Delhi,India,28.7137847,77.1732601,OpenStreetMap
+node/13744672701,Hotel Delhi Pride,Hotel,Delhi,Delhi,India,28.6474164,77.1872049,OpenStreetMap
+node/13744672702,Hotel Asko International,Hotel,Delhi,Delhi,India,28.6474565,77.1871293,OpenStreetMap
+node/13744676701,Hotel Vista Inn,Hotel,Delhi,Delhi,India,28.6473832,77.1872726,OpenStreetMap
+node/13744677701,Hotel The Daanish Residency,Hotel,Delhi,Delhi,India,28.6472247,77.1872363,OpenStreetMap
+node/13754187601,Hotel Armani Suite,Hotel,Delhi,Delhi,India,28.5475538,77.1264398,OpenStreetMap
+node/13784537176,Bungalow 99,Hotel,Delhi,Delhi,India,28.5747604,77.2335593,OpenStreetMap
+node/13789734701,Hotel Velocity,Hotel,Delhi,Delhi,India,28.5491055,77.1289551,OpenStreetMap
+node/13807513901,Sohi hotel,Hotel,Delhi,Delhi,India,28.6460853,77.192857,OpenStreetMap
+node/13813230316,Bellanta Hotel,Hotel,Delhi,Delhi,India,28.5218486,77.0995949,OpenStreetMap
+node/13813359629,The Dreamhouse,Guest House,Delhi,Delhi,India,28.5632366,77.1900974,OpenStreetMap
+node/13814215915,Vorporate Guest house,Guest House,Delhi,Delhi,India,28.5679273,77.1897525,OpenStreetMap
+node/13854780990,The Park Inn,Hotel,Delhi,Delhi,India,28.6190038,77.2861846,OpenStreetMap
+node/13904238291,Delhi Diaries Hostel,Hostel,Delhi,Delhi,India,28.6819191,77.2035542,OpenStreetMap
+node/13914274601,Apple Tree,Hotel,Delhi,Delhi,India,28.5443429,77.1283696,OpenStreetMap
+node/13931044193,Moti Rattan Apartments,Apartment,Delhi,Delhi,India,28.721846,77.2051066,OpenStreetMap
+node/13948133715,Hotel Amora Inn,Hotel,Delhi,Delhi,India,28.7131405,77.2159986,OpenStreetMap
+node/13969467541,Prabhatara Hostel for Women,Hostel,Delhi,Delhi,India,28.5641076,77.1857315,OpenStreetMap
+node/13979485977,Preet Palace,Hotel,Delhi,Delhi,India,28.5828557,77.252698,OpenStreetMap
+node/14051823818,huddle stays cosmo,Hotel,Delhi,Delhi,India,28.5308318,77.2174411,OpenStreetMap
+node/14057544101,Jeniffer inn,Hotel,Delhi,Delhi,India,28.6467318,77.1831084,OpenStreetMap
+node/14058747201,AMIT KUMAR RENTAL ( GG 5th Place),Hotel,Delhi,Delhi,India,28.5411815,77.1851339,OpenStreetMap
+node/14062275809,"The Hosteller, Delhi International",Hostel,Delhi,Delhi,India,28.5407989,77.1295991,OpenStreetMap
+node/14063151812,Shakti Bhawan,Hostel,Delhi,Delhi,India,28.6942058,77.2115398,OpenStreetMap
+node/14063151813,Shree Bhawan,Hostel,Delhi,Delhi,India,28.6942832,77.2113407,OpenStreetMap
+node/14064793801,Mashallah Pg,Guest House,Delhi,Delhi,India,28.7450941,77.1188113,OpenStreetMap
+node/14072681253,Venizia Sarovar Portico,Hotel,Delhi,Delhi,India,28.6949376,77.1950624,OpenStreetMap
+node/14074040216,The Lohmod Premier,Hotel,Delhi,Delhi,India,28.550571,77.1297025,OpenStreetMap
+node/14100954479,Swastika PG,Hostel,Delhi,Delhi,India,28.5693498,77.2228178,OpenStreetMap
+node/14101601587,The Grand Hostel Girls' PG,Hostel,Delhi,Delhi,India,28.679322,77.2077818,OpenStreetMap
+node/14101601588,Parwati Niwas Girls' PG,Hostel,Delhi,Delhi,India,28.6789518,77.2075124,OpenStreetMap
+node/14101601589,19th Avenue Girls' PG,Hostel,Delhi,Delhi,India,28.6794068,77.207796,OpenStreetMap
+node/14104593194,Konnect Inn Pod Hotel,Hotel,Delhi,Delhi,India,28.642036,77.2242037,OpenStreetMap
+node/14107314055,Lakshmi Girls PG,Hostel,Delhi,Delhi,India,28.6940607,77.2046855,OpenStreetMap
+node/14137995701,JRD Pride,Hotel,Delhi,Delhi,India,28.5823539,77.2513139,OpenStreetMap
+node/14144409293,JRD Exotica,Hotel,Delhi,Delhi,India,28.5669229,77.1993116,OpenStreetMap
+node/14181041983,Nivedita Kunj,Hostel,Delhi,Delhi,India,28.6806885,77.2073033,OpenStreetMap
+node/14191003801,The Western Grand,Hotel,Delhi,Delhi,India,28.6421948,77.2144779,OpenStreetMap

@@ -1,0 +1,5183 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2026-09-24T12:38:36Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/26681934",
+        "athletics": "long_jump;javelin_throw",
+        "building": "yes",
+        "landuse": "residential",
+        "name": "Prafulla Chandra Ray",
+        "surface": "good_for_athletics",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9946763,
+          25.2667242
+        ]
+      },
+      "id": "way/26681934"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/26752818",
+        "area": "yes",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9972575,
+          25.3217909
+        ]
+      },
+      "id": "way/26752818"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/264755840",
+        "building": "yes",
+        "layer": "-1",
+        "name": "Broacha Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9894273,
+          25.2725419
+        ]
+      },
+      "id": "way/264755840"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/292742983",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221002",
+        "addr:street": "Nadesar palace grounds",
+        "brand": "Taj",
+        "brand:wikidata": "Q1521893",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Taj Ganges Varanasi",
+        "official_name": "Taj Hotels",
+        "phone": "+91 542-6660002",
+        "rooms": "130",
+        "tourism": "hotel",
+        "website": "https://www.tajhotels.com/en-in/taj/taj-nadesar-palace-varanasi/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9862781,
+          25.3361332
+        ]
+      },
+      "id": "node/292742983"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/293215777",
+        "internet_access": "wlan",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0020141,
+          25.2836756
+        ]
+      },
+      "id": "node/293215777"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/293217395",
+        "name": "Diamond Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0015252,
+          25.2979947
+        ]
+      },
+      "id": "node/293217395"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/293445050",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9942911,
+          25.3230425
+        ]
+      },
+      "id": "node/293445050"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/293483127",
+        "name": "Clark´s Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9778759,
+          25.3364932
+        ]
+      },
+      "id": "node/293483127"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/321653075",
+        "addr:city": "Varanasi",
+        "building": "yes",
+        "name": "Dr. B.R. Ambedkar Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9975204,
+          25.2673237
+        ]
+      },
+      "id": "way/321653075"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/321653079",
+        "addr:city": "Varanasi",
+        "building": "yes",
+        "name": "Powgi Girls Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9868793,
+          25.2742117
+        ]
+      },
+      "id": "way/321653079"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/321776938",
+        "addr:city": "Varanasi",
+        "building": "yes",
+        "name": "Molecular Biology Transit House",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9900338,
+          25.2756821
+        ]
+      },
+      "id": "way/321776938"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/321776939",
+        "building": "yes",
+        "name": "Faculty Guest House",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9901251,
+          25.2763545
+        ]
+      },
+      "id": "way/321776939"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/321776963",
+        "addr:city": "Varanasi",
+        "building": "yes",
+        "name": "University Guest House",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9961145,
+          25.2726695
+        ]
+      },
+      "id": "way/321776963"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/356571982",
+        "building": "yes",
+        "name": "Rashmi Guest House",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0109351,
+          25.3080733
+        ]
+      },
+      "id": "way/356571982"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/363080612",
+        "building": "yes",
+        "name": "Stops Hostel",
+        "phone": "+918191853853",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9995734,
+          25.2993991
+        ]
+      },
+      "id": "way/363080612"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/407528677",
+        "building": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "yes",
+        "name": "Ramada Plaza Jhv",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9764399,
+          25.3369355
+        ]
+      },
+      "id": "way/407528677"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/545675000",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "addr:street": "Dashashwamedh Road",
+        "building": "yes",
+        "check_date:internet_access": "2023-10-29",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Santana Varanasi",
+        "name:en": "Santana Varanasi Guesthouse",
+        "name:ja": "サンタナバラナシ",
+        "operator": "Santana",
+        "tourism": "guest_house",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.008832,
+          25.3069941
+        ]
+      },
+      "id": "way/545675000"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/703917084",
+        "air_conditioning": "no",
+        "building": "yes",
+        "internet_access": "wlan",
+        "name": "BrijRama Palace",
+        "name:en": "BrijRama Palace",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0093457,
+          25.3053483
+        ]
+      },
+      "id": "way/703917084"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/729367496",
+        "addr:city": "Varanasi",
+        "addr:housenumber": "B 1/128 M",
+        "addr:postcode": "221005",
+        "addr:street": "Dumraon Colony, Assi",
+        "air_conditioning": "yes",
+        "building": "yes",
+        "building:levels": "3",
+        "guest_house": "backpacker_hostel",
+        "height": "11",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "internet_access:ssid": "Banaras Hostel",
+        "name": "Banaras Hostel, Varanasi",
+        "operator": "https://banarashostel.com",
+        "rooms": "70",
+        "tourism": "hostel",
+        "website": "https://banarashostel.com",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0052836,
+          25.2868469
+        ]
+      },
+      "id": "way/729367496"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/800791379",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9696211,
+          25.3441636
+        ]
+      },
+      "id": "way/800791379"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/857420389",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221005",
+        "addr:street": "Aryabhatt Hostel Road",
+        "air_conditioning": "yes",
+        "building": "yes",
+        "description": "first year students",
+        "guest_house": "hostel",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Aryabhatta Hostel",
+        "operator": "Indian Institute of Technology (BHU), sanjay singh",
+        "rooms": "400",
+        "tourism": "hostel",
+        "website": "https://iitbhu.ac.in/hostels/aryabhatta",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9841823,
+          25.2647843
+        ]
+      },
+      "id": "way/857420389"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/857428859",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221005",
+        "addr:street": "IIT(BHU)",
+        "building": "yes",
+        "building:levels": "3",
+        "guest_house": "student_accommodation",
+        "height": "11",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Gandhi Smriti Extension Girls Hostel IIT BHU (GAMCHA)",
+        "operator": "IIT(BHU)",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9844377,
+          25.2605382
+        ]
+      },
+      "id": "way/857428859"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/857511239",
+        "building": "yes",
+        "guest_house": "student_accommodation",
+        "internet_access": "yes",
+        "name": "Ramkrishna Hostel",
+        "operator": "BHU",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9863635,
+          25.266596
+        ]
+      },
+      "id": "way/857511239"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/864544050",
+        "building": "yes",
+        "name": "BHU Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0046733,
+          25.2765941
+        ]
+      },
+      "id": "way/864544050"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/867983197",
+        "building": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Naveen Girl's Hostel",
+        "operator": "BHU",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9834264,
+          25.2667968
+        ]
+      },
+      "id": "way/867983197"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/867985265",
+        "building": "yes",
+        "name": "Fine Arts hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9874984,
+          25.2694545
+        ]
+      },
+      "id": "way/867985265"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/868014832",
+        "building": "yes",
+        "name": "Lakshman Das Guest House",
+        "tourism": "guest_house",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9961217,
+          25.2758722
+        ]
+      },
+      "id": "way/868014832"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/868014833",
+        "building": "yes",
+        "name": "Lakshman Das Guest House",
+        "tourism": "guest_house",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9959481,
+          25.2761171
+        ]
+      },
+      "id": "way/868014833"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/955383134",
+        "building": "yes",
+        "name": "Hotel Madhuvan Palace",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9695727,
+          25.2872133
+        ]
+      },
+      "id": "way/955383134"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/955699195",
+        "building": "yes",
+        "name": "GM Guest House",
+        "tourism": "guest_house",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9874105,
+          25.3115875
+        ]
+      },
+      "id": "way/955699195"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/956077554",
+        "building": "yes",
+        "name": "Hotel Le Lotus Grand",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9702046,
+          25.2904573
+        ]
+      },
+      "id": "way/956077554"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/988809566",
+        "addr:city": "Varanasi",
+        "name": "Elvis Guest House",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0060466,
+          25.2934862
+        ]
+      },
+      "id": "node/988809566"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/988809645",
+        "internet_access": "yes",
+        "internet_access:fee": "yes",
+        "name": "Monu Family Guesthouse",
+        "operator": "Monu Family",
+        "tourism": "hotel",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0102945,
+          25.3103097
+        ]
+      },
+      "id": "node/988809645"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1027052084",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221002",
+        "addr:street": "Nadesar Palace Grounds",
+        "brand": "Taj",
+        "brand:wikidata": "Q1521893",
+        "building": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Taj Nadesar Palace",
+        "official_name": "Taj Hotels",
+        "phone": "+91 542-6660001",
+        "rooms": "320",
+        "tourism": "hotel",
+        "website": "https://www.tajhotels.com/en-in/taj/taj-nadesar-palace-varanasi/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9882396,
+          25.336264
+        ]
+      },
+      "id": "way/1027052084"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1051043587",
+        "building": "yes",
+        "name": "Kendranchal (Central Government Touring Hostel)",
+        "operator": "Central Public Works Department",
+        "tourism": "guest_house",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9754731,
+          25.3842657
+        ]
+      },
+      "id": "way/1051043587"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1170447124",
+        "addr:city": "Varanasi",
+        "building": "yes",
+        "guest_house": "student_accommodation",
+        "internet_access": "wlan",
+        "internet_access:fee": "yes",
+        "name": "Satish Dhawan",
+        "rooms": "300+",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9847984,
+          25.2641421
+        ]
+      },
+      "id": "way/1170447124"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1184480065",
+        "name": "Yogi Lodge",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0047378,
+          25.2868863
+        ]
+      },
+      "id": "node/1184480065"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1256868941",
+        "addr:city": "Varanasi",
+        "addr:district": "Varanasi",
+        "addr:housenumber": "Aryabhatta",
+        "addr:postcode": "221005",
+        "addr:street": "Aryabhatt Hostel Road",
+        "building:levels": "4",
+        "building:part": "yes",
+        "guest_house": "hostel",
+        "height": "12",
+        "name": "Block C",
+        "operator": "Indian Institute of Technology (BHU), sanjay singh",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9841649,
+          25.2647552
+        ]
+      },
+      "id": "way/1256868941"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1256869085",
+        "addr:city": "Varanasi",
+        "addr:district": "Varanasi",
+        "addr:housenumber": "Aryabhatta",
+        "addr:postcode": "221005",
+        "addr:street": "Aryabhatt Hostel Road",
+        "building:levels": "4",
+        "building:part": "yes",
+        "guest_house": "hostel",
+        "height": "12",
+        "name": "Block B",
+        "operator": "Indian Institute of Technology (BHU), sanjay singh",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9841614,
+          25.2644386
+        ]
+      },
+      "id": "way/1256869085"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1256869271",
+        "addr:city": "Varanasi",
+        "addr:district": "Varanasi",
+        "addr:housenumber": "Aryabhatta",
+        "addr:postcode": "221005",
+        "addr:street": "Aryabhatt Hostel Road",
+        "building:levels": "4",
+        "building:part": "yes",
+        "guest_house": "hostel",
+        "height": "12",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Block D",
+        "operator": "Indian Institute of Technology (BHU), sanjay singh",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9841782,
+          25.2650645
+        ]
+      },
+      "id": "way/1256869271"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1258208309",
+        "addr:city": "Varanasi",
+        "addr:district": "Varanasi",
+        "addr:housenumber": "SA 2/320",
+        "addr:postcode": "221001",
+        "addr:street": "Chhota Lalpur, Pandeypur, Uttar Pradesh",
+        "brand": "DoubleTree",
+        "brand:wikidata": "Q2504643",
+        "building": "yes",
+        "contact:email": "reservations@dtbhvaranasi.com",
+        "contact:facebook": "https://www.facebook.com/doubletreebyhiltonvaranasi",
+        "contact:instagram": "https://www.instagram.com/doubletreebyhiltonvaranasi/",
+        "contact:linkedin": "https://in.linkedin.com/company/doubletreebyhilton-varanasi",
+        "name": "DoubleTree by Hilton Varanasi",
+        "official_name": "DoubleTree by Hilton",
+        "operator": "Hilton",
+        "phone": "+91 542 718 0000",
+        "rooms": "144",
+        "tourism": "hotel",
+        "website": "https://www.hilton.com/en/hotels/vnsdidi-doubletree-varanasi/",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9942136,
+          25.3515644
+        ]
+      },
+      "id": "way/1258208309"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1268422228",
+        "building": "yes",
+        "name": "Bedzzz",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0016158,
+          25.3091672
+        ]
+      },
+      "id": "way/1268422228"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1305228216",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8499765,
+          25.4410515
+        ]
+      },
+      "id": "way/1305228216"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1305228217",
+        "building": "yes",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8555704,
+          25.4446747
+        ]
+      },
+      "id": "way/1305228217"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1305228225",
+        "building": "yes",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8561208,
+          25.4446965
+        ]
+      },
+      "id": "way/1305228225"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1356598446",
+        "building": "yes",
+        "building:levels": "10",
+        "layer": "1",
+        "name": "Prafulla Chnadra Ray Hostel, iit bhu",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9849861,
+          25.2652232
+        ]
+      },
+      "id": "way/1356598446"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1361426713",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9889514,
+          25.3300998
+        ]
+      },
+      "id": "way/1361426713"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1361426714",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9892124,
+          25.3303151
+        ]
+      },
+      "id": "way/1361426714"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1363346057",
+        "building": "yes",
+        "layer": "1",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9860396,
+          25.3371075
+        ]
+      },
+      "id": "way/1363346057"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1369170234",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8525032,
+          25.4361372
+        ]
+      },
+      "id": "way/1369170234"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1369170235",
+        "building": "yes",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8522723,
+          25.4358123
+        ]
+      },
+      "id": "way/1369170235"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1369170242",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8529231,
+          25.4358696
+        ]
+      },
+      "id": "way/1369170242"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1369170243",
+        "building": "yes",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8530321,
+          25.4360448
+        ]
+      },
+      "id": "way/1369170243"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387601904",
+        "alt_name": "SMD Hostel",
+        "building": "residential",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Smt. Moona Devi Hostel",
+        "operator": "Banaras Hindu university",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9905736,
+          25.2755417
+        ]
+      },
+      "id": "way/1387601904"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387602220",
+        "building": "yes",
+        "guest_house": "student_accommodation",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Lal Bahadur Shastri Hostel",
+        "operator": "Banaras Hindu University",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9919957,
+          25.2752896
+        ]
+      },
+      "id": "way/1387602220"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387604411",
+        "building": "yes",
+        "name": "Kaveri Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9931208,
+          25.2770478
+        ]
+      },
+      "id": "way/1387604411"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387604412",
+        "building": "yes",
+        "name": "Godavari Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9934707,
+          25.2771899
+        ]
+      },
+      "id": "way/1387604412"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387604413",
+        "building": "yes",
+        "name": "Saraswati Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9938428,
+          25.2772999
+        ]
+      },
+      "id": "way/1387604413"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387604414",
+        "building": "yes",
+        "name": "Jamuna Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9943989,
+          25.2774498
+        ]
+      },
+      "id": "way/1387604414"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387604415",
+        "building": "yes",
+        "name": "Ganga Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9947145,
+          25.2775856
+        ]
+      },
+      "id": "way/1387604415"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387604416",
+        "building": "yes",
+        "name": "Nagarjun Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9932991,
+          25.2764773
+        ]
+      },
+      "id": "way/1387604416"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387604417",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.994129,
+          25.2767766
+        ]
+      },
+      "id": "way/1387604417"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1387604418",
+        "building": "yes",
+        "name": "Punarvasu Atreya Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9940514,
+          25.2759674
+        ]
+      },
+      "id": "way/1387604418"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1482667590",
+        "addr:city": "Varanasi",
+        "addr:district": "Varanasi",
+        "addr:housenumber": "Aryabhatta",
+        "addr:postcode": "221005",
+        "addr:street": "Aryabhatt Hostel Road",
+        "building:levels": "4",
+        "building:part": "yes",
+        "guest_house": "hostel",
+        "height": "12",
+        "name": "Block A",
+        "operator": "Indian Institute of Technology (BHU), sanjay singh",
+        "start_date": "15th October 2013",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.984145,
+          25.2640983
+        ]
+      },
+      "id": "way/1482667590"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1536776438",
+        "name": "Palace on the Ganges",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0056788,
+          25.2882223
+        ]
+      },
+      "id": "node/1536776438"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1536852561",
+        "name": "Temple on Ganges",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0058452,
+          25.2884054
+        ]
+      },
+      "id": "node/1536852561"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1538128583",
+        "name": "Sita Guest House",
+        "tourism": "hotel",
+        "website": "http://www.sitaguesthouse.in"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0085458,
+          25.3043669
+        ]
+      },
+      "id": "node/1538128583"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1550251391",
+        "name": "Broadway Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0025581,
+          25.2969799
+        ]
+      },
+      "id": "node/1550251391"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1550251393",
+        "addr:housenumber": "B.1/107",
+        "addr:postcode": "222005",
+        "addr:street": "Assi Ghat Road",
+        "email": "hotel_haifa@hotmail.com",
+        "internet_access": "wlan",
+        "name": "Haifa Hotel",
+        "phone": "+91 542 231 2960",
+        "tourism": "hotel",
+        "website": "https://www.hotelhaifavns.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0043309,
+          25.2884745
+        ]
+      },
+      "id": "node/1550251393"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1553933087",
+        "name": "Hotel Ashok",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9890022,
+          25.3124809
+        ]
+      },
+      "id": "node/1553933087"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1554354349",
+        "internet_access": "wlan",
+        "name": "Divya Hotel",
+        "opening_hours": "24/7",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0042372,
+          25.2886257
+        ]
+      },
+      "id": "node/1554354349"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1563504902",
+        "air_conditioning": "no",
+        "internet_access": "wlan",
+        "name": "Scindia Guest House",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0150789,
+          25.31203
+        ]
+      },
+      "id": "node/1563504902"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2377296735",
+        "name": "Shanti",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0133924,
+          25.3116626
+        ]
+      },
+      "id": "node/2377296735"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2708871444",
+        "addr:city": "Varanasi",
+        "addr:housenumber": "D 17/122",
+        "addr:postcode": "221001",
+        "addr:street": "DASHASWAMEDH GHAT",
+        "air_conditioning": "no",
+        "amenity": "restaurant",
+        "capacity": "25",
+        "cuisine": "pizza",
+        "diet:vegan": "yes",
+        "diet:vegetarian": "yes",
+        "indoor_seating": "yes",
+        "internet_access": "wlan",
+        "name": "SHRI Guest House",
+        "opening_hours": "07:30+",
+        "outdoor_seating": "no",
+        "smoking": "no",
+        "tourism": "guest_house",
+        "website": "http://www.shriguesthouse.com",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0098553,
+          25.3069623
+        ]
+      },
+      "id": "node/2708871444"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2805194168",
+        "internet_access": "wlan",
+        "name": "Kedareswar",
+        "tourism": "guest_house",
+        "website": "http://www.kedareswarguesthouse.com/",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0072656,
+          25.3005423
+        ]
+      },
+      "id": "node/2805194168"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3160523165",
+        "name": "Hotel Varuna",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9916772,
+          25.318406
+        ]
+      },
+      "id": "node/3160523165"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225695193",
+        "addr:city": "Vanarasi",
+        "addr:housenumber": "B. 3/97",
+        "addr:postcode": "221001",
+        "addr:street": "Shivala",
+        "name": "OM Home Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0060307,
+          25.2944549
+        ]
+      },
+      "id": "node/3225695193"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225702248",
+        "addr:city": "Vanarasi",
+        "addr:postcode": "221001",
+        "name": "M.K.P. Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0050678,
+          25.2937007
+        ]
+      },
+      "id": "node/3225702248"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225702249",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "name": "Sameer Paying Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0057625,
+          25.2949302
+        ]
+      },
+      "id": "node/3225702249"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225717257",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "name": "Shree Rangam Paying Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0053816,
+          25.2873444
+        ]
+      },
+      "id": "node/3225717257"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225730030",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "name": "Siyaram Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0051858,
+          25.2858189
+        ]
+      },
+      "id": "node/3225730030"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225732159",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "name": "OM Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0053575,
+          25.2859402
+        ]
+      },
+      "id": "node/3225732159"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225733708",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "name": "Kesher Paying Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.005328,
+          25.2850695
+        ]
+      },
+      "id": "node/3225733708"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225738129",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "name": "Ishan Paying Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.005556,
+          25.2850768
+        ]
+      },
+      "id": "node/3225738129"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225740934",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "name": "Kedar Paying Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0048184,
+          25.2845166
+        ]
+      },
+      "id": "node/3225740934"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225755186",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "internet_access": "wlan",
+        "name": "Lord Vishnu Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0079002,
+          25.3035387
+        ]
+      },
+      "id": "node/3225755186"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225755601",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "internet_access": "wlan",
+        "name": "Leela Guest House",
+        "source": "GPS",
+        "tourism": "guest_house",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0075569,
+          25.3021178
+        ]
+      },
+      "id": "node/3225755601"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225757776",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "guest_house": "guest_house",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Vishnu Rest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0080048,
+          25.3035363
+        ]
+      },
+      "id": "node/3225757776"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225770948",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "internet_access": "wlan",
+        "name": "Peace Home Paying Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0086808,
+          25.3054713
+        ]
+      },
+      "id": "node/3225770948"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225772062",
+        "addr:city": "Varanasi",
+        "addr:postcode": "221001",
+        "name": "Modern Vision Guest House",
+        "source": "GPS",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0078841,
+          25.3045887
+        ]
+      },
+      "id": "node/3225772062"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3670045570",
+        "name": "R B International",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0018899,
+          25.2986073
+        ]
+      },
+      "id": "node/3670045570"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4079445106",
+        "name": "Singh guesthouse",
+        "note": "advised place to stay",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0057614,
+          25.2926577
+        ]
+      },
+      "id": "node/4079445106"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4085056136",
+        "name": "Radha Krishna Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0104742,
+          25.3091536
+        ]
+      },
+      "id": "node/4085056136"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4089783592",
+        "email": "goodideatravel@hotmail.com",
+        "name": "Marilyn Guesthouse",
+        "phone": "+91 542 2275125",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0048368,
+          25.2943165
+        ]
+      },
+      "id": "node/4089783592"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4139842689",
+        "internet_access": "wlan",
+        "name": "Kumiko",
+        "tourism": "guest_house",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0072307,
+          25.3029201
+        ]
+      },
+      "id": "node/4139842689"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4139843189",
+        "internet_access": "wlan",
+        "name": "Kumiko",
+        "tourism": "guest_house",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0073426,
+          25.302635
+        ]
+      },
+      "id": "node/4139843189"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4142242189",
+        "name": "Sankatha guesthouse",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0131171,
+          25.3111153
+        ]
+      },
+      "id": "node/4142242189"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4166007591",
+        "internet_access": "wlan",
+        "name": "Blox Backpackers Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0041892,
+          25.2882629
+        ]
+      },
+      "id": "node/4166007591"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4209863864",
+        "name": "Zostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9994395,
+          25.3113603
+        ]
+      },
+      "id": "node/4209863864"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4313825654",
+        "internet_access": "wlan",
+        "name": "Ganga Love Hotel",
+        "phone": "+917398054186",
+        "tourism": "hotel",
+        "website": "http://www.gangalovedeluxe.in"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.00618,
+          25.29429
+        ]
+      },
+      "id": "node/4313825654"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4346042693",
+        "addr:street": "D. 32/125 Devnathpura",
+        "email": "karanyadav1988@gmail.com",
+        "internet_access": "wlan",
+        "name": "Yaduvanshi Guest House",
+        "opening_hours": "24/7",
+        "phone": "09389230166",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0076352,
+          25.3050165
+        ]
+      },
+      "id": "node/4346042693"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4437311890",
+        "internet_access": "wlan",
+        "name:en": "SuperBlox",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0042024,
+          25.2869402
+        ]
+      },
+      "id": "node/4437311890"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4503526574",
+        "name": "Banaras Paying Guest House",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0049099,
+          25.2888509
+        ]
+      },
+      "id": "node/4503526574"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4546288590",
+        "name": "Shivakashi Guest House",
+        "name:en": "Shivakashi Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0083389,
+          25.3045866
+        ]
+      },
+      "id": "node/4546288590"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4562769190",
+        "addr:housenumber": "B30/107 G6",
+        "addr:postcode": "221005",
+        "addr:street": "prabhat nagar, Nagwa",
+        "email": "purplelotusvaranasi@gmail.com",
+        "internet_access": "wlan",
+        "name": "Purple Lotus Home Stay",
+        "name:it": "Purple Lotus Home Stay",
+        "opening_hours": "24/7",
+        "phone": "+ 91 91614 39000",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0054471,
+          25.2816312
+        ]
+      },
+      "id": "node/4562769190"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4597088698",
+        "addr:housenumber": "B3/95 Shivala",
+        "name": "Panchkote Raj Ganges",
+        "name:en": "Panchkote Raj Ganges",
+        "name:es": "Panchkote Raj Ganges",
+        "name:hi": "Panchkote Raj Ganges",
+        "phone": "+91 9565846559",
+        "tourism": "hotel",
+        "website": "https://www.panchkoterajganges.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0067582,
+          25.2941604
+        ]
+      },
+      "id": "node/4597088698"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4599922231",
+        "name": "Hotel Buddha Int.",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0263902,
+          25.3762087
+        ]
+      },
+      "id": "node/4599922231"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4599930330",
+        "name": "Hyatt Place",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0261981,
+          25.370048
+        ]
+      },
+      "id": "node/4599930330"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4599930335",
+        "name": "Lotus Int.",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0238446,
+          25.3688449
+        ]
+      },
+      "id": "node/4599930335"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4615799810",
+        "name": "Roadhouse Hostel",
+        "name:en": "Roadhouse Hostel",
+        "name:hi": "Roadhouse Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0037117,
+          25.2892698
+        ]
+      },
+      "id": "node/4615799810"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4636541991",
+        "addr:housenumber": "B 7/12",
+        "addr:postcode": "221001",
+        "addr:street": "Sonapura Road",
+        "internet_access": "wlan",
+        "name": "Shanti palace",
+        "name:en": "hotel Shanti palace&Roof hill restaurant",
+        "opening_hours": "24/7",
+        "phone": "05422450579",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0063504,
+          25.3003114
+        ]
+      },
+      "id": "node/4636541991"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4693197395",
+        "internet_access": "wlan",
+        "name": "So nice home",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0135783,
+          25.3128157
+        ]
+      },
+      "id": "node/4693197395"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4697672190",
+        "internet_access": "wlan",
+        "name": "Holy city",
+        "name:hi": "Holy city",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0066444,
+          25.2850203
+        ]
+      },
+      "id": "node/4697672190"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4704721719",
+        "name": "Hostale",
+        "name:hi": "Hostale",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0039498,
+          25.2875233
+        ]
+      },
+      "id": "node/4704721719"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4721395289",
+        "internet_access": "wlan",
+        "name:en": "Holy City Paying Guesthouse",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0069621,
+          25.2848357
+        ]
+      },
+      "id": "node/4721395289"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4742507452",
+        "amenity": "restaurant",
+        "diet:vegan": "yes",
+        "diet:vegetarian": "yes",
+        "name": "Nepali",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0096147,
+          25.3083577
+        ]
+      },
+      "id": "node/4742507452"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4743628994",
+        "name": "Jains Paying Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0277841,
+          25.380822
+        ]
+      },
+      "id": "node/4743628994"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4744628122",
+        "name:en": "Kasi Labh Mukti Bhawan",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0054374,
+          25.3096176
+        ]
+      },
+      "id": "node/4744628122"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4744658424",
+        "internet_access": "wlan",
+        "name:en": "Mumukshu Bhawan",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0025964,
+          25.2859687
+        ]
+      },
+      "id": "node/4744658424"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4763561021",
+        "name": "Hotel Temple on Ganges #bor",
+        "name:hi": "Hotel Temple on Ganges #bor",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9989624,
+          25.2946472
+        ]
+      },
+      "id": "node/4763561021"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4773995988",
+        "addr:street": "shivala",
+        "name": "Hostelavie",
+        "name:hi": "Hostelavie",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0060726,
+          25.2944892
+        ]
+      },
+      "id": "node/4773995988"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4799168427",
+        "addr:housenumber": "150 rupees",
+        "internet_access": "no",
+        "name:en": "Rajasthan Paying Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0080184,
+          25.3052849
+        ]
+      },
+      "id": "node/4799168427"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4869847221",
+        "name:fr": "Sita guest house",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0088712,
+          25.3045029
+        ]
+      },
+      "id": "node/4869847221"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4936631425",
+        "name:ko": "옴 레스트 게스트하우스",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0080547,
+          25.3040654
+        ]
+      },
+      "id": "node/4936631425"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5048319122",
+        "internet_access": "wlan",
+        "name": "Brahmdev Guest House",
+        "name:en": "Brahmdev Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0083867,
+          25.3044056
+        ]
+      },
+      "id": "node/5048319122"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5188307422",
+        "name": "Marigold Guest House",
+        "name:en": "Marigold Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0088618,
+          25.3052814
+        ]
+      },
+      "id": "node/5188307422"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5219273022",
+        "addr:housenumber": "5KH",
+        "addr:postcode": "221105",
+        "addr:street": "Bhatauli",
+        "name": "लाल जी राम",
+        "name:en": "Lal Ji Ram",
+        "opening_hours": "24/7",
+        "phone": "8115423245",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8846664,
+          25.4009196
+        ]
+      },
+      "id": "node/5219273022"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5224840121",
+        "name:en": "Varanasi Villa",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9656562,
+          25.3403183
+        ]
+      },
+      "id": "node/5224840121"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5237312524",
+        "name:en": "Jyoti paying guest house",
+        "name:ko": "죠티페잉게스트하우스",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0053686,
+          25.2860664
+        ]
+      },
+      "id": "node/5237312524"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5265335655",
+        "air_conditioning": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Bliss Hostel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0064832,
+          25.2850945
+        ]
+      },
+      "id": "node/5265335655"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5277737621",
+        "name:en": "Dynasty Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0046956,
+          25.2941957
+        ]
+      },
+      "id": "node/5277737621"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5298855221",
+        "name": "Hare Rama",
+        "name:en": "Hare Rama",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0086606,
+          25.3050255
+        ]
+      },
+      "id": "node/5298855221"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5301583622",
+        "internet_access": "wlan",
+        "name": "Sunview",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0068822,
+          25.2992716
+        ]
+      },
+      "id": "node/5301583622"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5303198521",
+        "internet_access": "wlan",
+        "name": "Antulay guesthouse",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0066677,
+          25.2865681
+        ]
+      },
+      "id": "node/5303198521"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5310571923",
+        "internet_access": "wlan",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0065351,
+          25.2868809
+        ]
+      },
+      "id": "node/5310571923"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5363063225",
+        "internet_access": "wlan",
+        "name:de": "Tiwari Lodge",
+        "name:en": "Tiwari Lodge",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0045095,
+          25.2884767
+        ]
+      },
+      "id": "node/5363063225"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5407453221",
+        "check_date:internet_access": "2023-10-29",
+        "email": "v.rudraguesthouse@gmail.com",
+        "internet_access": "wlan",
+        "name": "Rudra Guest House",
+        "name:en": "Rudra Guest House",
+        "operator": "Akiko Miyamoto",
+        "phone": "919721000457",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0087393,
+          25.3066935
+        ]
+      },
+      "id": "node/5407453221"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5456193196",
+        "name": "Homestay Varanasi",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9944133,
+          25.3110792
+        ]
+      },
+      "id": "node/5456193196"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5489908690",
+        "internet_access": "no",
+        "name": "Hotel Hindustan International",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9943199,
+          25.3232446
+        ]
+      },
+      "id": "node/5489908690"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5501397722",
+        "internet_access": "wlan",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0058067,
+          25.3047167
+        ]
+      },
+      "id": "node/5501397722"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5510955821",
+        "internet_access": "wlan",
+        "name": "Shiva Guest House",
+        "name:en": "Shiva Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0090194,
+          25.30538
+        ]
+      },
+      "id": "node/5510955821"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5558995721",
+        "name": "Shiva Inn",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0110713,
+          25.309968
+        ]
+      },
+      "id": "node/5558995721"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5623845524",
+        "addr:city": "Varanasi",
+        "addr:housenumber": "32/162",
+        "addr:postcode": "221001",
+        "addr:street": "Dashashwamedh Road",
+        "email": "saraswati.yets@gmail.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "yes",
+        "name": "Somit Paying Guest House",
+        "operator": "Somit Kumar",
+        "payment:cash": "yes",
+        "payment:coins": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:maestro": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "payment:visa_debit": "yes",
+        "payment:visa_electron": "yes",
+        "phone": "+919839105112",
+        "rooms": "5",
+        "smoking": "outside",
+        "tourism": "hostel",
+        "website": "https://varanasiindiango.jimdo.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0073079,
+          25.3047335
+        ]
+      },
+      "id": "node/5623845524"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5866008087",
+        "name": "Sri Omkar Palace",
+        "name:en": "Sri Omkar Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0085461,
+          25.3046431
+        ]
+      },
+      "id": "node/5866008087"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5867352885",
+        "name": "Sri Omkar Palace",
+        "name:en": "Sri Omkar Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.008392,
+          25.3042727
+        ]
+      },
+      "id": "node/5867352885"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5984864186",
+        "name": "Stay inn heritage hostel",
+        "name:en": "Stay inn heritage hostel",
+        "opening_hours": "24/7",
+        "phone": "+915422450024",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0076709,
+          25.304355
+        ]
+      },
+      "id": "node/5984864186"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6027504486",
+        "addr:housenumber": "51/20 20A 21R",
+        "addr:postcode": "221010",
+        "addr:street": "Surajkund, Maulvibagh, Nai Sarak",
+        "name:en": "HOG Varanasi Hostel",
+        "name:es": "House Of Gypsy Hostel",
+        "phone": "+91 95928 58535",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0030805,
+          25.3124913
+        ]
+      },
+      "id": "node/6027504486"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6094909119",
+        "internet_access": "wlan",
+        "name:en": "HOG Hostel Varanasi",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0031326,
+          25.3126675
+        ]
+      },
+      "id": "node/6094909119"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6103427587",
+        "name:en": "Teerth gh",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0101842,
+          25.3100532
+        ]
+      },
+      "id": "node/6103427587"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6135440385",
+        "internet_access": "wlan",
+        "name": "Wander Station Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0084058,
+          25.304742
+        ]
+      },
+      "id": "node/6135440385"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6141687719",
+        "check_date:internet_access": "2023-10-29",
+        "internet_access": "wlan",
+        "name": "Gangotri Paying Guesthouse",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0058509,
+          25.2869195
+        ]
+      },
+      "id": "node/6141687719"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6150069987",
+        "name:en": "City Inn Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9862636,
+          25.3236655
+        ]
+      },
+      "id": "node/6150069987"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6163744233",
+        "name:en": "Hotel Ganges View",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0061338,
+          25.2891268
+        ]
+      },
+      "id": "node/6163744233"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6163747513",
+        "name:en": "Temple on the Ganges",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0055639,
+          25.2876529
+        ]
+      },
+      "id": "node/6163747513"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6173171890",
+        "name": "Hog",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0032977,
+          25.3122177
+        ]
+      },
+      "id": "node/6173171890"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6187713185",
+        "internet_access": "wlan",
+        "name:fr": "Family guest house",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0084586,
+          25.3058127
+        ]
+      },
+      "id": "node/6187713185"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6200621086",
+        "name:en": "Varanasi Heritage hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0050974,
+          25.2906454
+        ]
+      },
+      "id": "node/6200621086"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6210183185",
+        "name": "via Varanasi Boutique Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0038509,
+          25.289119
+        ]
+      },
+      "id": "node/6210183185"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6300468885",
+        "name": "Sunrise Lodge",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0118747,
+          25.3089662
+        ]
+      },
+      "id": "node/6300468885"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6302756485",
+        "email": "azureguesthouse@gmail.com",
+        "internet_access": "wlan",
+        "name:en": "Azure Family Paying GuestHouse",
+        "opening_hours": "Mo-Su 08:00-21:00",
+        "phone": "00919335975111",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0063312,
+          25.2844488
+        ]
+      },
+      "id": "node/6302756485"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6357598985",
+        "addr:housenumber": "D15/20",
+        "addr:postcode": "221001",
+        "addr:street": "Dashashwamedh Road",
+        "check_date:internet_access": "2023-10-30",
+        "email": "maadurgainn@gmail.com",
+        "internet_access": "wlan",
+        "name": "Maa Durga Inn",
+        "phone": "+919628533334",
+        "tourism": "guest_house",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0105351,
+          25.3079435
+        ]
+      },
+      "id": "node/6357598985"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6395589904",
+        "name:en": "11-7 Guesthouse",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0080724,
+          25.3056371
+        ]
+      },
+      "id": "node/6395589904"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6431148185",
+        "internet_access": "wlan",
+        "name": "Namaste paying guest house",
+        "name:hi": "Namaste Paying Guest House real location",
+        "tourism": "guest_house",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0069689,
+          25.3033503
+        ]
+      },
+      "id": "node/6431148185"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6516354892",
+        "name:en": "Hotel City Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9888013,
+          25.326989
+        ]
+      },
+      "id": "node/6516354892"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6536468285",
+        "internet_access": "wlan",
+        "name": "OYO 4009 HKJ Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.00651,
+          25.308499
+        ]
+      },
+      "id": "node/6536468285"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6816735987",
+        "addr:street": "Pandeyghat",
+        "email": "customerservice@howdyhostels.com",
+        "internet_access": "wlan",
+        "name": "Pandeyghat",
+        "name:hi": "On The Chat By Howdy Hostels",
+        "opening_hours": "24/7",
+        "phone": "8934879999",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0083654,
+          25.3038081
+        ]
+      },
+      "id": "node/6816735987"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6816735988",
+        "addr:street": "Pandeyghat",
+        "internet_access": "wlan",
+        "name": "On The Ghat By Howdy Hostels",
+        "opening_hours": "24/7",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0084286,
+          25.3038029
+        ]
+      },
+      "id": "node/6816735988"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6819036485",
+        "addr:housenumber": "D-24/28-AL",
+        "addr:postcode": "221001",
+        "addr:street": "Pandey Ghat Ward Dasashwamedh",
+        "email": "2310973830-4wjp.9pkv.hddk.jyeg@property.booking.com",
+        "internet_access": "wlan",
+        "name": "On the Ghats by Howdy",
+        "name:en": "On The Ghat By Howdy Hostels",
+        "opening_hours": "24/7",
+        "phone": "+91 97950 59605",
+        "tourism": "hostel",
+        "website": "https://www.booking.com/hotel/in/on-the-ghat.en-gb.html?"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0084102,
+          25.3037846
+        ]
+      },
+      "id": "node/6819036485"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6924075989",
+        "name:en": "On the Ghat By Howdy (right address)",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.008335,
+          25.3038969
+        ]
+      },
+      "id": "node/6924075989"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6978428585",
+        "internet_access": "wlan",
+        "name": "Relax Paying Guest House",
+        "name:en": "Relax Paying Guest House (real location)",
+        "tourism": "guest_house",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0068848,
+          25.3032271
+        ]
+      },
+      "id": "node/6978428585"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6981928086",
+        "name": "Moustache Hostel Varanasi",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0051416,
+          25.2860722
+        ]
+      },
+      "id": "node/6981928086"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7049822997",
+        "addr:city": "Varanasi",
+        "addr:housenumber": "B 30/160",
+        "addr:postcode": "221005",
+        "addr:street": "Prabhat Nagar Colony, Nagwa, Lanka",
+        "guest_house": "hostel",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Il Loto Viola",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0053635,
+          25.2818392
+        ]
+      },
+      "id": "node/7049822997"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7077477485",
+        "internet_access": "wlan",
+        "name:en": "PG",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0063812,
+          25.2931205
+        ]
+      },
+      "id": "node/7077477485"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7090381393",
+        "air_conditioning": "no",
+        "internet_access": "wlan",
+        "name:en": "Kashi Stay GH",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0101296,
+          25.3097544
+        ]
+      },
+      "id": "node/7090381393"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7156197192",
+        "name": "Shiva Lodge",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0112468,
+          25.3082965
+        ]
+      },
+      "id": "node/7156197192"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7282498329",
+        "brand": "Radisson",
+        "brand:wikidata": "Q1751979",
+        "name": "Radisson",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9807835,
+          25.3385752
+        ]
+      },
+      "id": "node/7282498329"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7282529482",
+        "name": "Costa River",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.97959,
+          25.3385861
+        ]
+      },
+      "id": "node/7282529482"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7282554947",
+        "name": "Amayaa",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9793606,
+          25.3376954
+        ]
+      },
+      "id": "node/7282554947"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7282570259",
+        "name": "The Westinn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9803557,
+          25.3387103
+        ]
+      },
+      "id": "node/7282570259"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7282571152",
+        "name": "Hotel Meadows",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9795545,
+          25.3382328
+        ]
+      },
+      "id": "node/7282571152"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7282580847",
+        "name": "Zeeras",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9810387,
+          25.3385904
+        ]
+      },
+      "id": "node/7282580847"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7282584411",
+        "name": "Rivatas",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9796743,
+          25.3376925
+        ]
+      },
+      "id": "node/7282584411"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7282596302",
+        "name": "Surya Kaiser Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9798399,
+          25.3385738
+        ]
+      },
+      "id": "node/7282596302"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7284583730",
+        "name": "The Sapphire Grand",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.981167,
+          25.3391028
+        ]
+      },
+      "id": "node/7284583730"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7284587404",
+        "name": "Madin Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.978861,
+          25.3374186
+        ]
+      },
+      "id": "node/7284587404"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7284588491",
+        "name": "Comfort Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9790854,
+          25.3386985
+        ]
+      },
+      "id": "node/7284588491"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7284589617",
+        "name": "Square Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9780964,
+          25.3382028
+        ]
+      },
+      "id": "node/7284589617"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7291030752",
+        "name": "Ganga Tourist Lodge",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0020137,
+          25.3091819
+        ]
+      },
+      "id": "node/7291030752"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7291049189",
+        "name": "OK International",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0026101,
+          25.3090544
+        ]
+      },
+      "id": "node/7291049189"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7291056334",
+        "name": "Alakhnanda",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0114933,
+          25.3087587
+        ]
+      },
+      "id": "node/7291056334"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7319403853",
+        "addr:city": "Varanasi",
+        "addr:housenumber": "D3/23",
+        "addr:street": "Meer Ghat",
+        "name": "Hotel Alka",
+        "tourism": "hotel",
+        "website": "https://www.hotelalkavns.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0118766,
+          25.3090867
+        ]
+      },
+      "id": "node/7319403853"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7319403880",
+        "addr:city": "Varanasi",
+        "addr:housenumber": "D-3/24",
+        "addr:postcode": "221001",
+        "addr:street": "Meer Ghat",
+        "name": "Ganpati Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0120053,
+          25.3091528
+        ]
+      },
+      "id": "node/7319403880"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7598629217",
+        "internet_access": "wlan",
+        "name": "Eden Halt Paying Guest House",
+        "tourism": "guest_house",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0077782,
+          25.3029428
+        ]
+      },
+      "id": "node/7598629217"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8156957644",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Om guest house",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9942862,
+          25.3457804
+        ]
+      },
+      "id": "node/8156957644"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8157970059",
+        "name": "PAPPU HOTEL",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9963561,
+          25.3334184
+        ]
+      },
+      "id": "node/8157970059"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8839204272",
+        "name": "Hari Vilaas",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9946918,
+          25.3091636
+        ]
+      },
+      "id": "node/8839204272"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8844949733",
+        "name": "Hotel Castillo",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9884604,
+          25.3119334
+        ]
+      },
+      "id": "node/8844949733"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8844949750",
+        "name": "Hotel Siddharth",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9900622,
+          25.3098661
+        ]
+      },
+      "id": "node/8844949750"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8845206128",
+        "name": "Hotel Padmini International",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9835763,
+          25.3075145
+        ]
+      },
+      "id": "node/8845206128"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8849956804",
+        "name": "The Landmark",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9803709,
+          25.3044479
+        ]
+      },
+      "id": "node/8849956804"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8850052017",
+        "name": "BLW Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9626866,
+          25.2815328
+        ]
+      },
+      "id": "node/8850052017"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8850763062",
+        "name": "Hotel Chandra Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9693989,
+          25.3001655
+        ]
+      },
+      "id": "node/8850763062"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8853716375",
+        "name": "Hotel JK International",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.000094,
+          25.3087262
+        ]
+      },
+      "id": "node/8853716375"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8909234451",
+        "name": "Kiran guest house",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9706057,
+          25.2900139
+        ]
+      },
+      "id": "node/8909234451"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8909773532",
+        "name": "OYO 15177 Hotel HKJ Sanskriti",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9746175,
+          25.2883142
+        ]
+      },
+      "id": "node/8909773532"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8909832494",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.96954,
+          25.2877065
+        ]
+      },
+      "id": "node/8909832494"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9037630920",
+        "addr:housenumber": "B27/31K",
+        "addr:postcode": "221005",
+        "addr:street": "Ravindrapuri Road",
+        "name:en": "Awadhdham Society",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0003927,
+          25.2881918
+        ]
+      },
+      "id": "node/9037630920"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9551566117",
+        "name:en": "Yogi Soul GH",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0091225,
+          25.3071277
+        ]
+      },
+      "id": "node/9551566117"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9551566118",
+        "air_conditioning": "yes",
+        "internet_access": "wlan",
+        "name:en": "GS Residency",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.00939,
+          25.3073497
+        ]
+      },
+      "id": "node/9551566118"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9551566217",
+        "name:en": "Sri Venkateshwar Lodge",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0099978,
+          25.3087691
+        ]
+      },
+      "id": "node/9551566217"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9677084093",
+        "name": "Moustache Hostel",
+        "tourism": "hostel",
+        "website": "https://www.moustachescapes.com/accommodation/Hostel/varanasi"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0049152,
+          25.2868976
+        ]
+      },
+      "id": "node/9677084093"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9852615217",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0031223,
+          25.312724
+        ]
+      },
+      "id": "node/9852615217"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9920967717",
+        "addr:housenumber": "202",
+        "addr:postcode": "221001",
+        "internet_access": "wlan",
+        "name:en": "EGarden Stay Vajra Villa",
+        "phone": "+917985393095",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0012739,
+          25.2937326
+        ]
+      },
+      "id": "node/9920967717"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10314785709",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0080346,
+          25.2851373
+        ]
+      },
+      "id": "node/10314785709"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10881959705",
+        "name": "Banaras Rest House",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0077513,
+          25.304496
+        ]
+      },
+      "id": "node/10881959705"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10904472546",
+        "addr:city": "Varanasi",
+        "addr:housenumber": "IIT(BHU)",
+        "addr:postcode": "221005",
+        "addr:street": "Semi Circle Road 4",
+        "guest_house": "hostel",
+        "internet_access": "wired",
+        "internet_access:fee": "customers",
+        "name": "Limbdi Hostel, IIT(BHU)",
+        "tourism": "hostel",
+        "website": "https://iitbhu.ac.in/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9855997,
+          25.2612053
+        ]
+      },
+      "id": "node/10904472546"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11234241138",
+        "addr:housenumber": "D40/23-2",
+        "addr:postcode": "221001",
+        "addr:street": "Godowlia Jangambari",
+        "phone": "+919795668268",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0064983,
+          25.3085678
+        ]
+      },
+      "id": "node/11234241138"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11234249137",
+        "addr:housenumber": "D40/23-2",
+        "addr:street": "Godowlia Jangambari",
+        "name:en": "Namaste Benares Varanasi",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.006478,
+          25.3085409
+        ]
+      },
+      "id": "node/11234249137"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11234255037",
+        "addr:housenumber": "D40/23-2",
+        "addr:postcode": "221001",
+        "addr:street": "Godowlia Jangambari",
+        "internet_access": "wlan",
+        "name:en": "Namaste Benares Varanasi",
+        "phone": "+919795668268",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0064647,
+          25.3084906
+        ]
+      },
+      "id": "node/11234255037"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11234876037",
+        "addr:housenumber": "D40/23-2",
+        "addr:postcode": "221001",
+        "addr:street": "Godowlia Jangambari",
+        "internet_access": "wlan",
+        "phone": "+919795668268",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0060998,
+          25.3087207
+        ]
+      },
+      "id": "node/11234876037"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11234884037",
+        "addr:housenumber": "D40/23-2",
+        "addr:postcode": "221001",
+        "addr:street": "Godowlia Jangambari",
+        "internet_access": "wlan",
+        "name:en": "Hotel Namaste Benares Varanasi",
+        "phone": "+919795668268",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0061037,
+          25.3087419
+        ]
+      },
+      "id": "node/11234884037"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11278751769",
+        "addr:housenumber": "520/53-4-5",
+        "addr:postcode": "221002",
+        "addr:street": "The Mall Road",
+        "email": "reservation@hotelsilkcity.in",
+        "internet_access": "wlan",
+        "name:en": "Hotel Silk City",
+        "phone": "+91 542 2508723",
+        "tourism": "hotel",
+        "website": "https://www.hotelsilkcity.in/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.977531,
+          25.337562
+        ]
+      },
+      "id": "node/11278751769"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11446575770",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0071709,
+          25.2995435
+        ]
+      },
+      "id": "node/11446575770"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11446587069",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0046052,
+          25.2992818
+        ]
+      },
+      "id": "node/11446587069"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11675407544",
+        "brand": "Super OYO Collection",
+        "name": "Kewal Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9815207,
+          25.2623429
+        ]
+      },
+      "id": "node/11675407544"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11680926669",
+        "addr:city": "Vanarasi",
+        "name": "Hotel Ananya Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0048898,
+          25.2936892
+        ]
+      },
+      "id": "node/11680926669"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11690114770",
+        "name:de": "Foreigner's Inn",
+        "name:en": "Foreigner's Inn",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0027038,
+          25.3080477
+        ]
+      },
+      "id": "node/11690114770"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11696827920",
+        "name": "THE HOTEL AMBASSADOR INN",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0026946,
+          25.2808093
+        ]
+      },
+      "id": "node/11696827920"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11696887006",
+        "name": "NIVEDITA",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0043403,
+          25.2846701
+        ]
+      },
+      "id": "node/11696887006"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11697035990",
+        "addr:city": "Varanasi",
+        "addr:district": "Varanasi",
+        "addr:housenumber": "Semi Circle Road 6",
+        "addr:postcode": "221005",
+        "addr:street": "IIT (BHU) Campus, BHU",
+        "guest_house": "bed_and_breakfast",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "S. S. Saluja Hostel",
+        "operator": "IIT (BHU), Varanasi",
+        "phone": "0542-257-5994",
+        "rooms": "20",
+        "tourism": "hostel",
+        "website": "https://www.iitbhu.ac.in/hostels/saluja_hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9840939,
+          25.2702197
+        ]
+      },
+      "id": "node/11697035990"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11697328979",
+        "name": "Sunbeam Hostel and Hall 'Symphony'",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.001371,
+          25.2727125
+        ]
+      },
+      "id": "node/11697328979"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11697676649",
+        "name": "BIRLA BLOCK C",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9927117,
+          25.2745743
+        ]
+      },
+      "id": "node/11697676649"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11697708523",
+        "name": "BROACHA",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9899511,
+          25.2731536
+        ]
+      },
+      "id": "node/11697708523"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11697718346",
+        "name": "Residence Inn",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9923498,
+          25.2747842
+        ]
+      },
+      "id": "node/11697718346"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11697768977",
+        "name": "RUYIA HOSTEL",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9943484,
+          25.2758373
+        ]
+      },
+      "id": "node/11697768977"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11697970306",
+        "name": "Hotel prestige inn",
+        "tourism": "motel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9816682,
+          25.2611954
+        ]
+      },
+      "id": "node/11697970306"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11698533162",
+        "name": "Lal Bahadur Shastri Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9922253,
+          25.2753547
+        ]
+      },
+      "id": "node/11698533162"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11699278262",
+        "operator": "SATISH DHAWAN BACK PARKING",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9846704,
+          25.2640893
+        ]
+      },
+      "id": "node/11699278262"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11717414221",
+        "name": "gurlzz hostelll",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9844542,
+          25.2603714
+        ]
+      },
+      "id": "node/11717414221"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11717414222",
+        "name": "better girlz hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.983962,
+          25.2612614
+        ]
+      },
+      "id": "node/11717414222"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11724295270",
+        "name:en": "Swagat Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0059355,
+          25.2934359
+        ]
+      },
+      "id": "node/11724295270"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11930899769",
+        "name": "Ganga Putra Inn",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0058433,
+          25.3006111
+        ]
+      },
+      "id": "node/11930899769"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12088802482",
+        "brand": "KBJ",
+        "name": "Varanasi Grand",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.850201,
+          25.4411625
+        ]
+      },
+      "id": "node/12088802482"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12555645778",
+        "guest_house": "hostel",
+        "internet_access": "wlan",
+        "name": "Prafulla Chandra Ray Hostel",
+        "operator": "IITBHU",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9848536,
+          25.2652453
+        ]
+      },
+      "id": "node/12555645778"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12555736381",
+        "name": "PC RAY BACK GATE -2",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.985168,
+          25.2656797
+        ]
+      },
+      "id": "node/12555736381"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12592940904",
+        "addr:city": "Varanasi",
+        "addr:district": "Varanasi",
+        "addr:postcode": "221010",
+        "guest_house": "hostel",
+        "name": "CV Raman main building",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9864215,
+          25.2665593
+        ]
+      },
+      "id": "node/12592940904"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12592940909",
+        "addr:city": "Varanasi",
+        "addr:district": "VaranasiS",
+        "addr:postcode": "221001",
+        "name": "SATISH DHAWAN HOSTEL",
+        "operator": "IIT BHU",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9847304,
+          25.2642189
+        ]
+      },
+      "id": "node/12592940909"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12595643673",
+        "name": "appartment",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9840628,
+          25.2693007
+        ]
+      },
+      "id": "node/12595643673"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12595643674",
+        "name": "arya1",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9856884,
+          25.2709836
+        ]
+      },
+      "id": "node/12595643674"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12595643678",
+        "denotation": "urban",
+        "name": "apartment",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.982902,
+          25.2669981
+        ]
+      },
+      "id": "node/12595643678"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12595956674",
+        "brand": "OYO",
+        "brand:wikidata": "Q24906315",
+        "name": "OYO 23416 Maharaja Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.820478,
+          25.5004389
+        ]
+      },
+      "id": "node/12595956674"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12596253094",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0020738,
+          25.3044519
+        ]
+      },
+      "id": "node/12596253094"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12596427223",
+        "name": "satish dhawan hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9847233,
+          25.2641168
+        ]
+      },
+      "id": "node/12596427223"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12597542498",
+        "addr:city": "Varanasi",
+        "addr:street": "Lanka Road",
+        "name": "Hotel Swyamvar",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0026838,
+          25.2806558
+        ]
+      },
+      "id": "node/12597542498"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12597548620",
+        "addr:city": "Varanasi",
+        "addr:street": "Lanka Road",
+        "name": "Utsav Residency",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0025998,
+          25.2801109
+        ]
+      },
+      "id": "node/12597548620"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12597558093",
+        "addr:city": "Varanasi",
+        "addr:street": "Lanka Road",
+        "name": "CoCasa Boutique Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0037438,
+          25.2831022
+        ]
+      },
+      "id": "node/12597558093"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12597558214",
+        "addr:city": "Varanasi",
+        "addr:street": "Lanka Road",
+        "name": "Shankara Resdiency",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0026409,
+          25.2804634
+        ]
+      },
+      "id": "node/12597558214"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12633756230",
+        "name": "common hostel mess",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.984848,
+          25.264721
+        ]
+      },
+      "id": "node/12633756230"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12633774082",
+        "name": "DG hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9858468,
+          25.2638366
+        ]
+      },
+      "id": "node/12633774082"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12633791005",
+        "name": "Morvi hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9856728,
+          25.2649415
+        ]
+      },
+      "id": "node/12633791005"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12633800343",
+        "name": "Satish Dhawan hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9847701,
+          25.2641951
+        ]
+      },
+      "id": "node/12633800343"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12634006918",
+        "name": "Morvi hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9858014,
+          25.2650398
+        ]
+      },
+      "id": "node/12634006918"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12634051173",
+        "name": "Dhanrajgiri hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9857591,
+          25.2640222
+        ]
+      },
+      "id": "node/12634051173"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12634873568",
+        "name": "Rajputana hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9857698,
+          25.2622997
+        ]
+      },
+      "id": "node/12634873568"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12634917025",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.985945,
+          25.2660071
+        ]
+      },
+      "id": "node/12634917025"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12634924521",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9959539,
+          25.26424
+        ]
+      },
+      "id": "node/12634924521"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12681065152",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8522678,
+          25.4358667
+        ]
+      },
+      "id": "node/12681065152"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12681065206",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.8530465,
+          25.4360708
+        ]
+      },
+      "id": "node/12681065206"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12745738401",
+        "name": "Ganga Sevashram",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0067357,
+          25.2979443
+        ]
+      },
+      "id": "node/12745738401"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12745739701",
+        "name": "Kashi Vishwanath Homestay",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9809783,
+          25.3161317
+        ]
+      },
+      "id": "node/12745739701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12798452123",
+        "check_date": "2025-04-30",
+        "name": "Raj Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9710687,
+          25.3867164
+        ]
+      },
+      "id": "node/12798452123"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12912128101",
+        "addr:housenumber": "D 38/139-140",
+        "addr:postcode": "221001",
+        "addr:street": "Godowalia Lanka Road",
+        "name": "Bagla Atithi Bhawan",
+        "phone": "+91951150306",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0077559,
+          25.3103797
+        ]
+      },
+      "id": "node/12912128101"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13096009001",
+        "addr:housenumber": "14/60",
+        "addr:postcode": "221001",
+        "addr:street": "Manas sarovar galli",
+        "internet_access": "wlan",
+        "name": "Munna guest house, manas sarovar galli, narad dhat",
+        "opening_hours": "24/7",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0076161,
+          25.3023287
+        ]
+      },
+      "id": "node/13096009001"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13348230103",
+        "name": "Srishti Shelter",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0297851,
+          25.3841293
+        ]
+      },
+      "id": "node/13348230103"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13388720001",
+        "name": "V.S. Residency",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9969443,
+          25.308371
+        ]
+      },
+      "id": "node/13388720001"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13405750801",
+        "addr:postcode": "221005",
+        "email": "hashtagtravelersvaranasi@gmail.com",
+        "name": "Hashtag Travelers Varanasi",
+        "phone": "9005884899",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.007598,
+          25.2851095
+        ]
+      },
+      "id": "node/13405750801"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13432723655",
+        "addr:housenumber": "46-A",
+        "name": "Ashirvad Homestay",
+        "tourism": "apartment",
+        "website": "https://ashirvadhomestay.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0014538,
+          25.2941794
+        ]
+      },
+      "id": "node/13432723655"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13576129001",
+        "name": "Rooms in Varanasi",
+        "tourism": "guest_house",
+        "website": "https://www.airbnb.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0075431,
+          25.2844105
+        ]
+      },
+      "id": "node/13576129001"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13584335501",
+        "name": "Kashiyana",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0081984,
+          25.3039847
+        ]
+      },
+      "id": "node/13584335501"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13666266201",
+        "addr:street": "La Vaca Casa Varanasi\nD-35/31, jangambari, , Varanasi,",
+        "name": "La Vaca India Boutique Stay",
+        "phone": "099180 71807",
+        "tourism": "guest_house",
+        "website": "https://hotels.eglobe-solutions.com/lavacaboutique/booking/hotels/la-vaca-india-boutique-stay-varanasi"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0046294,
+          25.3066939
+        ]
+      },
+      "id": "node/13666266201"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13666399201",
+        "addr:housenumber": "D37-47",
+        "addr:postcode": "221001",
+        "addr:street": "Dashashwamedh Road",
+        "name": "Hotel Ganges Grand - Varanasi",
+        "phone": "072358 09898",
+        "tourism": "hotel",
+        "website": "https://www.gangesgrand.in/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0067567,
+          25.3092925
+        ]
+      },
+      "id": "node/13666399201"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13751993139",
+        "addr:city": "Varanasi",
+        "addr:district": "Varanasi",
+        "addr:housenumber": "B1/85C",
+        "addr:postcode": "221005",
+        "addr:street": "Assi Ghat Road",
+        "air_conditioning": "yes",
+        "contact:instagram": "https://www.instagram.com/mosaichostels/",
+        "email": "mosaichostels@gmail.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Mosaic Hostel Varanasi",
+        "phone": "+919125492225",
+        "rooms": "8",
+        "tourism": "hostel",
+        "website": "https://www.mosaichostels.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.003119,
+          25.2871774
+        ]
+      },
+      "id": "node/13751993139"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13989100601",
+        "addr:housenumber": "D 53/83-84",
+        "addr:postcode": "221010",
+        "addr:street": "Luxa Road",
+        "name": "The Commune Varanasi",
+        "tourism": "hostel",
+        "website": "https://www.thecommunevaranasi.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          82.9985492,
+          25.308343
+        ]
+      },
+      "id": "node/13989100601"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14029635601",
+        "name": "Hues of Varanasi ह्यूज ऑफ वाराणसी.",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          83.0082156,
+          25.3033793
+        ]
+      },
+      "id": "node/14029635601"
+    }
+  ]
+}

@@ -1,0 +1,1109 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2026-09-22T08:45:51Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/603767547",
+        "building": "yes",
+        "tourism": "guest_house",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1081373,
+          25.625344
+        ]
+      },
+      "id": "way/603767547"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/960726710",
+        "building": "yes",
+        "name": "Moti Dhabba",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2260112,
+          25.5783155
+        ]
+      },
+      "id": "way/960726710"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1107287401",
+        "building": "yes",
+        "name": "Girls' hostel",
+        "operator": "Bit patna",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0879965,
+          25.5955453
+        ]
+      },
+      "id": "way/1107287401"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1107287402",
+        "building": "yes",
+        "name": "Boy's hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0875874,
+          25.5969867
+        ]
+      },
+      "id": "way/1107287402"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1107287418",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0887326,
+          25.5955716
+        ]
+      },
+      "id": "way/1107287418"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1107287419",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0887992,
+          25.5952344
+        ]
+      },
+      "id": "way/1107287419"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1356109153",
+        "name": "Hotel Maurya Patna",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1424472,
+          25.6159886
+        ]
+      },
+      "id": "node/1356109153"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1356165325",
+        "designation": "BN College Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1505743,
+          25.6195991
+        ]
+      },
+      "id": "node/1356165325"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1358036620",
+        "name": "Circuit House (Govt Officer's Hostel)",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1264108,
+          25.6025297
+        ]
+      },
+      "id": "node/1358036620"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2081737042",
+        "internet_access": "yes",
+        "name": "Hotel Chanakya",
+        "name:hi": "होटल चाणक्य",
+        "stars": "4",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1260295,
+          25.6010069
+        ]
+      },
+      "id": "node/2081737042"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2175381288",
+        "name": "Hotel President",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1372998,
+          25.6123969
+        ]
+      },
+      "id": "node/2175381288"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4140404868",
+        "addr:city": "Patna",
+        "name": "Hotel City Centre",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1383384,
+          25.6043524
+        ]
+      },
+      "id": "node/4140404868"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4570474367",
+        "name": "Gurudwara guesthouse",
+        "tourism": "guest_house",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.2296878,
+          25.5966038
+        ]
+      },
+      "id": "node/4570474367"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5279091121",
+        "addr:postcode": "804453",
+        "addr:street": "Ramesh Colony,kurthoul",
+        "name": "Inderdevan Villa",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1399803,
+          25.592172
+        ]
+      },
+      "id": "node/5279091121"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6086075038",
+        "addr:postcode": "800001",
+        "addr:street": "Exhibition Road",
+        "name": "Hotel Shyama",
+        "phone": "+91-89869-23366",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.143946,
+          25.6126905
+        ]
+      },
+      "id": "node/6086075038"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6087840061",
+        "name": "Vijay Shree Deluxe",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.14405,
+          25.6133947
+        ]
+      },
+      "id": "node/6087840061"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6087842548",
+        "name": "The Panache",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.143894,
+          25.6151919
+        ]
+      },
+      "id": "node/6087842548"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6087845690",
+        "name": "Hotel Bhavya Regency",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1380183,
+          25.60403
+        ]
+      },
+      "id": "node/6087845690"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6351921485",
+        "internet_access": "wlan",
+        "name": "Mayur Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1378919,
+          25.6089241
+        ]
+      },
+      "id": "node/6351921485"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6643306785",
+        "addr:postcode": "801505",
+        "addr:street": "Vrindavan Colony Rd No 1",
+        "name": "भगवती कॉम्प्लेक्स",
+        "name:en": "Bhagwati Complex",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0493414,
+          25.5699226
+        ]
+      },
+      "id": "node/6643306785"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7197094204",
+        "name": "Siddhartha Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1236312,
+          25.6213508
+        ]
+      },
+      "id": "node/7197094204"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7205986086",
+        "name": "Hotel Abhimit",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1643569,
+          25.601854
+        ]
+      },
+      "id": "node/7205986086"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7214263641",
+        "check_date": "2020-02-12",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Hotel Relax Zone",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1418141,
+          25.606927
+        ]
+      },
+      "id": "node/7214263641"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8835099017",
+        "addr:postcode": "800020",
+        "addr:street": "Parvati Path",
+        "name": "ॐ रेसीडेंसी",
+        "name:en": "Om Residency",
+        "opening_hours": "24/7",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1681408,
+          25.598583
+        ]
+      },
+      "id": "node/8835099017"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8917069761",
+        "name": "G4",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0560681,
+          25.6052245
+        ]
+      },
+      "id": "node/8917069761"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8917069762",
+        "name": "G2",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0566396,
+          25.6055142
+        ]
+      },
+      "id": "node/8917069762"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8917101049",
+        "name": "G6",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0561783,
+          25.6058938
+        ]
+      },
+      "id": "node/8917101049"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8917102155",
+        "name": "G5",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.056142,
+          25.6055991
+        ]
+      },
+      "id": "node/8917102155"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8917124581",
+        "name": "G3",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0565522,
+          25.6051411
+        ]
+      },
+      "id": "node/8917124581"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8917126294",
+        "name": "G1",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0566705,
+          25.6058344
+        ]
+      },
+      "id": "node/8917126294"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10053495045",
+        "brand": "OYO",
+        "brand:wikidata": "Q24906315",
+        "name": "Hotel Magadh",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1041169,
+          25.6284683
+        ]
+      },
+      "id": "node/10053495045"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10247014868",
+        "name": "Capital House Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1366162,
+          25.6089361
+        ]
+      },
+      "id": "node/10247014868"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10903081549",
+        "name": "Uma Niketan",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1662044,
+          25.5873173
+        ]
+      },
+      "id": "node/10903081549"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10903081570",
+        "name": "Aditya Lodge",
+        "tourism": "chalet"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1634749,
+          25.5863787
+        ]
+      },
+      "id": "node/10903081570"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10903081572",
+        "tourism": "chalet"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1631139,
+          25.5864121
+        ]
+      },
+      "id": "node/10903081572"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11691570557",
+        "name": "aastha girls hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.149644,
+          25.5862168
+        ]
+      },
+      "id": "node/11691570557"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11698433730",
+        "name": "PG for boy's and girl's",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1405979,
+          25.6066339
+        ]
+      },
+      "id": "node/11698433730"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11698623237",
+        "brand": "Marriott Executive Apartments",
+        "brand:wikidata": "Q72636824",
+        "name": "White House",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1152422,
+          25.6198855
+        ]
+      },
+      "id": "node/11698623237"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11698640939",
+        "name": "Shree Girls Cottage",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1153119,
+          25.6201392
+        ]
+      },
+      "id": "node/11698640939"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11806846916",
+        "addr:city": "Patna, Bihar",
+        "addr:district": "Patna",
+        "addr:postcode": "800001",
+        "addr:street": "Exhibition Rd, Near raj kumar hotel, Salimpur Ahra, Golambar",
+        "name": "Hotel Talsons",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1444539,
+          25.6138567
+        ]
+      },
+      "id": "node/11806846916"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12224099201",
+        "addr:street": "Bhattacharya Road",
+        "name": "Welcome Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.143438,
+          25.6090689
+        ]
+      },
+      "id": "node/12224099201"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12595591123",
+        "name": "The Red Velvet Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0483749,
+          25.6186406
+        ]
+      },
+      "id": "node/12595591123"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12595600938",
+        "name": "Flagship The Ki&kaa",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0566055,
+          25.6140333
+        ]
+      },
+      "id": "node/12595600938"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12595601060",
+        "name": "FabHotel The Kumar Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0566289,
+          25.6167003
+        ]
+      },
+      "id": "node/12595601060"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12596151135",
+        "brand": "OYO",
+        "brand:wikidata": "Q24906315",
+        "name": "OYO Hotel crystal inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0555613,
+          25.6250476
+        ]
+      },
+      "id": "node/12596151135"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12596167870",
+        "name": "Hotel O Lotus Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0557806,
+          25.6258922
+        ]
+      },
+      "id": "node/12596167870"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12596177945",
+        "addr:city": "danapur",
+        "addr:district": "patna",
+        "addr:postcode": "801503",
+        "addr:street": "Gola Road",
+        "name": "Hotel Shiwani iin Danapurcantt",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0521514,
+          25.6389637
+        ]
+      },
+      "id": "node/12596177945"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12596227169",
+        "addr:city": "danapur",
+        "addr:district": "patna",
+        "addr:postcode": "801503",
+        "addr:street": "chhoti Machhua Toli",
+        "name": "sanju Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0513259,
+          25.6385089
+        ]
+      },
+      "id": "node/12596227169"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12596370722",
+        "addr:city": "danapur",
+        "addr:district": "patna",
+        "addr:postcode": "801503",
+        "addr:street": "Awasthi Ghat",
+        "name": "Shri Laxminarayan Dharamshala",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0567232,
+          25.6420544
+        ]
+      },
+      "id": "node/12596370722"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12597676051",
+        "addr:city": "danapur",
+        "addr:district": "patna",
+        "addr:postcode": "800012",
+        "addr:street": "Danapur Nizamat",
+        "guest_house": "student_accommodation",
+        "name": "B.S. College Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0621506,
+          25.6456752
+        ]
+      },
+      "id": "node/12597676051"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12613363602",
+        "check_date": "2025-02-24",
+        "name": "Hotel Maharaja Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1438633,
+          25.6080871
+        ]
+      },
+      "id": "node/12613363602"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12613421418",
+        "check_date": "2025-02-24",
+        "name": "Hotel Dream Patna",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0850837,
+          25.5805482
+        ]
+      },
+      "id": "node/12613421418"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13584517095",
+        "name": "hotel sweta",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1086409,
+          25.6372123
+        ]
+      },
+      "id": "node/13584517095"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607660712",
+        "name": "AB Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0968287,
+          25.6241834
+        ]
+      },
+      "id": "node/13607660712"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607660718",
+        "name": "Hotel Jalsa",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0968146,
+          25.6240993
+        ]
+      },
+      "id": "node/13607660718"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607660720",
+        "name": "Saira Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.0967248,
+          25.6238333
+        ]
+      },
+      "id": "node/13607660720"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13608663242",
+        "name": "Laxmi Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1236543,
+          25.6213131
+        ]
+      },
+      "id": "node/13608663242"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13617684959",
+        "name": "ONI Girls Living",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1156737,
+          25.6215561
+        ]
+      },
+      "id": "node/13617684959"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13617730537",
+        "name": "Mainpura Girls Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1156796,
+          25.6216539
+        ]
+      },
+      "id": "node/13617730537"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13617735978",
+        "name": "Vedanta Girls Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1155238,
+          25.6210309
+        ]
+      },
+      "id": "node/13617735978"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13617749871",
+        "name": "Nishant Girls Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1156825,
+          25.621735
+        ]
+      },
+      "id": "node/13617749871"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13617755190",
+        "name": "Vineet Boys Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1155411,
+          25.619992
+        ]
+      },
+      "id": "node/13617755190"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13617779537",
+        "name": "Khushi Girls Cottage",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1155319,
+          25.6212821
+        ]
+      },
+      "id": "node/13617779537"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13672654644",
+        "name": "Durga Guest House",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1891028,
+          25.5768522
+        ]
+      },
+      "id": "node/13672654644"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13757851895",
+        "contact:phone": "+91 995592494",
+        "name": "hotel Munna Ki",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          85.1146979,
+          25.6270837
+        ]
+      },
+      "id": "node/13757851895"
+    }
+  ]
+}

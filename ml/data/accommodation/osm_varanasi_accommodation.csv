@@ -1,0 +1,285 @@
+osm_id,name,tourism,operator,latitude,longitude,accommodation_type,city,state,country,source
+way/26681934,Prafulla Chandra Ray,hostel,,25.2667242,82.9946763,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/26752818,,hotel,,25.3217909,82.9972575,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/264755840,Broacha Hostel,hostel,,25.2725419,82.9894273,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/292742983,Taj Ganges Varanasi,hotel,,25.3361332,82.9862781,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/293215777,,hostel,,25.2836756,83.0020141,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/293217395,Diamond Hotel,hotel,,25.2979947,83.0015252,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/293445050,,hotel,,25.3230425,82.9942911,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/293483127,Clark´s Hotel,hotel,,25.3364932,82.9778759,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/321653075,Dr. B.R. Ambedkar Hostel,hostel,,25.2673237,82.9975204,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/321653079,Powgi Girls Hostel,hostel,,25.2742117,82.9868793,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/321776938,Molecular Biology Transit House,hostel,,25.2756821,82.9900338,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/321776939,Faculty Guest House,hostel,,25.2763545,82.9901251,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/321776963,University Guest House,hostel,,25.2726695,82.9961145,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/356571982,Rashmi Guest House,hotel,,25.3080733,83.0109351,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/363080612,Stops Hostel,hostel,,25.2993991,82.9995734,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/407528677,Ramada Plaza Jhv,hotel,,25.3369355,82.9764399,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/545675000,Santana Varanasi,guest_house,Santana,25.3069941,83.008832,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/703917084,BrijRama Palace,hotel,,25.3053483,83.0093457,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/729367496,"Banaras Hostel, Varanasi",hostel,https://banarashostel.com,25.2868469,83.0052836,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/800791379,,hostel,,25.3441636,82.9696211,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/857420389,Aryabhatta Hostel,hostel,"Indian Institute of Technology (BHU), sanjay singh",25.2647843,82.9841823,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/857428859,Gandhi Smriti Extension Girls Hostel IIT BHU (GAMCHA),hostel,IIT(BHU),25.2605382,82.9844377,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/857511239,Ramkrishna Hostel,hostel,BHU,25.266596,82.9863635,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/864544050,BHU Hostel,hostel,,25.2765941,83.0046733,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/867983197,Naveen Girl's Hostel,hostel,BHU,25.2667968,82.9834264,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/867985265,Fine Arts hostel,hostel,,25.2694545,82.9874984,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/868014832,Lakshman Das Guest House,guest_house,,25.2758722,82.9961217,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/868014833,Lakshman Das Guest House,guest_house,,25.2761171,82.9959481,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/955383134,Hotel Madhuvan Palace,hotel,,25.2872133,82.9695727,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/955699195,GM Guest House,guest_house,,25.3115875,82.9874105,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/956077554,Hotel Le Lotus Grand,hotel,,25.2904573,82.9702046,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/988809566,Elvis Guest House,hotel,,25.2934862,83.0060466,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/988809645,Monu Family Guesthouse,hotel,Monu Family,25.3103097,83.0102945,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1027052084,Taj Nadesar Palace,hotel,,25.336264,82.9882396,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1051043587,Kendranchal (Central Government Touring Hostel),guest_house,Central Public Works Department,25.3842657,82.9754731,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1170447124,Satish Dhawan,hostel,,25.2641421,82.9847984,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/1184480065,Yogi Lodge,hotel,,25.2868863,83.0047378,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1256868941,Block C,hostel,"Indian Institute of Technology (BHU), sanjay singh",25.2647552,82.9841649,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1256869085,Block B,hostel,"Indian Institute of Technology (BHU), sanjay singh",25.2644386,82.9841614,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1256869271,Block D,hostel,"Indian Institute of Technology (BHU), sanjay singh",25.2650645,82.9841782,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1258208309,DoubleTree by Hilton Varanasi,hotel,Hilton,25.3515644,82.9942136,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1268422228,Bedzzz,hotel,,25.3091672,83.0016158,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1305228216,,hotel,,25.4410515,82.8499765,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1305228217,,hotel,,25.4446747,82.8555704,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1305228225,,hotel,,25.4446965,82.8561208,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1356598446,"Prafulla Chnadra Ray Hostel, iit bhu",hostel,,25.2652232,82.9849861,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1361426713,,hostel,,25.3300998,82.9889514,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1361426714,,hostel,,25.3303151,82.9892124,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1363346057,,hotel,,25.3371075,82.9860396,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1369170234,,hotel,,25.4361372,82.8525032,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1369170235,,hotel,,25.4358123,82.8522723,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1369170242,,hotel,,25.4358696,82.8529231,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1369170243,,hotel,,25.4360448,82.8530321,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387601904,Smt. Moona Devi Hostel,hostel,Banaras Hindu university,25.2755417,82.9905736,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387602220,Lal Bahadur Shastri Hostel,hostel,Banaras Hindu University,25.2752896,82.9919957,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387604411,Kaveri Hostel,hostel,,25.2770478,82.9931208,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387604412,Godavari Hostel,hostel,,25.2771899,82.9934707,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387604413,Saraswati Hostel,hostel,,25.2772999,82.9938428,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387604414,Jamuna Hostel,hostel,,25.2774498,82.9943989,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387604415,Ganga Hostel,hostel,,25.2775856,82.9947145,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387604416,Nagarjun Hostel,hostel,,25.2764773,82.9932991,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387604417,,hostel,,25.2767766,82.994129,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1387604418,Punarvasu Atreya Hostel,hostel,,25.2759674,82.9940514,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+way/1482667590,Block A,hostel,"Indian Institute of Technology (BHU), sanjay singh",25.2640983,82.984145,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/1536776438,Palace on the Ganges,hotel,,25.2882223,83.0056788,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/1536852561,Temple on Ganges,hotel,,25.2884054,83.0058452,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/1538128583,Sita Guest House,hotel,,25.3043669,83.0085458,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/1550251391,Broadway Hotel,hotel,,25.2969799,83.0025581,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/1550251393,Haifa Hotel,hotel,,25.2884745,83.0043309,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/1553933087,Hotel Ashok,hotel,,25.3124809,82.9890022,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/1554354349,Divya Hotel,hotel,,25.2886257,83.0042372,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/1563504902,Scindia Guest House,hotel,,25.31203,83.0150789,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/2377296735,Shanti,guest_house,,25.3116626,83.0133924,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/2708871444,SHRI Guest House,guest_house,,25.3069623,83.0098553,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/2805194168,Kedareswar,guest_house,,25.3005423,83.0072656,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3160523165,Hotel Varuna,hotel,,25.318406,82.9916772,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225695193,OM Home Guest House,guest_house,,25.2944549,83.0060307,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225702248,M.K.P. Guest House,guest_house,,25.2937007,83.0050678,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225702249,Sameer Paying Guest House,guest_house,,25.2949302,83.0057625,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225717257,Shree Rangam Paying Guest House,guest_house,,25.2873444,83.0053816,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225730030,Siyaram Guest House,guest_house,,25.2858189,83.0051858,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225732159,OM Guest House,guest_house,,25.2859402,83.0053575,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225733708,Kesher Paying Guest House,guest_house,,25.2850695,83.005328,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225738129,Ishan Paying Guest House,guest_house,,25.2850768,83.005556,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225740934,Kedar Paying Guest House,guest_house,,25.2845166,83.0048184,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225755186,Lord Vishnu Guest House,guest_house,,25.3035387,83.0079002,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225755601,Leela Guest House,guest_house,,25.3021178,83.0075569,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225757776,Vishnu Rest House,guest_house,,25.3035363,83.0080048,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225770948,Peace Home Paying Guest House,guest_house,,25.3054713,83.0086808,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3225772062,Modern Vision Guest House,guest_house,,25.3045887,83.0078841,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/3670045570,R B International,hotel,,25.2986073,83.0018899,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4079445106,Singh guesthouse,guest_house,,25.2926577,83.0057614,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4085056136,Radha Krishna Guest House,guest_house,,25.3091536,83.0104742,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4089783592,Marilyn Guesthouse,guest_house,,25.2943165,83.0048368,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4139842689,Kumiko,guest_house,,25.3029201,83.0072307,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4139843189,Kumiko,guest_house,,25.302635,83.0073426,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4142242189,Sankatha guesthouse,guest_house,,25.3111153,83.0131171,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4166007591,Blox Backpackers Hostel,hostel,,25.2882629,83.0041892,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4209863864,Zostel,hostel,,25.3113603,82.9994395,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4313825654,Ganga Love Hotel,hotel,,25.29429,83.00618,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4346042693,Yaduvanshi Guest House,guest_house,,25.3050165,83.0076352,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4437311890,,hostel,,25.2869402,83.0042024,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4503526574,Banaras Paying Guest House,hostel,,25.2888509,83.0049099,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4546288590,Shivakashi Guest House,guest_house,,25.3045866,83.0083389,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4562769190,Purple Lotus Home Stay,guest_house,,25.2816312,83.0054471,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4597088698,Panchkote Raj Ganges,hotel,,25.2941604,83.0067582,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4599922231,Hotel Buddha Int.,hotel,,25.3762087,83.0263902,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4599930330,Hyatt Place,hotel,,25.370048,83.0261981,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4599930335,Lotus Int.,hotel,,25.3688449,83.0238446,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4615799810,Roadhouse Hostel,hostel,,25.2892698,83.0037117,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4636541991,Shanti palace,hotel,,25.3003114,83.0063504,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4693197395,So nice home,guest_house,,25.3128157,83.0135783,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4697672190,Holy city,guest_house,,25.2850203,83.0066444,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4704721719,Hostale,hostel,,25.2875233,83.0039498,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4721395289,,guest_house,,25.2848357,83.0069621,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4742507452,Nepali,hotel,,25.3083577,83.0096147,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4743628994,Jains Paying Guest House,guest_house,,25.380822,83.0277841,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4744628122,,hostel,,25.3096176,83.0054374,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4744658424,,hostel,,25.2859687,83.0025964,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4763561021,Hotel Temple on Ganges #bor,hotel,,25.2946472,82.9989624,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4773995988,Hostelavie,hostel,,25.2944892,83.0060726,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4799168427,,guest_house,,25.3052849,83.0080184,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4869847221,,hotel,,25.3045029,83.0088712,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/4936631425,,hostel,,25.3040654,83.0080547,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5048319122,Brahmdev Guest House,guest_house,,25.3044056,83.0083867,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5188307422,Marigold Guest House,guest_house,,25.3052814,83.0088618,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5219273022,लाल जी राम,apartment,,25.4009196,82.8846664,apartment,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5224840121,,hotel,,25.3403183,82.9656562,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5237312524,,guest_house,,25.2860664,83.0053686,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5265335655,Bliss Hostel,hotel,,25.2850945,83.0064832,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5277737621,,hotel,,25.2941957,83.0046956,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5298855221,Hare Rama,guest_house,,25.3050255,83.0086606,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5301583622,Sunview,guest_house,,25.2992716,83.0068822,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5303198521,Antulay guesthouse,guest_house,,25.2865681,83.0066677,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5310571923,,guest_house,,25.2868809,83.0065351,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5363063225,,hostel,,25.2884767,83.0045095,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5407453221,Rudra Guest House,guest_house,Akiko Miyamoto,25.3066935,83.0087393,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5456193196,Homestay Varanasi,hotel,,25.3110792,82.9944133,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5489908690,Hotel Hindustan International,hotel,,25.3232446,82.9943199,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5501397722,,hostel,,25.3047167,83.0058067,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5510955821,Shiva Guest House,guest_house,,25.30538,83.0090194,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5558995721,Shiva Inn,guest_house,,25.309968,83.0110713,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5623845524,Somit Paying Guest House,hostel,Somit Kumar,25.3047335,83.0073079,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5866008087,Sri Omkar Palace,hotel,,25.3046431,83.0085461,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5867352885,Sri Omkar Palace,hotel,,25.3042727,83.008392,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/5984864186,Stay inn heritage hostel,hostel,,25.304355,83.0076709,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6027504486,,hostel,,25.3124913,83.0030805,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6094909119,,guest_house,,25.3126675,83.0031326,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6103427587,,apartment,,25.3100532,83.0101842,apartment,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6135440385,Wander Station Hostel,hostel,,25.304742,83.0084058,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6141687719,Gangotri Paying Guesthouse,guest_house,,25.2869195,83.0058509,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6150069987,,hotel,,25.3236655,82.9862636,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6163744233,,hotel,,25.2891268,83.0061338,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6163747513,,hotel,,25.2876529,83.0055639,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6173171890,Hog,hostel,,25.3122177,83.0032977,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6187713185,,guest_house,,25.3058127,83.0084586,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6200621086,,hotel,,25.2906454,83.0050974,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6210183185,via Varanasi Boutique Hotel,hotel,,25.289119,83.0038509,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6300468885,Sunrise Lodge,hotel,,25.3089662,83.0118747,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6302756485,,guest_house,,25.2844488,83.0063312,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6357598985,Maa Durga Inn,guest_house,,25.3079435,83.0105351,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6395589904,,guest_house,,25.3056371,83.0080724,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6431148185,Namaste paying guest house,guest_house,,25.3033503,83.0069689,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6516354892,,hotel,,25.326989,82.9888013,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6536468285,OYO 4009 HKJ Palace,hotel,,25.308499,83.00651,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6816735987,Pandeyghat,hostel,,25.3038081,83.0083654,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6816735988,On The Ghat By Howdy Hostels,hostel,,25.3038029,83.0084286,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6819036485,On the Ghats by Howdy,hostel,,25.3037846,83.0084102,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6924075989,,hostel,,25.3038969,83.008335,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6978428585,Relax Paying Guest House,guest_house,,25.3032271,83.0068848,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/6981928086,Moustache Hostel Varanasi,hostel,,25.2860722,83.0051416,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7049822997,Il Loto Viola,hostel,,25.2818392,83.0053635,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7077477485,,hotel,,25.2931205,83.0063812,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7090381393,,hotel,,25.3097544,83.0101296,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7156197192,Shiva Lodge,hostel,,25.3082965,83.0112468,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7282498329,Radisson,hotel,,25.3385752,82.9807835,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7282529482,Costa River,hotel,,25.3385861,82.97959,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7282554947,Amayaa,hotel,,25.3376954,82.9793606,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7282570259,The Westinn,hotel,,25.3387103,82.9803557,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7282571152,Hotel Meadows,hotel,,25.3382328,82.9795545,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7282580847,Zeeras,hotel,,25.3385904,82.9810387,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7282584411,Rivatas,hotel,,25.3376925,82.9796743,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7282596302,Surya Kaiser Palace,hotel,,25.3385738,82.9798399,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7284583730,The Sapphire Grand,hotel,,25.3391028,82.981167,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7284587404,Madin Hotel,hotel,,25.3374186,82.978861,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7284588491,Comfort Inn,hotel,,25.3386985,82.9790854,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7284589617,Square Inn,hotel,,25.3382028,82.9780964,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7291030752,Ganga Tourist Lodge,hotel,,25.3091819,83.0020137,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7291049189,OK International,hotel,,25.3090544,83.0026101,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7291056334,Alakhnanda,guest_house,,25.3087587,83.0114933,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7319403853,Hotel Alka,hotel,,25.3090867,83.0118766,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7319403880,Ganpati Guest House,guest_house,,25.3091528,83.0120053,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/7598629217,Eden Halt Paying Guest House,guest_house,,25.3029428,83.0077782,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8156957644,Om guest house,guest_house,,25.3457804,82.9942862,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8157970059,PAPPU HOTEL,hotel,,25.3334184,82.9963561,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8839204272,Hari Vilaas,hotel,,25.3091636,82.9946918,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8844949733,Hotel Castillo,hotel,,25.3119334,82.9884604,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8844949750,Hotel Siddharth,hotel,,25.3098661,82.9900622,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8845206128,Hotel Padmini International,hotel,,25.3075145,82.9835763,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8849956804,The Landmark,hotel,,25.3044479,82.9803709,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8850052017,BLW Guest House,guest_house,,25.2815328,82.9626866,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8850763062,Hotel Chandra Inn,hotel,,25.3001655,82.9693989,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8853716375,Hotel JK International,hotel,,25.3087262,83.000094,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8909234451,Kiran guest house,guest_house,,25.2900139,82.9706057,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8909773532,OYO 15177 Hotel HKJ Sanskriti,hotel,,25.2883142,82.9746175,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/8909832494,,hotel,,25.2877065,82.96954,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/9037630920,,apartment,,25.2881918,83.0003927,apartment,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/9551566117,,hotel,,25.3071277,83.0091225,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/9551566118,,hotel,,25.3073497,83.00939,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/9551566217,,hotel,,25.3087691,83.0099978,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/9677084093,Moustache Hostel,hostel,,25.2868976,83.0049152,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/9852615217,,apartment,,25.312724,83.0031223,apartment,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/9920967717,,apartment,,25.2937326,83.0012739,apartment,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/10314785709,,hotel,,25.2851373,83.0080346,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/10881959705,Banaras Rest House,hostel,,25.304496,83.0077513,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/10904472546,"Limbdi Hostel, IIT(BHU)",hostel,,25.2612053,82.9855997,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11234241138,,hotel,,25.3085678,83.0064983,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11234249137,,hotel,,25.3085409,83.006478,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11234255037,,hotel,,25.3084906,83.0064647,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11234876037,,hotel,,25.3087207,83.0060998,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11234884037,,hotel,,25.3087419,83.0061037,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11278751769,,hotel,,25.337562,82.977531,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11446575770,,hotel,,25.2995435,83.0071709,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11446587069,,hotel,,25.2992818,83.0046052,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11675407544,Kewal Palace,hotel,,25.2623429,82.9815207,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11680926669,Hotel Ananya Inn,hotel,,25.2936892,83.0048898,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11690114770,,guest_house,,25.3080477,83.0027038,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11696827920,THE HOTEL AMBASSADOR INN,hotel,,25.2808093,83.0026946,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11696887006,NIVEDITA,hotel,,25.2846701,83.0043403,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11697035990,S. S. Saluja Hostel,hostel,"IIT (BHU), Varanasi",25.2702197,82.9840939,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11697328979,Sunbeam Hostel and Hall 'Symphony',hostel,,25.2727125,83.001371,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11697676649,BIRLA BLOCK C,hostel,,25.2745743,82.9927117,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11697708523,BROACHA,hostel,,25.2731536,82.9899511,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11697718346,Residence Inn,hostel,,25.2747842,82.9923498,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11697768977,RUYIA HOSTEL,hostel,,25.2758373,82.9943484,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11697970306,Hotel prestige inn,motel,,25.2611954,82.9816682,motel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11698533162,Lal Bahadur Shastri Hostel,hostel,,25.2753547,82.9922253,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11699278262,,hostel,SATISH DHAWAN BACK PARKING,25.2640893,82.9846704,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11717414221,gurlzz hostelll,hostel,,25.2603714,82.9844542,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11717414222,better girlz hostel,hostel,,25.2612614,82.983962,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11724295270,,guest_house,,25.2934359,83.0059355,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/11930899769,Ganga Putra Inn,hostel,,25.3006111,83.0058433,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12088802482,Varanasi Grand,hotel,,25.4411625,82.850201,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12555645778,Prafulla Chandra Ray Hostel,hostel,IITBHU,25.2652453,82.9848536,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12555736381,PC RAY BACK GATE -2,hostel,,25.2656797,82.985168,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12592940904,CV Raman main building,hostel,,25.2665593,82.9864215,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12592940909,SATISH DHAWAN HOSTEL,hostel,IIT BHU,25.2642189,82.9847304,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12595643673,appartment,apartment,,25.2693007,82.9840628,apartment,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12595643674,arya1,apartment,,25.2709836,82.9856884,apartment,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12595643678,apartment,apartment,,25.2669981,82.982902,apartment,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12595956674,OYO 23416 Maharaja Hotel,hotel,,25.5004389,82.820478,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12596253094,,guest_house,,25.3044519,83.0020738,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12596427223,satish dhawan hostel,hostel,,25.2641168,82.9847233,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12597542498,Hotel Swyamvar,hotel,,25.2806558,83.0026838,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12597548620,Utsav Residency,hotel,,25.2801109,83.0025998,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12597558093,CoCasa Boutique Hotel,hotel,,25.2831022,83.0037438,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12597558214,Shankara Resdiency,hotel,,25.2804634,83.0026409,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12633756230,common hostel mess,hostel,,25.264721,82.984848,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12633774082,DG hostel,hostel,,25.2638366,82.9858468,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12633791005,Morvi hostel,hostel,,25.2649415,82.9856728,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12633800343,Satish Dhawan hostel,hostel,,25.2641951,82.9847701,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12634006918,Morvi hostel,hostel,,25.2650398,82.9858014,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12634051173,Dhanrajgiri hostel,hostel,,25.2640222,82.9857591,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12634873568,Rajputana hostel,hostel,,25.2622997,82.9857698,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12634917025,,hostel,,25.2660071,82.985945,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12634924521,,hostel,,25.26424,82.9959539,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12681065152,,hotel,,25.4358667,82.8522678,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12681065206,,hotel,,25.4360708,82.8530465,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12745738401,Ganga Sevashram,hotel,,25.2979443,83.0067357,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12745739701,Kashi Vishwanath Homestay,hotel,,25.3161317,82.9809783,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12798452123,Raj Hotel,hotel,,25.3867164,82.9710687,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/12912128101,Bagla Atithi Bhawan,hotel,,25.3103797,83.0077559,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13096009001,"Munna guest house, manas sarovar galli, narad dhat",guest_house,,25.3023287,83.0076161,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13348230103,Srishti Shelter,guest_house,,25.3841293,83.0297851,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13388720001,V.S. Residency,hotel,,25.308371,82.9969443,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13405750801,Hashtag Travelers Varanasi,hostel,,25.2851095,83.007598,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13432723655,Ashirvad Homestay,apartment,,25.2941794,83.0014538,apartment,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13576129001,Rooms in Varanasi,guest_house,,25.2844105,83.0075431,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13584335501,Kashiyana,hostel,,25.3039847,83.0081984,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13666266201,La Vaca India Boutique Stay,guest_house,,25.3066939,83.0046294,guest_house,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13666399201,Hotel Ganges Grand - Varanasi,hotel,,25.3092925,83.0067567,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13751993139,Mosaic Hostel Varanasi,hostel,,25.2871774,83.003119,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/13989100601,The Commune Varanasi,hostel,,25.308343,82.9985492,hostel,Varanasi,Uttar Pradesh,India,OpenStreetMap
+node/14029635601,Hues of Varanasi ह्यूज ऑफ वाराणसी.,hotel,,25.3033793,83.0082156,hotel,Varanasi,Uttar Pradesh,India,OpenStreetMap

@@ -1,0 +1,549 @@
+osm_id,name,tourism,operator,latitude,longitude,accommodation_type,city,state,country,source
+way/27036055,JW Marriott,hotel,,19.1018231,72.826037,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/28846517,Taj Mahal Palace,hotel,Indian Hotels Company Limited,18.921902,72.8330507,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/38833386,Regency Hotel,hotel,,18.9540192,72.7980855,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/39165067,Hotel Shalimar,hotel,,18.9640534,72.8060732,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/39354898,Hotel Sea Princess,hotel,,19.0931831,72.8278496,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40295883,Taj President,hotel,Taj Group of Hotels,18.9144551,72.8207381,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40309557,Hotel Marine Plaza,hotel,,18.9311659,72.8230972,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40379745,Hotel Prosser's,hotel,,18.9202644,72.8324837,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40381052,Hotel Harbour View,hotel,,18.9187992,72.8318466,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40381057,Sea Palace Hotel,hotel,,18.9190469,72.8319896,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40384135,Hotel Oliver,hotel,,18.9202918,72.8308686,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40384228,Garden Hotel,hotel,,18.9189725,72.830742,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40384402,Backpacker Panda Colaba,hostel,Backpaker Panda Pvt Ltd,18.9199659,72.8306735,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40384404,Hotel Godwin,hotel,,18.9189927,72.8305236,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40384407,Hotel Ascot,hotel,,18.9191505,72.8298923,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40387606,Red shield guesthouse,hostel,,18.9212783,72.8320767,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40388251,Gordon House Hotel,hotel,,18.9238997,72.8328492,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40388254,Hotel Suba Palace,hotel,,18.9240096,72.8329689,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40388258,Apollo Hotel,hotel,,18.923998,72.8325278,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40772065,Sahara Star,hotel,,19.0956289,72.8539896,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40819147,ITC Grand Maratha,hotel,,19.1039305,72.8697754,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/40819205,Hilton Mumbai International Airport,hotel,Hilton,19.1043735,72.8709317,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/46717565,West End Hotel,hotel,,18.9405653,72.8274895,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/46721513,ITC Grand Central,hotel,,18.9982254,72.8382792,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/50880774,Grand Hotel,hotel,,18.9361901,72.8408238,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/54224854,Taj Wellington Mews,hotel,Indian Hotels Company Limited,18.9217923,72.8286078,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/54929165,"InterContinental Marine Drive, Mumbai",hotel,,18.9349915,72.8243065,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/55375575,SPCE boys hostel,hostel,,19.1260118,72.8351779,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/56207976,YMCA-Young Men Christian Association,hotel,,18.9243012,72.8309143,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/74143794,Taj Lands End,hotel,Taj Group,19.0435761,72.8196888,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/102537882,Grand Sarowar Premiere,hotel,,19.1733651,72.8457301,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/113721904,Hotel City Point,hotel,,19.0170072,72.8480067,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/116328142,Adarsh Hotel,guest_house,,18.9506736,72.8287067,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/124990238,Imperial Grand Palace,hotel,,19.1509951,72.8922424,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/137835197,Hotel Astoria,hotel,,18.9323429,72.8271333,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/183155889,Domino's,hotel,,19.2058512,72.9769845,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/187783782,Ramanujan,guest_house,,18.9088499,72.8051166,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/192537217,Bawa International,hotel,,19.096536,72.853771,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/192537218,Ibis,hotel,,19.0967033,72.8534871,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/192537219,Hotel Transit,hotel,,19.0973754,72.8548909,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/195072877,CETTM Hostel (MTNL Guesthouse),hostel,,19.1176986,72.9147825,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/204705451,The Retreat,hotel,,19.154012,72.7877553,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/206478063,The Westin Mumbai Powai Lake,hotel,Marriott,19.134479,72.9012523,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/206478064,The Westin Mumbai Powai Lake,hotel,,19.1349198,72.9019419,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/230784901,Sukh Hotel,hotel,,19.1069269,72.8260941,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/230810024,,apartment,,19.1274347,72.8190132,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/245654643,Imperial Palace,hotel,,18.9447467,72.834718,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245654709,Sharada,hotel,,18.9461969,72.8274147,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245654841,,hotel,,18.9474758,72.8355281,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245655916,Cecil,hotel,,18.958401,72.811296,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245659178,Sunbeam Geeta,hotel,,18.9978253,72.818454,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245659835,Vivako,hotel,,19.0059,72.8186,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245664375,Jollyland,hotel,,19.0491708,72.9051478,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245664752,Ghatla,hotel,,19.0517387,72.9103117,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245666128,Jewel of Chembur,hotel,,19.0616667,72.8997266,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245666538,Maruthi Mahal,hotel,,19.0636369,72.8940601,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245666563,Anita Mahal,hotel,,19.0693839,72.8836606,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245668354,Regency,hotel,,19.0790449,72.8462916,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245668712,Classic,hotel,,19.0835527,72.8384747,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245669161,Atlantic,hotel,,19.0870126,72.8274729,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245669308,Ajanta,hotel,,19.0886,72.8275,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245669365,Royal Garden,hotel,,19.0894,72.8276,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245670368,Ambassador,hotel,,19.103681,72.8754749,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245671372,Leela Kempinski,hotel,,19.1065748,72.8761199,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245671375,Kumaria Presidency,hotel,,19.1065999,72.8769001,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245671517,Samraj,hotel,,19.1097262,72.8594577,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245671547,Sun n Sheel,hotel,,19.1111949,72.8719322,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245672210,Tirupati,hotel,,19.1136052,72.8804798,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245672458,Imperial Palace,hotel,,19.1182153,72.8506224,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245672493,Highway Inn,hotel,,19.1175319,72.8508646,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245672530,Tunga International,hotel,,19.1154,72.872,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245673845,Babul,hotel,,19.1217301,72.8318524,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245675841,Dolphin View,hotel,,19.1437101,72.7893756,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245676011,Manisha Cottage,hotel,,19.1458595,72.7895646,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245677487,Blue Ballerina,hotel,,19.1622,72.785,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245677504,Jay Prakash,hotel,,19.1623,72.8513,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245678667,The Resort,hotel,,19.1743671,72.7963333,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245678767,Anil Thakur Guest House,hotel,,19.1760671,72.7966333,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/245681528,Rohan,hotel,,19.2221778,72.8522858,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/249860342,Maheshwari Bhavan,guest_house,,19.1492486,72.8307676,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/249860361,Gujarati Samaj Bhavan,guest_house,,19.1438315,72.8310221,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/250277057,Mphil/Ph.D Ladies Hostel,hostel,,19.0434785,72.9118706,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/250280952,Men's Hostel - 3,hostel,,19.0432458,72.9117137,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/254296962,YMCA,guest_house,,19.0885078,72.9163921,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/255362201,Manuel Gonsalves Ladies Hostel,hostel,,19.0565554,72.8294609,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/257072951,Hotel Bawa Continental,hotel,,19.1006361,72.8276014,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/257073211,Hotel Juhu Plaza,hotel,,19.1095129,72.8246562,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/257073252,Sun-n-Sand,hotel,,19.109493,72.8241002,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/267473867,Supreme Heritage,hotel,,19.0774433,73.0034195,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/279962108,seaview,hotel,,19.0959916,72.8269037,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/289511930,Amarpali Working Womens Hostel,hostel,,19.0678654,72.8945369,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/296357707,Citizen Hotel,hotel,,19.095697,72.8269623,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/297139849,SP Jain Hostel,hostel,,19.1247831,72.8338916,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/307395968,Janata Hotel,hotel,,19.0397378,72.947922,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/315277080,al-farook hotel,hotel,,19.0388658,72.9465409,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/315345642,Hotel Bahri Residency,hotel,Bahri's,19.0516971,72.9010606,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/315440399,dosti hotel,hotel,,19.038676,72.9495571,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/352808035,Vihang's Inn,hotel,,19.2231962,72.9779527,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/352928006,RVG Girls' Hostel,hostel,,19.16894,72.8678089,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/352993153,"Lakeside Chalet, Mumbai - Marriott Executive Apartments",hotel,,19.1328522,72.8996992,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/352995384,Silvedor Boutique Hotel,hotel,,19.2268637,72.9767103,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353172660,KBP Boys Hostel,hostel,,19.0702005,72.8597946,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353175693,Hotel Oriental Aster,hotel,,19.107974,72.8616013,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353180421,,apartment,,19.1195341,72.9102119,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+way/353180423,,apartment,Hiranandani,19.1186008,72.9100455,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+way/353180424,,apartment,,19.1183834,72.9107246,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+way/353184523,Garware Collage Canteen,hotel,,19.0734396,72.8568222,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353351811,The Ambassador,hotel,,18.9337715,72.8248033,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353351814,Chateau Windsor Hotel,hotel,,18.933723,72.8251769,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353354130,Relax,guest_house,,18.9517157,72.8379765,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/353364868,The Sahil Hotel,hotel,,18.9687453,72.8236491,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353367135,Hyatt Centric,hotel,,19.0916948,72.8280549,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353378215,FabHotel RK International,hotel,,19.0855585,72.8843164,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353378227,Baluben And Jagjiwan Mulji Hostel For Women,hostel,,19.0843621,72.8829899,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353378709,Shangrila,hotel,,19.0434996,72.8654332,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353393746,Hotel Supreme,hotel,,18.9139837,72.8222214,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353423386,Hotel Kishan Aga Beg's,hotel,,18.919877,72.8310325,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353423394,Regent Hotel,hotel,,18.9217634,72.8319766,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353423431,Hotel Moti International,hotel,,18.9218826,72.8317014,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353749275,Country Inn Hotel & Suites,hotel,,19.1139911,73.0126645,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353760937,,hostel,,19.0296793,73.0156415,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353760939,,hostel,,19.0298478,73.0153033,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353760957,,hostel,,19.0297458,73.0154785,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353789529,Tata Memorial Hospital Post Graduate's Hostel,hostel,,19.0366481,72.9101256,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353805034,,hostel,,19.0424724,73.0249369,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353805035,,hostel,,19.042856,73.0245167,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353815444,Hotel Shalimar,hotel,,19.1891665,72.8497745,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/353826987,Odisha Bhavan,guest_house,,19.0672065,72.9927758,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/354029367,New Zealand Hostel,hostel,,19.1522314,72.8723843,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/354228648,Kohinoor Building,hotel,,19.016891,72.8293393,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/354844184,The Regenza by Tunga,hotel,,19.0671446,72.9991979,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/354844199,Uttar Pradesh Bhavan,guest_house,,19.0670552,72.9995981,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/355404264,IBIS,hotel,Accor,19.2077702,72.9639231,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/356259087,Hotel Jewel Palace,hotel,,19.0697478,72.8381658,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/356531671,Kohinoor Continental,hotel,,19.1123953,72.8680665,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/357042474,Hotel Bawa Suites,hotel,,19.0691727,72.8334104,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/357186658,Bloom Boutique,hotel,,19.0668306,72.8302277,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/357187124,Hotel T-Junction,hotel,,19.0471693,72.8526399,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/357364448,Mumbai University Canteen,hotel,,19.0707868,72.8590611,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/357405699,Hotel Linkway,hotel,,19.0650903,72.8348496,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/357472274,Ramee Guestline Hotel Khar,hotel,,19.0680106,72.8375643,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/357472411,Royal Inn,hotel,,19.0679238,72.8340432,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/358888240,Hyatt Regency,hotel,,19.1037348,72.871281,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/359983627,Juhu Residency Boutique Hotel,hotel,,19.1011649,72.8274295,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/373368298,NIUS Hostel,hostel,HBCSE,19.0421486,72.9271423,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/402645524,Four Seasons Hotel,hotel,Four Seasons Hotels Limited,18.994204,72.8203935,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/415954693,CIDCO Guest House,guest_house,,19.0038462,73.0279665,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/415960654,Kerala House,guest_house,,19.0669122,72.9930417,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/430412674,Sofitel,hotel,,19.0676972,72.8688016,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/430412677,Trident Hotel,hotel,,19.0666901,72.8679188,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/434887935,Hotel Lucky,hotel,,19.0538941,72.8376457,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/457922231,Taj Santacruz Mumbai,hotel,Taj Hotels Resorts and Palaces,19.0926852,72.8543788,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/485966125,Great Punjab Hotel,hotel,,18.9440303,72.829059,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/522008032,Aarey Guest House,guest_house,,19.1436975,72.8824318,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/635488341,The St. Regis Mumbai,hotel,Starwood Hotels & Resorts,18.9941376,72.8240431,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/653088402,,hostel,,19.0302735,73.0154694,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/665036885,Hotel Adarsh Palace,hotel,,18.9487539,72.8293568,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/668478113,Hostel No. 5,hostel,,19.1350214,72.9096978,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/668478125,Hostel No. 2,hostel,,19.1364536,72.9125695,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/668478126,Hostel No. 3,hostel,,19.1362317,72.9114868,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/668478127,Hostel No. 1,hostel,,19.1362571,72.9139938,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/668504454,Hostel No. 10,hostel,,19.1290631,72.9157813,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/668506109,Hostel No. 11,hostel,,19.1329296,72.9118107,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/700886292,Diamond,hotel,,18.99282,72.8486524,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/753875937,The Oberoi,hotel,,18.9270024,72.8206042,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/753875938,"Trident, Nariman-Point",hotel,,18.9276399,72.8210332,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/765936595,Horn Ok Please Hostel Mumbai,hostel,Horn Ok Please Hostel,19.0544134,72.8351609,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/779986715,Ramada Plaza Palm Grove,hotel,,19.0985808,72.8268319,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/793256158,,hotel,,19.0838324,72.8447917,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/816592155,Training School Hostel,hostel,Department of Atomic Energy,19.0338883,72.9251473,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/858643701,Hotel Mogul Palace,hotel,,18.9546342,72.8354513,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/904069095,Landmark Hotel,hotel,,19.0334507,73.0666682,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/905319551,HBNI Hostel,hostel,,19.0374403,72.9242731,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/905319552,,hostel,,19.0369237,72.9240673,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/905319553,Post Graduate's Hostel,hostel,,19.0363287,72.9241777,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/907757781,Hotel Shantidoot,hotel,,19.0084975,72.8405638,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/914730423,Sai Samrat Lodging,hotel,,19.2370844,72.9748495,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/917432977,Planet Hollywood,hotel,,19.2609851,72.9835037,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/946761592,Satkar Residency,hotel,,19.2060291,72.9656641,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/961369363,Carlton Hotel,hotel,,18.9224055,72.8326985,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/969781592,Ratna Mahal,hotel,,19.1083564,72.8587789,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/986768786,Seawoods Estates Guest House,guest_house,,19.0039014,73.0139465,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/987660210,,motel,,19.0814527,72.9082765,motel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1013444755,Four Points by Sheraton Navi Mumbai,hotel,,19.0662936,72.9996924,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1013444760,Tunga,hotel,,19.0671676,72.9991991,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1013444835,Assam Bhavan,guest_house,,19.0672235,72.9974885,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/1013444839,Rajasthan Bhavan,guest_house,,19.0664231,72.9959266,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/1013444840,Meghalaya Bhavan,guest_house,,19.0669508,72.9968109,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/1013444841,Madhya Pradesh Bhavan,guest_house,,19.0665549,72.9966086,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/1013529996,R Girls Hostel,hostel,,19.2312421,72.9784917,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1052052211,Ashtavakra Hostel,hostel,Somaiya Ayurvihar,19.0465164,72.8735664,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1056702163,Hotel Lawrence,guest_house,,18.9278369,72.8326261,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/1057217853,Courtyard by Marriott Navi Mumbai,hotel,,19.0433394,73.0269586,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1075183332,Janata Tawa Grill,hotel,,19.0761643,72.877838,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1085146124,byke plaza,hotel,,19.2626556,72.9690861,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1085146125,,hotel,,19.2630378,72.9689343,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1121957945,Yogi excutive,hotel,,19.0705945,73.009586,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1126153531,The Emerald Hotel And Serviced Apartments,hotel,,19.0931749,72.8286869,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1126242022,Majestic Court Sarovar Portico,hotel,,19.1145905,73.017219,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1151728614,YWCA - Lady Willingdon Hostel,hostel,,18.9252691,72.8310128,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1172329669,Taj The Trees,hotel,,19.0928533,72.9217172,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1226336536,Juhu Hotel,hotel,,19.1033393,72.8253706,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1226401264,Hotel Beach Garden,hotel,,19.0980007,72.8274067,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1234802637,City Palace,hotel,,18.938201,72.8354677,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1253560102,Radisson Blu Mumbai International Airport,hotel,,19.1101739,72.8789651,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1253560109,Lemon Tree Premier Mumbai International Airport,hotel,,19.108247,72.8822827,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1282468106,,guest_house,,19.1127372,72.8275165,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/1286194734,Residency,hotel,,18.9349748,72.8332409,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1329025332,Hotel Amber Paramount,hotel,,19.1364248,72.8202795,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1338609056,"Aurika By Lemon Tree Hotels, Mumbai",hotel,,19.1033398,72.8630869,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1339474327,,guest_house,,18.9873639,73.0315758,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/1339474328,,guest_house,,18.9874624,73.0316928,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/1339829502,,guest_house,,18.9902224,73.0315725,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+way/1349946534,Agnel's Girls' Hostel,hostel,,19.0768659,72.9909029,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1349946535,Agnel's Girls' Hostel,hostel,,19.0766477,72.9908466,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1360144571,Sai Leela Hotel,hotel,,19.1633302,72.8509569,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1367092463,Pratistha,hotel,,19.0539661,72.9111921,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1375251414,Kamat Plaza,hotel,,19.0963374,72.8545012,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1382715828,,hotel,,19.2733042,72.8630367,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1387274671,Hotel Beach Crown,hotel,,19.103279,72.8270952,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1388705902,Maitreyi Hostel,hostel,Somaiya Vidyavihar,19.0728388,72.8970642,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1388706920,Sandipani Hostel,hostel,Somaiya Vidyavihar,19.0726564,72.8969473,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1390028816,K J Somaiya Polytechnic Hostel,hostel,,19.0726447,72.8994004,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1392005677,Airlines International,hotel,,19.0843315,72.8441532,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1392005678,Apsara International,hotel,,19.079788,72.8385825,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1392005681,Galaxy,hotel,,19.0835291,72.8442623,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1392005685,Prince Palace,hotel,,19.0810431,72.838974,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1392005687,Welco,hotel,,19.0805429,72.840324,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1408810471,Golden Residency,hotel,,19.2968381,72.8601626,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1410368282,Hotel Rangsharda,hotel,,19.051195,72.8322599,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1411408611,Aurika Hotel by Lemon Tree,hotel,,19.1033948,72.8630142,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1412645298,Novotel,hotel,,19.1103174,72.8753684,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1416900451,Hotel Avon Ruby,hotel,,19.0152652,72.8445541,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1443028725,Hotel Cliffton,hotel,,19.1361487,72.8481625,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1451294575,Geeta Palace,hotel,,19.0469701,73.0320646,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1456254872,Courtyard by Marriott Mumbai International Airport,hotel,,19.1139244,72.8642712,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1458007891,Flysky Rooms & Banquets,hotel,,19.110758,73.0289977,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1458027980,Hotel Suba International,hotel,,19.1062542,72.8603527,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1460184997,The Hosteller,hostel,,19.1044117,72.8593561,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1462083570,Rangoli Hotel,hotel,,19.2142991,73.0913838,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1471138511,Bloom Hotel,hotel,,19.1101487,72.8535236,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1478056950,ibis Mumbai BKC,hotel,,19.0740231,72.8689411,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1483365509,Hotel Adarsh Baug,hotel,,18.9513403,72.8278597,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1489064963,Hotel Orient Regency,hotel,,18.9619956,72.8226485,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1504771680,Sea Green Hotel,hotel,,18.9326798,72.8237555,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1514113522,Abbot Hotel,hotel,,19.0736432,72.9969421,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+way/1537194072,New Girls Hostel University of Mumbai,hostel,,19.0671781,72.8596338,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1541857829,InterContinental Hotel,hotel,,18.9350805,72.8241417,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1549970484,HBCSE Hostel,hostel,,19.0425272,72.9272843,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1608381628,Van Vihar Guest House,guest_house,"Indian Institute of Technology, Bombay",19.1297012,72.9147401,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/1640686125,Basant,hotel,,19.1631419,72.7901798,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1640686126,Bhatia Island,hotel,,19.160137,72.7851986,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1640686131,Ruskon,hotel,,19.1636802,72.7904156,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1640686132,Vyas Wadi,hotel,,19.1443977,72.7896652,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1643105789,Benazeer,hotel,,18.9350404,72.833542,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1643105794,Residency,hotel,,18.9352854,72.8330618,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1646774067,Mid Town,hotel,,19.1204453,72.844871,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1650382549,Hilltop,hotel,,19.0101,72.8179021,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1651404912,Malhar,hotel,,19.0597045,72.8976517,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1660405947,Gokulanand Hotel,hotel,,19.2439468,72.8648572,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1803677376,Anand Bhavan,guest_house,,19.113053,72.8256428,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/1855389433,Express Inn,hotel,,19.2837937,72.9051116,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1855389435,Hotel Fountain,hotel,,19.2847096,72.9043185,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1861411747,Royal Inn,hotel,,19.2075411,72.9774272,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1864486761,Hotel Capitol,hotel,,19.2153727,72.9775249,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1864486769,Hotel Lerida,hotel,,19.2086291,72.9737343,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/1867631840,Residence Inn Powai,hotel,,19.1346222,72.8987555,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2148678028,The Westin Mumbai Garden City,hotel,,19.1723617,72.8605305,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2177958513,Al Haram,hotel,,18.9548493,72.8346213,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2177958514,Al Mazin,hotel,,18.9552772,72.8370461,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2290729188,Shangrila,hotel,,19.0440479,72.8662694,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2313139917,Ramada Powai Hotel & Convention Center,hotel,Ramada,19.1359551,72.8990184,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2406617430,United 21,hotel,,19.2077016,72.9776768,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2427561911,,motel,,19.1165482,72.8365687,motel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2601474291,Dragonfly,hotel,,19.1109356,72.8630387,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2702435809,Fortune Park Lakecity,hotel,ITC hotel group,19.2097786,72.9729516,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/2730461094,YMCA International House,hotel,YMCA,18.9720126,72.8233555,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3110094391,Hotel Grand Inn,hotel,,19.1177459,72.8800918,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3125252473,Janata Hotel,hotel,,19.0397857,72.9479365,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3177487243,,hotel,,18.9468936,72.8401784,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3206040351,new delhi,hotel,,19.0624996,72.9288123,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3216971090,Sun Star Residency,hotel,,18.9367764,72.8347815,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3229419686,Hotel Manama,hotel,,18.9394214,72.8384104,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3257869203,hotel Shamlat,hotel,,19.0702445,72.8398298,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3286301962,Al-Moazin,hotel,,18.9550484,72.8363847,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3289549971,Hotel Kamaran residency,hotel,,19.0776977,72.8790334,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3306535081,Palm Breaze,hotel,,18.9181862,72.8315678,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3306535082,Kishan-Aga Begs P.G.H.,guest_house,,18.9198974,72.8312034,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/3306535109,Sea Shore Guesthouse,guest_house,,18.9182046,72.8315697,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/3518703303,Holiday Inn International Hotel,hotel,,19.1030238,72.8872771,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3529545078,Shubalaxmi,hotel,,19.0460553,72.9098383,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3530903071,triveni bar,hotel,,19.0573437,72.887152,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3534581278,maharana hotel,hotel,,19.053754,72.8953351,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3761144466,Hotel Three Star,hotel,,19.0331695,73.0658742,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3846789769,Waterstones Hotel,hotel,,19.1057985,72.8771149,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3933987999,Svenska Design Hotel,hotel,,19.1364141,72.8279989,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3978019387,Hotel Kumkum,hotel,,18.9648362,72.8188506,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/3978876100,Hotel Sapna,hotel,,18.957259,72.8102978,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4021895998,Hotel Galaxy View (Oyo Rooms),hotel,,19.0696853,72.9011307,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4113143889,The UniContinental,hotel,,19.0706484,72.8398991,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4133868438,Windsor,hotel,,18.9365103,72.8386041,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4175335548,Hotel Briteway,hotel,,18.9621067,72.8214647,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4232929213,Dinath bldg,apartment,,18.9602676,72.8242272,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/4232933891,Delhi Darbar,hotel,,18.9614573,72.823385,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4260270146,Treebo Trend Rosewood,hotel,,18.9725898,72.815774,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4265701092,Treebo Sea Side,hotel,,19.1092536,72.824112,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4286138995,Empire Hotel,hotel,,18.9614685,72.8176559,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4294055489,The Leela,hotel,,19.1092433,72.8737582,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4294951430,Kumkum,hotel,,18.9651501,72.8189355,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4310354082,Grand Residency Hotel,hotel,,19.0617235,72.8325298,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4326463190,Hotel Aviva,hostel,,19.0997138,72.8880248,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4336602535,JW Marriott Mumbai Sahar,hotel,Marriott Hotels,19.1031373,72.8777603,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4358605289,,hostel,,19.1096573,72.8634444,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4364302047,Backpacker Panda Appetite - Mumbai,hostel,,19.1112515,72.8660859,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4427845095,Ramee Guestline Hotel,hotel,,19.0170997,72.8445771,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4439195499,,hostel,,18.9361645,72.8379118,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4474843292,,hotel,,18.9638442,72.8070363,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4509939489,,hotel,,18.9382222,72.8356604,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4509948589,,hotel,,18.9372661,72.8374777,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4512012190,,guest_house,,18.9430575,72.8271785,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4512547390,"Hindi, Gujarati, English",hotel,,19.0957683,72.8519019,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4514854091,,hotel,,18.9535914,72.8369265,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4514854290,,hotel,,18.9527049,72.8364049,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4540676592,,hotel,,18.9531707,72.8369622,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4565028389,,hostel,,18.9183733,72.8304078,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4576972194,,hotel,,19.2632387,72.7848297,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4585304003,,hotel,,19.1964684,72.9620918,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4585662789,,hostel,,18.9761073,72.8340603,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4597396890,,hotel,,18.9588476,72.817058,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4621598692,,guest_house,,19.2545557,72.8652701,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4621957990,,guest_house,,19.0615295,72.9008583,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4625869990,,hotel,,19.278365,72.9572304,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4625881589,,hostel,,19.2777851,72.957062,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4629102189,,hotel,,19.2830771,72.9524908,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4659330135,Disha's Garden View,guest_house,,19.2860939,72.8985597,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4659330137,Government Rest House - Ghodbunder,guest_house,,19.2820001,72.9063332,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4659330138,Sea N Rock,guest_house,,19.2808975,72.9023332,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4659330142,Dwaraka Hotel,guest_house,,19.2762456,72.9169347,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4671995490,,hotel,,18.953372,72.8360106,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4697864592,,hotel,,19.1983138,72.9771827,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4702930290,,hotel,,18.9358721,72.837933,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4706749389,,hostel,,18.9577778,72.8366546,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4712832489,,hotel,,19.0251055,73.0435101,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4717746493,,guest_house,,18.9207363,72.8307296,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4718063489,Nirvana Residences,hotel,1589 Hotels,19.0782212,72.8300971,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4754184421,,hotel,,18.9151121,72.8241759,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4770888821,,hotel,,18.9373119,72.8338028,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4811086425,,hostel,,19.104795,72.844276,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4841695626,,hotel,,18.9207841,72.8322381,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4841716122,,guest_house,,18.9183095,72.8314336,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4841717121,Garden Hotel,hotel,,18.9190174,72.8307412,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4844717528,,guest_house,,18.956986,72.8203463,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/4844717532,,hotel,,18.9549619,72.8209014,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4844717541,,hotel,,19.0453464,72.8646654,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/4878938456,Hostel 16 C Wing,hostel,,19.137742,72.9131065,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5001072621,,hotel,,19.1956943,72.9619634,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5009889821,,guest_house,,19.1474758,72.9958876,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/5073205789,Hotel Shiva Heritage हॉटेल शिवा हेरीटेज,hotel,,19.1445169,73.0488962,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5073232064,Hotel Kushala Executive Inn हॉटेल कुशला एक्झिक्यूटिव्ह इन,hotel,,19.1722491,73.083619,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5090926921,,hostel,,19.1006019,72.8435376,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5158606722,,hotel,,19.1363896,72.8990514,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5174623522,,hotel,,18.9535927,72.8369408,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5182239150,Dhiraj Towers,apartment,,19.0451384,72.9118674,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5212400525,,apartment,,19.1242172,72.8231961,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5224507321,,apartment,,19.197713,72.9704505,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5224507322,,apartment,,19.1979607,72.9704825,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5259524123,,hostel,,19.0267784,73.0451825,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5273490736,Kempinski Leela,hotel,,19.109103,72.8741445,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5279375621,,apartment,,19.1614705,72.842184,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5304695028,,hotel,,18.9618494,72.8229955,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5341866121,,hotel,,19.117486,72.8802536,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5352114284,Lalit Mumbai,hotel,,19.1054069,72.8757789,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5441002023,Bed & Breakfast at Colaba,hostel,,18.9207351,72.8306987,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5454216635,,hotel,,18.9479384,72.8406448,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5487051592,CasaBella Gold,apartment,,19.1670939,73.0747886,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5558531723,,apartment,,19.1924235,72.8358695,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5570447821,,hostel,,18.9605019,72.8208036,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5609870265,Evershine Millenium Paradise Phase - V,apartment,,19.2111437,72.873958,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5626667625,,apartment,,19.0367733,73.0906441,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5661159328,,apartment,,19.0644912,72.8494228,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5853450686,,guest_house,,19.0790853,72.8937445,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/5867192085,,apartment,,19.2039337,73.090473,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5867192086,,apartment,,19.2041864,73.0903875,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5868906088,,apartment,,19.1882218,72.9779208,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5868906686,,apartment,Shah company,19.0247469,72.844591,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5880343477,Jalvihar Guest House,guest_house,,19.1292503,72.9141205,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/5892389285,,apartment,,19.0773266,73.0765344,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/5936053486,,hotel,,18.924126,72.8320891,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5938043785,,hostel,,19.0532539,72.8284156,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5942782826,Hotel Alpha International,hotel,,19.0899612,72.838579,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5963331285,,hostel,,19.099703,72.8451763,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5972234786,,hostel,,19.0365497,72.8445767,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/5980826393,,hotel,,19.1004366,72.8915848,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6006230985,,apartment,,19.0985131,72.8857774,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6030246485,,apartment,,19.0767118,72.9099462,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6052214585,,apartment,,19.294442,72.8664419,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6072360585,,hotel,,19.1078871,72.8596788,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6091431688,,apartment,Radius Developers,19.151592,72.8407,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6110264585,,apartment,,19.1018295,72.8516445,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6110944787,,apartment,,19.1007753,72.8483095,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6110949985,,apartment,,19.1004302,72.8468627,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6114425485,,apartment,,19.101917,72.851558,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6180293085,,hotel,,18.9181327,72.8307586,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6185592087,,hotel,,19.1108946,72.8605783,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6185698086,,hotel,,18.9556766,72.8369019,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6187201038,,hostel,,19.1013126,72.8905981,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6195854785,,apartment,,19.1026206,72.8513578,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6226480987,Hotel Blue Pearl Residency,hotel,,19.0962586,72.8947104,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6229440187,,hotel,,19.1385003,72.9303859,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6300587289,,hotel,,18.9127684,72.8217643,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6328374086,,apartment,,19.0836991,72.9117921,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6384747415,Sea queen Heritage,apartment,,19.0545921,73.006134,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6537286485,,apartment,,19.228183,72.8667953,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6741746295,"Om Ameya C.H.S. , Lokpriya Park",apartment,,19.1469408,72.9475274,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6789090825,Aristo Hospitality Apartment Santacruz,guest_house,,19.0818622,72.8440285,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/6796225585,,hotel,,19.0986249,72.8923,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6801919195,Red House Hostel,hotel,,19.1256443,72.9194954,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6801919197,"Powai Dormitory, Gold Finance, Manappuram",hostel,,19.1258078,72.9194489,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6807538087,,apartment,,19.1247966,72.9217363,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6807538185,,apartment,,19.1237101,72.9211005,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6807538285,,apartment,,19.1246893,72.9212422,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6807538286,,apartment,,19.1253806,72.9214836,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6807568285,,apartment,,19.1254483,72.920938,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/6810831557,Rodas - An Ecotel Hotel,hotel,,19.1185925,72.9116829,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6865999285,,hotel,,19.1154575,72.8602512,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/6952131532,,hotel,,19.2580587,72.7839137,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/7045173523,Hotel Linkway,hotel,,19.0650925,72.834958,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/7101789489,,apartment,Captain Doctor MD,19.1123152,72.8268156,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/7109159886,,hotel,,18.9170212,72.8299491,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/7111819485,,apartment,Captain Doctor MD,19.1122158,72.8268274,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/7137339285,Abode Bombay,hotel,,18.9237234,72.8326873,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/7193739486,,hotel,,18.9623451,72.8287891,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/7205931385,,apartment,,19.1118189,72.8975536,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/7272453485,,apartment,,19.1642682,72.8423922,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/7520739183,Swarna Anant Apartments,apartment,,19.0306838,73.0408681,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/7915686987,,apartment,,19.1829254,72.9797074,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/7920057609,Hotel Sunny,hotel,,19.0639301,72.8961413,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/8032208496,Nap Manor Hostels,hostel,,19.0822013,72.8473955,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/8170851823,,apartment,,19.0211393,73.0975762,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/8219843151,Elphinstone Hotel,hotel,,18.948511,72.840617,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/8291780017,Maitri Classic Bldg,apartment,,19.0523835,72.8761836,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/8415565317,,apartment,,19.0708536,72.8363214,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/8447999692,Park Inn,hotel,,19.0555671,72.8243892,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/8457285999,Bombay YMCA Central Branch,hostel,,18.9242562,72.8309479,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/8566694277,MHB Building,apartment,,19.0678481,72.8479986,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/8566694726,MHB Building,apartment,,19.0677976,72.8479883,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/8566700646,MHB Building,apartment,,19.0677869,72.8482467,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/8836023918,Golden Isle Co-operative Housing Society,apartment,,19.1562041,72.8863981,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/8977970017,,apartment,,19.0177252,72.8506099,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/8977970117,,apartment,,19.0175677,72.8502902,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/9019744017,,apartment,,19.0479368,72.9168896,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/9019744117,,apartment,,19.0463357,72.9164781,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/9139686416,Hotel Astro,hotel,,19.140773,72.8201608,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/9139716438,Hotel Yashodha Residency,hotel,,19.1412475,72.819798,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/9139716443,De Classico Hotel,hotel,,19.1410159,72.819989,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/9141434908,Deluxe Comfort,hotel,,19.1373163,72.8231538,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/9141434909,Rigga Inn,hotel,,19.1369647,72.823227,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/9141434910,Hotel Signature Inn,hotel,,19.1373666,72.8231089,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/9141434911,Art Hotel,hotel,,19.1370297,72.8231836,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/9633796717,,apartment,,19.0315165,72.8971855,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/9689153217,,apartment,,19.1581224,72.9330704,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/9689162817,,apartment,,19.158327,72.9370017,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/9689164217,,apartment,,19.1588234,72.936032,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/9740590191,Central Government Touring Officers Guest House,guest_house,Central Public Works Department,19.0289955,72.8633023,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/9740687823,Central Government Touring Officers Guest House,guest_house,Central Public Works Department,18.9594735,72.8012181,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/9740687824,Central Government Touring Officers Guest House,guest_house,Central Public Works Department,18.9386001,72.8274228,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/10173118717,,hotel,,18.9618192,72.8194832,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/10223308526,,apartment,,19.0978662,72.8823583,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/10226892317,Mumbai Staytion Hostel,hostel,,19.1102735,72.8818577,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/10242157433,Landmark Residency,hotel,,19.1910591,72.841774,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/10246465510,,hostel,,19.0646957,72.849854,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/10252448370,Om Manusmruti,apartment,,19.2510509,72.9727554,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/10285679809,,apartment,,19.2213238,73.0822044,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/10286183009,,apartment,,19.1106696,72.9297968,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/10715797457,Blue Bells Residency-Mumbai Airport,hotel,,19.1052359,72.8613339,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/10767848892,Hotel Sunshine Lodging,hotel,,19.1261081,72.8933908,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/10798190305,,apartment,,19.0176431,73.025233,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/10803334509,,apartment,,18.9725876,72.82995,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/10915423705,,apartment,,19.1653479,73.0319622,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/10929744305,,hotel,,19.1090204,72.8562068,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/10951322405,"होटल मुंबई हाउस ऐरोली, नवी मुम्बई",hotel,,19.1690599,73.002037,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11055333401,Al Fatah,hotel,,18.9506798,72.8347614,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11106950862,Hotel Mahadev Residency,hotel,,19.2412871,73.0409829,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11136085505,,hostel,,19.0968574,72.8932337,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11217394316,Hotel Indigo,hotel,,19.1073069,72.8595802,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11309883788,Sheetal Grill,hotel,,19.2067361,72.9774396,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11391719662,Zolo Exotica Co-living space,apartment,Zolo,19.0803359,72.8891447,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/11445773994,Hotel Regal International,hotel,,19.1012257,72.884606,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11445777740,Hotel Dwarka,hotel,,19.0849255,72.8872426,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11445806040,Mirages,hotel,,19.1089323,72.876786,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11449429773,Hotel home town,hotel,,19.0523856,72.8666168,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11451989748,Amigo Hotel,hotel,,19.0247267,72.8355588,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11465204240,Hotel Heraa,hotel,,18.9392416,72.8383645,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11521060369,,hostel,,19.0576726,72.8386726,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11530321946,Vagad Student Hostel,hostel,,19.1438319,72.8310718,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11609355462,Alfa Executive,hotel,,19.1189559,72.8416903,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11691659261,Hotel Shivraj Dhaba Karad Belapur,hotel,,19.012537,73.0369668,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11691666024,Hotel Make My Day,hotel,,19.0097914,73.0327089,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11691681235,Hotel Grande 51,hotel,,19.0092197,73.0327818,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11691714633,,hotel,,19.009143,73.0316949,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11691718069,Sapphire Boutique Hotel;Brew House,hotel,Survey,19.0100185,73.0329949,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11691775240,K Star Hotel,hotel,,19.0154642,73.0406707,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11698087764,Mumbai Metro-The Excecutive,motel,,19.104652,72.8867082,motel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11757650169,,hostel,,19.1425757,72.8323115,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11873385169,,hostel,,19.1016152,72.8899963,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/11911682369,The Byke Delotel,hotel,,19.2306853,72.8555533,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12223944101,Prakash Inn,hotel,,19.0988777,72.8812339,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12249980901,T24 Retro,hotel,,19.0971738,72.8542691,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12298890609,Ship Hotel,hotel,,18.9396583,72.8385217,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12346531475,Hotel Metro Palace,hotel,,19.0563315,72.8342536,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12389467101,"Ginger Mumbai, Andheri East",hotel,,19.1160634,72.8503185,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12397200851,ibis Mumbai Vikhroli,hotel,,19.1203432,72.9252049,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12475496774,Naaz Executive Hotel,hotel,,19.0921691,72.8830998,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12551453022,Meluha,hotel,,19.117809,72.9109627,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12560777888,Hotel Volga,hotel,,18.9230125,72.831736,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12564896083,Bentleys Hotel,hotel,,18.9197801,72.8306468,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12632124454,Hotel Kalpana Elite,hotel,,19.0772101,72.8788131,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12635328075,Sagar Restaurant,hotel,,19.0667221,72.8792666,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12771009076,Hotel Broadway Colaba,hotel,,18.9224171,72.8315865,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12821439801,Townhouse Oak Times Square Le Western,hotel,,19.1078771,72.8828176,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12848913164,Juhu Bliss Inn,hotel,,19.1065178,72.8263207,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12961068219,Hotel Elite 59,hotel,,19.1128634,72.8771578,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/12988852001,Ginger Andheri MIDC,hotel,,19.1285143,72.8688705,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13058306162,Theory9,hostel,,19.0592035,72.8350556,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13116847501,Krishna Palace,hotel,,18.9621909,72.8132853,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13311322101,"Unity by lotus, Versova",apartment,,19.1423419,72.8120365,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/13352846544,Snooze House Navi Mumbai,hotel,,19.0220283,73.0284941,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13352896462,South Coast Hotel,hotel,,19.1362122,73.0041953,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13352896463,7 Apple Hotel Navi Mumbai,hotel,,19.1092721,73.0228605,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13361899948,The Altruist Business Hotel NM-1,hotel,,19.1062062,73.0085271,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13366142001,,apartment,,19.1694514,72.9562106,apartment,Mumbai,Maharashtra,India,OpenStreetMap
+node/13380799814,Hotel Sai Palace Grand,hotel,,19.1893206,72.8353197,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13426652001,,hostel,,19.076681,72.8358371,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13458602405,Tunga International,hotel,,19.1177096,72.8652148,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13513485602,Signature Inn Dormitory,hostel,,19.1019587,72.8903914,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13594636874,Diamond,hotel,,19.0610148,72.9003077,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13644298631,Khukri Boys Hostel,hostel,,18.9053315,72.8068356,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13664323602,MY home,guest_house,,19.2359666,73.0806654,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/13664340801,Ratan nana house,guest_house,,19.2240523,73.0788756,guest_house,Mumbai,Maharashtra,India,OpenStreetMap
+node/13968027769,West Line,hotel,,19.1268402,72.8367912,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13970256034,Hotel Nimantran,hotel,Hotel,19.0103322,73.0329318,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13970274784,seaview,hotel,,19.0104497,73.0323028,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13970288393,Hotel Grande51,hotel,Hotel,19.0105342,73.0328131,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13970290247,Nimantran,hotel,,19.0104986,73.0327932,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/13970290323,Hotel Legacy INN,hotel,,19.0094627,73.0315447,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/14058526741,Hotel Cilantro Park,hotel,,19.1245968,72.8469065,hotel,Mumbai,Maharashtra,India,OpenStreetMap
+node/14098560936,New Vasantashram,hostel,,18.9466809,72.8323601,hostel,Mumbai,Maharashtra,India,OpenStreetMap
+node/14185189001,Om sai hotel,hotel,,18.961407,73.0340108,hotel,Mumbai,Maharashtra,India,OpenStreetMap

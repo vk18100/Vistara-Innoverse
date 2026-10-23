@@ -1,0 +1,989 @@
+osm_id,name,accommodation_type,city,state,country,latitude,longitude,source
+way/30801153,Leela Palace,Hotel,Bengaluru,Karnataka,India,12.9610224,77.6485355,OpenStreetMap
+way/31536195,Old Hostel / Hostel-1,Hostel,Bengaluru,Karnataka,India,12.9317188,77.5029363,OpenStreetMap
+way/37829140,Crown Plaza Regency,Hotel,Bengaluru,Karnataka,India,13.0285247,77.635622,OpenStreetMap
+way/38870571,The Lalit Ashok,Hotel,Bengaluru,Karnataka,India,12.9922954,77.5818863,OpenStreetMap
+way/38872927,Taj West End,Hotel,Bengaluru,Karnataka,India,12.9857849,77.5848345,OpenStreetMap
+way/51868684,Hotel Paraag,Hotel,Bengaluru,Karnataka,India,12.9824783,77.5945234,OpenStreetMap
+way/52332336,Maruti Dental College Hostel,Hostel,Bengaluru,Karnataka,India,12.8649476,77.6012007,OpenStreetMap
+way/56435252,Sampige,Guest House,Bengaluru,Karnataka,India,13.0715424,77.6565869,OpenStreetMap
+way/69042638,MSRIT Boys Hostel Engg,Hostel,Bengaluru,Karnataka,India,13.032236,77.5647068,OpenStreetMap
+way/91374395,ITC Gardenia Royal,Hotel,Bengaluru,Karnataka,India,12.9671208,77.5957228,OpenStreetMap
+way/107240640,JW Marriott,Hotel,Bengaluru,Karnataka,India,12.9723892,77.5949303,OpenStreetMap
+way/122146915,Transtree Corporate Guest Houses,Hotel,Bengaluru,Karnataka,India,12.9633777,77.7169385,OpenStreetMap
+way/122737531,Sheraton Grand Whitefield,Hotel,Bengaluru,Karnataka,India,12.9892353,77.7301089,OpenStreetMap
+way/123103813,Fortune Select Trinity,Hotel,Bengaluru,Karnataka,India,12.9772901,77.7151358,OpenStreetMap
+way/123103814,Radha Hometel,Hotel,Bengaluru,Karnataka,India,12.9774974,77.7133863,OpenStreetMap
+way/123613262,Lemon Tree Hotel,Hotel,Bengaluru,Karnataka,India,12.9723046,77.717856,OpenStreetMap
+way/128624629,Guest House,Guest House,Bengaluru,Karnataka,India,12.9341262,77.5036559,OpenStreetMap
+way/130121749,Sterlings Mac,Hotel,Bengaluru,Karnataka,India,12.9591432,77.6486531,OpenStreetMap
+way/133182894,Yoho Student Living,Guest House,Bengaluru,Karnataka,India,12.8733239,77.6473915,OpenStreetMap
+way/140243958,Airlines,Hotel,Bengaluru,Karnataka,India,12.9727137,77.5998856,OpenStreetMap
+way/142452847,Holiday Inn & Suites Hotel,Hotel,Bengaluru,Karnataka,India,12.9557624,77.7344377,OpenStreetMap
+way/142452855,Slohh by Roach,Hotel,Bengaluru,Karnataka,India,12.9558498,77.7343934,OpenStreetMap
+way/147380611,Four Points by Sheraton,Hotel,Bengaluru,Karnataka,India,12.9794405,77.7520194,OpenStreetMap
+way/150797672,Kaniṣka Gryāṇḍ,Hotel,Bengaluru,Karnataka,India,12.9781951,77.5799401,OpenStreetMap
+way/152460359,Hotel V T Paradise,Hotel,Bengaluru,Karnataka,India,12.9654947,77.5899699,OpenStreetMap
+way/152938974,Treebo Cartier Hotel,Hotel,Bengaluru,Karnataka,India,12.9575191,77.7090707,OpenStreetMap
+way/169711287,Conrad Bengaluru,Hotel,Bengaluru,Karnataka,India,12.9753389,77.6206686,OpenStreetMap
+way/172920305,Jayamahal Palace Hotel,Hotel,Bengaluru,Karnataka,India,12.9967652,77.5973762,OpenStreetMap
+way/173435203,Oberoi Hotel,Hotel,Bengaluru,Karnataka,India,12.973431,77.6182757,OpenStreetMap
+way/173435228,Taj MG Road,Hotel,Bengaluru,Karnataka,India,12.9732335,77.6196543,OpenStreetMap
+way/174496366,Lavelle Mansion,Hotel,Bengaluru,Karnataka,India,12.9665281,77.5962869,OpenStreetMap
+way/175640223,Sarovar Portico,Hotel,Bengaluru,Karnataka,India,12.9787594,77.6945877,OpenStreetMap
+way/180964748,Keys Select Hotel,Hotel,Bengaluru,Karnataka,India,12.9794388,77.7100195,OpenStreetMap
+way/181466412,Ginger,Hotel,Bengaluru,Karnataka,India,12.9769073,77.7185992,OpenStreetMap
+way/182821800,Ramakrishna Lodge,Hotel,Bengaluru,Karnataka,India,12.9775248,77.5759265,OpenStreetMap
+way/184759325,Gokulam Grand Hotel & Spa,Hotel,Bengaluru,Karnataka,India,13.0420334,77.5547246,OpenStreetMap
+way/188208699,Diana Hostel,Hostel,Bengaluru,Karnataka,India,13.0833301,77.6357979,OpenStreetMap
+way/192032069,ITC Windsor,Hotel,Bengaluru,Karnataka,India,12.9942926,77.5859699,OpenStreetMap
+way/199853340,Octave,Hotel,Bengaluru,Karnataka,India,12.9422791,77.6974473,OpenStreetMap
+way/208693753,"Radisson Blu Hotel, Atria",Hotel,Bengaluru,Karnataka,India,12.9800014,77.586191,OpenStreetMap
+way/208746624,ITC Royal Gardenia Hotel,Hotel,Bengaluru,Karnataka,India,12.967088,77.5959765,OpenStreetMap
+way/216229777,Jain Bhavan,Hotel,Bengaluru,Karnataka,India,12.9461479,77.5734306,OpenStreetMap
+way/217566885,Hotel Royal Orchid,Hotel,Bengaluru,Karnataka,India,12.9574273,77.6441089,OpenStreetMap
+way/219016903,Midtown Suites,Hotel,Bengaluru,Karnataka,India,12.9787842,77.6975346,OpenStreetMap
+way/223045581,Lotus Park Business Hotel,Hotel,Bengaluru,Karnataka,India,12.9647697,77.7015796,OpenStreetMap
+way/223045585,Nandhana Hotels,Hotel,Bengaluru,Karnataka,India,12.9490794,77.6997115,OpenStreetMap
+way/230473130,Octave Hotel,Hotel,Bengaluru,Karnataka,India,12.916851,77.6726242,OpenStreetMap
+way/239860573,Keys,Hotel,Bengaluru,Karnataka,India,12.8797375,77.6467821,OpenStreetMap
+way/240665269,Government Classified Boys Hostel,Hostel,Bengaluru,Karnataka,India,12.9169523,77.6429141,OpenStreetMap
+way/241203966,Parijata Grand,Hotel,Bengaluru,Karnataka,India,13.0145056,77.5542784,OpenStreetMap
+way/248099390,Chairman's Resort,Hotel,Bengaluru,Karnataka,India,13.0586734,77.5861118,OpenStreetMap
+way/250998789,Vivanta by Taj,Hotel,Bengaluru,Karnataka,India,12.9867004,77.7376125,OpenStreetMap
+way/255762670,Royal Luxury PG For Gents,Hostel,Bengaluru,Karnataka,India,12.9184936,77.6322358,OpenStreetMap
+way/256728209,Melody Inn Service Apartments,Hotel,Bengaluru,Karnataka,India,12.9793335,77.7512766,OpenStreetMap
+way/262082986,Shravanthi Sarovar Portico,Hotel,Bengaluru,Karnataka,India,12.9074095,77.598531,OpenStreetMap
+node/266324684,Gangothri Residency,Hotel,Bengaluru,Karnataka,India,12.9212938,77.6635656,OpenStreetMap
+node/266324687,Ringview Residency,Hotel,Bengaluru,Karnataka,India,12.9214046,77.6639051,OpenStreetMap
+way/271985433,Ibis,Hotel,Bengaluru,Karnataka,India,12.967194,77.5937715,OpenStreetMap
+node/301354121,Canara Bank Holiday Home,Guest House,Bengaluru,Karnataka,India,12.9316521,77.5907098,OpenStreetMap
+way/308857573,Welive Co-Living,Hostel,Bengaluru,Karnataka,India,12.9284907,77.6721112,OpenStreetMap
+way/308857579,IM Compact Tea Square,Hostel,Bengaluru,Karnataka,India,12.9278089,77.6723501,OpenStreetMap
+way/309674941,Stanza Living Rimini House,Hostel,Bengaluru,Karnataka,India,12.9232309,77.6739012,OpenStreetMap
+way/313816696,Itis Suites,Apartment,Bengaluru,Karnataka,India,12.9999243,77.6235916,OpenStreetMap
+way/313857486,SLV PG,Hostel,Bengaluru,Karnataka,India,12.9769593,77.6381341,OpenStreetMap
+way/325764794,Mastiff Hotel,Hotel,Bengaluru,Karnataka,India,12.982791,77.5962731,OpenStreetMap
+way/325764798,Ashraya International,Hotel,Bengaluru,Karnataka,India,12.9836915,77.5934606,OpenStreetMap
+way/327553604,High Gates,Hotel,Bengaluru,Karnataka,India,12.9750346,77.6031873,OpenStreetMap
+way/329061302,St. Mark's Hotel,Hotel,Bengaluru,Karnataka,India,12.969222,77.6001631,OpenStreetMap
+way/330031512,Himalayan Inn,Hotel,Bengaluru,Karnataka,India,12.9786736,77.6369749,OpenStreetMap
+way/331184050,Sundance Serviced Apartments,Apartment,Bengaluru,Karnataka,India,12.9721033,77.5975354,OpenStreetMap
+way/331336272,Octave Fairmont Suites,Hotel,Bengaluru,Karnataka,India,12.9792646,77.6377002,OpenStreetMap
+way/331538350,Chancery Pavilion,Hotel,Bengaluru,Karnataka,India,12.9658035,77.5986722,OpenStreetMap
+way/331543139,The Ritz-Carlton,Hotel,Bengaluru,Karnataka,India,12.9677136,77.6018332,OpenStreetMap
+way/332394769,Nahar Heritage Hotel,Hotel,Bengaluru,Karnataka,India,12.9711846,77.6007124,OpenStreetMap
+way/333369480,Welcomhotel,Hotel,Bengaluru,Karnataka,India,12.9689715,77.6143299,OpenStreetMap
+way/335370078,Sri Krishna PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9072954,77.6072161,OpenStreetMap
+way/343601280,Stanza Living Cork House,Hostel,Bengaluru,Karnataka,India,12.9106217,77.6297148,OpenStreetMap
+way/343682044,S Comfort Inn,Hotel,Bengaluru,Karnataka,India,12.9708567,77.6471853,OpenStreetMap
+way/345028483,Regal Business Suites,Apartment,Bengaluru,Karnataka,India,13.0019991,77.6257882,OpenStreetMap
+way/345028497,MM Royale,Apartment,Bengaluru,Karnataka,India,13.0015415,77.6269686,OpenStreetMap
+way/345853384,Brigade Homestead,Hotel,Bengaluru,Karnataka,India,12.9431377,77.5848848,OpenStreetMap
+way/345895282,Pleasant Boulevard,Hotel,Bengaluru,Karnataka,India,12.9394567,77.6286611,OpenStreetMap
+way/345895314,Oyo Olivia Comforts,Hotel,Bengaluru,Karnataka,India,12.9403822,77.62697,OpenStreetMap
+way/345946712,Athaśrī Infantry,Hotel,Bengaluru,Karnataka,India,12.9796317,77.6038432,OpenStreetMap
+way/345949491,Ginger Bangalore IRR,Hotel,Bengaluru,Karnataka,India,12.9523786,77.6398512,OpenStreetMap
+way/346233442,Boys' Hostel,Hostel,Bengaluru,Karnataka,India,13.0710314,77.5113218,OpenStreetMap
+way/346233778,Girls' Hostel,Hostel,Bengaluru,Karnataka,India,13.0730967,77.5105592,OpenStreetMap
+way/346501475,Karnataka Judicial Academy Hostel,Hostel,Bengaluru,Karnataka,India,12.985607,77.5823045,OpenStreetMap
+way/346519792,The Pommels,Hotel,Bengaluru,Karnataka,India,13.0243802,77.6420515,OpenStreetMap
+way/346519996,Regal Suites,Hotel,Bengaluru,Karnataka,India,13.0236528,77.6399415,OpenStreetMap
+way/346521596,The Fern Residency - Yeshwanthpur,Hotel,Bengaluru,Karnataka,India,13.0271615,77.5438622,OpenStreetMap
+way/346530304,Ebenezer Suites,Guest House,Bengaluru,Karnataka,India,12.9696097,77.7352776,OpenStreetMap
+way/346697638,Arihant Apartment,Apartment,Bengaluru,Karnataka,India,13.009594,77.5418346,OpenStreetMap
+way/346698368,Casa 29,Hostel,Bengaluru,Karnataka,India,12.9916215,77.5919653,OpenStreetMap
+way/346698703,Rajput Sabha,Hostel,Bengaluru,Karnataka,India,12.9918075,77.5935986,OpenStreetMap
+way/346701208,Krishinton Suites,Hotel,Bengaluru,Karnataka,India,13.0233133,77.5627482,OpenStreetMap
+way/346707229,Casa 39,Hostel,Bengaluru,Karnataka,India,12.9917923,77.5917108,OpenStreetMap
+way/346734686,Global Wings,Hotel,Bengaluru,Karnataka,India,13.0179258,77.652116,OpenStreetMap
+way/346739674,Nithya Apartment,Apartment,Bengaluru,Karnataka,India,12.952139,77.7050208,OpenStreetMap
+way/346740199,Shree Manjunath Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9592431,77.7183346,OpenStreetMap
+way/346778796,Sai Lake View PG,Hostel,Bengaluru,Karnataka,India,12.9586976,77.7084174,OpenStreetMap
+way/346799618,Citrus Cunningham,Hotel,Bengaluru,Karnataka,India,12.9860345,77.5953782,OpenStreetMap
+way/346807867,Centenary Visitors House,Guest House,Bengaluru,Karnataka,India,13.0272387,77.57045,OpenStreetMap
+way/346815439,Icon Grand by Bhagini,Hotel,Bengaluru,Karnataka,India,12.9550277,77.7158771,OpenStreetMap
+way/346821556,Sri Ramdev PG,Hostel,Bengaluru,Karnataka,India,12.9592049,77.7192364,OpenStreetMap
+way/346821913,Bluebell PG,Hostel,Bengaluru,Karnataka,India,12.9593051,77.7206235,OpenStreetMap
+way/346822050,Sri Thirumala Residency,Hostel,Bengaluru,Karnataka,India,12.9604946,77.7200038,OpenStreetMap
+way/346829621,Srinivasa PG,Hostel,Bengaluru,Karnataka,India,12.9544435,77.708034,OpenStreetMap
+way/346871578,FF21,Hostel,Bengaluru,Karnataka,India,12.9537723,77.7197478,OpenStreetMap
+way/346876258,Jawahar Visitors House,Guest House,Bengaluru,Karnataka,India,13.016715,77.5595205,OpenStreetMap
+way/347015694,Bhagini Residency,Hotel,Bengaluru,Karnataka,India,12.9896159,77.7131918,OpenStreetMap
+way/347028666,Hotel Race View,Hotel,Bengaluru,Karnataka,India,12.984042,77.5779534,OpenStreetMap
+way/347034605,De Venetian,Hotel,Bengaluru,Karnataka,India,12.9645649,77.7164868,OpenStreetMap
+way/347066689,SLV PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9679323,77.7184049,OpenStreetMap
+way/347066917,Sri Balaji PG,Hostel,Bengaluru,Karnataka,India,12.9812905,77.7170048,OpenStreetMap
+way/347066985,Vijaya PG,Hostel,Bengaluru,Karnataka,India,12.9832834,77.7180582,OpenStreetMap
+way/347078610,Global Nursing Girls Hostel,Hostel,Bengaluru,Karnataka,India,12.9247551,77.5225968,OpenStreetMap
+way/347115829,Greens Bar and Restaurant,Hotel,Bengaluru,Karnataka,India,12.9239862,77.6544939,OpenStreetMap
+way/347145334,Gokul Majestic Lodging,Hotel,Bengaluru,Karnataka,India,12.9741174,77.5755788,OpenStreetMap
+way/347145934,UT Elegance,Hotel,Bengaluru,Karnataka,India,12.9770765,77.5786184,OpenStreetMap
+way/347175728,West Fort Hotel,Hotel,Bengaluru,Karnataka,India,12.979031,77.5640807,OpenStreetMap
+way/347175737,The Sandeś Kingston,Hotel,Bengaluru,Karnataka,India,12.9788129,77.5776096,OpenStreetMap
+way/347187700,SLN Classic PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9339349,77.6187915,OpenStreetMap
+way/347412137,Sri Manjunatha Luxury Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9813379,77.6445924,OpenStreetMap
+way/347418314,Central Government Touring Officers Guest House,Guest House,Bengaluru,Karnataka,India,12.9247278,77.6213535,OpenStreetMap
+way/347475248,Aloft Bengaluru Cessna Business Park,Hotel,Bengaluru,Karnataka,India,12.9370136,77.6951215,OpenStreetMap
+way/348106832,Signature Co-Living PG,Hostel,Bengaluru,Karnataka,India,12.9282223,77.6735221,OpenStreetMap
+way/348107359,Saranga Pg for Gents,Hostel,Bengaluru,Karnataka,India,12.926341,77.6718626,OpenStreetMap
+way/348124176,Atithi Executive PG for Gents,Hostel,Bengaluru,Karnataka,India,12.906474,77.6036117,OpenStreetMap
+way/348140608,Lotus Premium PG,Hostel,Bengaluru,Karnataka,India,12.9274207,77.6709522,OpenStreetMap
+way/348169801,Haveli studio rooms bellandur,Hostel,Bengaluru,Karnataka,India,12.9259339,77.6705348,OpenStreetMap
+way/348169804,Yeti PG for Gents,Hostel,Bengaluru,Karnataka,India,12.925478,77.6715379,OpenStreetMap
+way/348182237,Castor Co-Living,Hostel,Bengaluru,Karnataka,India,12.9211754,77.6530027,OpenStreetMap
+way/348312260,FabHotel 4 Seasons,Hotel,Bengaluru,Karnataka,India,12.9179289,77.6241187,OpenStreetMap
+way/348567208,Qasar Al Arab,Apartment,Bengaluru,Karnataka,India,13.0032991,77.6216907,OpenStreetMap
+way/349416067,Goldfinch Hotel,Hotel,Bengaluru,Karnataka,India,12.9854666,77.5792748,OpenStreetMap
+way/349654499,Ibis Hotel,Hotel,Bengaluru,Karnataka,India,12.9006544,77.6320397,OpenStreetMap
+way/349711244,Colive Novara,Hostel,Bengaluru,Karnataka,India,12.9227687,77.6119646,OpenStreetMap
+way/349961993,Girls Hostel,Hostel,Bengaluru,Karnataka,India,13.0182886,77.5074508,OpenStreetMap
+way/350558589,The Elanza Hotel,Hotel,Bengaluru,Karnataka,India,12.9652521,77.601996,OpenStreetMap
+way/351082490,Transtree Hotel,Hotel,Bengaluru,Karnataka,India,12.9560152,77.7430667,OpenStreetMap
+way/351315535,Parkwood,Apartment,Bengaluru,Karnataka,India,12.9646242,77.7169215,OpenStreetMap
+way/352203511,Vividus Hotel Bangalore,Hotel,Bengaluru,Karnataka,India,12.9847491,77.5783723,OpenStreetMap
+way/352222730,Comet,Hotel,Bengaluru,Karnataka,India,12.9613564,77.7012646,OpenStreetMap
+way/352285555,Aston Service Apartments,Apartment,Bengaluru,Karnataka,India,12.9236148,77.6514246,OpenStreetMap
+way/354222910,Woodlands,Hotel,Bengaluru,Karnataka,India,12.9645571,77.594912,OpenStreetMap
+way/354455058,Sri Kamakshi Thayi,Hostel,Bengaluru,Karnataka,India,12.9570176,77.6548892,OpenStreetMap
+way/363612211,Royal Orchid Hotel and Convention Centre,Hotel,Bengaluru,Karnataka,India,13.0863776,77.5919964,OpenStreetMap
+way/367419231,BCW PG Girls Hostel,Hostel,Bengaluru,Karnataka,India,12.9362886,77.5023049,OpenStreetMap
+way/375202470,Royal Orchid Central,Hotel,Bengaluru,Karnataka,India,12.974989,77.6153705,OpenStreetMap
+way/378105244,Park Residency,Hotel,Bengaluru,Karnataka,India,12.9728066,77.6079065,OpenStreetMap
+way/382005411,Ramanashree Richmond,Hotel,Bengaluru,Karnataka,India,12.9662016,77.5948997,OpenStreetMap
+way/383573340,Girls' Hostel,Hostel,Bengaluru,Karnataka,India,13.072603,77.5115857,OpenStreetMap
+way/385034302,The Grand Serenity Apartment Hotel,Hotel,Bengaluru,Karnataka,India,12.9749118,77.6387735,OpenStreetMap
+way/403473921,Balabrooie Guest House,Guest House,Bengaluru,Karnataka,India,12.987715,77.5882213,OpenStreetMap
+way/414821498,Fairfield by Marriott,Hotel,Bengaluru,Karnataka,India,12.9818421,77.7091201,OpenStreetMap
+way/414842346,The Sulit Whitefield,Hotel,Bengaluru,Karnataka,India,12.9760573,77.7177468,OpenStreetMap
+way/421097872,Lemon Tree Premier,Hotel,Bengaluru,Karnataka,India,12.9872568,77.6168799,OpenStreetMap
+node/429697565,Hotel Hindustan,Hotel,Bengaluru,Karnataka,India,12.9762752,77.5767096,OpenStreetMap
+node/429698095,Hotel Anand Regency,Hotel,Bengaluru,Karnataka,India,12.9769025,77.5763491,OpenStreetMap
+way/437536498,Hotel Shangri-La,Hotel,Bengaluru,Karnataka,India,12.992001,77.5881897,OpenStreetMap
+way/437536512,Official Residence of Chief Minister of Karnataka,Guest House,Bengaluru,Karnataka,India,12.9928397,77.5832334,OpenStreetMap
+way/437536515,Chief Minister's Guesthouse,Guest House,Bengaluru,Karnataka,India,12.9933896,77.5837535,OpenStreetMap
+way/447586193,Citrus Classic,Hotel,Bengaluru,Karnataka,India,12.9232591,77.6716416,OpenStreetMap
+node/456029958,Sri Krishna Lodge,Hotel,Bengaluru,Karnataka,India,12.9932258,77.5717309,OpenStreetMap
+way/458951613,The Marriot Hotel,Hotel,Bengaluru,Karnataka,India,12.9795381,77.7281346,OpenStreetMap
+way/503579512,DoubleTree Suites by Hilton,Hotel,Bengaluru,Karnataka,India,12.9192452,77.66509,OpenStreetMap
+way/527188351,Oakwood Residences,Apartment,Bengaluru,Karnataka,India,12.9596757,77.7487316,OpenStreetMap
+way/532211348,The Olive Hotel,Hotel,Bengaluru,Karnataka,India,12.9820311,77.6456967,OpenStreetMap
+way/558313899,AURA Corporate Suites,Guest House,Bengaluru,Karnataka,India,13.0523103,77.6211476,OpenStreetMap
+way/568518775,The Paul,Hotel,Bengaluru,Karnataka,India,12.9537716,77.6394318,OpenStreetMap
+way/577502027,Bloom,Hotel,Bengaluru,Karnataka,India,12.9707907,77.7129319,OpenStreetMap
+way/609993410,Apple PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9233659,77.673921,OpenStreetMap
+way/609993412,Cozy Rooms Men's Premium PG,Hostel,Bengaluru,Karnataka,India,12.9229659,77.6741967,OpenStreetMap
+way/627145337,The DEN,Hotel,Bengaluru,Karnataka,India,12.9874018,77.7332053,OpenStreetMap
+way/631952775,Bhagini Ikon,Hotel,Bengaluru,Karnataka,India,12.9555004,77.7143827,OpenStreetMap
+node/663683086,The Capitol,Hotel,Bengaluru,Karnataka,India,12.9822391,77.594459,OpenStreetMap
+node/663941087,YMCA Hostel,Hostel,Bengaluru,Karnataka,India,12.9733828,77.5872809,OpenStreetMap
+node/665045266,Legislatures' Home,Guest House,Bengaluru,Karnataka,India,12.983448,77.5899594,OpenStreetMap
+way/695554345,High Court Guest House,Guest House,Bengaluru,Karnataka,India,13.0371842,77.5887939,OpenStreetMap
+way/712430112,Iris Business Hotel,Hotel,Bengaluru,Karnataka,India,12.9706331,77.6072661,OpenStreetMap
+way/726475138,Gate of Karma,Hotel,Bengaluru,Karnataka,India,13.0710053,77.5041226,OpenStreetMap
+node/734864135,U-Block,Hostel,Bengaluru,Karnataka,India,13.0169402,77.5641412,OpenStreetMap
+way/779282852,Holiday Inn Express & Suites,Hotel,Bengaluru,Karnataka,India,12.9799903,77.5784707,OpenStreetMap
+way/781283907,Inn@Silicon Valley,Hotel,Bengaluru,Karnataka,India,12.9178828,77.6238062,OpenStreetMap
+way/781538806,Taj Yeshwantpur,Hotel,Bengaluru,Karnataka,India,13.0291792,77.5409571,OpenStreetMap
+way/781780393,The Leela Bhartiya City,Hotel,Bengaluru,Karnataka,India,13.0840628,77.6428001,OpenStreetMap
+way/782014088,Fortune Select JP Cosmos,Hotel,Bengaluru,Karnataka,India,12.9894764,77.5949017,OpenStreetMap
+way/782014107,KSTDC Kumar Krupa,Hotel,Bengaluru,Karnataka,India,12.9907794,77.5811436,OpenStreetMap
+way/782063731,Hilton Bengaluru Embassy Manyata Business Park,Hotel,Bengaluru,Karnataka,India,13.0424779,77.6206056,OpenStreetMap
+way/782063732,Hilton Garden Inn Bengaluru Embassy Manyata Business Park,Hotel,Bengaluru,Karnataka,India,13.0418354,77.6201145,OpenStreetMap
+way/782089146,sri sai hitech pg for gents,Hostel,Bengaluru,Karnataka,India,13.0383993,77.6205106,OpenStreetMap
+way/837409468,Northern Suites,Hotel,Bengaluru,Karnataka,India,12.9604681,77.7138843,OpenStreetMap
+way/867500409,SFGC Hostel,Hostel,Bengaluru,Karnataka,India,13.0994666,77.5881089,OpenStreetMap
+way/891414546,Naidile Hostel,Hostel,Bengaluru,Karnataka,India,13.0718492,77.5761415,OpenStreetMap
+way/997966820,Government Arts College Boys Hostel,Hostel,Bengaluru,Karnataka,India,12.9707297,77.6117502,OpenStreetMap
+node/1005525039,The Infantry Hotel,Hotel,Bengaluru,Karnataka,India,12.980445,77.604525,OpenStreetMap
+node/1006462322,Hotel Maurya,Hotel,Bengaluru,Karnataka,India,12.980921,77.576491,OpenStreetMap
+node/1006492448,Hotel Swathi,Hotel,Bengaluru,Karnataka,India,12.989096,77.572253,OpenStreetMap
+node/1026441566,Nalapad's Hotel Bangalore International,Hotel,Bengaluru,Karnataka,India,12.9850452,77.579248,OpenStreetMap
+node/1044323510,Sudha Lodge,Hotel,Bengaluru,Karnataka,India,12.9727609,77.5701982,OpenStreetMap
+node/1044325327,Radha Krishna Delux Lodge,Hotel,Bengaluru,Karnataka,India,12.9717886,77.5705791,OpenStreetMap
+way/1053381285,Radisson City Center,Hotel,Bengaluru,Karnataka,India,12.9763448,77.6194746,OpenStreetMap
+way/1056795647,Royal Orchid Suites,Hotel,Bengaluru,Karnataka,India,12.9668566,77.7512537,OpenStreetMap
+way/1061038563,SS Elite Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9321152,77.6970333,OpenStreetMap
+way/1066396961,Colive Palmer,Hostel,Bengaluru,Karnataka,India,12.9258532,77.672591,OpenStreetMap
+way/1066506657,Icon Suites by Bhagini,Hotel,Bengaluru,Karnataka,India,12.9515383,77.7035326,OpenStreetMap
+way/1066721255,Nagarjuna Suites,Apartment,Bengaluru,Karnataka,India,12.938426,77.6958898,OpenStreetMap
+way/1066848427,ALNS Co-Living Pg,Hostel,Bengaluru,Karnataka,India,12.930108,77.6972525,OpenStreetMap
+way/1068844252,The Park Bangalore,Hotel,Bengaluru,Karnataka,India,12.9740384,77.6194771,OpenStreetMap
+way/1070002216,Bloom Hub,Hotel,Bengaluru,Karnataka,India,12.9468258,77.6991641,OpenStreetMap
+way/1070107466,Zolo Lakefront PG,Hostel,Bengaluru,Karnataka,India,12.9221987,77.6650279,OpenStreetMap
+way/1070818636,Amaravthi Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9221567,77.675973,OpenStreetMap
+way/1071863773,Oyo Town House 363,Hotel,Bengaluru,Karnataka,India,12.9157905,77.6984123,OpenStreetMap
+way/1072561557,Godess PG For Ladies,Hostel,Bengaluru,Karnataka,India,12.95729,77.7156359,OpenStreetMap
+way/1072674745,Hotel Aloft,Hotel,Bengaluru,Karnataka,India,12.9903162,77.7326467,OpenStreetMap
+way/1072674746,Hotel Zuri,Hotel,Bengaluru,Karnataka,India,12.9899692,77.7231717,OpenStreetMap
+way/1073368067,Octave Brookefield Suites,Hotel,Bengaluru,Karnataka,India,12.9574346,77.7147082,OpenStreetMap
+way/1075549051,Laavish Pro-4 Living,Hostel,Bengaluru,Karnataka,India,12.9567462,77.7097509,OpenStreetMap
+way/1076871236,MP Homes,Hostel,Bengaluru,Karnataka,India,12.9540116,77.71775,OpenStreetMap
+way/1076876048,Mojatel by Icon,Hotel,Bengaluru,Karnataka,India,12.9656004,77.7138412,OpenStreetMap
+way/1076883034,R Co-living Stays,Hostel,Bengaluru,Karnataka,India,12.9778872,77.7117736,OpenStreetMap
+way/1076883035,Earth Hotels,Hotel,Bengaluru,Karnataka,India,12.9778718,77.7119218,OpenStreetMap
+way/1077051891,Treebo SLN Heritage,Hotel,Bengaluru,Karnataka,India,12.9599396,77.7217521,OpenStreetMap
+way/1077454683,Savoy,Hostel,Bengaluru,Karnataka,India,12.9564367,77.7204901,OpenStreetMap
+way/1078000859,Hotel Pheonix,Hotel,Bengaluru,Karnataka,India,12.9602374,77.7202041,OpenStreetMap
+way/1078000864,Sri Lakshmi Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9606136,77.718336,OpenStreetMap
+way/1078000865,Raintree Colive PG,Hostel,Bengaluru,Karnataka,India,12.9605926,77.7185142,OpenStreetMap
+way/1078183230,Premier Suites Serviced Apartments,Apartment,Bengaluru,Karnataka,India,12.9594706,77.7172046,OpenStreetMap
+way/1078183231,Celestial Bliss,Apartment,Bengaluru,Karnataka,India,12.9589489,77.7175921,OpenStreetMap
+way/1079266919,Lux Living,Hostel,Bengaluru,Karnataka,India,12.9624274,77.719164,OpenStreetMap
+node/1080055848,Hotel Mahaveer,Hotel,Bengaluru,Karnataka,India,12.974344,77.5712299,OpenStreetMap
+way/1083556555,Oyo Townhouse,Hotel,Bengaluru,Karnataka,India,12.9610376,77.7177773,OpenStreetMap
+way/1083556566,Lotus Luxury PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9674842,77.7186009,OpenStreetMap
+way/1083556568,SLV Royal PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9673001,77.7185836,OpenStreetMap
+way/1086032841,Olive,Hotel,Bengaluru,Karnataka,India,12.9583044,77.7154148,OpenStreetMap
+node/1087884426,Hotel Ganga Sagar,Hotel,Bengaluru,Karnataka,India,12.944337,77.620028,OpenStreetMap
+way/1089707945,Ibis,Hotel,Bengaluru,Karnataka,India,12.9298799,77.6832741,OpenStreetMap
+node/1093355127,MGM Mark,Hotel,Bengaluru,Karnataka,India,12.971672,77.7175701,OpenStreetMap
+way/1093504018,The Chancery Hotel,Hotel,Bengaluru,Karnataka,India,12.9756655,77.5992787,OpenStreetMap
+way/1094660568,Regenta Inn,Hotel,Bengaluru,Karnataka,India,12.9783642,77.6971917,OpenStreetMap
+way/1102153950,SHS Luxury Ladies PG,Hostel,Bengaluru,Karnataka,India,12.967694,77.7181145,OpenStreetMap
+way/1104753184,Parkwoods Elite,Hotel,Bengaluru,Karnataka,India,12.9641904,77.7122952,OpenStreetMap
+node/1108016257,CYCD,Hotel,Bengaluru,Karnataka,India,12.967339,77.5427777,OpenStreetMap
+way/1121455992,Reddy's PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9615082,77.7137189,OpenStreetMap
+way/1125692656,The Grand Magrath Hotel,Hotel,Bengaluru,Karnataka,India,12.9705402,77.6080073,OpenStreetMap
+way/1125999707,Jagadish Hotel,Hotel,Bengaluru,Karnataka,India,12.9974913,77.5841812,OpenStreetMap
+way/1126143553,Lotus Hotel,Hotel,Bengaluru,Karnataka,India,12.978588,77.6974759,OpenStreetMap
+way/1126243350,Sudarshan Women's Hostel,Hostel,Bengaluru,Karnataka,India,12.9984208,77.5485548,OpenStreetMap
+way/1127578173,Stanza Living Seattle House,Hostel,Bengaluru,Karnataka,India,12.9252723,77.6781514,OpenStreetMap
+way/1127579498,Stanza Living Brussels House,Hostel,Bengaluru,Karnataka,India,12.925639,77.6781822,OpenStreetMap
+way/1135846638,Brundavan PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9736289,77.7150421,OpenStreetMap
+way/1135846639,Sri Krishna Co-Living,Hostel,Bengaluru,Karnataka,India,12.9736786,77.7151843,OpenStreetMap
+way/1135846645,SLNS PG,Hostel,Bengaluru,Karnataka,India,12.9734913,77.7148183,OpenStreetMap
+way/1135846646,SD Comforts Studio Rooms,Hostel,Bengaluru,Karnataka,India,12.9735768,77.7148201,OpenStreetMap
+way/1135846648,Nivanshi Reddy PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9734076,77.714816,OpenStreetMap
+way/1152481905,Holiday Inn Express Bengaluru Whitefield ITPL,Hotel,Bengaluru,Karnataka,India,12.9863374,77.7325996,OpenStreetMap
+way/1152482561,"Renaissance Bengaluru, Race Course",Hotel,Bengaluru,Karnataka,India,12.9845647,77.5764746,OpenStreetMap
+way/1153852669,SS Co-Living,Hostel,Bengaluru,Karnataka,India,12.9662417,77.7333157,OpenStreetMap
+way/1155266024,Oyo Rooms 88840 MN Residency,Hotel,Bengaluru,Karnataka,India,12.9193534,77.6207668,OpenStreetMap
+node/1158839740,Stamford Residency,,Bengaluru,Karnataka,India,12.9648741,77.7161185,OpenStreetMap
+way/1167872057,Oyo Townhouse 258,Hotel,Bengaluru,Karnataka,India,12.924297,77.6668937,OpenStreetMap
+way/1183962717,The Pride Hotel,Hotel,Bengaluru,Karnataka,India,12.9647078,77.599637,OpenStreetMap
+way/1188254675,LOCL LOCAL Colive & Work,Hostel,Bengaluru,Karnataka,India,12.9232065,77.6745566,OpenStreetMap
+way/1190186913,Vista Pro4,Hostel,Bengaluru,Karnataka,India,12.9584478,77.7100276,OpenStreetMap
+way/1190186961,Meridian Pro4,Hostel,Bengaluru,Karnataka,India,12.9584804,77.7102192,OpenStreetMap
+way/1193082970,Hive Coliving,Hostel,Bengaluru,Karnataka,India,12.9587429,77.7155877,OpenStreetMap
+way/1195571012,Hotel Tulip,Hotel,Bengaluru,Karnataka,India,12.9990976,77.5836173,OpenStreetMap
+way/1206599928,Sheraton Grand Bangalore Hotel at Brigade Gateway,Hotel,Bengaluru,Karnataka,India,13.0126008,77.5551071,OpenStreetMap
+way/1211318977,Radisson Blu Bengaluru Outer Ring Road,Hotel,Bengaluru,Karnataka,India,12.9503784,77.6985834,OpenStreetMap
+way/1212554480,ADIKAA CO-LIVING (PG),Hostel,Bengaluru,Karnataka,India,12.9257831,77.6704881,OpenStreetMap
+way/1212554487,Anvith PG for ladies,Hostel,Bengaluru,Karnataka,India,12.9271154,77.6701477,OpenStreetMap
+way/1212554488,Sri Sai Manasa PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9269744,77.670149,OpenStreetMap
+way/1212554492,Raj Living,Hostel,Bengaluru,Karnataka,India,12.9270358,77.6690854,OpenStreetMap
+way/1212554494,Zolo Symphony,Hostel,Bengaluru,Karnataka,India,12.9266924,77.6699272,OpenStreetMap
+way/1212554495,Colive Alpha,Hostel,Bengaluru,Karnataka,India,12.9264364,77.6699209,OpenStreetMap
+way/1212554504,Oxygen PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9253229,77.6693607,OpenStreetMap
+way/1212566051,ELEV8 Co-Living,Hostel,Bengaluru,Karnataka,India,12.9253468,77.6714932,OpenStreetMap
+way/1212566057,NS Stays Colive,Hostel,Bengaluru,Karnataka,India,12.9266426,77.6714808,OpenStreetMap
+way/1212566058,Pro4 Co-Living PG,Hostel,Bengaluru,Karnataka,India,12.9268886,77.6715706,OpenStreetMap
+way/1212566059,Colive Overland Park,Hostel,Bengaluru,Karnataka,India,12.9263801,77.6710402,OpenStreetMap
+way/1217530867,DRDO Transit Accomodation,Guest House,Bengaluru,Karnataka,India,12.9866395,77.6699046,OpenStreetMap
+way/1218665217,Castle JP,Hotel,Bengaluru,Karnataka,India,12.9045146,77.5940708,OpenStreetMap
+way/1219342632,SLNS PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9274483,77.6722331,OpenStreetMap
+way/1219342633,Krish PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9275641,77.6722596,OpenStreetMap
+way/1219342652,Elite Premium PG Gents,Hostel,Bengaluru,Karnataka,India,12.9281196,77.6711902,OpenStreetMap
+way/1219342654,Ravindra PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9276824,77.6712365,OpenStreetMap
+way/1219342655,Sthira PG For Ladies,Hostel,Bengaluru,Karnataka,India,12.9277052,77.6713924,OpenStreetMap
+way/1220006394,DoubleTree by Hilton Bengaluru Whitefield,Hotel,Bengaluru,Karnataka,India,12.9688416,77.7168626,OpenStreetMap
+way/1220313724,ICICI Manipal,Hostel,Bengaluru,Karnataka,India,13.0843818,77.6389462,OpenStreetMap
+way/1227075554,Sai Vasavi Gents PG,Hostel,Bengaluru,Karnataka,India,12.9221843,77.6646312,OpenStreetMap
+way/1235996543,"Hotel Pai Comforts, JP Nagar",Hotel,Bengaluru,Karnataka,India,12.9166578,77.5900816,OpenStreetMap
+way/1240674140,Hilton Bangalore Embassy GolfLinks,Hotel,Bengaluru,Karnataka,India,12.9484943,77.6456417,OpenStreetMap
+way/1242193136,Yuva Vikas,Hostel,Bengaluru,Karnataka,India,12.9276533,77.6057625,OpenStreetMap
+way/1242193144,Maria Bhavan,Hostel,Bengaluru,Karnataka,India,12.9298811,77.6050729,OpenStreetMap
+way/1248868635,Twenty Fourt Hotel,Hotel,Bengaluru,Karnataka,India,12.94268,77.6945842,OpenStreetMap
+way/1257688044,Jayalakshmi Luxury PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9288886,77.6783863,OpenStreetMap
+way/1257688050,Goodwill Co-living Pg,Hostel,Bengaluru,Karnataka,India,12.929123,77.678703,OpenStreetMap
+way/1260649106,JRS,Hostel,Bengaluru,Karnataka,India,12.9562107,77.7064366,OpenStreetMap
+way/1264881592,BARC Guest House,Guest House,Bengaluru,Karnataka,India,13.0849475,77.5576491,OpenStreetMap
+way/1267847134,Hyatt Centric Hebbal Bengaluru,Hotel,Bengaluru,Karnataka,India,13.0540239,77.5929259,OpenStreetMap
+way/1268354209,Ramadha Encore,Hotel,Bengaluru,Karnataka,India,12.95547,77.6410108,OpenStreetMap
+way/1270575612,Sri Lakshmi Srinivasa PG,Hostel,Bengaluru,Karnataka,India,12.9733417,77.7148166,OpenStreetMap
+way/1272659146,Attide Boutique,Hotel,Bengaluru,Karnataka,India,13.0795808,77.592201,OpenStreetMap
+node/1274328898,Maple's,Hotel,Bengaluru,Karnataka,India,12.9353574,77.6293981,OpenStreetMap
+way/1274352559,Sai Moksha PG - Coliving,Hostel,Bengaluru,Karnataka,India,12.9642551,77.7226496,OpenStreetMap
+way/1274548669,Sharada Residency,Apartment,Bengaluru,Karnataka,India,12.9230446,77.6118455,OpenStreetMap
+node/1275552805,Hotel Verdisso Suites,Hotel,Bengaluru,Karnataka,India,12.9505253,77.6992384,OpenStreetMap
+way/1286468259,SL Prime PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9233053,77.5044365,OpenStreetMap
+way/1286609386,Aryabhatta Hostel,Hostel,Bengaluru,Karnataka,India,13.0189629,77.5596369,OpenStreetMap
+way/1294790838,Hotel Leroy Grand,Hotel,Bengaluru,Karnataka,India,13.0243052,77.5468919,OpenStreetMap
+way/1301325024,Vivanta Residency Road,Hotel,Bengaluru,Karnataka,India,12.972346,77.608644,OpenStreetMap
+way/1303625863,Days Suites Bengaluru,Hotel,Bengaluru,Karnataka,India,12.9879034,77.7261975,OpenStreetMap
+way/1304116283,Ballal Residency,Hotel,Bengaluru,Karnataka,India,12.9714184,77.6083241,OpenStreetMap
+node/1306429239,Hotel Ramada,Hotel,Bengaluru,Karnataka,India,12.984215,77.6005578,OpenStreetMap
+way/1307953568,37th Crescent Hotel,Hotel,Bengaluru,Karnataka,India,12.9848381,77.5808828,OpenStreetMap
+way/1308628999,Southern Star Hotel,Hotel,Bengaluru,Karnataka,India,12.9747673,77.5994236,OpenStreetMap
+way/1313410395,Bha Living,Hostel,Bengaluru,Karnataka,India,12.9059662,77.6040338,OpenStreetMap
+way/1314102991,Sudarshan Luxury Living,Hostel,Bengaluru,Karnataka,India,12.8806681,77.5944243,OpenStreetMap
+node/1314943420,Fortune Park JP Celestial Hotel,Hotel,Bengaluru,Karnataka,India,12.980883,77.575992,OpenStreetMap
+way/1343404376,Siddaganga Student Hostel,Hostel,Bengaluru,Karnataka,India,12.9748506,77.5461418,OpenStreetMap
+way/1346908272,BNR Living in Ladies,Hostel,Bengaluru,Karnataka,India,12.9271288,77.6690881,OpenStreetMap
+way/1353055893,Parijata Gateway,Hotel,Bengaluru,Karnataka,India,13.0141463,77.5542921,OpenStreetMap
+way/1365975860,Brahma Tiffins,Hotel,Bengaluru,Karnataka,India,12.9286113,77.6721522,OpenStreetMap
+way/1366166764,Ushodaya New Gents PG,Hostel,Bengaluru,Karnataka,India,12.9270618,77.6743198,OpenStreetMap
+way/1366554284,Brindavan PG,Hostel,Bengaluru,Karnataka,India,12.927899,77.6729711,OpenStreetMap
+way/1366567527,Sri Raama PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9261209,77.670519,OpenStreetMap
+way/1366762774,AA Epsilon Premium Best Coliving Pg,Hostel,Bengaluru,Karnataka,India,12.9252475,77.6726417,OpenStreetMap
+way/1366762775,Feb 30 Daffodil Co-Living Pg,Hostel,Bengaluru,Karnataka,India,12.9253862,77.6726872,OpenStreetMap
+way/1366762776,Feb 30 Marigold Coliving Pg,Hostel,Bengaluru,Karnataka,India,12.9255184,77.6727372,OpenStreetMap
+way/1368013276,The Olive Hotel,Hotel,Bengaluru,Karnataka,India,12.971521,77.7071647,OpenStreetMap
+way/1368127275,Hotel Noble Nook,Hotel,Bengaluru,Karnataka,India,12.9633762,77.6431855,OpenStreetMap
+way/1368219742,Paradise Studio Rooms pg for ladies,Hostel,Bengaluru,Karnataka,India,12.9260163,77.6758123,OpenStreetMap
+way/1368377112,SNS PG For Ladies,Hostel,Bengaluru,Karnataka,India,12.9265147,77.6713486,OpenStreetMap
+way/1370798180,Colive 554 Minneapolis,Hostel,Bengaluru,Karnataka,India,12.9245308,77.6746003,OpenStreetMap
+way/1371158696,CSR Stay Inn PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.924281,77.6749139,OpenStreetMap
+node/1375978230,Terminus,Hotel,Bengaluru,Karnataka,India,12.9342871,77.6161496,OpenStreetMap
+node/1375978288,Blue Petal Business Hotel,Hotel,Bengaluru,Karnataka,India,12.9335142,77.6151725,OpenStreetMap
+way/1410387630,GPR Guest Inn,Apartment,Bengaluru,Karnataka,India,12.958939,77.7171497,OpenStreetMap
+way/1410852323,Bloom,Hotel,Bengaluru,Karnataka,India,12.9825538,77.7518484,OpenStreetMap
+way/1418971231,Hilton Garden Inn Bengaluru Whitefield,Hotel,Bengaluru,Karnataka,India,12.9940333,77.7320013,OpenStreetMap
+way/1427663390,Sterling Keys,Hotel,Bengaluru,Karnataka,India,12.9232976,77.6760472,OpenStreetMap
+way/1447168047,Blue Bells PG,Hostel,Bengaluru,Karnataka,India,12.9621331,77.5976144,OpenStreetMap
+node/1462221849,Sambhram Boys Hostel,Hostel,Bengaluru,Karnataka,India,13.0884936,77.5460644,OpenStreetMap
+node/1462239302,HMT Guest House,Guest House,Bengaluru,Karnataka,India,13.0541469,77.549106,OpenStreetMap
+node/1463664368,BEL Guest House,Guest House,Bengaluru,Karnataka,India,13.0535251,77.5571463,OpenStreetMap
+node/1465192273,Century,Hotel,Bengaluru,Karnataka,India,12.9671321,77.6822005,OpenStreetMap
+node/1468516364,4 Seasons Suites,Hotel,Bengaluru,Karnataka,India,12.9372193,77.619574,OpenStreetMap
+node/1470634306,Casa De Bengaluru,Hotel,Bengaluru,Karnataka,India,12.9363256,77.6222355,OpenStreetMap
+node/1471128634,Janodhaya Working women's hostel,Hostel,Bengaluru,Karnataka,India,12.9364715,77.6169229,OpenStreetMap
+node/1472017110,Royal Comforts,Hotel,Bengaluru,Karnataka,India,12.9262515,77.6168174,OpenStreetMap
+node/1472036135,Woodstock,Guest House,Bengaluru,Karnataka,India,12.874318,77.647308,OpenStreetMap
+node/1473308088,Shilton Royale,Hotel,Bengaluru,Karnataka,India,12.938785,77.6300973,OpenStreetMap
+node/1473330362,Sri Sai Balaji PG For Girls,Apartment,Bengaluru,Karnataka,India,12.9404194,77.6289278,OpenStreetMap
+node/1473330368,CHef Inn Residency,Hotel,Bengaluru,Karnataka,India,12.9383855,77.6310907,OpenStreetMap
+node/1473910051,BVSS Maharatta Hostel,Hostel,Bengaluru,Karnataka,India,12.9535544,77.5678415,OpenStreetMap
+node/1474298491,Pai Vijay,Hotel,Bengaluru,Karnataka,India,12.9264034,77.5858296,OpenStreetMap
+node/1474432220,Inn,Hotel,Bengaluru,Karnataka,India,12.9330194,77.6105953,OpenStreetMap
+node/1474444113,Akshaya Ladies Hostel,Hostel,Bengaluru,Karnataka,India,12.9227715,77.6138446,OpenStreetMap
+node/1474819129,Libra,Hotel,Bengaluru,Karnataka,India,12.9353977,77.6090855,OpenStreetMap
+node/1509292090,Hotel Mayflower,Hotel,Bengaluru,Karnataka,India,12.9478373,77.5970782,OpenStreetMap
+way/1550144513,Legacy Pro4,Hostel,Bengaluru,Karnataka,India,12.9582251,77.7103252,OpenStreetMap
+way/1550144514,Pavilion Pro4,Hostel,Bengaluru,Karnataka,India,12.9579059,77.7102301,OpenStreetMap
+way/1558741730,U by Z Hotels,Hotel,Bengaluru,Karnataka,India,12.9258964,77.6982596,OpenStreetMap
+node/1581346715,Akshara Regency,Guest House,Bengaluru,Karnataka,India,13.0300838,77.5593527,OpenStreetMap
+node/1637588134,Golden Residency,Hotel,Bengaluru,Karnataka,India,12.9780729,77.579383,OpenStreetMap
+node/1637588143,Hotel Kanthi Comforts,Hotel,Bengaluru,Karnataka,India,12.9775086,77.5793777,OpenStreetMap
+node/1652498865,Royal Habitat,Guest House,Bengaluru,Karnataka,India,12.9649841,77.6404672,OpenStreetMap
+node/1653909253,Hotel Geo,Hotel,Bengaluru,Karnataka,India,12.9656255,77.5895554,OpenStreetMap
+node/1772649601,Prakash Cafe & Lodge,Hotel,Bengaluru,Karnataka,India,12.9604081,77.5709546,OpenStreetMap
+node/1772751769,Nilgiri Men's Hostel,Hostel,Bengaluru,Karnataka,India,13.0311311,77.5671433,OpenStreetMap
+node/1772751775,Triveni Ladies' Hostel,Hostel,Bengaluru,Karnataka,India,13.0311416,77.5676047,OpenStreetMap
+node/1782098326,Hotel Madhuvan,,Bengaluru,Karnataka,India,12.9608286,77.571561,OpenStreetMap
+node/1782112652,B.K. Mariappa Charitable Trust Hostel,Hostel,Bengaluru,Karnataka,India,12.9590198,77.5700268,OpenStreetMap
+node/1786236040,Villa Lavelle,Hotel,Bengaluru,Karnataka,India,12.9684323,77.5964096,OpenStreetMap
+node/1791587945,Madhwa Yuvaka Sangha,Hostel,Bengaluru,Karnataka,India,12.9547408,77.5732553,OpenStreetMap
+node/1791975497,Jain Hostel,Hostel,Bengaluru,Karnataka,India,12.9534194,77.573307,OpenStreetMap
+node/1798913046,Ramakrishna Lodge,Hotel,Bengaluru,Karnataka,India,12.9717723,77.5729725,OpenStreetMap
+node/1851701770,Confident Propos,Hotel,Bengaluru,Karnataka,India,12.9560897,77.6055497,OpenStreetMap
+node/1866179093,Emilion HHI Select,Hotel,Bengaluru,Karnataka,India,12.9066302,77.592944,OpenStreetMap
+node/1931910416,Hotel Tourist,Hotel,Bengaluru,Karnataka,India,12.9813835,77.5753478,OpenStreetMap
+node/1974872457,Hotel City Centaur International,Hotel,Bengaluru,Karnataka,India,12.9750295,77.5703109,OpenStreetMap
+node/1974878572,Sri Krishna Lodge,Hotel,Bengaluru,Karnataka,India,12.9744293,77.5706029,OpenStreetMap
+node/1974885227,Sri Thirumala Lodge,Hotel,Bengaluru,Karnataka,India,12.9738994,77.5706296,OpenStreetMap
+node/2016215996,Shree Lodge,Hotel,Bengaluru,Karnataka,India,12.975607,77.5751762,OpenStreetMap
+node/2034479472,Hotel Samrat Residency,Hotel,Bengaluru,Karnataka,India,12.9894357,77.5729477,OpenStreetMap
+node/2097547120,JP Cordial,Hotel,Bengaluru,Karnataka,India,12.979285,77.5748279,OpenStreetMap
+node/2097548805,Rajaprakash,Hotel,Bengaluru,Karnataka,India,12.9789865,77.574935,OpenStreetMap
+node/2097549605,Ksheera Sagar,Hotel,Bengaluru,Karnataka,India,12.9805241,77.5750066,OpenStreetMap
+node/2097549792,Hotel Kapila,Hotel,Bengaluru,Karnataka,India,12.979643,77.5751455,OpenStreetMap
+node/2228526392,Login Serviced Apartments,Guest House,Bengaluru,Karnataka,India,12.9313893,77.623888,OpenStreetMap
+node/2238856559,The Royal Comfort,Hotel,Bengaluru,Karnataka,India,12.9306091,77.5853075,OpenStreetMap
+node/2247443535,Rekha Residency,Hotel,Bengaluru,Karnataka,India,12.988584,77.5474906,OpenStreetMap
+node/2247443567,Shivas,Hotel,Bengaluru,Karnataka,India,12.9857195,77.5520611,OpenStreetMap
+node/2247460567,Hotel Blue Diamond,Hotel,Bengaluru,Karnataka,India,12.9870577,77.572403,OpenStreetMap
+node/2249046277,Suvali,Hotel,Bengaluru,Karnataka,India,12.9881972,77.5494003,OpenStreetMap
+node/2249047641,Cafe Coffee Day,Hotel,Bengaluru,Karnataka,India,12.9959438,77.5548935,OpenStreetMap
+node/2249048504,Mallika Residency,Hotel,Bengaluru,Karnataka,India,12.9917517,77.5576615,OpenStreetMap
+node/2261285021,Kashyap Lodge,Hotel,Bengaluru,Karnataka,India,12.987225,77.5397658,OpenStreetMap
+node/2344648079,Hotel Vintage Residency,Hotel,Bengaluru,Karnataka,India,12.9633735,77.5898343,OpenStreetMap
+node/2492263972,Hotel Grand Bee,Hotel,Bengaluru,Karnataka,India,13.0200701,77.5544961,OpenStreetMap
+node/2496916038,Hotel Safina,Hotel,Bengaluru,Karnataka,India,12.9796492,77.6070313,OpenStreetMap
+node/2513569166,Rajath Lodge,Hotel,Bengaluru,Karnataka,India,12.9786599,77.5740904,OpenStreetMap
+node/2513569256,Sajjan Lodge,Hotel,Bengaluru,Karnataka,India,12.9772171,77.5766278,OpenStreetMap
+node/2518837260,Grand Mercure,Hotel,Bengaluru,Karnataka,India,12.9290137,77.6276776,OpenStreetMap
+node/2536347654,The Basil,Hotel,Bengaluru,Karnataka,India,12.9937001,77.571322,OpenStreetMap
+node/2550216927,Royal Shades,Hotel,Bengaluru,Karnataka,India,12.9621219,77.6492356,OpenStreetMap
+node/2577099281,Sandhya Lodge,Hotel,Bengaluru,Karnataka,India,12.9797725,77.5747917,OpenStreetMap
+node/2595576199,Hotel Grand Inn,Hotel,Bengaluru,Karnataka,India,12.9770921,77.5795669,OpenStreetMap
+node/2613279609,Hotel Check Inn,Hotel,Bengaluru,Karnataka,India,13.0209593,77.5844241,OpenStreetMap
+node/2615897555,Ekaa,Hotel,Bengaluru,Karnataka,India,12.8900044,77.6398044,OpenStreetMap
+node/2627097325,Hotel Raj Elegance,Hotel,Bengaluru,Karnataka,India,13.0388864,77.6249175,OpenStreetMap
+node/2642013546,The Royal Senate,Hotel,Bengaluru,Karnataka,India,13.0364837,77.5895892,OpenStreetMap
+node/2771736630,The Monarch Luxor Hotel,Hotel,Bengaluru,Karnataka,India,12.9801755,77.6049823,OpenStreetMap
+node/2800820360,PES Boys Hostel,Hostel,Bengaluru,Karnataka,India,12.9331275,77.5345817,OpenStreetMap
+node/2911691004,Coral Tree by Goldfinch,Hotel,Bengaluru,Karnataka,India,13.0174207,77.5916073,OpenStreetMap
+node/2999619028,Air Force Officers' Mess,Guest House,Bengaluru,Karnataka,India,12.9707054,77.6199809,OpenStreetMap
+node/3173482714,Chevron Orchards Hotel,Hotel,Bengaluru,Karnataka,India,13.0108784,77.5788998,OpenStreetMap
+node/3277990508,Signature Inn,Hotel,Bengaluru,Karnataka,India,12.9731115,77.5701532,OpenStreetMap
+node/3300076799,Srinidhi Residency,Guest House,Bengaluru,Karnataka,India,12.9568142,77.6538254,OpenStreetMap
+node/3300094872,Chalet Citadel,Guest House,Bengaluru,Karnataka,India,12.9584498,77.6563621,OpenStreetMap
+node/3305353531,Oakwey Inn,Hotel,Bengaluru,Karnataka,India,12.9648434,77.6439312,OpenStreetMap
+node/3340457187,Status,Hotel,Bengaluru,Karnataka,India,12.9531464,77.652966,OpenStreetMap
+node/3370028971,Shalimar,Hotel,Bengaluru,Karnataka,India,12.9783904,77.6373978,OpenStreetMap
+node/3374298878,The Himalayan Inn,Hotel,Bengaluru,Karnataka,India,12.9787061,77.6369437,OpenStreetMap
+node/3389094351,Regenta Inn,Hotel,Bengaluru,Karnataka,India,12.9830426,77.6401968,OpenStreetMap
+node/3393357969,Sri Sai Mens PG Hostel,Hostel,Bengaluru,Karnataka,India,12.9893934,77.5736314,OpenStreetMap
+node/3400223197,Swathi hotel,Hotel,Bengaluru,Karnataka,India,12.9256581,77.6006309,OpenStreetMap
+node/3424841462,Aahar Bhavan - Veg Hotel,Hotel,Bengaluru,Karnataka,India,12.9102961,77.6063748,OpenStreetMap
+node/3440624488,Elegant Guest House,Guest House,Bengaluru,Karnataka,India,13.0105999,77.5953412,OpenStreetMap
+node/3512337726,Magic Inn,Hotel,Bengaluru,Karnataka,India,12.9786795,77.6955571,OpenStreetMap
+node/3541633254,Hotel Scarlet,Hotel,Bengaluru,Karnataka,India,12.9497498,77.6991506,OpenStreetMap
+node/3545949795,The Grand Adigas Residency,Hotel,Bengaluru,Karnataka,India,12.9296589,77.6851578,OpenStreetMap
+node/3611815582,Mango Hotels,Hotel,Bengaluru,Karnataka,India,12.9344183,77.626046,OpenStreetMap
+node/3618097094,City Centre Residency,Hotel,Bengaluru,Karnataka,India,12.979241,77.637434,OpenStreetMap
+node/3710165701,Sahana hotel,Hotel,Bengaluru,Karnataka,India,12.9474456,77.5987375,OpenStreetMap
+node/3725710405,Nandhana Hometel,Hotel,Bengaluru,Karnataka,India,12.962198,77.6419389,OpenStreetMap
+node/3727147614,Bloom Hotel,Hotel,Bengaluru,Karnataka,India,12.9667391,77.641224,OpenStreetMap
+node/3760637874,Sri Lakshmi Comforts,Hotel,Bengaluru,Karnataka,India,12.9759033,77.6022279,OpenStreetMap
+node/3778444769,Courtyard,Hotel,Bengaluru,Karnataka,India,12.9282162,77.6825344,OpenStreetMap
+node/3778444770,Fairfield,Hotel,Bengaluru,Karnataka,India,12.9278298,77.68268,OpenStreetMap
+node/3803124367,Nissi Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9259248,77.6772238,OpenStreetMap
+node/3803200446,Bhagini Deluxe Lodge,Hotel,Bengaluru,Karnataka,India,12.9571314,77.701877,OpenStreetMap
+node/3851862908,Upar Hotels,Hotel,Bengaluru,Karnataka,India,12.9705826,77.6458859,OpenStreetMap
+node/3956130954,Bhagini Residency,Hotel,Bengaluru,Karnataka,India,12.9861681,77.7449117,OpenStreetMap
+node/3959946664,Iris Business Hotel,Hotel,Bengaluru,Karnataka,India,12.9707119,77.6072217,OpenStreetMap
+node/4113138589,SnoozOtel,Hostel,Bengaluru,Karnataka,India,12.9925122,77.53131,OpenStreetMap
+node/4122459955,Bloomrooms,Hotel,Bengaluru,Karnataka,India,12.9691128,77.6415527,OpenStreetMap
+node/4170955790,Babasa House Vijaynagar,Guest House,Bengaluru,Karnataka,India,12.9767958,77.536167,OpenStreetMap
+node/4197078589,Md Guest House,Guest House,Bengaluru,Karnataka,India,13.0305442,77.5951073,OpenStreetMap
+node/4215372794,En Amma,Hotel,Bengaluru,Karnataka,India,12.9604413,77.7181435,OpenStreetMap
+node/4219544303,Banad place,Guest House,Bengaluru,Karnataka,India,12.9357351,77.5867892,OpenStreetMap
+node/4243919621,PES South Indian Mess,Hotel,Bengaluru,Karnataka,India,12.9333545,77.5350149,OpenStreetMap
+node/4260999602,SSD home...Hosur Road.,Hostel,Bengaluru,Karnataka,India,12.8849218,77.6422502,OpenStreetMap
+node/4282023690,A.K.M Plaza,Guest House,Bengaluru,Karnataka,India,12.9464631,77.6260381,OpenStreetMap
+node/4299315073,Prem Nivas,Apartment,Bengaluru,Karnataka,India,12.982353,77.6018643,OpenStreetMap
+node/4307198426,Ajji's House,Guest House,Bengaluru,Karnataka,India,12.9385338,77.5774383,OpenStreetMap
+node/4307596343,Stylotel,Hotel,Bengaluru,Karnataka,India,12.9671986,77.6066888,OpenStreetMap
+node/4311239090,Pratik Comforts,Hotel,Bengaluru,Karnataka,India,12.9229815,77.5894385,OpenStreetMap
+node/4316705595,Shri Rama Hotel,Hotel,Bengaluru,Karnataka,India,13.0109804,77.5068574,OpenStreetMap
+node/4320655389,Home,Guest House,Bengaluru,Karnataka,India,13.0360446,77.5268223,OpenStreetMap
+node/4324604192,Sri Sai Bala Ji PG,Hotel,Bengaluru,Karnataka,India,12.9095608,77.6043781,OpenStreetMap
+node/4326803490,Home,Hotel,Bengaluru,Karnataka,India,13.0004913,77.5417024,OpenStreetMap
+node/4327778690,Mill Pond,,Bengaluru,Karnataka,India,12.9696179,77.6899124,OpenStreetMap
+node/4327808291,"#224, 1st main, 9th Cross, Aanam Enclave, Ashwathnagar",Guest House,Bengaluru,Karnataka,India,13.0503146,77.6378098,OpenStreetMap
+node/4331934190,Barbecue Nation,Hotel,Bengaluru,Karnataka,India,13.021693,77.6404039,OpenStreetMap
+node/4337897246,Vardhaman Paradise,Hotel,Bengaluru,Karnataka,India,12.9641301,77.570664,OpenStreetMap
+node/4371004691,Balaji PG for Boys,Hostel,Bengaluru,Karnataka,India,12.9191363,77.6488536,OpenStreetMap
+node/4373986291,"Sai ram Ladies PG, Koramangala",Hostel,Bengaluru,Karnataka,India,12.9259212,77.6389613,OpenStreetMap
+node/4386500192,Sree Guru Cool Joint,Hotel,Bengaluru,Karnataka,India,13.0243972,77.6032595,OpenStreetMap
+node/4386500201,A1 Ambur Biryani,Hotel,Bengaluru,Karnataka,India,13.0272339,77.60426,OpenStreetMap
+node/4386506592,Sri Manjunatha Fast Food Hotel,Hotel,Bengaluru,Karnataka,India,13.0249623,77.6034912,OpenStreetMap
+node/4386507390,Sri Kampli Someshwara Tiffin Center,Hotel,Bengaluru,Karnataka,India,13.0270211,77.6041517,OpenStreetMap
+node/4400948694,Apartment,Guest House,Bengaluru,Karnataka,India,12.9269593,77.5454463,OpenStreetMap
+node/4432924790,Nava Jyothi Girls Hostel,Hostel,Bengaluru,Karnataka,India,13.0557074,77.6437416,OpenStreetMap
+node/4433840889,Sri Annapoorneshwari Nilaya,Guest House,Bengaluru,Karnataka,India,13.1193315,77.6264834,OpenStreetMap
+node/4440837945,Acacia Service Suites,Apartment,Bengaluru,Karnataka,India,12.9736671,77.5990105,OpenStreetMap
+node/4443775288,Sri Sai Balaji PG,Hostel,Bengaluru,Karnataka,India,12.927817,77.6717213,OpenStreetMap
+node/4445059635,Sri Laxmi PG,Guest House,Bengaluru,Karnataka,India,12.9217691,77.6649558,OpenStreetMap
+node/4445076391,Bavitha,Hotel,Bengaluru,Karnataka,India,12.9233121,77.664167,OpenStreetMap
+node/4445113821,Dass Suites,Hotel,Bengaluru,Karnataka,India,12.9466623,77.6476746,OpenStreetMap
+node/4445116252,Synergy Suites,Hotel,Bengaluru,Karnataka,India,12.9464234,77.6478264,OpenStreetMap
+node/4445121884,Gardenia Suites Golf Links,Hotel,Bengaluru,Karnataka,India,12.946457,77.6492864,OpenStreetMap
+node/4445139961,Shri Balaji Andra Style Mess,Hotel,Bengaluru,Karnataka,India,12.9450094,77.6492092,OpenStreetMap
+node/4446554294,Vinayaka Hotel,Hotel,Bengaluru,Karnataka,India,12.9489087,77.6872536,OpenStreetMap
+node/4446983553,Hotel Enzo International,Hotel,Bengaluru,Karnataka,India,12.9213347,77.66384,OpenStreetMap
+node/4446986266,Hotel IRA Residency,Hotel,Bengaluru,Karnataka,India,12.9217521,77.6638083,OpenStreetMap
+node/4447075647,Shri Nidhi Sagar,Hotel,Bengaluru,Karnataka,India,12.9457742,77.6491278,OpenStreetMap
+node/4447114330,Sri Ram Luxury PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9362604,77.6869852,OpenStreetMap
+node/4447297542,Hotel Little Imperial,Hotel,Bengaluru,Karnataka,India,13.0230447,77.6473827,OpenStreetMap
+node/4447789296,Ayodhya Nagar,Hostel,Bengaluru,Karnataka,India,12.9013643,77.5885613,OpenStreetMap
+node/4456370889,Aurick Boutique,Hotel,Bengaluru,Karnataka,India,12.9062397,77.578546,OpenStreetMap
+node/4472375195,Deepa Student Nurses Hostel,Hostel,Bengaluru,Karnataka,India,12.9571068,77.6495069,OpenStreetMap
+node/4475026334,Nirvana,Hotel,Bengaluru,Karnataka,India,12.9462306,77.6738079,OpenStreetMap
+node/4489725849,The Waves Serviced Apartments,Apartment,Bengaluru,Karnataka,India,12.9263839,77.6768259,OpenStreetMap
+node/4489763591,Brundavana RentMyStay,Apartment,Bengaluru,Karnataka,India,12.9131841,77.646259,OpenStreetMap
+node/4490129101,Seasons Serviced Apartments And Guest House,Apartment,Bengaluru,Karnataka,India,12.9860742,77.5781146,OpenStreetMap
+node/4506230395,TAP Paradise Hotel,Hotel,Bengaluru,Karnataka,India,12.9725982,77.5794076,OpenStreetMap
+node/4535338190,TR Vysya Hostel and Choultry,Hostel,Bengaluru,Karnataka,India,12.982693,77.6098436,OpenStreetMap
+node/4542489893,Rosewood International Hotel,Hotel,Bengaluru,Karnataka,India,12.9529166,77.5450511,OpenStreetMap
+node/4556105389,The Little Blue Window Hostel,Hostel,Bengaluru,Karnataka,India,12.9137104,77.6088524,OpenStreetMap
+node/4558466455,Sankethi's,Hotel,Bengaluru,Karnataka,India,12.9316906,77.5555034,OpenStreetMap
+node/4565375978,Sambrahma,Hotel,Bengaluru,Karnataka,India,12.9070384,77.6957798,OpenStreetMap
+node/4569868691,Electric Cats Annexe,Hostel,Bengaluru,Karnataka,India,12.9685159,77.6505961,OpenStreetMap
+node/4580594297,Hotel Tap Comfort,Hotel,Bengaluru,Karnataka,India,12.9701227,77.5794148,OpenStreetMap
+node/4584019109,UG Regal - Budget Hotel,Hotel,Bengaluru,Karnataka,India,12.9730281,77.5692897,OpenStreetMap
+node/4586451789,Mass Residency,Hotel,Bengaluru,Karnataka,India,12.9087932,77.5984614,OpenStreetMap
+node/4590844190,Cauvery hostel,Hostel,Bengaluru,Karnataka,India,12.9754533,77.5705445,OpenStreetMap
+node/4590879290,Nandi,Hostel,Bengaluru,Karnataka,India,12.9752846,77.5701518,OpenStreetMap
+node/4591203890,Chamundy Hostel,Hostel,Bengaluru,Karnataka,India,12.9762316,77.5704278,OpenStreetMap
+node/4605748243,Hotel Vande Matharam,Hotel,Bengaluru,Karnataka,India,13.0105439,77.5504232,OpenStreetMap
+node/4607350915,Sheetal Residency,Hotel,Bengaluru,Karnataka,India,12.9805787,77.571467,OpenStreetMap
+node/4610019489,Sri Ganesha Lodge,Guest House,Bengaluru,Karnataka,India,12.97916,77.5757304,OpenStreetMap
+node/4619004091,Syed Manzil,Guest House,Bengaluru,Karnataka,India,13.0041731,77.6068436,OpenStreetMap
+node/4665107093,PG,Hostel,Bengaluru,Karnataka,India,13.0395696,77.6209443,OpenStreetMap
+node/4666617189,Sri Sathya Pg for Gents,Hostel,Bengaluru,Karnataka,India,12.9531656,77.697046,OpenStreetMap
+node/4680181139,Hotel Empark,Hotel,Bengaluru,Karnataka,India,12.9456273,77.5952951,OpenStreetMap
+node/4697854892,Canara Coffee,Hotel,Bengaluru,Karnataka,India,12.984291,77.5543158,OpenStreetMap
+node/4702962189,Suntruppati,Hotel,Bengaluru,Karnataka,India,12.9798988,77.5759082,OpenStreetMap
+node/4703445290,Anand Sagar,Hotel,Bengaluru,Karnataka,India,12.9391683,77.5715609,OpenStreetMap
+node/4704698015,goSTOPS Bengaluru,Hostel,Bengaluru,Karnataka,India,12.925346,77.5858442,OpenStreetMap
+node/4737582021,Fab Hotel Legacy Brigade Road,Hotel,Bengaluru,Karnataka,India,12.9690356,77.6066442,OpenStreetMap
+node/4740837022,DXmax apartment,Guest House,Bengaluru,Karnataka,India,12.8765157,77.6022719,OpenStreetMap
+node/4763198525,Mayur Comfor Lodge,Hotel,Bengaluru,Karnataka,India,12.9777748,77.574757,OpenStreetMap
+node/4763212044,Royal Regency Lodge,Hotel,Bengaluru,Karnataka,India,12.978436,77.5753365,OpenStreetMap
+node/4763212764,Pushpamala lodge,Hotel,Bengaluru,Karnataka,India,12.9776892,77.5747972,OpenStreetMap
+node/4763212766,Royal Lodge,Hotel,Bengaluru,Karnataka,India,12.9782866,77.5753838,OpenStreetMap
+node/4763212998,Manjusri Paradise Lodge,Hotel,Bengaluru,Karnataka,India,12.9777193,77.5748871,OpenStreetMap
+node/4772970426,Anjappar Chettinad Restuarant Koramangala,Hotel,Bengaluru,Karnataka,India,12.9321765,77.623039,OpenStreetMap
+node/4809112923,Hyatt,Hotel,Bengaluru,Karnataka,India,12.9736357,77.6218548,OpenStreetMap
+node/4813904623,Arjun Apartment,Guest House,Bengaluru,Karnataka,India,12.8772562,77.6031707,OpenStreetMap
+node/4841000224,Hotel Dreams inn,Hotel,Bengaluru,Karnataka,India,12.9454272,77.5950799,OpenStreetMap
+node/4843100423,Dreams inn,Hotel,Bengaluru,Karnataka,India,12.9455189,77.5951301,OpenStreetMap
+node/4843100424,AMM Residency,Hotel,Bengaluru,Karnataka,India,12.949295,77.5931079,OpenStreetMap
+node/4846787923,Hotel Imperial,Hotel,Bengaluru,Karnataka,India,12.9711154,77.6058262,OpenStreetMap
+node/4847824927,Royal guest house,Guest House,Bengaluru,Karnataka,India,12.9450051,77.5948204,OpenStreetMap
+node/4847845825,Limra,Hotel,Bengaluru,Karnataka,India,12.9359094,77.5927065,OpenStreetMap
+node/4849094829,Blue bells,Hotel,Bengaluru,Karnataka,India,12.9352918,77.6091731,OpenStreetMap
+node/4849108629,Supreme,Hotel,Bengaluru,Karnataka,India,12.9470874,77.5941987,OpenStreetMap
+node/4849108632,Golden Amulya,Hotel,Bengaluru,Karnataka,India,13.1212373,77.6097115,OpenStreetMap
+node/4867902023,white house,Hostel,Bengaluru,Karnataka,India,13.0546213,77.6433584,OpenStreetMap
+node/4922958070,Sri Balaji PG,Hostel,Bengaluru,Karnataka,India,12.9827118,77.7490158,OpenStreetMap
+node/4970242326,Sai Ram PG,Hostel,Bengaluru,Karnataka,India,12.9073417,77.6108455,OpenStreetMap
+node/5168560648,Rajmahal Boarding and Lodge,Hotel,Bengaluru,Karnataka,India,12.980358,77.5737339,OpenStreetMap
+node/5180416821,Bangalore YWCA,Hostel,Bengaluru,Karnataka,India,12.979209,77.6067507,OpenStreetMap
+node/5229482747,The Rialto Hotel,Hotel,Bengaluru,Karnataka,India,12.9804313,77.5765457,OpenStreetMap
+node/5237312321,Roxel inn,,Bengaluru,Karnataka,India,12.9626882,77.6348678,OpenStreetMap
+node/5261452101,Hotel Adarsha Palace,Hotel,Bengaluru,Karnataka,India,12.9744204,77.5709781,OpenStreetMap
+node/5269220027,Minla Hotel,Hotel,Bengaluru,Karnataka,India,13.0108921,77.5505079,OpenStreetMap
+node/5273601824,Ujval,Hotel,Bengaluru,Karnataka,India,12.9923067,77.5944585,OpenStreetMap
+node/5279357921,KR Madhav Heights,Apartment,Bengaluru,Karnataka,India,13.0214872,77.6775963,OpenStreetMap
+node/5292780517,Woodland,Hotel,Bengaluru,Karnataka,India,13.0236855,77.6372866,OpenStreetMap
+node/5316624114,Ocea International,Hotel,Bengaluru,Karnataka,India,12.9698386,77.6066965,OpenStreetMap
+node/5330666524,Lakvin Shelters,Apartment,Bengaluru,Karnataka,India,12.9045529,77.5101864,OpenStreetMap
+node/5345117223,Oh my Rooms,Apartment,Bengaluru,Karnataka,India,12.968728,77.6329124,OpenStreetMap
+node/5348958973,Country Inn & Suites by Carlson,Hotel,Bengaluru,Karnataka,India,13.0419285,77.6132521,OpenStreetMap
+node/5349525425,Comfy,Hotel,Bengaluru,Karnataka,India,12.9272923,77.6161593,OpenStreetMap
+node/5358515627,House Nobert,Guest House,Bengaluru,Karnataka,India,12.9758113,77.5045508,OpenStreetMap
+node/5365860855,Hotel Vellara,Hotel,Bengaluru,Karnataka,India,12.9669657,77.6068192,OpenStreetMap
+node/5402224050,Courtyard,Hotel,Bengaluru,Karnataka,India,13.0426855,77.6095271,OpenStreetMap
+node/5402307935,Hotel Kaveri,Hotel,Bengaluru,Karnataka,India,12.9803587,77.5717968,OpenStreetMap
+node/5409690041,Grand Suites,Hotel,Bengaluru,Karnataka,India,12.9773082,77.5750587,OpenStreetMap
+node/5430002764,Aravind Home,Guest House,Bengaluru,Karnataka,India,12.9423918,77.6204543,OpenStreetMap
+node/5435095922,Cafe Coffee Day,Hotel,Bengaluru,Karnataka,India,13.0491546,77.5930152,OpenStreetMap
+node/5435117121,Athidi,Hotel,Bengaluru,Karnataka,India,13.0488736,77.6120246,OpenStreetMap
+node/5455464021,Benhur Pride,Hotel,Bengaluru,Karnataka,India,12.9599897,77.5565132,OpenStreetMap
+node/5503385734,Rahul's Den,Apartment,Bengaluru,Karnataka,India,12.9695064,77.6939197,OpenStreetMap
+node/5520247137,Sannidhy,Apartment,Bengaluru,Karnataka,India,13.05809,77.6023671,OpenStreetMap
+node/5520247459,Anugraha Meadows Apartments,Apartment,Bengaluru,Karnataka,India,13.0557392,77.601085,OpenStreetMap
+node/5520247460,Geeta Bhavan,Apartment,Bengaluru,Karnataka,India,13.0583019,77.6025696,OpenStreetMap
+node/5520247461,Balaji Paradise,Apartment,Bengaluru,Karnataka,India,13.0586436,77.6026098,OpenStreetMap
+node/5520247464,Vega redidency,Apartment,Bengaluru,Karnataka,India,13.0553943,77.601308,OpenStreetMap
+node/5520247472,Chitrakut shelter,Apartment,Bengaluru,Karnataka,India,13.0560432,77.6000375,OpenStreetMap
+node/5520248050,Sai Residency,Apartment,Bengaluru,Karnataka,India,13.0560584,77.600139,OpenStreetMap
+node/5520248635,Gokulam,Apartment,Bengaluru,Karnataka,India,13.0568588,77.6006316,OpenStreetMap
+node/5520248640,Akshaya,Hotel,Bengaluru,Karnataka,India,13.0552034,77.6020719,OpenStreetMap
+node/5520248776,SLS symphony,Apartment,Bengaluru,Karnataka,India,13.0604851,77.6032571,OpenStreetMap
+node/5520252318,Sannidhi,Apartment,Bengaluru,Karnataka,India,13.0579421,77.6023104,OpenStreetMap
+node/5520252372,Sri Sri Apartment,Apartment,Bengaluru,Karnataka,India,13.0566837,77.6011325,OpenStreetMap
+node/5524162719,Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9655441,77.6497286,OpenStreetMap
+node/5524164980,Clara Prime Inn,Hotel,Bengaluru,Karnataka,India,13.0755912,77.602687,OpenStreetMap
+node/5524164983,Treebo Hoppers stop,Hotel,Bengaluru,Karnataka,India,13.0725494,77.6026735,OpenStreetMap
+node/5524164986,Linea,Apartment,Bengaluru,Karnataka,India,13.0695087,77.603545,OpenStreetMap
+node/5524165022,Southridge,Apartment,Bengaluru,Karnataka,India,13.0750937,77.6032902,OpenStreetMap
+node/5535759602,Comfort Inn & Suites,Hotel,Bengaluru,Karnataka,India,13.028156,77.558854,OpenStreetMap
+node/5541640222,Smilee Nest 2,Apartment,Bengaluru,Karnataka,India,13.059134,77.6021174,OpenStreetMap
+node/5551872923,Rio Restaurant,Hotel,Bengaluru,Karnataka,India,13.0848194,77.6344471,OpenStreetMap
+node/5555666432,LoCul.Uptown,Hostel,Bengaluru,Karnataka,India,12.9925545,77.5860651,OpenStreetMap
+node/5571222372,Tirumala PG,Hostel,Bengaluru,Karnataka,India,12.9702428,77.7122327,OpenStreetMap
+node/5584125821,Bhumika Paradise,Apartment,Bengaluru,Karnataka,India,12.9130455,77.5557129,OpenStreetMap
+node/5604053623,Ajaai,Apartment,Bengaluru,Karnataka,India,12.927569,77.6077884,OpenStreetMap
+node/5623550266,Vajra Heritage,Hotel,Bengaluru,Karnataka,India,12.9878823,77.5558068,OpenStreetMap
+node/5643902786,Melody Inn,Hotel,Bengaluru,Karnataka,India,12.9243237,77.6743323,OpenStreetMap
+node/5643902791,Ashwini PG for Men,Hostel,Bengaluru,Karnataka,India,12.9243173,77.6741733,OpenStreetMap
+node/5713272022,Shyamala Pappu Nurses Hostel,Hostel,Bengaluru,Karnataka,India,12.9759883,77.6415288,OpenStreetMap
+node/5810213255,Momina house,Apartment,Bengaluru,Karnataka,India,13.0110165,77.6144729,OpenStreetMap
+node/5864121985,Sai Kalyan Homes,Apartment,Bengaluru,Karnataka,India,12.9824581,77.6813513,OpenStreetMap
+node/5888513786,सात्यकि सरकार,Apartment,Bengaluru,Karnataka,India,12.8721297,77.6686213,OpenStreetMap
+node/5922608011,Hotel Mahalakshmi,Hotel,Bengaluru,Karnataka,India,12.9742409,77.575254,OpenStreetMap
+node/5922659262,MySpace Express Balaji Residency,Hotel,Bengaluru,Karnataka,India,12.997393,77.5500353,OpenStreetMap
+node/5922660391,Sri Devi Lodge,Hotel,Bengaluru,Karnataka,India,12.9899117,77.5532573,OpenStreetMap
+node/5922660396,Aryan Residency,Hotel,Bengaluru,Karnataka,India,12.9899326,77.5527397,OpenStreetMap
+node/5936153691,Boys Hostel II,Hostel,Bengaluru,Karnataka,India,13.1256571,77.6201353,OpenStreetMap
+node/5936153696,Girls Hostel,Hostel,Bengaluru,Karnataka,India,13.126172,77.6208084,OpenStreetMap
+node/6092824885,Zostel,Hostel,Bengaluru,Karnataka,India,12.9648911,77.6421279,OpenStreetMap
+node/6095251773,Manjunatha Homes,Apartment,Bengaluru,Karnataka,India,12.9779714,77.6806911,OpenStreetMap
+node/6137594016,2 Stay,Hostel,Bengaluru,Karnataka,India,12.9084688,77.6838018,OpenStreetMap
+node/6137642777,Amulya Womens' PG,Hostel,Bengaluru,Karnataka,India,12.9084589,77.6836162,OpenStreetMap
+node/6140340436,Sreevari Nilaya Boys PG,Hostel,Bengaluru,Karnataka,India,12.9791647,77.6313885,OpenStreetMap
+node/6166164485,khandoba,Apartment,Bengaluru,Karnataka,India,12.9180704,77.5161687,OpenStreetMap
+node/6169813971,Treebo Hotel Worldtree Bellandur,Hotel,Bengaluru,Karnataka,India,12.9259979,77.6708823,OpenStreetMap
+node/6175814008,FF21,Hostel,Bengaluru,Karnataka,India,13.0279188,77.6309851,OpenStreetMap
+node/6175817433,Girls Hostel,Hostel,Bengaluru,Karnataka,India,13.0280598,77.6306422,OpenStreetMap
+node/6175841450,Girls Hostel,Hostel,Bengaluru,Karnataka,India,13.027731,77.6317491,OpenStreetMap
+node/6240954285,Lalithamahal,Hotel,Bengaluru,Karnataka,India,12.9716633,77.5726981,OpenStreetMap
+node/6313710085,The Hood Co-Living Hostel,Hostel,Bengaluru,Karnataka,India,12.9349622,77.6221915,OpenStreetMap
+node/6336817029,Chaitanya PG for gents,Guest House,Bengaluru,Karnataka,India,13.0890233,77.6344376,OpenStreetMap
+node/6347782781,Royal PG For Ladies,Hostel,Bengaluru,Karnataka,India,12.898651,77.6280784,OpenStreetMap
+node/6389221458,Fab Hotel,Hotel,Bengaluru,Karnataka,India,12.9648679,77.7016525,OpenStreetMap
+node/6418988788,Madhu Lodge,Hotel,Bengaluru,Karnataka,India,12.9711847,77.5763869,OpenStreetMap
+node/6419027189,Danveer Sheth kapurchand rajmalji Jain shwetamber dharmshala,Guest House,Bengaluru,Karnataka,India,12.9693715,77.5769148,OpenStreetMap
+node/6449208762,Celestial Heights,Hotel,Bengaluru,Karnataka,India,12.9340481,77.5344673,OpenStreetMap
+node/6487165544,Hotel Bangalore Gate,Hotel,Bengaluru,Karnataka,India,12.9735807,77.5794876,OpenStreetMap
+node/6580034677,Kushi PG for Ladies,Apartment,Bengaluru,Karnataka,India,13.0002443,77.5599809,OpenStreetMap
+node/6584009963,Monarch Hotel,Hotel,Bengaluru,Karnataka,India,12.9727609,77.6073763,OpenStreetMap
+node/6585798186,Parkside Manor,Apartment,Bengaluru,Karnataka,India,12.9746714,77.6455399,OpenStreetMap
+node/6585804985,Rosedale,Apartment,Bengaluru,Karnataka,India,12.9762615,77.6429841,OpenStreetMap
+node/6679886085,RC Sainikethan,Apartment,Bengaluru,Karnataka,India,12.9292542,77.685536,OpenStreetMap
+node/6690507098,OYO 13120 Ambrosia,Hotel,Bengaluru,Karnataka,India,12.949846,77.715858,OpenStreetMap
+node/6761308188,Ravindra PG for gents,Hostel,Bengaluru,Karnataka,India,12.9219011,77.6765701,OpenStreetMap
+node/6761368157,Cauvery Serenity,Apartment,Bengaluru,Karnataka,India,13.025596,77.5484722,OpenStreetMap
+node/6761441048,Holiday Inn Express,Hotel,Bengaluru,Karnataka,India,13.0251512,77.548137,OpenStreetMap
+node/6788643755,Radisson City Center,Hotel,Bengaluru,Karnataka,India,12.9764637,77.6196256,OpenStreetMap
+node/6795635866,Amaravathi PG for gents,Hostel,Bengaluru,Karnataka,India,12.9832096,77.733053,OpenStreetMap
+node/6806249922,Utse Suites,Guest House,Bengaluru,Karnataka,India,12.9849136,77.6115895,OpenStreetMap
+node/6809760926,Sree Ganesha Juice And Ice Cream,Hotel,Bengaluru,Karnataka,India,13.0695006,77.5039562,OpenStreetMap
+node/6975264554,JK Tyre & Industries Limited - Transit House,Guest House,Bengaluru,Karnataka,India,12.9876873,77.5929824,OpenStreetMap
+node/6991702678,New Brindavan Hotel,Hotel,Bengaluru,Karnataka,India,13.0076876,77.6836853,OpenStreetMap
+node/6991712376,Petra Park Apartments,Apartment,Bengaluru,Karnataka,India,13.0116873,77.6704407,OpenStreetMap
+node/7003932062,The Jamun,Guest House,Bengaluru,Karnataka,India,13.036702,77.5699098,OpenStreetMap
+node/7007305754,SKL Grand Rooms,Hostel,Bengaluru,Karnataka,India,12.9347724,77.511431,OpenStreetMap
+node/7156536794,Naidu Palace,Hotel,Bengaluru,Karnataka,India,12.98714,77.5494285,OpenStreetMap
+node/7159471513,Vemana Boys Hostel,Hostel,Bengaluru,Karnataka,India,12.9089151,77.6240472,OpenStreetMap
+node/7164365775,Sion PG,Guest House,Bengaluru,Karnataka,India,12.9154137,77.6106349,OpenStreetMap
+node/7166273511,Kalpavriksha Upahar,Hotel,Bengaluru,Karnataka,India,12.921283,77.5932645,OpenStreetMap
+node/7215593391,Galaxy Suites,Hotel,Bengaluru,Karnataka,India,13.0279389,77.5617921,OpenStreetMap
+node/7232185449,Four Seasons Hotel,Hotel,Bengaluru,Karnataka,India,13.0191154,77.5851502,OpenStreetMap
+node/7236205665,H K Residency,Hotel,Bengaluru,Karnataka,India,12.9883253,77.5497463,OpenStreetMap
+node/7236205667,Navya Residency,Hotel,Bengaluru,Karnataka,India,12.9902802,77.5504638,OpenStreetMap
+node/7236205678,The Grand Coral,Hotel,Bengaluru,Karnataka,India,12.996571,77.5508266,OpenStreetMap
+node/7252347985,Deep Residency,Apartment,Bengaluru,Karnataka,India,12.982021,77.5501929,OpenStreetMap
+node/7292235611,Mathrushree Residency,Hotel,Bengaluru,Karnataka,India,12.9899013,77.5533586,OpenStreetMap
+node/7294299977,Olivia Inn & Suites,Hotel,Bengaluru,Karnataka,India,12.9235417,77.6185557,OpenStreetMap
+node/7301357909,Kengiri,Hotel,Bengaluru,Karnataka,India,12.9924782,77.5984472,OpenStreetMap
+node/7301358089,The Chevron,Hotel,Bengaluru,Karnataka,India,12.983268,77.5941621,OpenStreetMap
+node/7528043669,Nimhans Staff Quarters,Hostel,Bengaluru,Karnataka,India,12.9389909,77.6015027,OpenStreetMap
+node/7976318316,Woke,Hotel,Bengaluru,Karnataka,India,12.9778932,77.6444166,OpenStreetMap
+node/8079582517,Prakruti Apartments,Apartment,Bengaluru,Karnataka,India,12.912102,77.4916924,OpenStreetMap
+node/8079582617,Vanani Apartments,Apartment,Bengaluru,Karnataka,India,12.9126223,77.4921221,OpenStreetMap
+node/8148782424,A class PG,Apartment,Bengaluru,Karnataka,India,13.0227786,77.5565328,OpenStreetMap
+node/8148786614,Eco Hispitality PG,Apartment,Bengaluru,Karnataka,India,13.0234663,77.5569063,OpenStreetMap
+node/8178641673,Zolo Park View,Apartment,Bengaluru,Karnataka,India,12.9139248,77.6402199,OpenStreetMap
+node/8196821613,SUPREME HOTEL,Hotel,Bengaluru,Karnataka,India,13.0284821,77.5199844,OpenStreetMap
+node/8196826662,Ayra Hotel,Hotel,Bengaluru,Karnataka,India,12.9899167,77.5735756,OpenStreetMap
+node/8255026537,Garden PG (gents),Apartment,Bengaluru,Karnataka,India,13.0193773,77.5571,OpenStreetMap
+node/8288379217,Sri Balaji Men's PG,Hostel,Bengaluru,Karnataka,India,13.0369061,77.6148395,OpenStreetMap
+node/8354989817,Benaka Homes Libero apartments,Apartment,Bengaluru,Karnataka,India,13.0310637,77.5711646,OpenStreetMap
+node/8424469096,Zolo Enigma,Apartment,Bengaluru,Karnataka,India,12.9155664,77.64611,OpenStreetMap
+node/8496516677,"house 57, Shobha Emarld",Apartment,Bengaluru,Karnataka,India,13.0787804,77.6048644,OpenStreetMap
+node/8518501982,Pawan Shine Apartment,Apartment,Bengaluru,Karnataka,India,13.0287714,77.555613,OpenStreetMap
+node/8534502718,Vijayalakshmi Residency,Hotel,Bengaluru,Karnataka,India,13.0219436,77.5536336,OpenStreetMap
+node/8603257104,Be Animal Hostel,Hostel,Bengaluru,Karnataka,India,12.9407828,77.6233139,OpenStreetMap
+node/8728789125,Halcyon Hotel Residences,Hotel,Bengaluru,Karnataka,India,12.9361688,77.631568,OpenStreetMap
+node/8852383317,HLV Grand Inn,Hotel,Bengaluru,Karnataka,India,12.9784414,77.5762946,OpenStreetMap
+node/8929645117,#28,Apartment,Bengaluru,Karnataka,India,13.0700921,77.574569,OpenStreetMap
+node/8989627051,Oxford Inn,Hotel,Bengaluru,Karnataka,India,12.9723309,77.604513,OpenStreetMap
+node/9007481217,Casa Cottage,Guest House,Bengaluru,Karnataka,India,12.9643604,77.6041802,OpenStreetMap
+node/9063471394,Hotel Citadel,Hotel,Bengaluru,Karnataka,India,12.9809954,77.5751603,OpenStreetMap
+node/9125637081,Galaxy Elite,Apartment,Bengaluru,Karnataka,India,12.9333791,77.5546325,OpenStreetMap
+node/9140200234,Temple Tree Studios,Apartment,Bengaluru,Karnataka,India,12.961004,77.6046552,OpenStreetMap
+node/9159640312,Kings & Queen Apartment,Apartment,Bengaluru,Karnataka,India,12.8818677,77.5694693,OpenStreetMap
+node/9159982976,OYO Townhouse 264,Hotel,Bengaluru,Karnataka,India,12.9134318,77.6054041,OpenStreetMap
+node/9173864232,Spruce Tree Suites,Hostel,Bengaluru,Karnataka,India,12.9134312,77.610206,OpenStreetMap
+node/9192280217,Sierra Syllable,Apartment,Bengaluru,Karnataka,India,13.0641829,77.5748723,OpenStreetMap
+node/9230655244,Laika Boutique Stay,Hotel,Bengaluru,Karnataka,India,12.9705614,77.6167908,OpenStreetMap
+node/9230655249,Golden Lotus,Hotel,Bengaluru,Karnataka,India,12.971156,77.6171355,OpenStreetMap
+node/9296258310,Octave Hotel,Hotel,Bengaluru,Karnataka,India,12.9599329,77.5933074,OpenStreetMap
+node/9312818685,Colive Drava,Apartment,Bengaluru,Karnataka,India,12.9690274,77.6947677,OpenStreetMap
+node/9378343681,Hotel Sree Nandanam Residency,Hotel,Bengaluru,Karnataka,India,13.0292753,77.5591419,OpenStreetMap
+node/9404262918,Guru,Apartment,Bengaluru,Karnataka,India,13.0961136,77.575873,OpenStreetMap
+node/9408902117,Charana residency,Apartment,Bengaluru,Karnataka,India,13.0496666,77.5753548,OpenStreetMap
+node/9408902217,Sahana Residency,Apartment,Bengaluru,Karnataka,India,13.0496812,77.5753996,OpenStreetMap
+node/9408913417,Charana Residency,Apartment,Bengaluru,Karnataka,India,13.0496462,77.5753753,OpenStreetMap
+node/9563008717,Udupi upahar,Hotel,Bengaluru,Karnataka,India,13.0534758,77.5753819,OpenStreetMap
+node/9792404388,Alpha Living,Hostel,Bengaluru,Karnataka,India,12.9319793,77.6975119,OpenStreetMap
+node/9797011358,Hotel Ashoka,Hotel,Bengaluru,Karnataka,India,12.9854725,77.6070269,OpenStreetMap
+node/9801217767,Central Government Touring Officers Guest House,Guest House,Bengaluru,Karnataka,India,12.9594735,77.6393375,OpenStreetMap
+node/9833465653,Astra Hotels and Suits,Hotel,Bengaluru,Karnataka,India,12.9229069,77.6513844,OpenStreetMap
+node/9884929791,Sri Rama PG For Gents,Hostel,Bengaluru,Karnataka,India,12.9587993,77.7216549,OpenStreetMap
+node/9917238617,SAF Snowdrops Apartment,Apartment,Bengaluru,Karnataka,India,12.8921207,77.5632926,OpenStreetMap
+node/9920707822,SLVR PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9541893,77.699008,OpenStreetMap
+node/9920708897,Aadi Comforts,Hostel,Bengaluru,Karnataka,India,12.9541962,77.6988356,OpenStreetMap
+node/9920825258,Mohan Gents PG,Hostel,Bengaluru,Karnataka,India,12.9565819,77.7104098,OpenStreetMap
+node/9925141414,Seef Lodge,Hostel,Bengaluru,Karnataka,India,12.8642313,77.5746635,OpenStreetMap
+node/9933650317,Regenta Inn Grand,Hotel,Bengaluru,Karnataka,India,12.943185,77.6213595,OpenStreetMap
+node/9934208905,Sri Balaji HomeStay PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9594801,77.7169424,OpenStreetMap
+node/9936668905,Hotel Madhu,Hotel,Bengaluru,Karnataka,India,12.9836966,77.5493494,OpenStreetMap
+node/9947832266,Nikhil Sai Luxury PG,Hostel,Bengaluru,Karnataka,India,12.959071,77.7214103,OpenStreetMap
+node/9949731459,Sherisha Reddy PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9599014,77.7187182,OpenStreetMap
+node/9950801717,V.R.R.Homes,Apartment,Bengaluru,Karnataka,India,12.9410266,77.6277656,OpenStreetMap
+node/9952811071,Arcade Living Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9604797,77.7159194,OpenStreetMap
+node/9954119918,45th Quadrant,Apartment,Bengaluru,Karnataka,India,12.9392874,77.62815,OpenStreetMap
+node/9961691817,Royal Comforts PG,Guest House,Bengaluru,Karnataka,India,12.9413521,77.6277788,OpenStreetMap
+node/9967039254,The Liverpool Hotels,Hotel,Bengaluru,Karnataka,India,12.9747329,77.6971865,OpenStreetMap
+node/9972777644,Heidelberg House,Hostel,Bengaluru,Karnataka,India,12.9586998,77.7211629,OpenStreetMap
+node/9977771293,Sri Skanda Enterprises;Sri Balaji Ladies PG,Hostel,Bengaluru,Karnataka,India,12.96005,77.7172358,OpenStreetMap
+node/9981114384,Pooja PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9600852,77.7180849,OpenStreetMap
+node/9981114386,Dwell PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9573494,77.7188774,OpenStreetMap
+node/10009237338,Kamat’s Hotel Mayura,Hotel,Bengaluru,Karnataka,India,12.9820167,77.605782,OpenStreetMap
+node/10009335017,Rasheed Manzil,Apartment,Bengaluru,Karnataka,India,12.9812876,77.6056148,OpenStreetMap
+node/10047410519,Abrahams Studio,Apartment,Bengaluru,Karnataka,India,12.9404498,77.6258993,OpenStreetMap
+node/10047410521,N.A.Star Paradise,Apartment,Bengaluru,Karnataka,India,12.9408688,77.6277545,OpenStreetMap
+node/10047410822,Easy Stay,Guest House,Bengaluru,Karnataka,India,12.9408404,77.6275169,OpenStreetMap
+node/10076250130,Umiya Laburnum,Apartment,Bengaluru,Karnataka,India,12.9999576,77.6288704,OpenStreetMap
+node/10095905212,Ibis,Hotel,Bengaluru,Karnataka,India,13.040766,77.6195055,OpenStreetMap
+node/10105887418,The Nest,Apartment,Bengaluru,Karnataka,India,12.9420509,77.6279318,OpenStreetMap
+node/10109541439,Sri Balaji PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9643869,77.7152721,OpenStreetMap
+node/10111815203,Jeevith Gardens PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9626601,77.7192806,OpenStreetMap
+node/10123822786,Le Foliage,Hotel,Bengaluru,Karnataka,India,12.9169645,77.5791794,OpenStreetMap
+node/10123938475,Palmtree,Hotel,Bengaluru,Karnataka,India,12.9793312,77.6291742,OpenStreetMap
+node/10123938476,Shilton,Hotel,Bengaluru,Karnataka,India,12.9756154,77.6173406,OpenStreetMap
+node/10178539717,ತ್ರಿವಿಕ್ರ,Apartment,Bengaluru,Karnataka,India,13.1030189,77.5596069,OpenStreetMap
+node/10201024147,Milestone Calidad,Apartment,Bengaluru,Karnataka,India,12.8619941,77.600983,OpenStreetMap
+node/10217199338,Gayathri Mandira,Apartment,Bengaluru,Karnataka,India,12.9675523,77.6896575,OpenStreetMap
+node/10217199722,Disha Marvel,Apartment,Bengaluru,Karnataka,India,12.9678177,77.6893019,OpenStreetMap
+node/10221065234,Sri Udupi Parkk,Hotel,Bengaluru,Karnataka,India,12.9824346,77.7483784,OpenStreetMap
+node/10221065235,Stay@,Apartment,Bengaluru,Karnataka,India,12.9826452,77.7486843,OpenStreetMap
+node/10228570995,Pranam Comforts,Hotel,Bengaluru,Karnataka,India,12.9870772,77.5785393,OpenStreetMap
+node/10257576946,DBrooks Elite Business Hotel,Hotel,Bengaluru,Karnataka,India,12.9610375,77.7137754,OpenStreetMap
+node/10280770025,Super Hotel O,Hotel,Bengaluru,Karnataka,India,12.9602164,77.7218029,OpenStreetMap
+node/10293635625,Nestaway,Hotel,Bengaluru,Karnataka,India,12.9158426,77.6456594,OpenStreetMap
+node/10295397903,Nahar Heritage Hotel,Hotel,Bengaluru,Karnataka,India,12.9711587,77.6006922,OpenStreetMap
+node/10295397905,Treebo Hotel Edge,Hotel,Bengaluru,Karnataka,India,12.9705889,77.6006124,OpenStreetMap
+node/10303904019,Hotel Grand Seasons,Hotel,Bengaluru,Karnataka,India,13.0020778,77.66305,OpenStreetMap
+node/10564358159,Pranava's BSR Gitaar,Apartment,Bengaluru,Karnataka,India,12.9419248,77.7013714,OpenStreetMap
+node/10617518507,Hotel Aurum Keys,Hotel,Bengaluru,Karnataka,India,12.9794641,77.6951644,OpenStreetMap
+node/10651168095,Kings & Queens Co Living PG,Hostel,Bengaluru,Karnataka,India,12.9918753,77.7131856,OpenStreetMap
+node/10651832562,Udupi Krishna Grand,Hotel,Bengaluru,Karnataka,India,13.017598,77.6524891,OpenStreetMap
+node/10651913725,Pearl suites,Hotel,Bengaluru,Karnataka,India,12.9550861,77.6506473,OpenStreetMap
+node/10676226621,Vaishnavi Luxury PG,Hostel,Bengaluru,Karnataka,India,12.9590437,77.7216761,OpenStreetMap
+node/10719499933,Venkata Ramana PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9596391,77.7029058,OpenStreetMap
+node/10801924282,Livora - PG for Men,Hostel,Bengaluru,Karnataka,India,12.860815,77.5426918,OpenStreetMap
+node/10814735751,Sri Lakshmi Venkateshwara PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9611373,77.7185673,OpenStreetMap
+node/10814735752,KVR Premium PG,Hostel,Bengaluru,Karnataka,India,12.9613621,77.7185927,OpenStreetMap
+node/10821479718,MGM apartments,Apartment,Bengaluru,Karnataka,India,12.934556,77.7093854,OpenStreetMap
+node/10910526191,Locul Hostel Central,Hostel,Bengaluru,Karnataka,India,12.9757149,77.6024048,OpenStreetMap
+node/10924807387,Melange Astris,Hotel,Bengaluru,Karnataka,India,12.9648241,77.5985719,OpenStreetMap
+node/10963827409,Melange,Apartment,Bengaluru,Karnataka,India,12.9703686,77.5970335,OpenStreetMap
+node/10965349434,Narayana Comforts,Hotel,Bengaluru,Karnataka,India,13.1048911,77.6003651,OpenStreetMap
+node/10965349441,Shreyas Residency,Hotel,Bengaluru,Karnataka,India,13.1045642,77.6001407,OpenStreetMap
+node/11003390004,Sri KNS Luxury PG,Hostel,Bengaluru,Karnataka,India,12.960282,77.7180246,OpenStreetMap
+node/11003395605,Sri Sai Guest House,Hostel,Bengaluru,Karnataka,India,12.9602446,77.7181888,OpenStreetMap
+node/11034520919,Stanza Living Miraj Apartment,Apartment,Bengaluru,Karnataka,India,12.9283741,77.6707166,OpenStreetMap
+node/11034520920,Stanza Living Dudley House,Apartment,Bengaluru,Karnataka,India,12.925973,77.6705155,OpenStreetMap
+node/11091113619,Hotel Runway Suites,Hotel,Bengaluru,Karnataka,India,12.9566329,77.7100815,OpenStreetMap
+node/11131430552,FabHotels,Hotel,Bengaluru,Karnataka,India,12.9690174,77.6361697,OpenStreetMap
+node/11153257896,SLN Classic PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9339687,77.618757,OpenStreetMap
+node/11178091272,New Sai Baba PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9573222,77.5694607,OpenStreetMap
+node/11178140428,SRM PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9602989,77.5691407,OpenStreetMap
+node/11178156320,Sir Puttannachetty Veerasiva Free Boarding Home,Hostel,Bengaluru,Karnataka,India,12.9508302,77.5677823,OpenStreetMap
+node/11192491326,Sri Mahalakshmi PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9607951,77.7160178,OpenStreetMap
+node/11192491327,Saanvi PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9609353,77.7159864,OpenStreetMap
+node/11193554734,Sri Sai Balaji PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9671151,77.714216,OpenStreetMap
+node/11209916093,Attide biz,Hotel,Bengaluru,Karnataka,India,13.0586077,77.5927247,OpenStreetMap
+node/11210437037,Rajans Cafe,Hostel,Bengaluru,Karnataka,India,12.9548129,77.6427059,OpenStreetMap
+node/11215614052,Astra Hotels,Hotel,Bengaluru,Karnataka,India,12.9773169,77.7250751,OpenStreetMap
+node/11215814225,Treebo Akshaya Bull Temple,Hotel,Bengaluru,Karnataka,India,12.9441289,77.5680437,OpenStreetMap
+node/11224559217,Purple Inn,Hotel,Bengaluru,Karnataka,India,12.9709,77.7070266,OpenStreetMap
+node/11259898775,PSR Luxury PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9126681,77.6284933,OpenStreetMap
+node/11259898776,Zolo Vinson,Hostel,Bengaluru,Karnataka,India,12.9127243,77.6290049,OpenStreetMap
+node/11268445215,Janardhan,Hotel,Bengaluru,Karnataka,India,12.9857927,77.5789851,OpenStreetMap
+node/11279857489,Olive Jayanagar,Hotel,Bengaluru,Karnataka,India,12.9184255,77.5810973,OpenStreetMap
+node/11287892332,Anarghya PG for Ladies,Guest House,Bengaluru,Karnataka,India,12.9142759,77.6127753,OpenStreetMap
+node/11290256859,FabExpress Oriental Suites,Hotel,Bengaluru,Karnataka,India,12.9130408,77.605488,OpenStreetMap
+node/11290438222,Poornima Regency,Hotel,Bengaluru,Karnataka,India,12.9521048,77.5945294,OpenStreetMap
+node/11290812038,Perfect Ladies PG,Guest House,Bengaluru,Karnataka,India,12.9135755,77.603733,OpenStreetMap
+node/11292077128,Castle Dollar,Apartment,Bengaluru,Karnataka,India,12.90482,77.5971152,OpenStreetMap
+node/11292715482,Vaka Living,Hostel,Bengaluru,Karnataka,India,12.911743,77.6098567,OpenStreetMap
+node/11295297228,Temple Tree Hotel,Hotel,Bengaluru,Karnataka,India,12.9479778,77.5946052,OpenStreetMap
+node/11295303737,Bilton,Hotel,Bengaluru,Karnataka,India,12.9447473,77.5968662,OpenStreetMap
+node/11295814510,Hotel Sarbhawal Residency,Hotel,Bengaluru,Karnataka,India,12.9565763,77.5922448,OpenStreetMap
+node/11295814511,Dreamz Lodge,Hotel,Bengaluru,Karnataka,India,12.9564473,77.5913961,OpenStreetMap
+node/11296660892,SVNS PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9135075,77.6082455,OpenStreetMap
+node/11297786869,"The Hosteller Bangalore, Brigade Road",Hostel,Bengaluru,Karnataka,India,12.9672722,77.6067298,OpenStreetMap
+node/11308977985,Sri Venkateshwara PG for Ladies,Hostel,Bengaluru,Karnataka,India,12.9606385,77.7151392,OpenStreetMap
+node/11308977987,S.V.S. PG,Hostel,Bengaluru,Karnataka,India,12.9607251,77.7145658,OpenStreetMap
+node/11309805457,Hotel Raja Galaxy,Hotel,Bengaluru,Karnataka,India,12.9165478,77.5979007,OpenStreetMap
+node/11323106498,Vovo premier hotel,Hotel,Bengaluru,Karnataka,India,12.9774811,77.5769604,OpenStreetMap
+node/11393362103,Mannat Safestay,Hostel,Bengaluru,Karnataka,India,12.9168151,77.6071622,OpenStreetMap
+node/11396006853,La Sera Grand,,Bengaluru,Karnataka,India,12.9361649,77.6216258,OpenStreetMap
+node/11396013056,SRS Suites,,Bengaluru,Karnataka,India,12.9375291,77.6176417,OpenStreetMap
+node/11397272610,Rithun Residency,Hostel,Bengaluru,Karnataka,India,12.9166246,77.5960581,OpenStreetMap
+node/11434743801,Patna Wale,Hotel,Bengaluru,Karnataka,India,12.9178452,77.6074222,OpenStreetMap
+node/11476370285,Olive Richmond Circle,Hotel,Bengaluru,Karnataka,India,12.9667247,77.5947078,OpenStreetMap
+node/11476370286,LIC VIP Guest House,Guest House,Bengaluru,Karnataka,India,12.966594,77.5948144,OpenStreetMap
+node/11513421569,Tiba Hotel,Hotel,Bengaluru,Karnataka,India,12.9739463,77.5700295,OpenStreetMap
+node/11518830718,Brunton Heights,Hotel,Bengaluru,Karnataka,India,12.9703425,77.6145858,OpenStreetMap
+node/11533043950,VJl Habitat,Apartment,Bengaluru,Karnataka,India,12.9207698,77.6503946,OpenStreetMap
+node/11602938166,Fountain Tree,Hotel,Bengaluru,Karnataka,India,12.9107771,77.5993001,OpenStreetMap
+node/11614879816,Brindavana Lodge,,Bengaluru,Karnataka,India,12.9545594,77.5923611,OpenStreetMap
+node/11617890643,Greenpark Bengaluru,Hotel,Bengaluru,Karnataka,India,12.9083896,77.6010602,OpenStreetMap
+node/11630772964,Sri Venkateshwara PG,Guest House,Bengaluru,Karnataka,India,12.9784836,77.6300026,OpenStreetMap
+node/11640105922,Sri Lakshmi PG,Hostel,Bengaluru,Karnataka,India,12.9190676,77.6710363,OpenStreetMap
+node/11658782434,Amber,Hostel,Bengaluru,Karnataka,India,12.9933123,77.5905954,OpenStreetMap
+node/11659012412,Blue bells clover,Hostel,Bengaluru,Karnataka,India,12.9921246,77.5900621,OpenStreetMap
+node/11659028770,Aaransh,Apartment,Bengaluru,Karnataka,India,12.9925179,77.5940454,OpenStreetMap
+node/11659028901,Maa Kripa,Apartment,Bengaluru,Karnataka,India,12.9926741,77.5907932,OpenStreetMap
+node/11665637079,Adarsh Hamilton,Hotel,Bengaluru,Karnataka,India,12.9644349,77.5982536,OpenStreetMap
+node/11676514142,Alpha Suites,Hostel,Bengaluru,Karnataka,India,12.9885553,77.5930653,OpenStreetMap
+node/11677179243,Hotel Fortuner Palace,Hotel,Bengaluru,Karnataka,India,12.9803053,77.5753071,OpenStreetMap
+node/11677179250,Sandhya Residency,Hotel,Bengaluru,Karnataka,India,12.9795168,77.5748096,OpenStreetMap
+node/11677179253,Hotel Nest Rooms,Hotel,Bengaluru,Karnataka,India,12.9781312,77.5751887,OpenStreetMap
+node/11677179254,Hotel Adora,Hotel,Bengaluru,Karnataka,India,12.977964,77.5752147,OpenStreetMap
+node/11677179260,Embassy Hotel,Hotel,Bengaluru,Karnataka,India,12.9783733,77.576356,OpenStreetMap
+node/11681984869,Hotel Pawansree,Hotel,Bengaluru,Karnataka,India,12.9773382,77.5754024,OpenStreetMap
+node/11683483664,Starlive Co Living PG,Guest House,Bengaluru,Karnataka,India,12.905101,77.6119457,OpenStreetMap
+node/11683483666,Sri S Swami PG for Gents,Guest House,Bengaluru,Karnataka,India,12.9054456,77.6124051,OpenStreetMap
+node/11684501906,Tierra Woods A Business Hotel,Hotel,Bengaluru,Karnataka,India,12.977412,77.6271225,OpenStreetMap
+node/11684647126,Modern Hotel,Hotel,Bengaluru,Karnataka,India,12.987215,77.5745717,OpenStreetMap
+node/11684647129,Kalyan Lodge,Hotel,Bengaluru,Karnataka,India,12.9886039,77.5743879,OpenStreetMap
+node/11684876152,Sri Ganesh Lodge,Hotel,Bengaluru,Karnataka,India,13.022564,77.552725,OpenStreetMap
+node/11684876157,Bangalore Residency,Hotel,Bengaluru,Karnataka,India,13.022011,77.553635,OpenStreetMap
+node/11684876158,Sky Inns,Hotel,Bengaluru,Karnataka,India,13.0220727,77.5536787,OpenStreetMap
+node/11708703070,Relax Inn,Apartment,Bengaluru,Karnataka,India,12.97939,77.6290564,OpenStreetMap
+node/11738964998,The Ventura Grand Hotel,Hotel,Bengaluru,Karnataka,India,13.054191,77.5084393,OpenStreetMap
+node/11799139353,Queens Lounge,Hostel,Bengaluru,Karnataka,India,12.9736744,77.7154492,OpenStreetMap
+node/11799139354,Sri Lakshmi PG,Hostel,Bengaluru,Karnataka,India,12.9736326,77.7153271,OpenStreetMap
+node/11801896103,Sri Dharani Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9072014,77.5611853,OpenStreetMap
+node/11801896104,Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9070772,77.5612731,OpenStreetMap
+node/11817895097,Tranquil Green,Apartment,Bengaluru,Karnataka,India,13.0338379,77.6499287,OpenStreetMap
+node/11817897611,Happy home's casa venera,Apartment,Bengaluru,Karnataka,India,13.0342013,77.6499154,OpenStreetMap
+node/11832800806,Sri Sai Brindavan PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9673883,77.718698,OpenStreetMap
+node/11832800811,Sri Yogeshwara Gents PG,Hostel,Bengaluru,Karnataka,India,12.9675654,77.7187047,OpenStreetMap
+node/11836733632,Velvette,Hotel,Bengaluru,Karnataka,India,12.9259511,77.6770405,OpenStreetMap
+node/11860460499,NMIT Boys Hostel,Hostel,Bengaluru,Karnataka,India,13.1279573,77.5879517,OpenStreetMap
+node/11860460536,NMIT Boys Hostel,Hostel,Bengaluru,Karnataka,India,13.1293117,77.5873241,OpenStreetMap
+node/11860460558,NMIT Girls Hostel,Hostel,Bengaluru,Karnataka,India,13.1298981,77.5872262,OpenStreetMap
+node/11860460613,NMIT Boys Hostel,Hostel,Bengaluru,Karnataka,India,13.1274584,77.5875588,OpenStreetMap
+node/11860460690,NMIT Guest House,Guest House,Bengaluru,Karnataka,India,13.1272207,77.5867729,OpenStreetMap
+node/11860460736,NMIT Girls Hostel,Hostel,Bengaluru,Karnataka,India,13.1298648,77.5867943,OpenStreetMap
+node/11869110972,Hypons Hotel,Hotel,Bengaluru,Karnataka,India,12.925273,77.6345868,OpenStreetMap
+node/11878470074,Howard Johnson By Wyndham,Hotel,Bengaluru,Karnataka,India,13.0446641,77.6264389,OpenStreetMap
+node/11887025469,Manohara PG,Hostel,Bengaluru,Karnataka,India,12.9593836,77.7164443,OpenStreetMap
+node/11896618319,New Light Suites,Hotel,Bengaluru,Karnataka,India,12.9995618,77.6766252,OpenStreetMap
+node/11897958368,AHS Ladies PG,Hostel,Bengaluru,Karnataka,India,13.0040837,77.5694752,OpenStreetMap
+node/11949300810,Oyo Sri Sai Guru Comforts,Hotel,Bengaluru,Karnataka,India,13.0591987,77.5925501,OpenStreetMap
+node/11957603596,Sri Sai Suites,Hotel,Bengaluru,Karnataka,India,12.8908703,77.6060528,OpenStreetMap
+node/12031661012,Woody's,Hotel,Bengaluru,Karnataka,India,12.9164559,77.5914845,OpenStreetMap
+node/12031695719,Olive by Embassy Group,Hotel,Bengaluru,Karnataka,India,12.9172625,77.6089283,OpenStreetMap
+node/12050484498,Reside Inn,Hotel,Bengaluru,Karnataka,India,12.9611744,77.7134635,OpenStreetMap
+node/12050487426,Wonder Stay Suite Rooms,Hotel,Bengaluru,Karnataka,India,12.9642942,77.7150513,OpenStreetMap
+node/12050533224,blrpods.com,Hotel,Bengaluru,Karnataka,India,12.9623355,77.7165652,OpenStreetMap
+node/12057341778,Prakyathi,Hotel,Bengaluru,Karnataka,India,13.0970123,77.5880556,OpenStreetMap
+node/12088166849,SS PG for boys,Hostel,Bengaluru,Karnataka,India,13.0581713,77.6438904,OpenStreetMap
+node/12115251885,Ananya Comforts,Hotel,Bengaluru,Karnataka,India,12.9295732,77.631965,OpenStreetMap
+node/12136228099,Bel Air,Hotel,Bengaluru,Karnataka,India,12.9568542,77.7091393,OpenStreetMap
+node/12144440752,Eyrie Nest,Hotel,Bengaluru,Karnataka,India,12.9207294,77.620094,OpenStreetMap
+node/12162043357,Shanthi Rooms,Hotel,Bengaluru,Karnataka,India,12.9443025,77.5973,OpenStreetMap
+node/12162759792,The Porch Inn,Hotel,Bengaluru,Karnataka,India,12.9446454,77.5967137,OpenStreetMap
+node/12169400828,Tavizoe Stays,Guest House,Bengaluru,Karnataka,India,13.0013658,77.6237109,OpenStreetMap
+node/12206377577,Royal Keys,Hotel,Bengaluru,Karnataka,India,12.9644249,77.7157354,OpenStreetMap
+node/12245986567,"Bloom Hotel, Richmond Road",Hotel,Bengaluru,Karnataka,India,12.9671589,77.6106158,OpenStreetMap
+node/12247839780,Hotel Aaccord,Hotel,Bengaluru,Karnataka,India,12.9150972,77.6001882,OpenStreetMap
+node/12247839781,Grand Country Stays,Hotel,Bengaluru,Karnataka,India,12.9152214,77.6001762,OpenStreetMap
+node/12247876727,Sri Lakshmi Shankri PG,Hostel,Bengaluru,Karnataka,India,12.9138402,77.6035796,OpenStreetMap
+node/12247909088,Hotel Purple Brigade,Hotel,Bengaluru,Karnataka,India,12.9738833,77.6066721,OpenStreetMap
+node/12247909089,Olive by Embassy Group,Hotel,Bengaluru,Karnataka,India,12.9736749,77.6067694,OpenStreetMap
+node/12306684301,Neel Gagan 2,Apartment,Bengaluru,Karnataka,India,13.0297174,77.6073154,OpenStreetMap
+node/12327093398,Dream Hotel,Hotel,Bengaluru,Karnataka,India,12.9598265,77.6023759,OpenStreetMap
+node/12346042287,KCC Complex,Apartment,Bengaluru,Karnataka,India,13.1045071,77.6043138,OpenStreetMap
+node/12366591901,Aditya Colive,Guest House,Bengaluru,Karnataka,India,12.9665457,77.7171571,OpenStreetMap
+node/12366591902,Happy Living for Ladies,Guest House,Bengaluru,Karnataka,India,12.9664834,77.7171499,OpenStreetMap
+node/12373166862,Hyde Park,Hotel,Bengaluru,Karnataka,India,13.0109453,77.5789338,OpenStreetMap
+node/12412564745,Silver Key Hotel Rooms,Hotel,Bengaluru,Karnataka,India,13.0982579,77.5693033,OpenStreetMap
+node/12433473073,The Hosteller Indiranagar,Hostel,Bengaluru,Karnataka,India,12.9726554,77.647479,OpenStreetMap
+node/12459144684,Tranquil Inn,Hotel,Bengaluru,Karnataka,India,12.9258725,77.6695619,OpenStreetMap
+node/12459183610,Stanza Living Shanghai House,Apartment,Bengaluru,Karnataka,India,12.92567,77.6688995,OpenStreetMap
+node/12498576021,Hotel AJ International,Hotel,Bengaluru,Karnataka,India,12.9815416,77.6048201,OpenStreetMap
+node/12500766592,NMIT Girls Hostel,Hostel,Bengaluru,Karnataka,India,13.1272397,77.5878227,OpenStreetMap
+node/12525852373,Hotel Gowdru Mane,Hotel,Bengaluru,Karnataka,India,12.9249913,77.4846808,OpenStreetMap
+node/12525865471,Hotel Gwen by Rivido,Hotel,Bengaluru,Karnataka,India,12.8907385,77.6099645,OpenStreetMap
+node/12525875058,Hotel Highsky,Hotel,Bengaluru,Karnataka,India,12.959972,77.7170562,OpenStreetMap
+node/12538615408,Indiranagar Ladies PG,Hostel,Bengaluru,Karnataka,India,12.9819034,77.6412425,OpenStreetMap
+node/12541209973,Swananda PG,Hostel,Bengaluru,Karnataka,India,12.9616349,77.7205509,OpenStreetMap
+node/12556066002,Karthikeya Studio Rooms,Hostel,Bengaluru,Karnataka,India,12.9804217,77.7466414,OpenStreetMap
+node/12617079068,Shri Harshita Pg For Ladies,Hostel,Bengaluru,Karnataka,India,12.9390874,77.6317348,OpenStreetMap
+node/12650941139,SAS appartments,Apartment,Bengaluru,Karnataka,India,12.9748804,77.6430481,OpenStreetMap
+node/12669960227,Brindavana Grand Hotel,Hotel,Bengaluru,Karnataka,India,12.9771116,77.5764106,OpenStreetMap
+node/12676261315,SV Lodge,Hostel,Bengaluru,Karnataka,India,13.0191934,77.5576766,OpenStreetMap
+node/12676261376,Hotel Banyan Tree,Hotel,Bengaluru,Karnataka,India,13.0240406,77.5570922,OpenStreetMap
+node/12695892247,Adler Stays,Hostel,Bengaluru,Karnataka,India,12.9863422,77.5982398,OpenStreetMap
+node/12717557701,Leela Mansion,Guest House,Bengaluru,Karnataka,India,12.9268189,77.6088028,OpenStreetMap
+node/12718892599,MGS Studio Room,Hostel,Bengaluru,Karnataka,India,12.9605095,77.7198198,OpenStreetMap
+node/12764582624,Hotel Dwaraka,Hotel,Bengaluru,Karnataka,India,12.9803129,77.5751582,OpenStreetMap
+node/12861870134,The Bouvice,Hotel,Bengaluru,Karnataka,India,12.9321442,77.6331345,OpenStreetMap
+node/12862601243,Achuth Santhrupthi,Apartment,Bengaluru,Karnataka,India,12.9317808,77.4854625,OpenStreetMap
+node/12887909582,The Anantaar,Hotel,Bengaluru,Karnataka,India,12.9137636,77.5995367,OpenStreetMap
+node/12901421215,Urban Living,Hostel,Bengaluru,Karnataka,India,12.9824733,77.7516151,OpenStreetMap
+node/12901421216,Sri Raksha PG,Hostel,Bengaluru,Karnataka,India,12.9823071,77.7515524,OpenStreetMap
+node/12901421217,Co-live,Hostel,Bengaluru,Karnataka,India,12.9822422,77.7515323,OpenStreetMap
+node/12901421218,Uru,Hostel,Bengaluru,Karnataka,India,12.9821625,77.7515047,OpenStreetMap
+node/12911752063,Laxmi,Hostel,Bengaluru,Karnataka,India,12.9502925,77.7140288,OpenStreetMap
+node/12955879002,Sri Sai Premium Co-living,Hostel,Bengaluru,Karnataka,India,12.9823851,77.7515859,OpenStreetMap
+node/12965773686,Sunrise Coliving PG,Hostel,Bengaluru,Karnataka,India,12.9831515,77.7528422,OpenStreetMap
+node/12972935993,Home Living PG,Hostel,Bengaluru,Karnataka,India,12.9820748,77.7514765,OpenStreetMap
+node/12993716006,Satya Durga,Hostel,Bengaluru,Karnataka,India,12.9848107,77.7479851,OpenStreetMap
+node/13018734716,Hotel Royal Blooms,Hotel,Bengaluru,Karnataka,India,12.9843483,77.7498546,OpenStreetMap
+node/13022417937,Zest,Hostel,Bengaluru,Karnataka,India,12.9847623,77.7473914,OpenStreetMap
+node/13022417938,LivX,Hostel,Bengaluru,Karnataka,India,12.9846426,77.747714,OpenStreetMap
+node/13049405748,Home Awaits,Hostel,Bengaluru,Karnataka,India,12.9655047,77.7155724,OpenStreetMap
+node/13049418762,DBrooks,Hostel,Bengaluru,Karnataka,India,12.9651861,77.7164438,OpenStreetMap
+node/13068316575,Hector Co-live,Hostel,Bengaluru,Karnataka,India,12.9859441,77.7452695,OpenStreetMap
+node/13070773909,Cambridge Girls Hostel,Hostel,Bengaluru,Karnataka,India,13.0138584,77.7040527,OpenStreetMap
+node/13070773911,Vijayalakshmi PG,Hostel,Bengaluru,Karnataka,India,12.9364574,77.6190999,OpenStreetMap
+node/13071324601,s281 mahadeshwara nilaya,Apartment,Bengaluru,Karnataka,India,13.0524531,77.6355902,OpenStreetMap
+node/13076291755,Blue Bell PG,Hostel,Bengaluru,Karnataka,India,12.9534504,77.7180679,OpenStreetMap
+node/13100360801,Hombelaku PhD Hostel,Hostel,Bengaluru,Karnataka,India,13.081003,77.5806709,OpenStreetMap
+node/13105129737,The Arrow Inn,Hostel,Bengaluru,Karnataka,India,12.9591929,77.7197114,OpenStreetMap
+node/13105209101,Hombelaku PhD Hostel,Hostel,Bengaluru,Karnataka,India,13.0811012,77.5805678,OpenStreetMap
+node/13105209201,Hombelaku PhD Hostel,Hostel,Bengaluru,Karnataka,India,13.0809941,77.5806644,OpenStreetMap
+node/13112728702,Hombelaku PhD Hostel,Hostel,Bengaluru,Karnataka,India,13.0810084,77.5806834,OpenStreetMap
+node/13123179263,Daffodil Serviced Apartments,Apartment,Bengaluru,Karnataka,India,12.9847015,77.7376471,OpenStreetMap
+node/13128777127,Apex Co-Living,Hostel,Bengaluru,Karnataka,India,12.9634108,77.7130447,OpenStreetMap
+node/13158425226,Parkwood Inn,Hotel,Bengaluru,Karnataka,India,12.9448582,77.5951023,OpenStreetMap
+node/13176353841,Stopover Backpackers Stay,Hostel,Bengaluru,Karnataka,India,12.9401156,77.5839124,OpenStreetMap
+node/13178436957,Ashiana,Hotel,Bengaluru,Karnataka,India,12.951596,77.7156715,OpenStreetMap
+node/13192247886,The Resident,Hotel,Bengaluru,Karnataka,India,12.9331601,77.5833173,OpenStreetMap
+node/13198389307,Sri Vishnumata PG,Hostel,Bengaluru,Karnataka,India,12.958458,77.7192485,OpenStreetMap
+node/13199999873,Glance,Hostel,Bengaluru,Karnataka,India,12.9586129,77.7211402,OpenStreetMap
+node/13208017659,TreeWay,Hostel,Bengaluru,Karnataka,India,12.9577353,77.7175058,OpenStreetMap
+node/13245235395,Zolo,Hostel,Bengaluru,Karnataka,India,12.9896295,77.7122748,OpenStreetMap
+node/13246335122,Santrina Hotels,Hotel,Bengaluru,Karnataka,India,12.9348121,77.6159774,OpenStreetMap
+node/13257879655,Annapurna PG,Hostel,Bengaluru,Karnataka,India,13.0043224,77.6284767,OpenStreetMap
+node/13273333781,Grand Continent,Hotel,Bengaluru,Karnataka,India,13.0408034,77.6200335,OpenStreetMap
+node/13297261618,Shreyas Inn,Hotel,Bengaluru,Karnataka,India,12.9297066,77.6851669,OpenStreetMap
+node/13315911039,Myspace Express GD Inn,Hotel,Bengaluru,Karnataka,India,12.9604673,77.6445251,OpenStreetMap
+node/13323350042,Kings Star House,Hostel,Bengaluru,Karnataka,India,12.9260341,77.672125,OpenStreetMap
+node/13326178069,Elite (PG for Girls),Apartment,Bengaluru,Karnataka,India,12.9575246,77.6596878,OpenStreetMap
+node/13354899873,Maple Tower 5 - Block U,Apartment,Bengaluru,Karnataka,India,12.9171996,77.6896564,OpenStreetMap
+node/13357278877,Sri Durga Bhavani PG,Hostel,Bengaluru,Karnataka,India,12.9567814,77.7169855,OpenStreetMap
+node/13358927234,Nextdoor Livinn PG for Gents,Hostel,Bengaluru,Karnataka,India,12.9395677,77.6264907,OpenStreetMap
+node/13358966039,Red Moon Suites,Hotel,Bengaluru,Karnataka,India,12.9586151,77.7156175,OpenStreetMap
+node/13358966042,The Dritan,Hotel,Bengaluru,Karnataka,India,12.9585048,77.7155365,OpenStreetMap
+node/13399327632,Ivory Tower,Hotel,Bengaluru,Karnataka,India,12.9753386,77.6050408,OpenStreetMap
+node/13407014166,Sri Venkateswara PG For Gents,Guest House,Bengaluru,Karnataka,India,12.9899704,77.7174707,OpenStreetMap
+node/13437492260,UPAR Hotels Near Bagmane Tech Park - Indiranagar,Hotel,Bengaluru,Karnataka,India,12.9769092,77.6539039,OpenStreetMap
+node/13447426902,Yello Living,Hostel,Bengaluru,Karnataka,India,12.9840244,77.7322867,OpenStreetMap
+node/13469746301,Olive Life RT Nagar by Embassy Group,Hotel,Bengaluru,Karnataka,India,13.0326546,77.610977,OpenStreetMap
+node/13470911967,Rosalba,Hotel,Bengaluru,Karnataka,India,12.9593175,77.650493,OpenStreetMap
+node/13483468599,Shiva Ganga Comforts,Hotel,Bengaluru,Karnataka,India,12.9736941,77.576158,OpenStreetMap
+node/13495888434,Arcade Inn,Hostel,Bengaluru,Karnataka,India,12.9640865,77.7162943,OpenStreetMap
+node/13495888435,The Pink PG,Hostel,Bengaluru,Karnataka,India,12.9643475,77.7160817,OpenStreetMap
+node/13525485180,Open Hotel by Olive - Meet Me At,Hotel,Bengaluru,Karnataka,India,12.9267142,77.6390034,OpenStreetMap
+node/13525508608,Jyothis,Apartment,Bengaluru,Karnataka,India,12.959241,77.7184399,OpenStreetMap
+node/13526823201,De Finer Residency,Apartment,Bengaluru,Karnataka,India,12.883074,77.6301953,OpenStreetMap
+node/13563529760,Hosteller,Hostel,Bengaluru,Karnataka,India,12.9132871,77.636336,OpenStreetMap
+node/13568684301,"The Hosteller Bangalore, Koramangala",Hostel,Bengaluru,Karnataka,India,12.9355268,77.6131504,OpenStreetMap
+node/13606179106,Nishant Prime Apartments,Apartment,Bengaluru,Karnataka,India,12.9667546,77.765345,OpenStreetMap
+node/13664351822,Olive Hotel,Hotel,Bengaluru,Karnataka,India,12.970713,77.6088063,OpenStreetMap
+node/13690167801,SLV delux PG for gents,Hostel,Bengaluru,Karnataka,India,13.0575879,77.5990344,OpenStreetMap
+node/13708291567,S R Ladies P G,Hostel,Bengaluru,Karnataka,India,12.9791366,77.7119903,OpenStreetMap
+node/13732119505,Shubham,Hostel,Bengaluru,Karnataka,India,12.9714782,77.7056939,OpenStreetMap
+node/13753414199,VM Residency,Apartment,Bengaluru,Karnataka,India,12.9499978,77.6946731,OpenStreetMap
+node/13850202525,Hilton,Hotel,Bengaluru,Karnataka,India,12.9312851,77.6885024,OpenStreetMap
+node/13898947266,Rest-isle Suites,Apartment,Bengaluru,Karnataka,India,12.9529687,77.6955858,OpenStreetMap
+node/13913776912,Sri Lakshmi Venkateshwara PG For Ladies,Hostel,Bengaluru,Karnataka,India,12.9604853,77.6374549,OpenStreetMap
+node/13924497301,GMR pg for gents,Hostel,Bengaluru,Karnataka,India,12.9664807,77.7195618,OpenStreetMap
+node/13949218609,Chestnut & Cane,Hotel,Bengaluru,Karnataka,India,12.959017,77.7169995,OpenStreetMap
+node/13956671101,svn nilayam,Apartment,Bengaluru,Karnataka,India,12.9930604,77.6932024,OpenStreetMap
+node/13986454807,Bloom Hotel,Hotel,Bengaluru,Karnataka,India,13.0107284,77.5504233,OpenStreetMap
+node/13996916390,Le Opera,Hotel,Bengaluru,Karnataka,India,13.0318622,77.5635822,OpenStreetMap
+node/14049618479,Symphony Hostel for Boys,Hostel,Bengaluru,Karnataka,India,13.0418306,77.5061536,OpenStreetMap
+node/14071821201,Sri Lodge,Hotel,Bengaluru,Karnataka,India,12.976756,77.5764056,OpenStreetMap
+node/14094154342,Hotel Grand Regency,Hotel,Bengaluru,Karnataka,India,13.1220779,77.6309983,OpenStreetMap
+node/14157916571,Devaki Ladies PG,Hostel,Bengaluru,Karnataka,India,12.971109,77.6994887,OpenStreetMap
+node/14177299345,Vijayamala Apartments,Apartment,Bengaluru,Karnataka,India,12.9093976,77.6320534,OpenStreetMap
+node/14201761440,Shri Ganesh men's PG,Hostel,Bengaluru,Karnataka,India,13.0841487,77.6340838,OpenStreetMap
+node/14201768570,Om Sai Aishwarya PG,Hostel,Bengaluru,Karnataka,India,13.0841351,77.6342015,OpenStreetMap
