@@ -1,0 +1,5593 @@
+{
+  "type": "FeatureCollection",
+  "generator": "overpass-turbo",
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp": "2026-09-24T12:29:30Z",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/86547367",
+        "building": "yes",
+        "name": "Devi Niketan Hotel",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7963192,
+          26.9123825
+        ]
+      },
+      "id": "way/86547367"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/213905122",
+        "addr:city": "Jaipur",
+        "addr:country": "IN",
+        "addr:state": "RJ",
+        "addr:street": "Pareek College Road",
+        "building": "yes",
+        "email": "info@blueheavenhotelsjaipur.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Blue Heaven",
+        "phone": "+91-0141-4050700",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8026905,
+          26.925769
+        ]
+      },
+      "id": "way/213905122"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/237965427",
+        "addr:city": "Kuaks, Jaipur",
+        "addr:housename": "Cambay Spa & Resort",
+        "addr:housenumber": "SP- 36B",
+        "addr:postcode": "303101",
+        "addr:street": "RIICO Indusrial Area",
+        "landuse": "commercial",
+        "name": "Cambay Spa & Resort",
+        "phone": "+91 141 307 2400",
+        "tourism": "hotel",
+        "website": "http://www.thecambay.com/cambay-spa-resort-kukas-jaipur.html",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8962688,
+          27.0310437
+        ]
+      },
+      "id": "way/237965427"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/324625546",
+        "addr:city": "Jaipur",
+        "brand": "Radisson",
+        "brand:wikidata": "Q1751979",
+        "building": "yes",
+        "building:levels": "7",
+        "check_date": "2026-09-07",
+        "name": "Radisson City Center",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7947023,
+          26.9196139
+        ]
+      },
+      "id": "way/324625546"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/330236599",
+        "building": "yes",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8638131,
+          26.9897117
+        ]
+      },
+      "id": "way/330236599"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/330236957",
+        "building": "yes",
+        "name": "Hotel KK Royal",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.865105,
+          26.9894972
+        ]
+      },
+      "id": "way/330236957"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/335334201",
+        "building": "yes",
+        "name": "Panchayati Dharamshala",
+        "name:hi": "पंचायती धर्मशाला",
+        "operator": "trust",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7905021,
+          26.9216728
+        ]
+      },
+      "id": "way/335334201"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/335336946",
+        "building": "yes",
+        "name": "Swagatam RTDC Hotel",
+        "name:hi": "स्वागतम आर टी डी सी होटल",
+        "operator": "RTDC, Government of Rajasthan",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7893491,
+          26.9212036
+        ]
+      },
+      "id": "way/335336946"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/340397016",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "Opp Fortis Hospital",
+        "addr:postcode": "302018",
+        "addr:street": "Jawahar Lal Nehru marg",
+        "building": "yes",
+        "layer": "-1",
+        "name": "Hotel Clarks Amer",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8007445,
+          26.8465187
+        ]
+      },
+      "id": "way/340397016"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/373788670",
+        "name": "Jai Mahal Palace",
+        "source": "Bing",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7850632,
+          26.9125412
+        ]
+      },
+      "id": "way/373788670"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/375734786",
+        "brand": "Golden Tulip",
+        "brand:wikidata": "Q19725996",
+        "name": "Golden Tulip Essentials Hotel",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.806043,
+          26.9170249
+        ]
+      },
+      "id": "way/375734786"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/386927277",
+        "addr:city": "Jaipur",
+        "addr:postcode": "302015",
+        "addr:street": "Ashram Marg, Near Jawahar Circle",
+        "air_conditioning": "yes",
+        "bar": "yes",
+        "brand": "Marriott",
+        "brand:wikidata": "Q3918608",
+        "building": "yes",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "layer": "-1",
+        "name": "Marriott",
+        "not:brand:wikidata": "Q3918608",
+        "rooms": "374",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7962483,
+          26.841927
+        ]
+      },
+      "id": "way/386927277"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/396925593",
+        "addr:street": "Sansar Chandra Road",
+        "building": "yes",
+        "name": "Mandawa Haveli",
+        "phone": "+91 141 4021194",
+        "tourism": "hotel",
+        "website": "https://www.mandawahaveli.com/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.806105,
+          26.9223689
+        ]
+      },
+      "id": "way/396925593"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/397085651",
+        "brand": "Taj",
+        "brand:wikidata": "Q1521893",
+        "landuse": "commercial",
+        "name": "Taj Rambagh Palace",
+        "official_name": "Taj Hotels",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8075874,
+          26.8979382
+        ]
+      },
+      "id": "way/397085651"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/520986487",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "42",
+        "addr:postcode": "302006",
+        "addr:street": "Geejgarh House",
+        "brand": "Hilton",
+        "brand:wikidata": "Q598884",
+        "building": "yes",
+        "contact:facebook": "https://www.facebook.com/HiltonJaipur",
+        "contact:instagram": "https://www.instagram.com/hiltonjaipur/",
+        "contact:linkedin": "https://www.linkedin.com/company/hilton-jaipur",
+        "contact:youtube": "https://www.youtube.com/c/HiltonJaipur?sub_confirmation=1",
+        "fax": "+91-141-4170001",
+        "internet_access": "wlan",
+        "name": "Hilton Jaipur",
+        "operator": "Hilton",
+        "phone": "+91-141-4170000",
+        "rooms": "179",
+        "smoking": "isolated",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.hilton.com/en/hotels/jaighhi-hilton-jaipur/",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7839508,
+          26.900956
+        ]
+      },
+      "id": "way/520986487"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/566811593",
+        "addr:city": "Jaipur",
+        "addr:postcode": "302016",
+        "breakfast": "buffet",
+        "check_date": "2024-12-15",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Umaid Bhawan",
+        "swimming_pool": "yes",
+        "tourism": "hotel",
+        "website": "https://www.umaidbhawan.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7922242,
+          26.928392
+        ]
+      },
+      "id": "node/566811593"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/655321797",
+        "name": "Holiday Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8390478,
+          26.9441899
+        ]
+      },
+      "id": "node/655321797"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/668634337",
+        "addr:city": "Jaipur",
+        "addr:street": "Amer Road",
+        "building": "yes",
+        "name": "Regenta Central",
+        "tourism": "hotel",
+        "website": "https://www.royalorchidhotels.com/regenta-central-jaipur/overview",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8436572,
+          26.9581793
+        ]
+      },
+      "id": "way/668634337"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/677230556",
+        "brand": "Lalit",
+        "building": "yes",
+        "internet_access": "yes",
+        "name": "Hotel Lalit",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8074418,
+          26.8400924
+        ]
+      },
+      "id": "way/677230556"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/691257915",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "C-9",
+        "addr:street": "Sawai Jai Singh Highway",
+        "name": "Jasvilas",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7879303,
+          26.9298944
+        ]
+      },
+      "id": "node/691257915"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/746508847",
+        "name": "The Oberoi  Rajvilas",
+        "stars": "5",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8838128,
+          26.8763394
+        ]
+      },
+      "id": "node/746508847"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/754510582",
+        "addr:postcode": "302022",
+        "addr:street": "RIICO Industrial Area, Sitapura",
+        "brand": "Novotel",
+        "brand:wikidata": "Q420545",
+        "name": "Novotel Jaipur Convention Centre",
+        "tourism": "hotel",
+        "website": "https://all.accor.com/hotel/9884/index.en.shtml",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8268151,
+          26.781386
+        ]
+      },
+      "id": "way/754510582"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/758646756",
+        "building": "yes",
+        "name": "Hotel Utsav",
+        "tourism": "motel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7399665,
+          26.902026
+        ]
+      },
+      "id": "way/758646756"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/769122286",
+        "building": "yes",
+        "name": "Sirsi Haveli",
+        "tourism": "hotel",
+        "website": "www.sirsihaveli.com",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.6791438,
+          26.9096501
+        ]
+      },
+      "id": "way/769122286"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/834264915",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8506399,
+          26.7667269
+        ]
+      },
+      "id": "way/834264915"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/834264919",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8514452,
+          26.7674878
+        ]
+      },
+      "id": "way/834264919"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/834264920",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8515702,
+          26.7672843
+        ]
+      },
+      "id": "way/834264920"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/834264921",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8517705,
+          26.7673605
+        ]
+      },
+      "id": "way/834264921"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/834264922",
+        "building": "yes",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8518443,
+          26.7672905
+        ]
+      },
+      "id": "way/834264922"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/861288187",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "935",
+        "addr:postcode": "302028",
+        "addr:street": "Kukas, Delhi Road",
+        "brand": "DoubleTree by Hilton",
+        "building": "yes",
+        "contact:facebook": "https://www.facebook.com/DoubleTreeJaipur",
+        "contact:instagram": "https://www.instagram.com/doubletreebyhiltonjaipur",
+        "contact:youtube": "https://www.youtube.com/channel/UCrMBCRlRL4usWGWSk_1Jl_g/",
+        "email": "jaiam_res@hilton.com",
+        "fax": "+91-142-6227851",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "DoubleTree by Hilton Jaipur Amer",
+        "operator": "Hilton",
+        "phone": "+91-142-6227850",
+        "rooms": "151",
+        "tourism": "hotel",
+        "website": "https://www.hilton.com/en/hotels/jaiamdi-doubletree-jaipur-amer/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.9051563,
+          27.0463245
+        ]
+      },
+      "id": "way/861288187"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/862777897",
+        "addr:city": "Jaipur",
+        "addr:street": "Sitapura Circle",
+        "brand": "InterContinental",
+        "brand:wikidata": "Q1825730",
+        "building": "hotel",
+        "name": "InterContinental Jaipur Tonk Road",
+        "tourism": "hotel",
+        "website": "https://www.ihg.com/intercontinental/hotels/us/en/jaipur/jaitr/hoteldetail",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8277676,
+          26.779422
+        ]
+      },
+      "id": "way/862777897"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/862954961",
+        "addr:city": "Jaipur",
+        "addr:street": "Tonk Road",
+        "brand": "Radisson Blu",
+        "brand:wikidata": "Q7281341",
+        "brand:wikipedia": "en:Radisson Blu",
+        "building": "yes",
+        "name": "Radisson Blu",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7941659,
+          26.8428809
+        ]
+      },
+      "id": "way/862954961"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/863494864",
+        "building": "yes",
+        "layer": "1",
+        "name": "Red Fort Resort",
+        "phone": "+919314191801",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8824408,
+          27.0079493
+        ]
+      },
+      "id": "way/863494864"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/865674768",
+        "building": "yes",
+        "name": "Youth Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.800565,
+          26.8968124
+        ]
+      },
+      "id": "way/865674768"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/867233961",
+        "building": "yes",
+        "name": "Hotel Shyampuri",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7879901,
+          26.9024645
+        ]
+      },
+      "id": "way/867233961"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/867324703",
+        "building": "yes",
+        "name": "Chambal Guest House",
+        "tourism": "guest_house",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.779921,
+          26.9010563
+        ]
+      },
+      "id": "way/867324703"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/885538933",
+        "building": "yes",
+        "layer": "-1",
+        "name": "Mahaveer Boys Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7618455,
+          26.8501174
+        ]
+      },
+      "id": "way/885538933"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/957756723",
+        "addr:city": "Jaipur",
+        "addr:full": "Devi Niketan,Near Chomu House Circle,Sardar Patel Road,Jaipur 302001India",
+        "email": "deviniketan@gmail.com",
+        "name": "Devi Niketan Heritage Hotel",
+        "phone": "+91 141 2370076",
+        "postal_code": "302001",
+        "source": "Yahoo",
+        "tourism": "hotel",
+        "website": "https://www.deviniketan.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.796346,
+          26.912392
+        ]
+      },
+      "id": "node/957756723"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/976749579",
+        "brand": "Ramada",
+        "brand:wikidata": "Q1502859",
+        "brand:wikipedia": "en:Ramada",
+        "building": "yes",
+        "layer": "-1",
+        "name": "Ramada",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8288005,
+          26.8956221
+        ]
+      },
+      "id": "way/976749579"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/976871977",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "124",
+        "addr:postcode": "302018",
+        "addr:street": "4th Avenue, JLN Marg",
+        "building": "yes",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Bellavista",
+        "rooms": "19",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7976527,
+          26.8464549
+        ]
+      },
+      "id": "way/976871977"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1096796422",
+        "building": "yes",
+        "name": "Govt. Girls Minority Hostel",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7729423,
+          26.8654098
+        ]
+      },
+      "id": "way/1096796422"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1141643440",
+        "building": "yes",
+        "name": "B7 Boy's Block",
+        "operator": "Good Host Spaces",
+        "smoking": "no",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.5611498,
+          26.8419368
+        ]
+      },
+      "id": "way/1141643440"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1151360712",
+        "building": "yes",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "B3 Block",
+        "operator": "Good Host Spaces",
+        "smoking": "no",
+        "tourism": "hostel",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.5624763,
+          26.841538
+        ]
+      },
+      "id": "way/1151360712"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1151360713",
+        "building": "yes",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "layer": "1",
+        "name": "B2 block",
+        "operator": "Good Host Spaces",
+        "smoking": "no",
+        "tourism": "hostel",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.5624735,
+          26.8421523
+        ]
+      },
+      "id": "way/1151360713"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1151360714",
+        "building": "yes",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "B1 Block",
+        "operator": "Good Host Spaces",
+        "smoking": "no",
+        "tourism": "hostel",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.5628885,
+          26.8418442
+        ]
+      },
+      "id": "way/1151360714"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1158512990",
+        "building": "yes",
+        "internet_access:fee": "no",
+        "name": "G4 block",
+        "operator": "Good Host Spaces",
+        "smoking": "no",
+        "tourism": "hostel",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.5622397,
+          26.8405206
+        ]
+      },
+      "id": "way/1158512990"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1158514978",
+        "building": "yes",
+        "name": "G3 block",
+        "operator": "Good Host Spaces",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.5629086,
+          26.8405018
+        ]
+      },
+      "id": "way/1158514978"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1158514979",
+        "building": "yes",
+        "name": "G2 block",
+        "operator": "Good Host Spaces",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.5627091,
+          26.8406751
+        ]
+      },
+      "id": "way/1158514979"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1158515143",
+        "addr:housenumber": "B6",
+        "building": "yes",
+        "internet_access:fee": "no",
+        "layer": "1",
+        "name": "B6 block",
+        "operator": "Good Host Spaces",
+        "smoking": "no",
+        "tourism": "hostel",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.5618891,
+          26.8422292
+        ]
+      },
+      "id": "way/1158515143"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1158516081",
+        "building": "yes",
+        "internet_access:fee": "no",
+        "smoking": "no",
+        "tourism": "hostel",
+        "wheelchair": "yes",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.562067,
+          26.8413494
+        ]
+      },
+      "id": "way/1158516081"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1158516082",
+        "building": "yes",
+        "internet_access:fee": "no",
+        "name": "B5 block",
+        "operator": "Good Host Spaces",
+        "smoking": "no",
+        "tourism": "hostel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.5619673,
+          26.8418084
+        ]
+      },
+      "id": "way/1158516082"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1184666675",
+        "addr:city": "JAIPUR",
+        "addr:housenumber": "E/5539",
+        "addr:postcode": "302015",
+        "addr:street": "satya vihar, lal kothi scheme",
+        "building": "yes",
+        "email": "kuldeepboyspg@gmail.com",
+        "guest_house": "hostel",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Kuldeep Boy's PG",
+        "operator": "Sumit Swami",
+        "phone": "9602540945",
+        "rooms": "15",
+        "tourism": "hostel",
+        "website": "kuldeepboyspg.com",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.796529,
+          26.8888457
+        ]
+      },
+      "id": "way/1184666675"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1188074395",
+        "name": "Royal Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.799532,
+          26.9239979
+        ]
+      },
+      "id": "node/1188074395"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1241746468",
+        "addr:city": "Jaipur",
+        "addr:housename": "Behind Amber Tower",
+        "addr:postcode": "302001",
+        "addr:street": "Sansar Chandra Road",
+        "building": "hotel",
+        "email": "info@aryaniwas.com",
+        "name": "Hotel Arya Niwas",
+        "phone": "+919829040549",
+        "tourism": "hotel",
+        "website": "https://www.aryaniwas.com/hotelaryaniwas/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8040884,
+          26.9205465
+        ]
+      },
+      "id": "way/1241746468"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1258289591",
+        "building": "yes",
+        "name": "shishmahal",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7129257,
+          27.166672
+        ]
+      },
+      "id": "way/1258289591"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1258336039",
+        "building": "yes",
+        "name": "hotel welcome",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7157649,
+          27.183017
+        ]
+      },
+      "id": "way/1258336039"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1321767516",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "C-20 / B-2",
+        "addr:postcode": "302 016",
+        "addr:street": "Bihari Marg",
+        "building": "yes",
+        "email": "info@umaidmahal.com",
+        "name": "Umaid Mahal",
+        "phone": "+91-141-2201952",
+        "tourism": "hotel",
+        "website": "https://www.umaidmahal.com",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7891295,
+          26.9279546
+        ]
+      },
+      "id": "way/1321767516"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1433553753",
+        "building": "yes",
+        "name": "Hotel Cheelgadi",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8106517,
+          26.8217428
+        ]
+      },
+      "id": "way/1433553753"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1443446287",
+        "addr:city": "Jaipur",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Shahpura House",
+        "smoking": "separated",
+        "stars": "5",
+        "tourism": "hotel",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7877823,
+          26.9278442
+        ]
+      },
+      "id": "node/1443446287"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1445412379",
+        "brand": "Sawai Hospitality",
+        "building": "yes",
+        "name": "Dileep Kothi, Jaipur",
+        "tourism": "hotel",
+        "website": "https://www.sawaihospitality.com/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7958637,
+          26.9136124
+        ]
+      },
+      "id": "way/1445412379"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1482209808",
+        "name": "Hotel Rudra Vilas",
+        "tourism": "hotel",
+        "website": "https://rudravilasjaipur.in/",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7674411,
+          26.8338026
+        ]
+      },
+      "id": "way/1482209808"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1483221214",
+        "addr:housenumber": "A-4",
+        "addr:postcode": "302039",
+        "addr:street": "Sikar Road",
+        "check_date": "2026-03-13",
+        "name": "Park Ocean",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7736096,
+          26.9480695
+        ]
+      },
+      "id": "node/1483221214"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "way/1484058557",
+        "building": "yes",
+        "name": "Vijaya Niwas",
+        "tourism": "hotel",
+        "@geometry": "center"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8043268,
+          26.9209506
+        ]
+      },
+      "id": "way/1484058557"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1512836672",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7225395,
+          27.1681125
+        ]
+      },
+      "id": "node/1512836672"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1534472646",
+        "addr:city": "Jaipur",
+        "beds": "30",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Dera Rawatsar - Heritage Hotel",
+        "rooms": "15",
+        "stars": "3",
+        "tourism": "hotel",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8015332,
+          26.9251714
+        ]
+      },
+      "id": "node/1534472646"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1751113662",
+        "addr:city": "Jaipur",
+        "addr:postcode": "302001",
+        "name": "Pearl Palace Hotel",
+        "source": "personal survey",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7955547,
+          26.9163557
+        ]
+      },
+      "id": "node/1751113662"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/1813448095",
+        "designation": "Inn",
+        "name": "Jaipur Inn",
+        "source": "www.jaipurinn.com",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7981485,
+          26.9284885
+        ]
+      },
+      "id": "node/1813448095"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2013611297",
+        "addr:city": "Jaipur",
+        "name": "Jwala Niketan",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8003982,
+          26.9199193
+        ]
+      },
+      "id": "node/2013611297"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2072539801",
+        "addr:city": "Jaipur",
+        "name": "Devraj Niwas - Boutique Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7932865,
+          26.9219552
+        ]
+      },
+      "id": "node/2072539801"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2073268131",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "Sansar Chandra Rd, Shri Ram Colony, Sindhi Camp, Jaipur, Rajasthan 302001",
+        "name": "Alsisar's Haveli",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.80485,
+          26.9229753
+        ]
+      },
+      "id": "node/2073268131"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2075804495",
+        "name": "Hotel Om Tower",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7999767,
+          26.9179313
+        ]
+      },
+      "id": "node/2075804495"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2140969093",
+        "name": "Ever Green",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8043122,
+          26.9155935
+        ]
+      },
+      "id": "node/2140969093"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2377271963",
+        "name": "Akriti",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7981268,
+          26.9251979
+        ]
+      },
+      "id": "node/2377271963"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2673298039",
+        "addr:city": "Jaipur",
+        "addr:housename": "9 Green Avenue Nagar, Opposite Kamla Nehru Nagar",
+        "addr:postcode": "302024",
+        "addr:street": "Ajmer Road",
+        "name": "Jypore Saffron Inn And Suites",
+        "phone": "+919785400400",
+        "tourism": "hotel",
+        "website": "http://www.jyporesaffron.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7179021,
+          26.8766515
+        ]
+      },
+      "id": "node/2673298039"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2684749333",
+        "addr:city": "Jaipur",
+        "name": "Hari Mahal Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.789608,
+          26.9105453
+        ]
+      },
+      "id": "node/2684749333"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2696139145",
+        "name": "CLMM Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7425715,
+          26.8813222
+        ]
+      },
+      "id": "node/2696139145"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2749428859",
+        "addr:city": "Jaipur",
+        "addr:postcode": "302016",
+        "addr:street": "Chand Pole",
+        "name": "Bissau Palace Hotel",
+        "tourism": "hotel",
+        "wikidata": "Q20638819"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8085502,
+          26.9298505
+        ]
+      },
+      "id": "node/2749428859"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/2803462739",
+        "addr:city": "Jaipur",
+        "addr:postcode": "302001",
+        "email": "reservation@pearlpalaceheritage.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Pearl Palace Heritage",
+        "phone": "+91-141-2375242",
+        "tourism": "hotel",
+        "website": "https://www.pearlpalaceheritage.com/",
+        "wheelchair": "no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.792309,
+          26.9159152
+        ]
+      },
+      "id": "node/2803462739"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3076038840",
+        "addr:city": "Jaipur",
+        "addr:country": "IN",
+        "addr:state": "Rajasthan",
+        "addr:street": "Tonk road",
+        "name": "Royal orchid",
+        "stars": "5",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.792943,
+          26.844801
+        ]
+      },
+      "id": "node/3076038840"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3209386498",
+        "addr:city": "Jaipur",
+        "name": "Golden Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7994386,
+          26.9236483
+        ]
+      },
+      "id": "node/3209386498"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3225542708",
+        "addr:city": "Jaipur",
+        "addr:postcode": "302001",
+        "email": "info@chitrakatha.co.in",
+        "name": "Chitra Katha",
+        "tourism": "hotel",
+        "website": "https://chitrakatha.co.in/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7958692,
+          26.9165447
+        ]
+      },
+      "id": "node/3225542708"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3408348664",
+        "addr:postcode": "302006",
+        "addr:street": "Station Road",
+        "email": "mangal35@yahoo.co.in",
+        "internet_access": "no",
+        "name": "Jai Mangal Palace",
+        "phone": "0141-2378901",
+        "phone2": "0141-2367777",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8016881,
+          26.9230065
+        ]
+      },
+      "id": "node/3408348664"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3596879905",
+        "name": "Hotel Shalimar",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8005503,
+          26.9215443
+        ]
+      },
+      "id": "node/3596879905"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3677150047",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "7",
+        "addr:postcode": "302001",
+        "addr:street": "Mirza Ismail Road",
+        "name": "Moustache",
+        "opening_hours": "24/7",
+        "phone": "+911414034419",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7978614,
+          26.9195863
+        ]
+      },
+      "id": "node/3677150047"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3685076725",
+        "name": "Atithi",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7974709,
+          26.9201541
+        ]
+      },
+      "id": "node/3685076725"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3806485612",
+        "name": "Golden Manor",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7944208,
+          26.9267314
+        ]
+      },
+      "id": "node/3806485612"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3806491202",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "B2 EF",
+        "addr:street": "Shiv Marg, Bani Park",
+        "name": "Rukmani Garden",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7953243,
+          26.9275307
+        ]
+      },
+      "id": "node/3806491202"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3806491206",
+        "name": "Tara Niwas",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7948809,
+          26.9270266
+        ]
+      },
+      "id": "node/3806491206"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3806698412",
+        "name": "Hotel Rangoli",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8107186,
+          26.9165347
+        ]
+      },
+      "id": "node/3806698412"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3828828466",
+        "name": "ITC Rajputana",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7912768,
+          26.9196877
+        ]
+      },
+      "id": "node/3828828466"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3842381186",
+        "name": "Leisure Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.807822,
+          26.9166441
+        ]
+      },
+      "id": "node/3842381186"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/3893485492",
+        "addr:housenumber": "24B",
+        "addr:street": "Ganesh Colony",
+        "name": "Rajputana Guest House",
+        "phone": "+911412591903",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7942234,
+          26.8882872
+        ]
+      },
+      "id": "node/3893485492"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4014990003",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "R-14",
+        "addr:postcode": "302001",
+        "addr:street": "Yudhishthir Marg",
+        "contact:facebook": "hotelshikha",
+        "contact:instagram": "hotelshikha",
+        "contact:twitter": "shikhahoteljai",
+        "email": "info@hotelshikha.com",
+        "internet_access": "wlan",
+        "level": "-1",
+        "name": "Hotel Shikha",
+        "opening_hours": "24/7",
+        "operator": "Deepak Sharma",
+        "phone": "+919582221212",
+        "smoking": "outside",
+        "tourism": "hotel",
+        "website": "https://www.hotelshikha.com/",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7969727,
+          26.9058881
+        ]
+      },
+      "id": "node/4014990003"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4030823290",
+        "name": "Pink Turban Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8174117,
+          26.8973606
+        ]
+      },
+      "id": "node/4030823290"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4043290405",
+        "name": "Royal Aashiyana",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7900785,
+          26.9244262
+        ]
+      },
+      "id": "node/4043290405"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4178415092",
+        "name": "IDEX Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7690192,
+          26.8883239
+        ]
+      },
+      "id": "node/4178415092"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4218873784",
+        "name": "Karnot Mahal",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8351214,
+          26.9207579
+        ]
+      },
+      "id": "node/4218873784"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4226406190",
+        "addr:postcode": "302017",
+        "name": "City of Golden Domes",
+        "opening_hours": "24/7",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8350761,
+          26.8324358
+        ]
+      },
+      "id": "node/4226406190"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4226415889",
+        "name": "Hotel Red Fox Jaipur",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8067406,
+          26.864948
+        ]
+      },
+      "id": "node/4226415889"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4297704489",
+        "addr:city": "Jaipur",
+        "addr:country": "IN",
+        "addr:district": "Jaipur",
+        "addr:full": "First Floor, 85-A, Rajamal Ka Talab, ICICI Bank Building, Chandi ki Taksal, Opposite Tourist Police Station, Jaipur, Rajasthan 302002",
+        "addr:housenumber": "85-A",
+        "addr:postcode": "302002",
+        "addr:state": "Rajasthan",
+        "addr:street": "Chandi ki Taksal",
+        "branch": "Jaipur",
+        "brand": "Zostel",
+        "email": "jaipur@zostel.com",
+        "internet_access": "wlan",
+        "level": "1",
+        "name": "Zostel",
+        "opening_hours": "24/7",
+        "phone": "00911416565659",
+        "tourism": "hostel",
+        "website": "https://www.zostel.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.828382,
+          26.9292673
+        ]
+      },
+      "id": "node/4297704489"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4335325894",
+        "addr:housenumber": "29",
+        "addr:postcode": "302001",
+        "addr:street": "Khatipura Road",
+        "internet_access": "wlan",
+        "name": "Hotel Green Lemon",
+        "opening_hours": "24/7",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7456837,
+          26.9236319
+        ]
+      },
+      "id": "node/4335325894"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4350535089",
+        "internet_access": "wlan",
+        "name": "Tony Guesthouse",
+        "phone": "09928871717",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7960782,
+          26.9214648
+        ]
+      },
+      "id": "node/4350535089"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4350999402",
+        "name": "Shakun Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8021874,
+          26.9113177
+        ]
+      },
+      "id": "node/4350999402"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4408430990",
+        "internet_access": "wlan",
+        "name": "Hotel arco palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7994632,
+          26.9227841
+        ]
+      },
+      "id": "node/4408430990"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4440889189",
+        "internet_access": "wlan",
+        "name:en": "IIHMR",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8161717,
+          26.8195546
+        ]
+      },
+      "id": "node/4440889189"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4463653797",
+        "addr:housenumber": "18",
+        "addr:postcode": "302006",
+        "addr:street": "Jai Ambey Colony, Civil Lines, Jaipur",
+        "internet_access": "wlan",
+        "name:en": "Mai Thik Hoo Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7786741,
+          26.9066801
+        ]
+      },
+      "id": "node/4463653797"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4464363795",
+        "name:en": "Mai Thik Hoo Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7787975,
+          26.9065384
+        ]
+      },
+      "id": "node/4464363795"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4464789989",
+        "amenity": "restaurant",
+        "name:en": "Sweet Dreams Hotel Rooftop Restaurant",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8200153,
+          26.9170942
+        ]
+      },
+      "id": "node/4464789989"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4466633241",
+        "name": "agrasenn dharamshala",
+        "tourism": "motel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7843656,
+          26.8998468
+        ]
+      },
+      "id": "node/4466633241"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4466633245",
+        "name": "hotel grand uniara",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8162124,
+          26.8981276
+        ]
+      },
+      "id": "node/4466633245"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4483166712",
+        "name": "Rajputana Haveli",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8354746,
+          26.937669
+        ]
+      },
+      "id": "node/4483166712"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4486240690",
+        "name": "crown palace",
+        "name:en": "Crown Palace",
+        "status": "closed",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8046914,
+          26.9206139
+        ]
+      },
+      "id": "node/4486240690"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4486241989",
+        "name": "hotel vijeet palace",
+        "name:en": "Hotel Vijeet Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8049756,
+          26.9203714
+        ]
+      },
+      "id": "node/4486241989"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4544640591",
+        "internet_access": "wlan",
+        "name:en": "Karni Niwas",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7994513,
+          26.9201449
+        ]
+      },
+      "id": "node/4544640591"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4552272502",
+        "name:en": "I M",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.785406,
+          26.904358
+        ]
+      },
+      "id": "node/4552272502"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4573535691",
+        "name:en": "Nahargarh_Haveli",
+        "name:ko": "나하르가르 하벨리 호텔",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7924471,
+          26.9145919
+        ]
+      },
+      "id": "node/4573535691"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4598086892",
+        "name:en": "Hotel Airport View",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8038605,
+          26.8197545
+        ]
+      },
+      "id": "node/4598086892"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4598143689",
+        "name:en": "Hotel Airport View",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8093358,
+          26.8101969
+        ]
+      },
+      "id": "node/4598143689"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4744959021",
+        "name": "Paul Avenue",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8003082,
+          26.9223503
+        ]
+      },
+      "id": "node/4744959021"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4787877205",
+        "addr:street": "Hawa sadak",
+        "name": "Ginger Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7849894,
+          26.9015111
+        ]
+      },
+      "id": "node/4787877205"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4834354022",
+        "name": "Mrignayani palace , Jaipur",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8422532,
+          26.9466334
+        ]
+      },
+      "id": "node/4834354022"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4834668021",
+        "addr:housenumber": "328",
+        "addr:postcode": "302002",
+        "addr:street": "Mehra Basti",
+        "email": "jaipur_ngo@outlook.com",
+        "name": "HOSTEL , JAIPUR",
+        "name:en": "Hayaat Home Stay",
+        "operator": "Imran",
+        "phone": "00919461455529",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.843704,
+          26.945655
+        ]
+      },
+      "id": "node/4834668021"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4849657021",
+        "name:en": "99 Inn",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7830831,
+          26.9062522
+        ]
+      },
+      "id": "node/4849657021"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4880271222",
+        "addr:housenumber": "917",
+        "addr:postcode": "302015",
+        "internet_access": "wlan",
+        "name:en": "Jeevan Jyoti",
+        "opening_hours": "Mo-Su 09:00-21:00",
+        "operator": "Akhil Anand",
+        "phone": "9461618354",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7918908,
+          26.8758606
+        ]
+      },
+      "id": "node/4880271222"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/4959486221",
+        "addr:street": "Siyaram Ki Doongri",
+        "name:en": "Mosaic's Guest House",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8665512,
+          26.9833511
+        ]
+      },
+      "id": "node/4959486221"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5030987621",
+        "check_date": "2026-09-07",
+        "name:en": "Hotel Gangaur",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7953318,
+          26.9190697
+        ]
+      },
+      "id": "node/5030987621"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5033618122",
+        "addr:housenumber": "plot no 112",
+        "addr:postcode": "302017",
+        "name:en": "my home",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8665023,
+          26.8073758
+        ]
+      },
+      "id": "node/5033618122"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5068025823",
+        "addr:street": "Station Road",
+        "name:en": "Thali House",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7990356,
+          26.922532
+        ]
+      },
+      "id": "node/5068025823"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5068025824",
+        "addr:street": "Station Road",
+        "name:en": "Archna hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8003804,
+          26.92183
+        ]
+      },
+      "id": "node/5068025824"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5078199410",
+        "name:en": "Chotiwala",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7881196,
+          26.9214725
+        ]
+      },
+      "id": "node/5078199410"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5225687221",
+        "addr:street": "Johari Bazar",
+        "internet_access": "wlan",
+        "name:en": "Kailash Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8267656,
+          26.9222997
+        ]
+      },
+      "id": "node/5225687221"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5226282221",
+        "name:en": "Tiwari Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.79716,
+          26.9210112
+        ]
+      },
+      "id": "node/5226282221"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5227029823",
+        "name:en": "Gritz",
+        "name:ja": "Gritz",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8392404,
+          26.9412042
+        ]
+      },
+      "id": "node/5227029823"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5235176285",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "E 15",
+        "addr:postcode": "302018",
+        "addr:street": "Kings Street Ist Avenue Lal Bahadur Nagar (West)",
+        "addr:unit": "J L N Marg",
+        "email": "Info@kesardvilla.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "yes",
+        "rooms": "18",
+        "smoking": "outside",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8013665,
+          26.8485119
+        ]
+      },
+      "id": "node/5235176285"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5254163622",
+        "addr:housenumber": "C-18B",
+        "addr:street": "Bihari Marg",
+        "name": "Destiny Hostel",
+        "name:en": "Destiny Hostel",
+        "name:hi": "Destiny Hostel",
+        "name:hu": "Destiny Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7888442,
+          26.9281453
+        ]
+      },
+      "id": "node/5254163622"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5277013024",
+        "name": "Hotel Amer View",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8634129,
+          26.9901847
+        ]
+      },
+      "id": "node/5277013024"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5279855921",
+        "addr:housenumber": "3, Purohit Ji Ka Bagh, Behind Cafe Kabab, Mirza Ismail Rd, opposite Darbar School, Jayanti Market, New Colony, Jaipur, Rajasthan 302001",
+        "internet_access": "wlan",
+        "name": "Explorer's Nest",
+        "name:en": "Explorer's Nest",
+        "name:hi": "Explorer's Nest",
+        "name:hu": "Explorer's Nest",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8074869,
+          26.9174875
+        ]
+      },
+      "id": "node/5279855921"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5287241780",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "22",
+        "addr:postcode": "302001",
+        "addr:street": "Godam Circle",
+        "addr:unit": "Plot No. 1",
+        "brand": "Holiday Inn",
+        "brand:wikidata": "Q2717882",
+        "name": "Holiday Inn Jaipur City Centre",
+        "name:hi": "हॉलिडे इन जयपुर सिटी सेंटर",
+        "operator": "Holiday Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7927199,
+          26.902774
+        ]
+      },
+      "id": "node/5287241780"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5291991545",
+        "name:en": "Khandaka Heritage Haveli",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8291716,
+          26.9225925
+        ]
+      },
+      "id": "node/5291991545"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5403334317",
+        "name": "Sundeck hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7672966,
+          26.8971208
+        ]
+      },
+      "id": "node/5403334317"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5426695522",
+        "name:en": "The Mellow",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7984521,
+          26.9138631
+        ]
+      },
+      "id": "node/5426695522"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5435212024",
+        "name": "hotel aroma classic",
+        "name:en": "Hotel Aroma Classic",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8093779,
+          26.9180476
+        ]
+      },
+      "id": "node/5435212024"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5435486822",
+        "name": "hotel welcome",
+        "name:en": "Hotel Welcome",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8103618,
+          26.91864
+        ]
+      },
+      "id": "node/5435486822"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5435490421",
+        "name:en": "Hotel Sweet Dreams",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8199442,
+          26.9173175
+        ]
+      },
+      "id": "node/5435490421"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5495540421",
+        "name": "עצירונת צאי לגייפור",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.2684761,
+          27.0039578
+        ]
+      },
+      "id": "node/5495540421"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5495790833",
+        "name": "גייפור",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7936134,
+          26.9293127
+        ]
+      },
+      "id": "node/5495790833"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5585615421",
+        "name:en": "Hotel Mansagar",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8409792,
+          26.9461988
+        ]
+      },
+      "id": "node/5585615421"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/5706200829",
+        "addr:housenumber": "C-89",
+        "addr:postcode": "302023",
+        "addr:street": "Shekhawat Marg, Ambawari",
+        "internet_access": "wlan",
+        "name:en": "Utsav Niwas Jaipur",
+        "phone": "+91 99826 65531",
+        "tourism": "hotel",
+        "website": "http://www.utsav-nivas.hotelsinjaipurcity.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7741944,
+          26.9439757
+        ]
+      },
+      "id": "node/5706200829"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6046848585",
+        "addr:housenumber": "12",
+        "addr:postcode": "302001",
+        "addr:street": "Mirza Ismail Road",
+        "internet_access": "wlan",
+        "name:en": "The Hosteller Jaipur",
+        "phone": "919810187717",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7996603,
+          26.918224
+        ]
+      },
+      "id": "node/6046848585"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6187386487",
+        "name:en": "New indian guest house",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7919358,
+          26.9162309
+        ]
+      },
+      "id": "node/6187386487"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6211248041",
+        "addr:full": "3, Peelwa Garden, Moti Doongari Road Jaipur – 302004 Rajasthan, India",
+        "email": "bookrajasthanpalace@gmail.com",
+        "internet_access": "wlan",
+        "name": "Rajasthan Palace Hotel",
+        "phone": "+918448385589",
+        "tourism": "hotel",
+        "website": "https://rajasthanpalacehotel.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8210697,
+          26.9007439
+        ]
+      },
+      "id": "node/6211248041"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6296110786",
+        "name:en": "Treebo The Anchorage",
+        "phone": "+911414917927",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8042474,
+          26.8466795
+        ]
+      },
+      "id": "node/6296110786"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6339283185",
+        "addr:housenumber": "59 hathroi fort",
+        "addr:postcode": "302001",
+        "addr:street": "Hari Kisham Somani Marg",
+        "email": "hotelkalyan@yahoo.co.in",
+        "internet_access": "wlan",
+        "name": "Hotel Kalyan",
+        "opening_hours": "24/7",
+        "operator": "Manoj Gupta",
+        "phone": "9314501591",
+        "tourism": "hotel",
+        "website": "https://www.hotelkalyan.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7959052,
+          26.9161385
+        ]
+      },
+      "id": "node/6339283185"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6423071085",
+        "name": "Hotel vacation , Jaipur",
+        "name:en": "Hotel Vacation",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8421388,
+          26.9462314
+        ]
+      },
+      "id": "node/6423071085"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6631001786",
+        "name": "M.M khan Hostel ,Jaipur",
+        "name:en": "M. M. Khan Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8404544,
+          26.9469046
+        ]
+      },
+      "id": "node/6631001786"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6690847792",
+        "addr:city": "Jaipur",
+        "addr:country": "IN",
+        "addr:postcode": "302002",
+        "addr:street": "Amer Road",
+        "air_conditioning": "yes",
+        "brand": "Trident Hotels",
+        "fax": "+91 141 267 0303",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Trident Hotel , Jaipur",
+        "phone": "+91 141 267 0101",
+        "stars": "5",
+        "tourism": "hotel",
+        "website": "https://www.tridenthotels.com/hotels-in-jaipur"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8429925,
+          26.9569767
+        ]
+      },
+      "id": "node/6690847792"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6698927886",
+        "name:en": "Gypsy Monkey",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7985978,
+          26.9227807
+        ]
+      },
+      "id": "node/6698927886"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6720185487",
+        "addr:housenumber": "B-15",
+        "addr:postcode": "302001",
+        "addr:street": "Gopinath Marg, Purohit Ji ka bhag",
+        "email": "reservations@dyjour.com",
+        "internet_access": "wlan",
+        "name": "Backpackers Headquarter Hostel",
+        "opening_hours": "24/7",
+        "phone": "7737987825",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8071574,
+          26.9181264
+        ]
+      },
+      "id": "node/6720185487"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6781629585",
+        "name": "Hotel Sarang Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7962704,
+          26.9373684
+        ]
+      },
+      "id": "node/6781629585"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6855062887",
+        "addr:housenumber": "S-1, 2 ,3",
+        "addr:postcode": "302002",
+        "addr:street": "Beniwal kanta street",
+        "internet_access": "wlan",
+        "name:en": "Prime hôtel",
+        "name:fr": "Prime hôtel",
+        "opening_hours": "Mo-Su 06:00-20:00",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.867204,
+          26.9603236
+        ]
+      },
+      "id": "node/6855062887"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6906334472",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "602/7c Gopinathmarg Behind Mla Quarters",
+        "addr:postcode": "302001",
+        "addr:street": "Sansar Chandra Road",
+        "guest_house": "hostel",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "name": "Backpackers Villa",
+        "operator": "Wanderers Nest",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8049122,
+          26.9199341
+        ]
+      },
+      "id": "node/6906334472"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6938692785",
+        "internet_access": "wlan",
+        "name:en": "Bollywood Guesthouse",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8397102,
+          26.9154831
+        ]
+      },
+      "id": "node/6938692785"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/6966530622",
+        "air_conditioning": "yes",
+        "internet_access": "yes",
+        "name": "Sarovar Portico Jaipur",
+        "phone": "0141 282 1000",
+        "tourism": "motel",
+        "website": "https://www.sarovarhotels.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7524428,
+          26.9025052
+        ]
+      },
+      "id": "node/6966530622"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7030319492",
+        "name": "Roma Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.837442,
+          26.9389292
+        ]
+      },
+      "id": "node/7030319492"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7030319495",
+        "brand": "Four Points by Sheraton",
+        "brand:wikidata": "Q1439966",
+        "name": "Four Points By Sheraton",
+        "short_name": "Four Points",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7955089,
+          26.8647922
+        ]
+      },
+      "id": "node/7030319495"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7041307348",
+        "name": "Abhay hotel",
+        "tourism": "motel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7302094,
+          26.9016141
+        ]
+      },
+      "id": "node/7041307348"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7043371129",
+        "name": "Sainik Vishram grah",
+        "note": "Only for Army vetrans.",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7863637,
+          26.9311432
+        ]
+      },
+      "id": "node/7043371129"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7074381414",
+        "guest_house": "guest_house",
+        "name": "Advocate Bhawan",
+        "operator": "Bar Council of Rajasthan",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7946173,
+          26.8947481
+        ]
+      },
+      "id": "node/7074381414"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7153511253",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "1",
+        "addr:postcode": "302001",
+        "addr:street": "Gopinath Marg",
+        "air_conditioning": "yes",
+        "guest_house": "hostel",
+        "internet_access": "wlan",
+        "name": "Horn Ok Please Hostel Jaipur",
+        "operator": "Horn Ok Please Hostel",
+        "phone": "+91 7852887232",
+        "rooms": "50",
+        "tourism": "hostel",
+        "website": "https://www.hophosteljaipur.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8049219,
+          26.9190838
+        ]
+      },
+      "id": "node/7153511253"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7236021067",
+        "addr:housenumber": "4",
+        "addr:street": "Kabir Marg",
+        "description": "Nice hostel, with roof terrace and vegetarian restaurant.",
+        "email": "vinayakguesthouse@yahoo.co.in",
+        "name": "Vinayak Guest House",
+        "phone": "+91 1412205260",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7900422,
+          26.9241743
+        ]
+      },
+      "id": "node/7236021067"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7252665785",
+        "internet_access": "wlan",
+        "name:de": "Ikaki Niwas",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8294514,
+          26.8861038
+        ]
+      },
+      "id": "node/7252665785"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7272520890",
+        "name:en": "GreenApple Homestay",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8304246,
+          26.9312008
+        ]
+      },
+      "id": "node/7272520890"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7329285523",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "Main D-Villa Building, Khasa Kothi Circle",
+        "addr:postcode": "302001",
+        "addr:street": "Mirza Ismail Road",
+        "contact:email": "reservations@nirbanapalace.com",
+        "name": "Nibana Palace - A Heritage Hotel",
+        "tourism": "hotel",
+        "website": "https://nirbanapalace.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7946107,
+          26.9217554
+        ]
+      },
+      "id": "node/7329285523"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/7811736985",
+        "name:en": "OYO Townhouse",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8054946,
+          26.8512395
+        ]
+      },
+      "id": "node/7811736985"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8039165406",
+        "name": "The Theme hotel",
+        "tourism": "motel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7939807,
+          26.8283199
+        ]
+      },
+      "id": "node/8039165406"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8041984477",
+        "internet_access": "yes",
+        "internet_access:fee": "customers",
+        "name": "Lemon Tree Premier",
+        "phone": "+911414051100",
+        "tourism": "motel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7913826,
+          26.935157
+        ]
+      },
+      "id": "node/8041984477"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8043906266",
+        "name": "Hotel Green Valley - Oyo",
+        "phone": "+919116666501",
+        "tourism": "hotel",
+        "website": "https://www.hotelgreenvalley.in/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8806784,
+          27.0085164
+        ]
+      },
+      "id": "node/8043906266"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8071848433",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "B-104",
+        "addr:street": "Vaishali Marg",
+        "air_conditioning": "yes",
+        "name": "Hotel Aqua",
+        "parking": "yes",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7381233,
+          26.9148104
+        ]
+      },
+      "id": "node/8071848433"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8119003881",
+        "addr:housenumber": "12 park street",
+        "check_date": "2026-09-08",
+        "name": "Hotel Lavanya Heritage Jaipur",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7960023,
+          26.9207967
+        ]
+      },
+      "id": "node/8119003881"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8119003884",
+        "name": "Branson Backpacker Homestay",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7544061,
+          26.9654987
+        ]
+      },
+      "id": "node/8119003884"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8171528608",
+        "guest_house": "dormitory",
+        "name": "Boys Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.9303913,
+          27.22979
+        ]
+      },
+      "id": "node/8171528608"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8171528621",
+        "guest_house": "dormitory",
+        "name": "Girls Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.9311415,
+          27.2296667
+        ]
+      },
+      "id": "node/8171528621"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8343136217",
+        "name:en": "B.R. Chopra's Home",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7607372,
+          26.9878116
+        ]
+      },
+      "id": "node/8343136217"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8485907521",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "105, Charanwas",
+        "addr:postcode": "302001",
+        "brand": "Riverarch Greenfields Resort",
+        "email": "sales@riverarch.in",
+        "internet_access": "yes",
+        "name": "Riverarch Greenfields Resort",
+        "rooms": "74",
+        "tourism": "hotel",
+        "website": "https://www.riverarch.in/",
+        "wheelchair": "limited"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.9984314,
+          27.1735291
+        ]
+      },
+      "id": "node/8485907521"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8530757357",
+        "addr:city": "Ballupura",
+        "addr:country": "IN",
+        "addr:district": "Jaipur",
+        "addr:locality": "Jamdoli",
+        "addr:postcode": "302031",
+        "addr:state": "Rajasthan",
+        "addr:street": "Tehsil, Agra Rd",
+        "name": "Devi Ratn, Jaipur - IHCL SeleQtions",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8806182,
+          26.9169874
+        ]
+      },
+      "id": "node/8530757357"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/8980301067",
+        "brand": "Hyatt Regency",
+        "brand:wikidata": "Q1425063",
+        "brand:wikipedia": "en:Hyatt",
+        "name": "Hyatt Regency Jaipur",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.75364,
+          26.8304735
+        ]
+      },
+      "id": "node/8980301067"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9173723548",
+        "name": "Alila Fort Bishangarh",
+        "rooms": "69",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8945405,
+          27.3214139
+        ]
+      },
+      "id": "node/9173723548"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9671334817",
+        "addr:housenumber": "E-147",
+        "addr:postcode": "302016",
+        "addr:street": "RPA Road",
+        "name:en": "E-147, swarnkar colony",
+        "tourism": "apartment"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7880922,
+          26.9452895
+        ]
+      },
+      "id": "node/9671334817"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/9743307634",
+        "guest_house": "guest_house",
+        "name": "Central Government Touring Officers Guest House",
+        "operator": "Central Public Works Department",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7834716,
+          26.9634537
+        ]
+      },
+      "id": "node/9743307634"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10010708818",
+        "name:en": "Kaplana Yoga Homestay",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7966726,
+          26.9164777
+        ]
+      },
+      "id": "node/10010708818"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10029329917",
+        "internet_access": "wlan",
+        "name": "Anandmai - Sustainable Living Spaces",
+        "phone": "+918827774477",
+        "tourism": "hostel",
+        "website": "https://www.anandmai.in/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7945209,
+          26.8993636
+        ]
+      },
+      "id": "node/10029329917"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10180851803",
+        "brand": "Fairmont",
+        "brand:wikidata": "Q1393345",
+        "name": "Fairmont Jaipur",
+        "phone": "+91 142 642 00 00",
+        "tourism": "hotel",
+        "website": "https://www.fairmont.com/jaipur/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.890182,
+          27.0309013
+        ]
+      },
+      "id": "node/10180851803"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10180862678",
+        "brand": "Le Méridien",
+        "brand:wikidata": "Q261077",
+        "name": "Le Méridien Jaipur Resort & Spa",
+        "phone": "+91 1426-403333",
+        "tourism": "hotel",
+        "website": "https://www.marriott.com/en-us/hotels/jaimd-le-meridien-jaipur-resort-and-spa/overview/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8885293,
+          27.0320761
+        ]
+      },
+      "id": "node/10180862678"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10219412192",
+        "description": "Guest house / Hotel",
+        "name": "Pachamama HOTEL",
+        "phone": "096800 00227",
+        "tourism": "hotel",
+        "website": "https://www.facebook.com/pachamamajaipur"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7793544,
+          26.907979
+        ]
+      },
+      "id": "node/10219412192"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10554256109",
+        "addr:postcode": "302015",
+        "addr:street": "Sahakar Marg",
+        "air_conditioning": "yes",
+        "internet_access": "wlan",
+        "name": "Sarovar Premier, Jaipur",
+        "name:en": "Sarovar Premiere, Jaipur",
+        "phone": "0141 439 8000",
+        "tourism": "hotel",
+        "website": "https://www.sarovarhotels.com/sarovar-premiere-jaipur/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7973361,
+          26.8822107
+        ]
+      },
+      "id": "node/10554256109"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10554368724",
+        "addr:city": "Jaipur",
+        "addr:postcode": "302015",
+        "addr:state": "Rajasthan",
+        "name": "Hotel Prince",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7962798,
+          26.8814329
+        ]
+      },
+      "id": "node/10554368724"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10717385062",
+        "name": "Hostel",
+        "operator": "private",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.6467993,
+          26.8268625
+        ]
+      },
+      "id": "node/10717385062"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10740494505",
+        "addr:housenumber": "71B",
+        "name:en": "Beena Homstay",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7967317,
+          26.9166946
+        ]
+      },
+      "id": "node/10740494505"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10749484305",
+        "addr:housenumber": "185",
+        "addr:postcode": "302002",
+        "addr:street": "Khavas Ji Ka Rasta",
+        "internet_access": "wlan",
+        "name:en": "Bloom Boutique - Chelon ki Haveli",
+        "opening_hours": "24/7",
+        "phone": "+911141225666",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8271768,
+          26.9267364
+        ]
+      },
+      "id": "node/10749484305"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10842112205",
+        "name:en": "Hotel Castle Kanota",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.9480362,
+          26.8723569
+        ]
+      },
+      "id": "node/10842112205"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10904649536",
+        "addr:housenumber": "Mirza Ismail Rd, Panch Batti, C Scheme, Ashok Nagar, Jaipur, Rajasthan 302001",
+        "name": "tatak house",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8100436,
+          26.9159583
+        ]
+      },
+      "id": "node/10904649536"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10904714963",
+        "name": "Girls hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8101234,
+          26.9138505
+        ]
+      },
+      "id": "node/10904714963"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10904714965",
+        "addr:housenumber": "PN D 9 ,Saket Colony Govind Marg, Adarsh Nagar Nr Pink Square Mall, Jaipur, Rajasthan 302004",
+        "name": "pg , JAIPUR",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8114299,
+          26.9114158
+        ]
+      },
+      "id": "node/10904714965"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10904758163",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8132079,
+          26.911521
+        ]
+      },
+      "id": "node/10904758163"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/10910514684",
+        "name": "Sunday Hotel",
+        "tourism": "hotel",
+        "website": "https://www.booksundays.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7933662,
+          26.9030357
+        ]
+      },
+      "id": "node/10910514684"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11001607351",
+        "addr:city": "JAIPUR",
+        "addr:housenumber": "E/539",
+        "addr:postcode": "302015",
+        "addr:street": "SATYA VIHAR,LAL KOTHI SCHEME",
+        "email": "kuldeepboyspg@gmail.com",
+        "guest_house": "hostel",
+        "internet_access": "yes",
+        "internet_access:fee": "no",
+        "mobile": "+91 9602540945",
+        "name": "KULDEEP BOY'S PG",
+        "opening_hours": "24/7",
+        "operator": "SUMIT SWAMI",
+        "phone": "+911413549317",
+        "rooms": "15",
+        "tourism": "hostel",
+        "website": "WWW.KULDEEPPG.ORG"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7965051,
+          26.8888391
+        ]
+      },
+      "id": "node/11001607351"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11064528908",
+        "guest_house": "bed_and_breakfast",
+        "name": "Nasheman Farmstay",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8147006,
+          27.0190338
+        ]
+      },
+      "id": "node/11064528908"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11088656123",
+        "name": "Highway King Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.570322,
+          26.830141
+        ]
+      },
+      "id": "node/11088656123"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11291297469",
+        "name:en": "Chalo Eco Hostel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8399658,
+          26.9144222
+        ]
+      },
+      "id": "node/11291297469"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11385255407",
+        "name": "Royal view , JAIPUR",
+        "stars": "3",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8472955,
+          26.9464264
+        ]
+      },
+      "id": "node/11385255407"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11402655269",
+        "name:en": "Hotel Yes",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8253229,
+          26.9150817
+        ]
+      },
+      "id": "node/11402655269"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11443269669",
+        "name:en": "Chalo Eco Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8397795,
+          26.9144301
+        ]
+      },
+      "id": "node/11443269669"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11552073599",
+        "addr:full": "100-101, Johari Bazar, Jaipur 302003",
+        "name": "LMB Hotel",
+        "tourism": "hotel",
+        "website": "http://hotellmb.com/default.aspx"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.825617,
+          26.919609
+        ]
+      },
+      "id": "node/11552073599"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11690661271",
+        "name": "Prince Residential School",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7050722,
+          26.957986
+        ]
+      },
+      "id": "node/11690661271"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11692934664",
+        "name": "hotel suriya place chomu",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7158812,
+          27.1655875
+        ]
+      },
+      "id": "node/11692934664"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11693221006",
+        "name": "sanjay guest house",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8220435,
+          26.9236723
+        ]
+      },
+      "id": "node/11693221006"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11697053366",
+        "name": "Hotel Narayan Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7029898,
+          26.9509235
+        ]
+      },
+      "id": "node/11697053366"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11697086213",
+        "name": "Prince School Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7055903,
+          26.9580785
+        ]
+      },
+      "id": "node/11697086213"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11747608169",
+        "brand": "Holiday Inn",
+        "brand:wikidata": "Q2717882",
+        "name": "Holiday Inn",
+        "name:en": "HOLIDAY INN",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7931002,
+          26.9027944
+        ]
+      },
+      "id": "node/11747608169"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11760045769",
+        "addr:city": "Jaipur",
+        "addr:housenumber": "51",
+        "addr:street": "Keshav Path",
+        "name": "airbnb",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7765033,
+          26.903898
+        ]
+      },
+      "id": "node/11760045769"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/11952033278",
+        "addr:city": "Jaipur, Rajasthan",
+        "addr:housenumber": "AD-1B",
+        "addr:postcode": "302016",
+        "addr:street": "Devi Marg, New, Collectorate Cir",
+        "name": "Dev Mahal",
+        "tourism": "hotel",
+        "website": "https://www.devmahal.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7907326,
+          26.9257317
+        ]
+      },
+      "id": "node/11952033278"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12150256873",
+        "name": "Hotel Broadway Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8430614,
+          26.905915
+        ]
+      },
+      "id": "node/12150256873"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12357926701",
+        "name": "Blue King",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7935018,
+          26.929519
+        ]
+      },
+      "id": "node/12357926701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12361795413",
+        "name": "Shreesha",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.790346,
+          26.9236666
+        ]
+      },
+      "id": "node/12361795413"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12361795508",
+        "name": "Miraya",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7901402,
+          26.9261867
+        ]
+      },
+      "id": "node/12361795508"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12361796205",
+        "name": "Satkar",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7904635,
+          26.9236764
+        ]
+      },
+      "id": "node/12361796205"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12361796212",
+        "name": "Empire Regency",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7933658,
+          26.9285108
+        ]
+      },
+      "id": "node/12361796212"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12365120008",
+        "name": "Nahargarh Palace Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8172202,
+          26.9348945
+        ]
+      },
+      "id": "node/12365120008"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12365224302",
+        "name": "Sureli Haveli",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.79353,
+          26.9296535
+        ]
+      },
+      "id": "node/12365224302"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12367918016",
+        "name": "Metro View",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8038092,
+          26.9242284
+        ]
+      },
+      "id": "node/12367918016"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12368039708",
+        "addr:city": "Jaipur",
+        "addr:country": "IN",
+        "addr:housenumber": "893",
+        "addr:postcode": "302003",
+        "addr:street": "Natanion Ka Rasta, Tripolia Bazar",
+        "addr:suburb": "Modikhana Chaukari",
+        "guest_house": "bed_and_breakfast",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "name": "Heart of the City",
+        "operator": "Rashmi Medatwal",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "rooms": "5",
+        "smoking": "outside",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8209687,
+          26.9219683
+        ]
+      },
+      "id": "node/12368039708"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369816602",
+        "name": "Bharat",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7884766,
+          26.9235408
+        ]
+      },
+      "id": "node/12369816602"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369816609",
+        "name": "Classic Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7910356,
+          26.9222701
+        ]
+      },
+      "id": "node/12369816609"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369816610",
+        "name": "Fly",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7909272,
+          26.9222658
+        ]
+      },
+      "id": "node/12369816610"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369816612",
+        "name": "Unique Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7910369,
+          26.9226488
+        ]
+      },
+      "id": "node/12369816612"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369816614",
+        "name": "Ritu",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7906031,
+          26.9242731
+        ]
+      },
+      "id": "node/12369816614"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369822802",
+        "name": "Jaipur",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7882864,
+          26.923014
+        ]
+      },
+      "id": "node/12369822802"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369822807",
+        "name": "Ld Prime",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7909324,
+          26.9224532
+        ]
+      },
+      "id": "node/12369822807"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369822901",
+        "name": "Morgan",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7882385,
+          26.92294
+        ]
+      },
+      "id": "node/12369822901"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369822903",
+        "name": "Galaxy Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7907048,
+          26.9243044
+        ]
+      },
+      "id": "node/12369822903"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12369823001",
+        "name": "Scharma Inn",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.787826,
+          26.9223538
+        ]
+      },
+      "id": "node/12369823001"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376556604",
+        "name": "Gaurav",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.800493,
+          26.9216842
+        ]
+      },
+      "id": "node/12376556604"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376556606",
+        "name": "Royal Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8007542,
+          26.9213955
+        ]
+      },
+      "id": "node/12376556606"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376556611",
+        "name": "Milan Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7970969,
+          26.9222401
+        ]
+      },
+      "id": "node/12376556611"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376556612",
+        "name": "Mahendra",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7971838,
+          26.9228666
+        ]
+      },
+      "id": "node/12376556612"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376556901",
+        "name": "Roopraj",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7973295,
+          26.9228615
+        ]
+      },
+      "id": "node/12376556901"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376557202",
+        "name": "Anuja",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7975955,
+          26.9259769
+        ]
+      },
+      "id": "node/12376557202"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376557302",
+        "name": "Kumar",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8004274,
+          26.921757
+        ]
+      },
+      "id": "node/12376557302"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376557307",
+        "name": "Avantika Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7973765,
+          26.9241475
+        ]
+      },
+      "id": "node/12376557307"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376557502",
+        "name": "Ramji",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7991785,
+          26.9225465
+        ]
+      },
+      "id": "node/12376557502"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376557504",
+        "name": "Pink Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8008636,
+          26.9214714
+        ]
+      },
+      "id": "node/12376557504"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376557506",
+        "name": "Kanji Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7966252,
+          26.9217566
+        ]
+      },
+      "id": "node/12376557506"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12376560701",
+        "name": "Muskan Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7974973,
+          26.9241317
+        ]
+      },
+      "id": "node/12376560701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12379294302",
+        "name": "Ratangarh Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7958133,
+          26.9157191
+        ]
+      },
+      "id": "node/12379294302"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12384988439",
+        "check_date": "2024-11-29",
+        "name": "Fort",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7999042,
+          26.8497651
+        ]
+      },
+      "id": "node/12384988439"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12395593201",
+        "name": "All Seasons Homestay",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7964509,
+          26.9161411
+        ]
+      },
+      "id": "node/12395593201"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12551042361",
+        "name": "Golden Tulip, Jaipur",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8052853,
+          26.9162665
+        ]
+      },
+      "id": "node/12551042361"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12565132484",
+        "addr:city": "Jaipur",
+        "addr:district": "Jaipur",
+        "addr:housenumber": "C3",
+        "addr:postcode": "302026",
+        "addr:street": "Mangalam Grand City, Mahapura Rd",
+        "brand": "HOTEL THE SAWAI",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.6665003,
+          26.858444
+        ]
+      },
+      "id": "node/12565132484"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12627561501",
+        "addr:housenumber": "2",
+        "addr:postcode": "302004",
+        "addr:street": "Moti Doongri Rd",
+        "internet_access": "wlan",
+        "name": "Suryaa Villa",
+        "tourism": "hotel",
+        "website": "https://www.suryaavilla.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8213835,
+          26.9007709
+        ]
+      },
+      "id": "node/12627561501"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12669189232",
+        "name": "Hotel Jai Harsh",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7464308,
+          26.9541479
+        ]
+      },
+      "id": "node/12669189232"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12703125741",
+        "check_date": "2025-03-26",
+        "guest_house": "hostel",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Artbuzz Jaipur",
+        "name:hi": "Artbuzz जयपुर",
+        "reservation": "recommended",
+        "smoking": "isolated",
+        "tourism": "hostel",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7895736,
+          26.9047366
+        ]
+      },
+      "id": "node/12703125741"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/12809850701",
+        "name": "Anantara Jewel Bagh Jaipur Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8680552,
+          26.7369164
+        ]
+      },
+      "id": "node/12809850701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13277319426",
+        "check_date": "2025-11-03",
+        "name": "Season 4",
+        "name:en": "Season 4",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7967366,
+          26.9482479
+        ]
+      },
+      "id": "node/13277319426"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13290360601",
+        "addr:postcode": "302029",
+        "addr:street": "Narayan-Y-Block",
+        "contact:facebook": "samskararesorts",
+        "contact:instagram": "samskararesort",
+        "email": "info@samskararesorts.com",
+        "internet_access": "wlan",
+        "name": "Samskara resort",
+        "tourism": "hotel",
+        "website": "https://www.samskararesorts.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7039642,
+          26.8206286
+        ]
+      },
+      "id": "node/13290360601"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13296712301",
+        "addr:housenumber": "D 219-A",
+        "addr:postcode": "302016",
+        "addr:street": "Bhaskar Marg",
+        "internet_access": "wlan",
+        "name": "Khandela Haveli",
+        "tourism": "hotel",
+        "website": "http://www.khandelahaveli.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7886626,
+          26.9319878
+        ]
+      },
+      "id": "node/13296712301"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13376091501",
+        "name": "Bhola Bhawan Bed and Breakfast",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8129778,
+          26.9110628
+        ]
+      },
+      "id": "node/13376091501"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13381312201",
+        "email": "info@sukhsagarjaipur.com",
+        "internet_access": "wlan",
+        "name": "Sukh Sagar",
+        "phone": "+919414375806",
+        "tourism": "hotel",
+        "website": "https://www.sukhsagarjaipur.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8259276,
+          26.9297963
+        ]
+      },
+      "id": "node/13381312201"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13392834001",
+        "name": "Madpackers hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8276042,
+          26.9283054
+        ]
+      },
+      "id": "node/13392834001"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13392838201",
+        "email": "jaipur@joeyshostel.com",
+        "internet_access": "wlan",
+        "name": "Joey's Hostel",
+        "phone": "+918949077248",
+        "tourism": "hostel",
+        "website": "https://www.joeyshostel.com"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7918806,
+          26.9232871
+        ]
+      },
+      "id": "node/13392838201"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13393369801",
+        "name": "The Pink Nest",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8169304,
+          26.922035
+        ]
+      },
+      "id": "node/13393369801"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13406772405",
+        "air_conditioning": "yes",
+        "bar": "no",
+        "building:levels": "3",
+        "check_date": "2025-12-26",
+        "email": "hotelrubyjaipur@gmail.com",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "mobile": "+91 90010 94000",
+        "name": "Hotel Ruby",
+        "name:en": "Hotel Ruby",
+        "name:hi": "Hotel Ruby",
+        "name:mr": "Hotel Ruby",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "phone": "+91 90010 94000",
+        "reservation": "required",
+        "rooms": "50+",
+        "smoking": "no",
+        "stars": "4",
+        "tourism": "hotel",
+        "website": "https://www.hotelrubyjaipur.com",
+        "wheelchair": "yes"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.802453,
+          26.9252178
+        ]
+      },
+      "id": "node/13406772405"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13581273701",
+        "check_date": "2026-02-19",
+        "internet_access": "wlan",
+        "name:en": "Jaipur Haveli",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8245836,
+          26.9196702
+        ]
+      },
+      "id": "node/13581273701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13602800745",
+        "name": "Hotel Jungle by Sturmfrei (Jaipur)",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8017319,
+          26.9218832
+        ]
+      },
+      "id": "node/13602800745"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13602800746",
+        "name": "Hotel Aaditya",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8008826,
+          26.9211863
+        ]
+      },
+      "id": "node/13602800746"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13602800751",
+        "name": "Laxmi Palace Heritage Hotel",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8013217,
+          26.9252664
+        ]
+      },
+      "id": "node/13602800751"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13602800752",
+        "name": "Sugan Niwas palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8008642,
+          26.9252124
+        ]
+      },
+      "id": "node/13602800752"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13602800753",
+        "name": "Mahadev Villa",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8006584,
+          26.9262624
+        ]
+      },
+      "id": "node/13602800753"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13605707145",
+        "name": "Jal-Tarang",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8426103,
+          26.9504941
+        ]
+      },
+      "id": "node/13605707145"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607591791",
+        "name": "Hotel Rajdhani Palace",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8054608,
+          26.9204547
+        ]
+      },
+      "id": "node/13607591791"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607591792",
+        "name": "Darpaj Hotel",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.805299,
+          26.9205217
+        ]
+      },
+      "id": "node/13607591792"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607591793",
+        "name": "Hotel Jaipur classic",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8051506,
+          26.9205695
+        ]
+      },
+      "id": "node/13607591793"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607591794",
+        "name": "Hotel Sanjary Palace",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8049904,
+          26.9206289
+        ]
+      },
+      "id": "node/13607591794"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607591795",
+        "name": "Hotel Cuber Palace",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.804871,
+          26.9206745
+        ]
+      },
+      "id": "node/13607591795"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607613080",
+        "name": "Shri Jagannath Palace",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8173161,
+          26.934943
+        ]
+      },
+      "id": "node/13607613080"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607803198",
+        "name": "Hotel sing Palace",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8016693,
+          26.9217669
+        ]
+      },
+      "id": "node/13607803198"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607803199",
+        "name": "Hotel Ananji Palace",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8016377,
+          26.9218421
+        ]
+      },
+      "id": "node/13607803199"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607803200",
+        "name": "Hotel Madhiram Palace",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8014998,
+          26.9217857
+        ]
+      },
+      "id": "node/13607803200"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607821701",
+        "name": "Hotal Sawariya Palace",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8012782,
+          26.921664
+        ]
+      },
+      "id": "node/13607821701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607821702",
+        "name": "hotel gokul niwas",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.801294,
+          26.921906
+        ]
+      },
+      "id": "node/13607821702"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607821703",
+        "name": "Hotel Jaipur Stay",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.801392,
+          26.9220027
+        ]
+      },
+      "id": "node/13607821703"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607821704",
+        "name": "Vashu Hotel",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8015058,
+          26.9220437
+        ]
+      },
+      "id": "node/13607821704"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607821705",
+        "name": "Hotel Genus",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8014048,
+          26.9224147
+        ]
+      },
+      "id": "node/13607821705"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13607821933",
+        "name": "Deep Mandir",
+        "tourism": "guest_house"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8008787,
+          26.9222367
+        ]
+      },
+      "id": "node/13607821933"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/13687782802",
+        "addr:postcode": "302022",
+        "addr:street": "Flyover",
+        "name": "Krishna Boys Hostel",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8408692,
+          26.7647742
+        ]
+      },
+      "id": "node/13687782802"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14040356801",
+        "name": "Mukam at Kanak Vilas,",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8217523,
+          26.9067413
+        ]
+      },
+      "id": "node/14040356801"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14055707045",
+        "name": "Hotel Jaisingh Palace",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.806938,
+          26.9185611
+        ]
+      },
+      "id": "node/14055707045"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14055707051",
+        "check_date": "2026-07-29",
+        "contact:instagram": "https://www.instagram.com/jainiwas_jaipurhotel",
+        "internet_access": "wlan",
+        "internet_access:fee": "customers",
+        "name": "Jai Niwas",
+        "tourism": "hotel",
+        "website": "https://www.jainiwas.com/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8053551,
+          26.9198173
+        ]
+      },
+      "id": "node/14055707051"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14055707078",
+        "check_date": "2026-07-29",
+        "name": "Jaipur Jantar",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8052175,
+          26.9195683
+        ]
+      },
+      "id": "node/14055707078"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14066573801",
+        "addr:postcode": "302019",
+        "check_date": "2026-08-01",
+        "internet_access": "wlan",
+        "name": "7 Wonders Boy's PG",
+        "phone": "9413769860",
+        "tourism": "hostel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7575443,
+          26.880567
+        ]
+      },
+      "id": "node/14066573801"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14166310701",
+        "check_date": "2026-09-08",
+        "name": "Hotel Jaipur",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.7941111,
+          26.9258995
+        ]
+      },
+      "id": "node/14166310701"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "@id": "node/14191003901",
+        "name": "Hotel Sugandh Retreat",
+        "tourism": "hotel"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          75.8024309,
+          26.9212527
+        ]
+      },
+      "id": "node/14191003901"
+    }
+  ]
+}

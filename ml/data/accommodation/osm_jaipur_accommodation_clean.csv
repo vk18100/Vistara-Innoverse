@@ -1,0 +1,247 @@
+osm_id,name,accommodation_type,city,state,country,latitude,longitude,source
+way/86547367,Devi Niketan Hotel,Hotel,Jaipur,Rajasthan,India,26.9123825,75.7963192,OpenStreetMap
+way/213905122,Blue Heaven,Hotel,Jaipur,Rajasthan,India,26.925769,75.8026905,OpenStreetMap
+way/237965427,Cambay Spa & Resort,Hotel,Jaipur,Rajasthan,India,27.0310437,75.8962688,OpenStreetMap
+way/324625546,Radisson City Center,Hotel,Jaipur,Rajasthan,India,26.9196139,75.7947023,OpenStreetMap
+way/330236957,Hotel KK Royal,Hotel,Jaipur,Rajasthan,India,26.9894972,75.865105,OpenStreetMap
+way/335334201,Panchayati Dharamshala,Hotel,Jaipur,Rajasthan,India,26.9216728,75.7905021,OpenStreetMap
+way/335336946,Swagatam RTDC Hotel,Hotel,Jaipur,Rajasthan,India,26.9212036,75.7893491,OpenStreetMap
+way/340397016,Hotel Clarks Amer,Hotel,Jaipur,Rajasthan,India,26.8465187,75.8007445,OpenStreetMap
+way/373788670,Jai Mahal Palace,Hotel,Jaipur,Rajasthan,India,26.9125412,75.7850632,OpenStreetMap
+way/375734786,Golden Tulip Essentials Hotel,Hotel,Jaipur,Rajasthan,India,26.9170249,75.806043,OpenStreetMap
+way/386927277,Marriott,Hotel,Jaipur,Rajasthan,India,26.841927,75.7962483,OpenStreetMap
+way/396925593,Mandawa Haveli,Hotel,Jaipur,Rajasthan,India,26.9223689,75.806105,OpenStreetMap
+way/397085651,Taj Rambagh Palace,Hotel,Jaipur,Rajasthan,India,26.8979382,75.8075874,OpenStreetMap
+way/520986487,Hilton Jaipur,Hotel,Jaipur,Rajasthan,India,26.900956,75.7839508,OpenStreetMap
+node/566811593,Umaid Bhawan,Hotel,Jaipur,Rajasthan,India,26.928392,75.7922242,OpenStreetMap
+node/655321797,Holiday Inn,Hotel,Jaipur,Rajasthan,India,26.9441899,75.8390478,OpenStreetMap
+way/668634337,Regenta Central,Hotel,Jaipur,Rajasthan,India,26.9581793,75.8436572,OpenStreetMap
+way/677230556,Hotel Lalit,Hotel,Jaipur,Rajasthan,India,26.8400924,75.8074418,OpenStreetMap
+node/691257915,Jasvilas,Hotel,Jaipur,Rajasthan,India,26.9298944,75.7879303,OpenStreetMap
+node/746508847,The Oberoi  Rajvilas,Hotel,Jaipur,Rajasthan,India,26.8763394,75.8838128,OpenStreetMap
+way/754510582,Novotel Jaipur Convention Centre,Hotel,Jaipur,Rajasthan,India,26.781386,75.8268151,OpenStreetMap
+way/758646756,Hotel Utsav,,Jaipur,Rajasthan,India,26.902026,75.7399665,OpenStreetMap
+way/769122286,Sirsi Haveli,Hotel,Jaipur,Rajasthan,India,26.9096501,75.6791438,OpenStreetMap
+way/861288187,DoubleTree by Hilton Jaipur Amer,Hotel,Jaipur,Rajasthan,India,27.0463245,75.9051563,OpenStreetMap
+way/862777897,InterContinental Jaipur Tonk Road,Hotel,Jaipur,Rajasthan,India,26.779422,75.8277676,OpenStreetMap
+way/862954961,Radisson Blu,Hotel,Jaipur,Rajasthan,India,26.8428809,75.7941659,OpenStreetMap
+way/863494864,Red Fort Resort,Hotel,Jaipur,Rajasthan,India,27.0079493,75.8824408,OpenStreetMap
+way/865674768,Youth Hostel,Hostel,Jaipur,Rajasthan,India,26.8968124,75.800565,OpenStreetMap
+way/867233961,Hotel Shyampuri,Hotel,Jaipur,Rajasthan,India,26.9024645,75.7879901,OpenStreetMap
+way/867324703,Chambal Guest House,Guest House,Jaipur,Rajasthan,India,26.9010563,75.779921,OpenStreetMap
+way/885538933,Mahaveer Boys Hostel,Hostel,Jaipur,Rajasthan,India,26.8501174,75.7618455,OpenStreetMap
+node/957756723,Devi Niketan Heritage Hotel,Hotel,Jaipur,Rajasthan,India,26.912392,75.796346,OpenStreetMap
+way/976749579,Ramada,Hotel,Jaipur,Rajasthan,India,26.8956221,75.8288005,OpenStreetMap
+way/976871977,Bellavista,Hotel,Jaipur,Rajasthan,India,26.8464549,75.7976527,OpenStreetMap
+way/1096796422,Govt. Girls Minority Hostel,Hostel,Jaipur,Rajasthan,India,26.8654098,75.7729423,OpenStreetMap
+way/1141643440,B7 Boy's Block,Hostel,Jaipur,Rajasthan,India,26.8419368,75.5611498,OpenStreetMap
+way/1151360712,B3 Block,Hostel,Jaipur,Rajasthan,India,26.841538,75.5624763,OpenStreetMap
+way/1151360713,B2 block,Hostel,Jaipur,Rajasthan,India,26.8421523,75.5624735,OpenStreetMap
+way/1151360714,B1 Block,Hostel,Jaipur,Rajasthan,India,26.8418442,75.5628885,OpenStreetMap
+way/1158512990,G4 block,Hostel,Jaipur,Rajasthan,India,26.8405206,75.5622397,OpenStreetMap
+way/1158514978,G3 block,Hostel,Jaipur,Rajasthan,India,26.8405018,75.5629086,OpenStreetMap
+way/1158514979,G2 block,Hostel,Jaipur,Rajasthan,India,26.8406751,75.5627091,OpenStreetMap
+way/1158515143,B6 block,Hostel,Jaipur,Rajasthan,India,26.8422292,75.5618891,OpenStreetMap
+way/1158516082,B5 block,Hostel,Jaipur,Rajasthan,India,26.8418084,75.5619673,OpenStreetMap
+way/1184666675,Kuldeep Boy's PG,Hostel,Jaipur,Rajasthan,India,26.8888457,75.796529,OpenStreetMap
+node/1188074395,Royal Guest House,Guest House,Jaipur,Rajasthan,India,26.9239979,75.799532,OpenStreetMap
+way/1241746468,Hotel Arya Niwas,Hotel,Jaipur,Rajasthan,India,26.9205465,75.8040884,OpenStreetMap
+way/1258289591,shishmahal,Hotel,Jaipur,Rajasthan,India,27.166672,75.7129257,OpenStreetMap
+way/1258336039,hotel welcome,Hotel,Jaipur,Rajasthan,India,27.183017,75.7157649,OpenStreetMap
+way/1321767516,Umaid Mahal,Hotel,Jaipur,Rajasthan,India,26.9279546,75.7891295,OpenStreetMap
+way/1433553753,Hotel Cheelgadi,Hotel,Jaipur,Rajasthan,India,26.8217428,75.8106517,OpenStreetMap
+node/1443446287,Shahpura House,Hotel,Jaipur,Rajasthan,India,26.9278442,75.7877823,OpenStreetMap
+way/1445412379,"Dileep Kothi, Jaipur",Hotel,Jaipur,Rajasthan,India,26.9136124,75.7958637,OpenStreetMap
+way/1482209808,Hotel Rudra Vilas,Hotel,Jaipur,Rajasthan,India,26.8338026,75.7674411,OpenStreetMap
+node/1483221214,Park Ocean,Hotel,Jaipur,Rajasthan,India,26.9480695,75.7736096,OpenStreetMap
+way/1484058557,Vijaya Niwas,Hotel,Jaipur,Rajasthan,India,26.9209506,75.8043268,OpenStreetMap
+node/1534472646,Dera Rawatsar - Heritage Hotel,Hotel,Jaipur,Rajasthan,India,26.9251714,75.8015332,OpenStreetMap
+node/1751113662,Pearl Palace Hotel,Hotel,Jaipur,Rajasthan,India,26.9163557,75.7955547,OpenStreetMap
+node/1813448095,Jaipur Inn,Hotel,Jaipur,Rajasthan,India,26.9284885,75.7981485,OpenStreetMap
+node/2013611297,Jwala Niketan,Hotel,Jaipur,Rajasthan,India,26.9199193,75.8003982,OpenStreetMap
+node/2072539801,Devraj Niwas - Boutique Hotel,Hotel,Jaipur,Rajasthan,India,26.9219552,75.7932865,OpenStreetMap
+node/2073268131,Alsisar's Haveli,Hotel,Jaipur,Rajasthan,India,26.9229753,75.80485,OpenStreetMap
+node/2075804495,Hotel Om Tower,Hotel,Jaipur,Rajasthan,India,26.9179313,75.7999767,OpenStreetMap
+node/2140969093,Ever Green,Guest House,Jaipur,Rajasthan,India,26.9155935,75.8043122,OpenStreetMap
+node/2377271963,Akriti,Guest House,Jaipur,Rajasthan,India,26.9251979,75.7981268,OpenStreetMap
+node/2673298039,Jypore Saffron Inn And Suites,Hotel,Jaipur,Rajasthan,India,26.8766515,75.7179021,OpenStreetMap
+node/2684749333,Hari Mahal Palace,Hotel,Jaipur,Rajasthan,India,26.9105453,75.789608,OpenStreetMap
+node/2696139145,CLMM Hotel,Hotel,Jaipur,Rajasthan,India,26.8813222,75.7425715,OpenStreetMap
+node/2749428859,Bissau Palace Hotel,Hotel,Jaipur,Rajasthan,India,26.9298505,75.8085502,OpenStreetMap
+node/2803462739,Pearl Palace Heritage,Hotel,Jaipur,Rajasthan,India,26.9159152,75.792309,OpenStreetMap
+node/3076038840,Royal orchid,Hotel,Jaipur,Rajasthan,India,26.844801,75.792943,OpenStreetMap
+node/3209386498,Golden Inn,Hotel,Jaipur,Rajasthan,India,26.9236483,75.7994386,OpenStreetMap
+node/3225542708,Chitra Katha,Hotel,Jaipur,Rajasthan,India,26.9165447,75.7958692,OpenStreetMap
+node/3408348664,Jai Mangal Palace,Hotel,Jaipur,Rajasthan,India,26.9230065,75.8016881,OpenStreetMap
+node/3596879905,Hotel Shalimar,Hotel,Jaipur,Rajasthan,India,26.9215443,75.8005503,OpenStreetMap
+node/3677150047,Moustache,Hostel,Jaipur,Rajasthan,India,26.9195863,75.7978614,OpenStreetMap
+node/3685076725,Atithi,Guest House,Jaipur,Rajasthan,India,26.9201541,75.7974709,OpenStreetMap
+node/3806485612,Golden Manor,Hotel,Jaipur,Rajasthan,India,26.9267314,75.7944208,OpenStreetMap
+node/3806491202,Rukmani Garden,Hotel,Jaipur,Rajasthan,India,26.9275307,75.7953243,OpenStreetMap
+node/3806491206,Tara Niwas,Hotel,Jaipur,Rajasthan,India,26.9270266,75.7948809,OpenStreetMap
+node/3806698412,Hotel Rangoli,Hotel,Jaipur,Rajasthan,India,26.9165347,75.8107186,OpenStreetMap
+node/3828828466,ITC Rajputana,Hotel,Jaipur,Rajasthan,India,26.9196877,75.7912768,OpenStreetMap
+node/3842381186,Leisure Inn,Hotel,Jaipur,Rajasthan,India,26.9166441,75.807822,OpenStreetMap
+node/3893485492,Rajputana Guest House,Guest House,Jaipur,Rajasthan,India,26.8882872,75.7942234,OpenStreetMap
+node/4014990003,Hotel Shikha,Hotel,Jaipur,Rajasthan,India,26.9058881,75.7969727,OpenStreetMap
+node/4030823290,Pink Turban Hostel,Hostel,Jaipur,Rajasthan,India,26.8973606,75.8174117,OpenStreetMap
+node/4043290405,Royal Aashiyana,Hotel,Jaipur,Rajasthan,India,26.9244262,75.7900785,OpenStreetMap
+node/4178415092,IDEX Guest House,Guest House,Jaipur,Rajasthan,India,26.8883239,75.7690192,OpenStreetMap
+node/4218873784,Karnot Mahal,Hotel,Jaipur,Rajasthan,India,26.9207579,75.8351214,OpenStreetMap
+node/4226406190,City of Golden Domes,Hostel,Jaipur,Rajasthan,India,26.8324358,75.8350761,OpenStreetMap
+node/4226415889,Hotel Red Fox Jaipur,Hotel,Jaipur,Rajasthan,India,26.864948,75.8067406,OpenStreetMap
+node/4297704489,Zostel,Hostel,Jaipur,Rajasthan,India,26.9292673,75.828382,OpenStreetMap
+node/4335325894,Hotel Green Lemon,Hotel,Jaipur,Rajasthan,India,26.9236319,75.7456837,OpenStreetMap
+node/4350535089,Tony Guesthouse,Guest House,Jaipur,Rajasthan,India,26.9214648,75.7960782,OpenStreetMap
+node/4350999402,Shakun Hotel,Hotel,Jaipur,Rajasthan,India,26.9113177,75.8021874,OpenStreetMap
+node/4408430990,Hotel arco palace,Hotel,Jaipur,Rajasthan,India,26.9227841,75.7994632,OpenStreetMap
+node/4466633241,agrasenn dharamshala,,Jaipur,Rajasthan,India,26.8998468,75.7843656,OpenStreetMap
+node/4466633245,hotel grand uniara,Hotel,Jaipur,Rajasthan,India,26.8981276,75.8162124,OpenStreetMap
+node/4483166712,Rajputana Haveli,Hotel,Jaipur,Rajasthan,India,26.937669,75.8354746,OpenStreetMap
+node/4486240690,crown palace,Hotel,Jaipur,Rajasthan,India,26.9206139,75.8046914,OpenStreetMap
+node/4486241989,hotel vijeet palace,Hotel,Jaipur,Rajasthan,India,26.9203714,75.8049756,OpenStreetMap
+node/4744959021,Paul Avenue,Hotel,Jaipur,Rajasthan,India,26.9223503,75.8003082,OpenStreetMap
+node/4787877205,Ginger Hotel,Hotel,Jaipur,Rajasthan,India,26.9015111,75.7849894,OpenStreetMap
+node/4834354022,"Mrignayani palace , Jaipur",Hotel,Jaipur,Rajasthan,India,26.9466334,75.8422532,OpenStreetMap
+node/4834668021,"HOSTEL , JAIPUR",Hostel,Jaipur,Rajasthan,India,26.945655,75.843704,OpenStreetMap
+node/5254163622,Destiny Hostel,Hostel,Jaipur,Rajasthan,India,26.9281453,75.7888442,OpenStreetMap
+node/5277013024,Hotel Amer View,Hotel,Jaipur,Rajasthan,India,26.9901847,75.8634129,OpenStreetMap
+node/5279855921,Explorer's Nest,Guest House,Jaipur,Rajasthan,India,26.9174875,75.8074869,OpenStreetMap
+node/5287241780,Holiday Inn Jaipur City Centre,Hotel,Jaipur,Rajasthan,India,26.902774,75.7927199,OpenStreetMap
+node/5403334317,Sundeck hostel,Hostel,Jaipur,Rajasthan,India,26.8971208,75.7672966,OpenStreetMap
+node/5435212024,hotel aroma classic,Hotel,Jaipur,Rajasthan,India,26.9180476,75.8093779,OpenStreetMap
+node/5435486822,hotel welcome,Hotel,Jaipur,Rajasthan,India,26.91864,75.8103618,OpenStreetMap
+node/5495540421,עצירונת צאי לגייפור,Apartment,Jaipur,Rajasthan,India,27.0039578,75.2684761,OpenStreetMap
+node/5495790833,גייפור,Apartment,Jaipur,Rajasthan,India,26.9293127,75.7936134,OpenStreetMap
+node/6211248041,Rajasthan Palace Hotel,Hotel,Jaipur,Rajasthan,India,26.9007439,75.8210697,OpenStreetMap
+node/6339283185,Hotel Kalyan,Hotel,Jaipur,Rajasthan,India,26.9161385,75.7959052,OpenStreetMap
+node/6423071085,"Hotel vacation , Jaipur",Hotel,Jaipur,Rajasthan,India,26.9462314,75.8421388,OpenStreetMap
+node/6631001786,"M.M khan Hostel ,Jaipur",Hotel,Jaipur,Rajasthan,India,26.9469046,75.8404544,OpenStreetMap
+node/6690847792,"Trident Hotel , Jaipur",Hotel,Jaipur,Rajasthan,India,26.9569767,75.8429925,OpenStreetMap
+node/6720185487,Backpackers Headquarter Hostel,Hostel,Jaipur,Rajasthan,India,26.9181264,75.8071574,OpenStreetMap
+node/6781629585,Hotel Sarang Palace,Hotel,Jaipur,Rajasthan,India,26.9373684,75.7962704,OpenStreetMap
+node/6906334472,Backpackers Villa,Hostel,Jaipur,Rajasthan,India,26.9199341,75.8049122,OpenStreetMap
+node/6966530622,Sarovar Portico Jaipur,,Jaipur,Rajasthan,India,26.9025052,75.7524428,OpenStreetMap
+node/7030319492,Roma Palace,Hotel,Jaipur,Rajasthan,India,26.9389292,75.837442,OpenStreetMap
+node/7030319495,Four Points By Sheraton,Hotel,Jaipur,Rajasthan,India,26.8647922,75.7955089,OpenStreetMap
+node/7041307348,Abhay hotel,,Jaipur,Rajasthan,India,26.9016141,75.7302094,OpenStreetMap
+node/7043371129,Sainik Vishram grah,Guest House,Jaipur,Rajasthan,India,26.9311432,75.7863637,OpenStreetMap
+node/7074381414,Advocate Bhawan,Guest House,Jaipur,Rajasthan,India,26.8947481,75.7946173,OpenStreetMap
+node/7153511253,Horn Ok Please Hostel Jaipur,Hostel,Jaipur,Rajasthan,India,26.9190838,75.8049219,OpenStreetMap
+node/7236021067,Vinayak Guest House,Hostel,Jaipur,Rajasthan,India,26.9241743,75.7900422,OpenStreetMap
+node/7329285523,Nibana Palace - A Heritage Hotel,Hotel,Jaipur,Rajasthan,India,26.9217554,75.7946107,OpenStreetMap
+node/8039165406,The Theme hotel,,Jaipur,Rajasthan,India,26.8283199,75.7939807,OpenStreetMap
+node/8041984477,Lemon Tree Premier,,Jaipur,Rajasthan,India,26.935157,75.7913826,OpenStreetMap
+node/8043906266,Hotel Green Valley - Oyo,Hotel,Jaipur,Rajasthan,India,27.0085164,75.8806784,OpenStreetMap
+node/8071848433,Hotel Aqua,Hotel,Jaipur,Rajasthan,India,26.9148104,75.7381233,OpenStreetMap
+node/8119003881,Hotel Lavanya Heritage Jaipur,Hotel,Jaipur,Rajasthan,India,26.9207967,75.7960023,OpenStreetMap
+node/8119003884,Branson Backpacker Homestay,Hotel,Jaipur,Rajasthan,India,26.9654987,75.7544061,OpenStreetMap
+node/8171528608,Boys Hostel,Hostel,Jaipur,Rajasthan,India,27.22979,75.9303913,OpenStreetMap
+node/8171528621,Girls Hostel,Hostel,Jaipur,Rajasthan,India,27.2296667,75.9311415,OpenStreetMap
+node/8485907521,Riverarch Greenfields Resort,Hotel,Jaipur,Rajasthan,India,27.1735291,75.9984314,OpenStreetMap
+node/8530757357,"Devi Ratn, Jaipur - IHCL SeleQtions",Hotel,Jaipur,Rajasthan,India,26.9169874,75.8806182,OpenStreetMap
+node/8980301067,Hyatt Regency Jaipur,Hotel,Jaipur,Rajasthan,India,26.8304735,75.75364,OpenStreetMap
+node/9173723548,Alila Fort Bishangarh,Hotel,Jaipur,Rajasthan,India,27.3214139,75.8945405,OpenStreetMap
+node/9743307634,Central Government Touring Officers Guest House,Guest House,Jaipur,Rajasthan,India,26.9634537,75.7834716,OpenStreetMap
+node/10029329917,Anandmai - Sustainable Living Spaces,Hostel,Jaipur,Rajasthan,India,26.8993636,75.7945209,OpenStreetMap
+node/10180851803,Fairmont Jaipur,Hotel,Jaipur,Rajasthan,India,27.0309013,75.890182,OpenStreetMap
+node/10180862678,Le Méridien Jaipur Resort & Spa,Hotel,Jaipur,Rajasthan,India,27.0320761,75.8885293,OpenStreetMap
+node/10219412192,Pachamama HOTEL,Hotel,Jaipur,Rajasthan,India,26.907979,75.7793544,OpenStreetMap
+node/10554256109,"Sarovar Premier, Jaipur",Hotel,Jaipur,Rajasthan,India,26.8822107,75.7973361,OpenStreetMap
+node/10554368724,Hotel Prince,Hotel,Jaipur,Rajasthan,India,26.8814329,75.7962798,OpenStreetMap
+node/10717385062,Hostel,Hostel,Jaipur,Rajasthan,India,26.8268625,75.6467993,OpenStreetMap
+node/10904649536,tatak house,Guest House,Jaipur,Rajasthan,India,26.9159583,75.8100436,OpenStreetMap
+node/10904714963,Girls hostel,Hostel,Jaipur,Rajasthan,India,26.9138505,75.8101234,OpenStreetMap
+node/10904714965,"pg , JAIPUR",Hostel,Jaipur,Rajasthan,India,26.9114158,75.8114299,OpenStreetMap
+node/10910514684,Sunday Hotel,Hotel,Jaipur,Rajasthan,India,26.9030357,75.7933662,OpenStreetMap
+node/11001607351,KULDEEP BOY'S PG,Hostel,Jaipur,Rajasthan,India,26.8888391,75.7965051,OpenStreetMap
+node/11064528908,Nasheman Farmstay,Guest House,Jaipur,Rajasthan,India,27.0190338,75.8147006,OpenStreetMap
+node/11088656123,Highway King Hotel,Hotel,Jaipur,Rajasthan,India,26.830141,75.570322,OpenStreetMap
+node/11385255407,"Royal view , JAIPUR",Hotel,Jaipur,Rajasthan,India,26.9464264,75.8472955,OpenStreetMap
+node/11552073599,LMB Hotel,Hotel,Jaipur,Rajasthan,India,26.919609,75.825617,OpenStreetMap
+node/11690661271,Prince Residential School,Hostel,Jaipur,Rajasthan,India,26.957986,75.7050722,OpenStreetMap
+node/11692934664,hotel suriya place chomu,Hotel,Jaipur,Rajasthan,India,27.1655875,75.7158812,OpenStreetMap
+node/11693221006,sanjay guest house,Guest House,Jaipur,Rajasthan,India,26.9236723,75.8220435,OpenStreetMap
+node/11697053366,Hotel Narayan Palace,Hotel,Jaipur,Rajasthan,India,26.9509235,75.7029898,OpenStreetMap
+node/11697086213,Prince School Hostel,Hostel,Jaipur,Rajasthan,India,26.9580785,75.7055903,OpenStreetMap
+node/11747608169,Holiday Inn,Hotel,Jaipur,Rajasthan,India,26.9027944,75.7931002,OpenStreetMap
+node/11760045769,airbnb,Guest House,Jaipur,Rajasthan,India,26.903898,75.7765033,OpenStreetMap
+node/11952033278,Dev Mahal,Hotel,Jaipur,Rajasthan,India,26.9257317,75.7907326,OpenStreetMap
+node/12150256873,Hotel Broadway Inn,Hotel,Jaipur,Rajasthan,India,26.905915,75.8430614,OpenStreetMap
+node/12357926701,Blue King,Guest House,Jaipur,Rajasthan,India,26.929519,75.7935018,OpenStreetMap
+node/12361795413,Shreesha,Hotel,Jaipur,Rajasthan,India,26.9236666,75.790346,OpenStreetMap
+node/12361795508,Miraya,Hotel,Jaipur,Rajasthan,India,26.9261867,75.7901402,OpenStreetMap
+node/12361796205,Satkar,Hotel,Jaipur,Rajasthan,India,26.9236764,75.7904635,OpenStreetMap
+node/12361796212,Empire Regency,Hotel,Jaipur,Rajasthan,India,26.9285108,75.7933658,OpenStreetMap
+node/12365120008,Nahargarh Palace Hotel,Hotel,Jaipur,Rajasthan,India,26.9348945,75.8172202,OpenStreetMap
+node/12365224302,Sureli Haveli,Guest House,Jaipur,Rajasthan,India,26.9296535,75.79353,OpenStreetMap
+node/12367918016,Metro View,Hotel,Jaipur,Rajasthan,India,26.9242284,75.8038092,OpenStreetMap
+node/12368039708,Heart of the City,Guest House,Jaipur,Rajasthan,India,26.9219683,75.8209687,OpenStreetMap
+node/12369816602,Bharat,Hotel,Jaipur,Rajasthan,India,26.9235408,75.7884766,OpenStreetMap
+node/12369816609,Classic Inn,Hotel,Jaipur,Rajasthan,India,26.9222701,75.7910356,OpenStreetMap
+node/12369816610,Fly,Hotel,Jaipur,Rajasthan,India,26.9222658,75.7909272,OpenStreetMap
+node/12369816612,Unique Palace,Hotel,Jaipur,Rajasthan,India,26.9226488,75.7910369,OpenStreetMap
+node/12369816614,Ritu,Hotel,Jaipur,Rajasthan,India,26.9242731,75.7906031,OpenStreetMap
+node/12369822802,Jaipur,Hotel,Jaipur,Rajasthan,India,26.923014,75.7882864,OpenStreetMap
+node/12369822807,Ld Prime,Hotel,Jaipur,Rajasthan,India,26.9224532,75.7909324,OpenStreetMap
+node/12369822901,Morgan,Hotel,Jaipur,Rajasthan,India,26.92294,75.7882385,OpenStreetMap
+node/12369822903,Galaxy Inn,Hotel,Jaipur,Rajasthan,India,26.9243044,75.7907048,OpenStreetMap
+node/12369823001,Scharma Inn,Hotel,Jaipur,Rajasthan,India,26.9223538,75.787826,OpenStreetMap
+node/12376556604,Gaurav,Hotel,Jaipur,Rajasthan,India,26.9216842,75.800493,OpenStreetMap
+node/12376556606,Royal Palace,Hotel,Jaipur,Rajasthan,India,26.9213955,75.8007542,OpenStreetMap
+node/12376556611,Milan Palace,Hotel,Jaipur,Rajasthan,India,26.9222401,75.7970969,OpenStreetMap
+node/12376556612,Mahendra,Hotel,Jaipur,Rajasthan,India,26.9228666,75.7971838,OpenStreetMap
+node/12376556901,Roopraj,Hotel,Jaipur,Rajasthan,India,26.9228615,75.7973295,OpenStreetMap
+node/12376557202,Anuja,Hotel,Jaipur,Rajasthan,India,26.9259769,75.7975955,OpenStreetMap
+node/12376557302,Kumar,Hotel,Jaipur,Rajasthan,India,26.921757,75.8004274,OpenStreetMap
+node/12376557307,Avantika Palace,Hotel,Jaipur,Rajasthan,India,26.9241475,75.7973765,OpenStreetMap
+node/12376557502,Ramji,Hotel,Jaipur,Rajasthan,India,26.9225465,75.7991785,OpenStreetMap
+node/12376557504,Pink Palace,Hotel,Jaipur,Rajasthan,India,26.9214714,75.8008636,OpenStreetMap
+node/12376557506,Kanji Palace,Hotel,Jaipur,Rajasthan,India,26.9217566,75.7966252,OpenStreetMap
+node/12376560701,Muskan Palace,Hotel,Jaipur,Rajasthan,India,26.9241317,75.7974973,OpenStreetMap
+node/12379294302,Ratangarh Palace,Hotel,Jaipur,Rajasthan,India,26.9157191,75.7958133,OpenStreetMap
+node/12384988439,Fort,Hotel,Jaipur,Rajasthan,India,26.8497651,75.7999042,OpenStreetMap
+node/12395593201,All Seasons Homestay,Hotel,Jaipur,Rajasthan,India,26.9161411,75.7964509,OpenStreetMap
+node/12551042361,"Golden Tulip, Jaipur",Hotel,Jaipur,Rajasthan,India,26.9162665,75.8052853,OpenStreetMap
+node/12627561501,Suryaa Villa,Hotel,Jaipur,Rajasthan,India,26.9007709,75.8213835,OpenStreetMap
+node/12669189232,Hotel Jai Harsh,Hotel,Jaipur,Rajasthan,India,26.9541479,75.7464308,OpenStreetMap
+node/12703125741,Artbuzz Jaipur,Hostel,Jaipur,Rajasthan,India,26.9047366,75.7895736,OpenStreetMap
+node/12809850701,Anantara Jewel Bagh Jaipur Hotel,Hotel,Jaipur,Rajasthan,India,26.7369164,75.8680552,OpenStreetMap
+node/13277319426,Season 4,Hotel,Jaipur,Rajasthan,India,26.9482479,75.7967366,OpenStreetMap
+node/13290360601,Samskara resort,Hotel,Jaipur,Rajasthan,India,26.8206286,75.7039642,OpenStreetMap
+node/13296712301,Khandela Haveli,Hotel,Jaipur,Rajasthan,India,26.9319878,75.7886626,OpenStreetMap
+node/13376091501,Bhola Bhawan Bed and Breakfast,Guest House,Jaipur,Rajasthan,India,26.9110628,75.8129778,OpenStreetMap
+node/13381312201,Sukh Sagar,Hotel,Jaipur,Rajasthan,India,26.9297963,75.8259276,OpenStreetMap
+node/13392834001,Madpackers hostel,Hostel,Jaipur,Rajasthan,India,26.9283054,75.8276042,OpenStreetMap
+node/13392838201,Joey's Hostel,Hostel,Jaipur,Rajasthan,India,26.9232871,75.7918806,OpenStreetMap
+node/13393369801,The Pink Nest,Hostel,Jaipur,Rajasthan,India,26.922035,75.8169304,OpenStreetMap
+node/13406772405,Hotel Ruby,Hotel,Jaipur,Rajasthan,India,26.9252178,75.802453,OpenStreetMap
+node/13602800745,Hotel Jungle by Sturmfrei (Jaipur),Guest House,Jaipur,Rajasthan,India,26.9218832,75.8017319,OpenStreetMap
+node/13602800746,Hotel Aaditya,Guest House,Jaipur,Rajasthan,India,26.9211863,75.8008826,OpenStreetMap
+node/13602800751,Laxmi Palace Heritage Hotel,Hotel,Jaipur,Rajasthan,India,26.9252664,75.8013217,OpenStreetMap
+node/13602800752,Sugan Niwas palace,Hotel,Jaipur,Rajasthan,India,26.9252124,75.8008642,OpenStreetMap
+node/13602800753,Mahadev Villa,Hotel,Jaipur,Rajasthan,India,26.9262624,75.8006584,OpenStreetMap
+node/13605707145,Jal-Tarang,Hotel,Jaipur,Rajasthan,India,26.9504941,75.8426103,OpenStreetMap
+node/13607591791,Hotel Rajdhani Palace,Guest House,Jaipur,Rajasthan,India,26.9204547,75.8054608,OpenStreetMap
+node/13607591792,Darpaj Hotel,Guest House,Jaipur,Rajasthan,India,26.9205217,75.805299,OpenStreetMap
+node/13607591793,Hotel Jaipur classic,Guest House,Jaipur,Rajasthan,India,26.9205695,75.8051506,OpenStreetMap
+node/13607591794,Hotel Sanjary Palace,Guest House,Jaipur,Rajasthan,India,26.9206289,75.8049904,OpenStreetMap
+node/13607591795,Hotel Cuber Palace,Guest House,Jaipur,Rajasthan,India,26.9206745,75.804871,OpenStreetMap
+node/13607613080,Shri Jagannath Palace,Guest House,Jaipur,Rajasthan,India,26.934943,75.8173161,OpenStreetMap
+node/13607803198,Hotel sing Palace,Guest House,Jaipur,Rajasthan,India,26.9217669,75.8016693,OpenStreetMap
+node/13607803199,Hotel Ananji Palace,Guest House,Jaipur,Rajasthan,India,26.9218421,75.8016377,OpenStreetMap
+node/13607803200,Hotel Madhiram Palace,Guest House,Jaipur,Rajasthan,India,26.9217857,75.8014998,OpenStreetMap
+node/13607821701,Hotal Sawariya Palace,Guest House,Jaipur,Rajasthan,India,26.921664,75.8012782,OpenStreetMap
+node/13607821702,hotel gokul niwas,Guest House,Jaipur,Rajasthan,India,26.921906,75.801294,OpenStreetMap
+node/13607821703,Hotel Jaipur Stay,Guest House,Jaipur,Rajasthan,India,26.9220027,75.801392,OpenStreetMap
+node/13607821704,Vashu Hotel,Guest House,Jaipur,Rajasthan,India,26.9220437,75.8015058,OpenStreetMap
+node/13607821705,Hotel Genus,Guest House,Jaipur,Rajasthan,India,26.9224147,75.8014048,OpenStreetMap
+node/13607821933,Deep Mandir,Guest House,Jaipur,Rajasthan,India,26.9222367,75.8008787,OpenStreetMap
+node/13687782802,Krishna Boys Hostel,Hostel,Jaipur,Rajasthan,India,26.7647742,75.8408692,OpenStreetMap
+node/14040356801,"Mukam at Kanak Vilas,",Hotel,Jaipur,Rajasthan,India,26.9067413,75.8217523,OpenStreetMap
+node/14055707045,Hotel Jaisingh Palace,Hotel,Jaipur,Rajasthan,India,26.9185611,75.806938,OpenStreetMap
+node/14055707051,Jai Niwas,Hotel,Jaipur,Rajasthan,India,26.9198173,75.8053551,OpenStreetMap
+node/14055707078,Jaipur Jantar,Hostel,Jaipur,Rajasthan,India,26.9195683,75.8052175,OpenStreetMap
+node/14066573801,7 Wonders Boy's PG,Hostel,Jaipur,Rajasthan,India,26.880567,75.7575443,OpenStreetMap
+node/14166310701,Hotel Jaipur,Hotel,Jaipur,Rajasthan,India,26.9258995,75.7941111,OpenStreetMap
+node/14191003901,Hotel Sugandh Retreat,Hotel,Jaipur,Rajasthan,India,26.9212527,75.8024309,OpenStreetMap
