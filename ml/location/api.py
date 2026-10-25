@@ -4,7 +4,7 @@ from nearby import get_nearby_places
 from recommend import recommend_places
 
 app = FastAPI(
-    title="NearBNT Nearby Intelligence API",
+    title="Vistara Nearby Intelligence API",
     description="Nearby place discovery and personalized recommendations.",
     version="1.3.0",
 )
@@ -20,7 +20,7 @@ VALID_CATEGORIES = {
 def home():
     return {
         "success": True,
-        "message": "NearBNT Nearby Intelligence API is running",
+        "message": "Vistara Nearby Intelligence API is running",
         "version": app.version,
         "endpoints": ["/nearby", "/recommend", "/health", "/docs"],
     }
@@ -31,7 +31,7 @@ def health_check():
     return {
         "success": True,
         "status": "healthy",
-        "service": "NearBNT Nearby Intelligence API",
+        "service": "Vistara Nearby Intelligence API",
     }
 
 
